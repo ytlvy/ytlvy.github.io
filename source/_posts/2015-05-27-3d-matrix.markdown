@@ -1,0 +1,94 @@
+---
+layout: post
+title: "3D Matrix"
+date: 2015-05-27 15:48:44 +0800
+comments: true
+categories: Math
+---
+## 3D Matrix
+```
+    |1   0   0   0|         |x|       |x|
+    |0   1   0   0|    *    |y|    =  |y|
+    |0   0   1   0|         |z|       |z|
+    |0   0   0   1|         |1|       |1|
+```
+
+### Identity Matrix
+```
+    |1   0   0   0|
+    |0   1   0   0|
+    |0   0   1   0|
+    |0   0   0   1|
+```
+
+<!--more-->
+
+### Translation Matrix
+```
+    |1   0   0   0|
+    |0   1   0   0|
+    |0   0   1   0|
+    |x   y   z   1|
+```
+
+### Scaling Matrix
+```
+    |δx   0    0    0|
+    | 0   δy   0    0|
+    | 0   0    δz   0|
+    | x   y    z    1|
+```
+
+### Rotation Matrix
+```
+            |1     0        0       0|
+    Rotx =  |0   cos(a)   -sin(a)   0|
+            |0   sin(a)   cos(a)    0|
+            |0     0        0       1|
+
+            |cos(a)   0    sin(a)   0|
+    Roty =  |0        1      0      0|
+            |-sin(a)  0    cos(a)   0|
+            |0        0      0      1|
+
+            |cos(a)   -sin(a)    0   0|
+    Rotz =  |sin(a)   cos(a)     0   0|
+            |0          0        1   0|
+            |0          0        0   1|
+```
+
+### 3D TRANSFORMATIONS
+```
+    //Y轴旋转45
+    CATransform3D transform = CATransform3DIdentity;
+    transform = CATransform3DRotate(transform, 45.0f * M_PI / 180.0f, 0, 1, 0);
+    purplePlane.transform = transform;
+
+    Apply transformation to the PLANE
+    CATransform3D transform = CATransform3DIdentity;
+    //Add the perspective!!!
+    transform.m34 = 1.0/ -500;
+    transform = CATransform3DRotate(transform, 45.0f * M_PI / 180.0f, 0, 1, 0);
+    purplePlane.transform = transform;
+```
+
+## 3D TRANSFORMATIONS CHAIN
+```
+    //TransformMatrix = TranslateMtx * RotateMtx
+    /Apply transformation to the PLANES
+    CATransform3D t = CATransform3DIdentity;
+     
+    //Purple plane: Perform a rotation and then a translation
+    t = CATransform3DRotate(t, 45.0f * M_PI / 180.0f, 0, 0, 1);
+    t = CATransform3DTranslate(t, 100, 0, 0);
+    purplePlane.transform = t;
+     
+     
+    //reset the transform matrix
+    t = CATransform3DIdentity;
+     
+    //Red plane: Perform translation first and then the rotation
+    t = CATransform3DTranslate(t, 100, 0, 0);
+    t = CATransform3DRotate(t, 45.0f * M_PI / 180.0f, 0, 0, 1);
+    redPlane.transform = t;
+```
