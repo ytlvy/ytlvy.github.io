@@ -66,6 +66,7 @@ pagination_dir: page
 theme: next
 plugins:
   - hexo-generator-feed
+  - hexo-generator-sitemap
 
 # Deployment
 ## Docs: http://hexo.io/docs/deployment.html
@@ -73,8 +74,10 @@ plugins:
 deploy:
   type: git
   repo: 
-  github: git@github.com:ytlvy/ytlvy.github.io.git
-  gitcafe: git@gitcafe.com:ytlvy/ytlvy.git,gitcafe-pages
+   github: git@github.com:ytlvy/ytlvy.github.io.git
+   gitcafe: git@gitcafe.com:ytlvy/ytlvy.git,gitcafe-pages
+   
+   
 
 
 # =============================================================================
