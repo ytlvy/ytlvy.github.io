@@ -1,0 +1,51 @@
+---
+layout: post
+title: "寄存器"
+date: 2015-05-27 12:54:14 +0800
+comments: true
+categories: Base
+---
+### 寄存器
+```
+    EAX Extended Accumulator X          累加寄存器。A代表Accumulator
+    ECX Extended Counting X             计数寄存器。C代表counting
+    EDI Extended Destination Indexing   目的索引寄存器。D代表destnation，I代表Indexing
+    ESI Extended Source Indexing        源索引寄存器。S代表Source，I代表Indexing
+    ESP Extended Stack Pointer          栈指针寄存器。S代表Stack
+    EBP Extended (Stack) Base Pointer   栈基指针寄存器。B代表Base
+    EIP Extended Instructions Pointer   指令寄存器。I代表Instruction
+```
+
+<!--more-->
+
+栈的基本模型
+```
+    参数N                 | ↓高地址
+    参数…                 |  函数参数入栈的
+    参数 3                |  顺序与具体的调
+    参数 2                |  用方式有关
+    参数 1                |
+    EIP                   | 返回本次调用后，下一条指令的地址
+    EBP                   | 保存调用者的EBP，然后EBP指向此时的栈顶。
+    临时变量1             |
+    临时变量2             |
+    临时变量3             |
+    临时变量…             |
+    临时变量5             | ↓低地址
+```
+
+寄存器的种类
+```
+    通用寄存器
+    1. EAX被用作累加器。它是寄存器中被使用的最多的，而且用来保存许多指令的结果。通常编译过的代码只用EAX寄存器来存放返回值。
+    2. ECX被用作计数器。
+    3. EBX和EDX是通用寄存器，一般被用来做为指针来进行内存寻址，或者被用来做算术操作，逻辑操作的操作数，和保存指令的运行结果。EAX，ECX也可以像EBX和EDX这样用。
+    索引寄存器
+    EDI，ESI是专门用来indexing的通用寄存器。字符串操作使用EDI作为目的指针，ESI作为源指针。所以，如果要拷贝一块内存从一个地方到另一个，ESI应该被作为源块，EDI作为目的块。ECX应该加载需要拷贝的字节数，方向标志位（direction flag）会被设置为增加或减少，然后REP MOVS命令来拷贝字节。
+    栈寄存器
+    ESP和EBP主要是用来操纵控制站的。ESP是栈顶指针，用来指向当前栈顶的位置。EBP寄存器对于一个给定的routine（函数），被用来指向栈frame，也就是栈底。在routine（函数）的入口，EBP寄存器一般会先存储到栈上（将EBP压栈），然后设置EBP为当前栈的栈顶指针（ESP）。EBP被用来引用参数或者局部变量。局部变量的引用可以通过EBP,[EBP-4],[EBP-8]等等方式获得。参数也可以通过EBP获得，比如[EBP+8]。一般局部变量在EBP负的位移上，而函数的参数在EBP正的位移上。
+    注意，ESP指向的是栈中当前有值的地址，也就是说ESP指向的是栈的最顶部的有效字节。结合压栈操作来解释吧。下面表格中的操作时等效的。
+    push 0x1234H;
+    ESP <- ESP – 4 ; 减小栈指针的位置
+    SS:[ESP] <- 0x1234H ; 将操作数拷贝到栈顶之中
+```

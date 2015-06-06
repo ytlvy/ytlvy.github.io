@@ -1,0 +1,116 @@
+---
+layout: post
+title: "ios手势 摇一摇"
+date: 2015-05-27 15:46:11 +0800
+comments: true
+categories: IOS
+---
+#### 手势冲突
+在iOS中，如果一个手势A的识别部分是另一个手势B的子部分时，默认情况下A就会先识别，B就无法识别了。要解决这个冲突可以利用- (void)requireGestureRecognizerToFail:(UIGestureRecognizer *)otherGestureRecognizer;方法来完成 也就是说如果我们指定拖动手势的执行前提为轻扫手势失败就可以了，这样一来当我们手指轻轻滑动时系统会优先考虑轻扫手势，如果最后发现该操作不是轻扫，那么就会执行拖动。只要将下面的代码添加到添加手势之后就能解决这个问题了
+```
+ //解决在图片上滑动时拖动手势和轻扫手势的冲突
+[panGesture requireGestureRecognizerToFail:swipeGestureToRight];
+[panGesture requireGestureRecognizerToFail:swipeGestureToLeft];
+//解决拖动和长按手势之间的冲突
+[longPressGesture requireGestureRecognizerToFail:panGesture];
+```
+
+<!--more-->
+
+#### 手势向下传播
+-(BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer方法。这个代理方法默认返回NO，会阻断继续向下识别手势，如果返回YES则可以继续向下传播识别
+```
+    -(BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer{
+        //NSLog(@"%i,%i",gestureRecognizer.view.tag,otherGestureRecognizer.view.tag);
+        
+        //注意，这里控制只有在UIImageView中才能向下传播，其他情况不允许
+        if ([otherGestureRecognizer.view isKindOfClass:[UIImageView class]]) {
+            return YES;
+        }
+        return NO;
+    }
+```
+
+#### 摇动事件
+
+```
+    #pragma mark 设置控件可以成为第一响应者
+    -(BOOL)canBecomeFirstResponder{
+        return YES;
+    }
+
+    #pragma mark 运动开始
+    -(void)motionBegan:(UIEventSubtype)motion withEvent:(UIEvent *)event{
+        //这里只处理摇晃事件
+        if (motion==UIEventSubtypeMotionShake) {
+            self.image=[self getImage];
+        }
+    }
+    #pragma mark 运动结束
+    -(void)motionEnded:(UIEventSubtype)motion withEvent:(UIEvent *)event{
+        
+    }
+```
+
+#### 远程控制事件
+启用了后台运行模式 在info.plist中添加UIBackgroundModes并且添加一个元素值为audio
+```
+    - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+        //设置播放会话，在后台可以继续播放（还需要设置程序允许后台运行模式）
+        [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayback error:nil];
+        if(![[AVAudioSession sharedInstance] setActive:YES error:nil])
+        {
+            NSLog(@"Failed to set up a session.");
+        }
+        //启用远程控制事件接收
+        [[UIApplication sharedApplication] beginReceivingRemoteControlEvents];
+    }
+```
+
+```
+    @implementation ViewController
+    -(BOOL)canBecomeFirstResponder{
+        return NO;
+    }
+    #pragma mark 远程控制事件
+    -(void)remoteControlReceivedWithEvent:(UIEvent *)event{
+        NSLog(@"%i,%i",event.type,event.subtype);
+        if(event.type==UIEventTypeRemoteControl){
+            switch (event.subtype) {
+                case UIEventSubtypeRemoteControlPlay:
+                    [_player play];
+                    _isPlaying=true;
+                    break;
+                case UIEventSubtypeRemoteControlTogglePlayPause:
+                    if (_isPlaying) {
+                        [_player pause];
+                    }else{
+                        [_player play];
+                    }
+                    _isPlaying=!_isPlaying;
+                    break;
+                case UIEventSubtypeRemoteControlNextTrack:
+                    NSLog(@"Next...");
+                    break;
+                case UIEventSubtypeRemoteControlPreviousTrack:
+                    NSLog(@"Previous...");
+                    break;
+                case UIEventSubtypeRemoteControlBeginSeekingForward:
+                    NSLog(@"Begin seek forward...");
+                    break;
+                case UIEventSubtypeRemoteControlEndSeekingForward:
+                    NSLog(@"End seek forward...");
+                    break;
+                case UIEventSubtypeRemoteControlBeginSeekingBackward:
+                    NSLog(@"Begin seek backward...");
+                    break;
+                case UIEventSubtypeRemoteControlEndSeekingBackward:
+                    NSLog(@"End seek backward...");
+                    break;
+                default:
+                    break;
+            }
+            [self changeUIState];
+        }
+    }
+```
