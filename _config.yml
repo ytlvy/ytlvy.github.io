@@ -74,8 +74,9 @@ plugins:
 deploy:
   type: git
   repo: 
-   github: git@github.com:ytlvy/ytlvy.github.io.git
    gitcafe: git@gitcafe.com:ytlvy/ytlvy.git,gitcafe-pages
+   github: git@github.com:ytlvy/ytlvy.github.io.git
+   
    
    
 
