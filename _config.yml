@@ -6,7 +6,7 @@
 title: Yt's Blog
 subtitle:
 description: notes for study
-author: Y.t
+author: Yt
 language:
 timezone: Asia/Shanghai
 
@@ -168,7 +168,7 @@ mathjax:
 
 # Mist
 # 使用 Mist 主题
-scheme: Mist
+# scheme: Mist
 
 
 # Sidebar 侧栏行为，可选值有
