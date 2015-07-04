@@ -4,7 +4,7 @@
 
 # Site
 title: Yt's Blog
-subtitle:
+subtitle: Valar Morghulis
 description: notes for study
 author: Yt
 language:
@@ -38,10 +38,10 @@ post_asset_folder: false
 relative_link: false
 future: true
 highlight:
-  enable: true
-  line_number: true
-  auto_detect: true
-  tab_replace:
+    enable: true
+    line_number: true
+    auto_detect: true
+    tab_replace: true
 
 # Category & Tag
 default_category: uncategorized
@@ -65,20 +65,17 @@ pagination_dir: page
 ## Themes: http://hexo.io/themes/
 theme: next
 plugins:
-  - hexo-generator-feed
-  - hexo-generator-sitemap
+    - hexo-generator-feed
+    - hexo-generator-sitemap
 
 # Deployment
 ## Docs: http://hexo.io/docs/deployment.html
 
 deploy:
-  type: git
-  repo: 
-   gitcafe: git@gitcafe.com:ytlvy/ytlvy.git,gitcafe-pages
-   github: git@github.com:ytlvy/ytlvy.github.io.git
-   
-   
-   
+    type: git
+    repo: 
+        gitcafe: git@gitcafe.com:ytlvy/ytlvy.git,gitcafe-pages
+        github: git@github.com:ytlvy/ytlvy.github.io.git
 
 
 # =============================================================================
@@ -91,13 +88,13 @@ disqus_shortname: ytlvy
 
 # 社交链接，将在侧栏中显示
 social:
-  GitHub: https://github.com/ytlvy
-  Twitter: https://twitter.com/ytlvy
-  NSHipster: http://nshipster.com
-  NSBlog: http://www.mikeash.com/pyblog
-  objcio: http://www.objc.io
-  raywenderlich: http://www.raywenderlich.com
-  # 等等
+    GitHub: https://github.com/ytlvy
+    Twitter: https://twitter.com/ytlvy
+    NSHipster: http://nshipster.com
+    NSBlog: http://www.mikeash.com/pyblog
+    objcio: http://www.objc.io
+    raywenderlich: http://www.raywenderlich.com
+    # 等等
 
 
 # Creative Commons 4.0 International License.
@@ -127,11 +124,11 @@ since: 2015
 
 # 菜单配置
 menu:
-  home: /
-  categories: /categories
-  archives: /archives
-  tags: /tags
-  about: /about
+    home: /
+    categories: /categories
+    archives: /archives
+    tags: /tags
+    about: /about
 
 
 # Favicon
