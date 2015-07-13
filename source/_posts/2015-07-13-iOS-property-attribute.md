@@ -3,7 +3,7 @@ categories: IOS
 tags:
   - iOS
   - property
-description: iOS property attributes 介绍，何时使用copy
+description:
 date: 2015-07-13 21:36:06
 author:
 photos:
@@ -47,7 +47,7 @@ photos:
  
 }
 ```
-
+<!-- more -->
 ### @dynamic
 @synthesize 会自动生成 getter setter方法, @dynamic 只是告诉编译器 getter setter方法 已经定义, 但是不在当前类中(比如在父类中, 或者由 runtime 动态生成).
 

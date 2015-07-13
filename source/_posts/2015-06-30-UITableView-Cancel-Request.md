@@ -3,7 +3,7 @@ categories: IOS
 tags:
   - IOS
   - UITableView
-description: UITableview 取消请求
+description: 
 date: 2015-06-30 09:22:03
 author:
 photos:
@@ -24,7 +24,7 @@ load images for just the visible rows in viewDidLoad and when the user stops scr
     }
 }
 ```
-
+<!-- more -->
 ### 取消Request --- NSBlockOperation
 
 ```

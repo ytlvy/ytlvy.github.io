@@ -3,7 +3,7 @@ categories: IOS
 tags:
   - IOS
   - Category
-description: iOS  Message && Category 介绍
+description:
 date: 2015-07-13 21:20:02
 author:
 photos:
@@ -39,7 +39,7 @@ int main(int argc, const char * argv[]) {
 2014-11-06 13:11:46.694 Test[14872:1110786] IMP: -[NSObject(Sark) foo]
 2014-11-06 13:11:46.695 Test[14872:1110786] IMP: -[NSObject(Sark) foo]
 ```
-
+<!-- more -->
 使用`clang -rewrite-objc main.m`重写，我们可以发现 main 函数中两个方法调用被转换成如下代码：
 ```
 ((void (*)(id, SEL))(void *)objc_msgSend)((id)objc_getClass("NSObject"), sel_registerName("foo"));

@@ -2,7 +2,7 @@ title: 'ios MRC && ARC'
 categories: IOS
 tags:
   - mrc arc
-description: ios 内存管理, 以及实现详解
+description:
 date: 2015-06-16 09:48:11
 author:
 photos:
@@ -35,6 +35,7 @@ Relinquishing Ownership of a Retained Object. 下面的例子将函数将自己�
   return obj; 
 }
 ```
+<!-- more -->
 
 #### 调用者不持有
 

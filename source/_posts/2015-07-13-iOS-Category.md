@@ -3,7 +3,7 @@ categories: IOS
 tags:
   - IOS
   - Category
-description: iOS Category 介绍
+description:
 date: 2015-07-13 21:30:25
 author:
 photos:
@@ -22,7 +22,7 @@ photos:
 
 > category 在运行期决议的. category无法添加实例变量, (通过association来模拟添加)
 
-
+<!-- more -->
 ### category 声明
 objc-runtime-new.h文件中
 

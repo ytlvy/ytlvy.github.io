@@ -3,7 +3,7 @@ categories: IOS
 tags:
   - runtime 
   - cache
-description: objc运行时, 函数缓存更新机制
+description:
 photos:
 date: 2015-06-08 21:01:55
 author: GYJ

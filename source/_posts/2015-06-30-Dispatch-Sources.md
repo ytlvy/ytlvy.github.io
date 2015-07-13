@@ -3,7 +3,7 @@ categories: IOS
 tags:
   - IOS
   - DISPATCH_SOURCE
-description: dispatch_source 介绍
+description:
 date: 2015-06-30 09:14:45
 author:
 photos:
@@ -26,6 +26,8 @@ photos:
 ### Custom Events
 通过`dispatch_source_merge_data`来发送消息，此方法取名`merge`的原因是，在事件回调执行前，GCD会自动合并累计的消息，直到对应的运行Queue有空闲，可以运行回调Block。所以，这是一种提高效率的方式，将多次消息合并成一个。
 自定义事件分为：`DISPATCH_SOURCE_TYPE_DATA_ADD` 和 `DISPATCH_SOURCE_TYPE_DATA_OR`, 每个event Source有一个`unsigned long data`属性，用来合并`dispatch_source_merge_data`的参数。`dispatch_source_get_data`可以获取到当前的`data`数据。
+
+<!-- more -->
 
 ### 举例
 异步更新progressBar的状态

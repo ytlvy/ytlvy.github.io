@@ -4,7 +4,7 @@ tags:
   - IOS 
   - LOCK
   - OSSpinLock
-description: IOS LOCk 
+description:
 date: 2015-06-30 09:10:44
 author:
 photos:
@@ -79,6 +79,8 @@ int main(){
     return 0;
 }
 ```
+
+<!-- more -->
 
 ```
 NSLock: 3.5175 sec

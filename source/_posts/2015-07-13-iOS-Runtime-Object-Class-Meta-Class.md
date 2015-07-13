@@ -3,7 +3,7 @@ categories: IOS
 tags:
   - IOS
   - Meta Class
-description: iOS Meta Class 介绍
+description:
 date: 2015-07-13 21:19:42
 author:
 photos:
@@ -36,7 +36,7 @@ int main(int argc, const char * argv[]) {
 ```
 2014-11-05 14:45:08.474 Test[9412:721945] 1 0 0 0
 ```
-
+<!-- more -->
 ### 什么是 id
 id 在 objc.h 中定义如下:
 ```

@@ -4,7 +4,7 @@ tags:
   - IOS
   - Property
   - iVar
-description: iOS ivar && property 介绍
+description:
 date: 2015-07-13 21:20:33
 author:
 photos:
@@ -55,7 +55,7 @@ int main(int argc, const char * argv[]) {
 ```
 2014-11-07 14:08:25.698 Test[1097:57255] my name is <Test: 0x1001002d0>
 ```
-
+<!-- more -->
 ### 为什么呢?
 前几节博文中多次讲到了`objc_class`结构体，今天我们再拿出来看一下：
 

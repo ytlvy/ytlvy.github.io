@@ -3,7 +3,7 @@ categories: IOS
 tags:
   - IOS
   - Associated
-description:  iOS Associated Objects 介绍
+description:
 date: 2015-07-13 21:32:41
 author:
 photos:
@@ -23,7 +23,7 @@ photos:
 3. 为 KVO 创建一个关联的观察者。
 
 从本质上看，第 1 、2 个场景其实是一个意思，唯一的区别就在于新添加的这个属性是公有的还是私有的而已。就目前来说，我在实际工作中使用得最多的是第 2 个场景，而第 3 个场景我还没有使用过
-
+<!-- more -->
 ### 相关函数
 与 Associated Objects 相关的函数主要有三个，我们可以在 runtime 源码的 runtime.h 文件中找到它们的声明：
 ```

@@ -3,7 +3,7 @@ categories: IOS
 tags:
   - BLock
   - GCD
-description: ios 多线程以及内存管理笔记
+description:
 date: 2015-06-07 21:04:21
 author: Y.t
 ---

@@ -3,7 +3,7 @@ categories: IOS
 tags:
   - IOS
   - CFRunLoop
-description: CFRunLoop 示例
+description:
 date: 2015-06-30 09:16:56
 author:
 photos:
@@ -49,6 +49,8 @@ main()
     return 0;  
 }  
 ```
+
+<!-- more -->
 
 ### 第二个：
 ```

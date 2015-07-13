@@ -2,7 +2,7 @@ title: 'AutoLayout -- Content Compression Resistance & Content Hugging'
 categories: IOS
 tags:
   - autolayout
-description: autoLayout 内容抗压指数 和 内容吸附指数
+description:
 date: 2015-06-08 21:26:29
 author:
 ---
@@ -19,6 +19,7 @@ Auto Layout中, 存在Content Compression Resistance 和 Content Hugging 这两�
 2. `内容抗压指数`，在父视图变小时, 会根据抗压指数来缩小各子控件;
 3. `内容拥抱指数`, 内容越集中于控件中心, 周围空白越小.
 
+<!-- more -->
 
 ### 例子
 假设，你有一个下面这样的按钮：

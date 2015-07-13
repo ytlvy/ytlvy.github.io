@@ -4,7 +4,7 @@ categories: IOS
 tags:
   - IOS
   - Responder Chain
-description: iOS 事件传递以及相应链介绍
+description:
 date: 2015-07-13 21:24:22
 author:
 photos:
@@ -25,7 +25,7 @@ iOS 通过` hit-testing` 来寻找点击下方的视图. `Hit-Testing` 会查找
 1. 点击在视图 A 的范围内, 然后检测 子视图 B 和 C
 2.  点击不再视图 B 范围内, 但是在视图 C 范围内, 继续检测 子视图 D 和 E
 3.  点击不再视图 D 里, 但是在视图 E 中.
-
+<!-- more -->
 视图 E 是最下层且包含 `touch`的视图树, 所以就是` hit-test`
 
 ![](https://developer.apple.com/library/ios/documentation/EventHandling/Conceptual/EventHandlingiPhoneOS/Art/hit_testing_2x.png)

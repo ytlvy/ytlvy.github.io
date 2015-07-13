@@ -5,7 +5,7 @@ tags:
   - Stack
   - Heap
   - OverFlow
-description: 堆栈溢出介绍
+description: 
 date: 2015-07-03 09:44:56
 author:
 photos:
@@ -19,7 +19,7 @@ photos:
 > 下图介绍了栈的组织结构.(这只是示意图, 实际情况要根据 cpu设计来决定)
 
 ![](https://developer.apple.com/library/mac/documentation/Security/Conceptual/SecureCodingGuide/Art/stack.gif)
-
+<!-- more -->
 ![Memory Layout of C Programs](http://d2o58evtke57tz.cloudfront.net/wp-content/uploads/Memory-Layout-300x255.gif)
 
 > 通常情况下, 程序应该检测所有的输入数据, 来确认此数据是否符合需求.不幸的是, 很多情况下, 程序员都假定用户输入是没有危害的.

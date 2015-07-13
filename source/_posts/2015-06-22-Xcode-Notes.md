@@ -2,7 +2,7 @@ title: Xcode Notes
 categories: Xcode
 tags:
   - IOS
-description: Xocde 快捷键 调试设置等
+description:
 date: 2015-06-22 16:57:42
 author:
 photos:
@@ -39,6 +39,7 @@ Fn + Delete           删除光标后的一个字符
 ⌘ + ⇧ + ;           调出拼写检查对话框。
 ⌘ + ⌥ + =           xib update frame
 ```
+<!-- more -->
 
 #### 全局删除光标右边字符
 ```

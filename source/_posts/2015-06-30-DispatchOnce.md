@@ -3,7 +3,7 @@ categories: IOS
 tags:
   - IOS
   - Dispatch Once
-description: Dispatch Once 解析
+description:
 date: 2015-06-30 15:31:31
 author:
 photos:
@@ -25,7 +25,7 @@ Dispatch_Once 保证了当第一个线程在进行alloc 对象时，有其他线
 - 原子操作 "原子比较交换函数" __sync_bool_compare_and_swap
 - cpuid指令 实现大于预执行时间的延迟等待
 - dispatch_thread_semaphore 来实现线程之间的等待和唤醒
-
+<!-- more -->
 ### cpu的分支预测和预执行
 > &nbsp;&nbsp;&nbsp;&nbsp;流水线特性使得CPU能更快地执行线性指令序列，但是当遇到条件判断分支时，麻烦来了，在判定语句返回结果之前，cpu不知道该执行哪个分支，那就得等着（术语叫做pipeline stall），这怎么能行呢，所以，CPU会进行预执行，cpu先猜测一个可能的分支，然后开始执行分支中的指令。现代CPU一般都能做到超过90%的猜测命中率，这可比NBA选手发球命中率高多了。然后当判定语句返回，加入cpu猜错分支，那么之前进行的执行都会被抛弃，然后从正确的分支重新开始执行。
 &nbsp;&nbsp;&nbsp;&nbsp;在dispatch_once中，唯一一个判断分支就是predicate，dispatch_once会让CPU预执行条件不成立的分支，这样可以大大提升函数执行速度。但是这样的预执行导致的结果是使用了未初始化的obj并将函数返回，这显然不是预期结果。

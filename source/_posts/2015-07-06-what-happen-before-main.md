@@ -4,7 +4,7 @@ tags:
   - IOS
   - dyld
 
-description: main函数前发生了什么
+description:
 date: 2015-07-06 21:20:25
 author:
 photos:
@@ -23,7 +23,7 @@ iOS中用到的所有系统`framework`都是动态链接的，类比成插头和
 
 这个是在xcode中看到的Link列表：
 ![](http://ww4.sinaimg.cn/mw600/51530583jw1ejx4ul5susj20wg0803zh.jpg)
-
+<!-- more -->
 这些`framework`将会在动态链接过程中被加载，另外还有隐含`link`的`framework`，可以测试出来：先找到可执行文件，我这里叫TestMain的工程，模拟器路径下找到`TestMain.app`，可执行文件默认同名，再通过`otool`命令：
 ```
 $ otool -L TestMain

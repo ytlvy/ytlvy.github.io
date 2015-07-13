@@ -4,7 +4,7 @@ tags:
   - IOS
   - Self
   - Super
-description:  iOS Self && Super 介绍
+description:
 date: 2015-07-13 21:18:00
 author:
 photos:
@@ -52,7 +52,7 @@ struct objc_super {
 ```
 
 `objc_msgSendSuper` 将从父类的定义开始查找方法的实现. `super_class`是在 runtime 时, 动态生成的.
-
+<!-- more -->
 #### objc_msgSendSuper 例子
 
 ![](http://cdn.macoscope.com/blog/wp-content/uploads/2015/02/how-does-super-work-1.png)

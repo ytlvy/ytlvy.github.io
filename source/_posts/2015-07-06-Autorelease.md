@@ -3,7 +3,7 @@ categories: IOS
 tags:
   - Autorelease
   - IOS
-description: Autorelease 介绍
+description:
 date: 2015-07-06 21:18:42
 author:
 photos:
@@ -33,7 +33,7 @@ __weak id reference = nil;
 }
 ```
 由于这个vc在loadView之后便add到了window层级上，所以viewDidLoad和viewWillAppear是在同一个runloop调用的，因此在viewWillAppear中，这个autorelease的变量依然有值。
-
+<!-- more -->
 ### 手动干预Autorelease对象的释放时机：
 ```
 - (void)viewDidLoad

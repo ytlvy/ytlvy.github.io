@@ -6,7 +6,7 @@ tags:
   - BSS
   - DATA
   - Text
-description: 程序在内存中的分部
+description:
 date: 2015-07-06 21:22:46
 author:
 photos:
@@ -28,7 +28,7 @@ photos:
 上图中蓝色区域标示, 虚拟地址已经完成映射到实际地址, 白色区域代表还没有完成映射.上例中, 以内存消耗多著名的火狐使用了更多的虚拟地址. 在内存地址中不同的区块代表了不同的内存段: heap, stack, 等等.请注意这些内存段只是简单的内存地址范围, 与`Intel-style segments`无关. 下面是linux 系统中标准段分布图:
 
 ![](http://static.duartes.org/img/blogPosts/linuxFlexibleAddressSpaceLayout.png)
-
+<!-- more -->
 当程序安全, 正常运行时, 几乎所有程序的段的起始位置, 都和上图一致.然而这是很不安全的.攻击脚本需要引用内存的某些绝对地址,例如栈中某个地址, 库函数中得某个地址等.攻击者可以很容易的计算出这些地址.正因此, 地址随机技术变的流行起来.linux通过给起始地址增加随机偏移的方法, 来实现栈, 堆, memory mapping segment等的随机化.然而不幸的是, 32位地址空间太紧凑了, 为随机化留存的空间太少, 从而大大削弱了这一功能.
 
 ### 栈

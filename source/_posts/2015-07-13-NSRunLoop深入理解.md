@@ -3,7 +3,7 @@ categories: IOS
 tags:
   - IOS
   - NSRunLoop
-description: NSRunLoop深入理解
+description: 
 date: 2015-07-13 21:34:28
 author:
 photos:
@@ -28,7 +28,7 @@ function loop() {
 &nbsp;&nbsp;&nbsp;&nbsp;这种模型通常被称作 Event Loop。 Event Loop 在很多系统和框架里都有实现，比如 Node.js 的事件处理，比如 Windows 程序的消息循环，再比如 OSX/iOS 里的 RunLoop。实现这种模型的关键点在于：如何管理事件/消息，如何让线程在没有处理消息时休眠以避免资源占用、在有消息到来时立刻被唤醒
 
 &nbsp;&nbsp;&nbsp;&nbsp;所以，RunLoop 实际上就是一个对象，这个对象管理了其需要处理的事件和消息，并提供了一个入口函数来执行上面 Event Loop 的逻辑。线程执行了这个函数后，就会一直处于这个函数内部 "接受消息->等待->处理" 的循环中，直到这个循环结束（比如传入 quit 的消息），函数返回。
-
+<!-- more -->
 &nbsp;&nbsp;&nbsp;&nbsp;OSX/iOS 系统中，提供了两个这样的对象：NSRunLoop 和 CFRunLoopRef。
 
 &nbsp;&nbsp;&nbsp;&nbsp;CFRunLoopRef 是在 CoreFoundation 框架内的，它提供了纯 C 函数的 API，所有这些 API 都是线程安全的。

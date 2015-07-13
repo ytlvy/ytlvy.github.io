@@ -3,7 +3,7 @@ categories: IOS
 tags:
   - IOS
   - dispatch semaphore
-description: dispatch_semaphore 介绍以及使用
+description:
 date: 2015-06-30 16:28:07
 author:
 photos:
@@ -60,6 +60,7 @@ photos:
 }
 ```
 
+<!-- more -->
 
 ```
 - (void)test3{

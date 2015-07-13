@@ -3,7 +3,7 @@ categories: IOS
 tags:
   - IOS
   - runtime
-description: iOS Runtime 运行时类与对象的编译处理
+description:
 date: 2015-07-13 21:28:11
 author:
 photos:
@@ -19,7 +19,7 @@ Runtime库主要做下面几件事：
 
 &nbsp;&nbsp;&nbsp;&nbsp;Objective-C runtime目前有两个版本：Modern runtime和Legacy runtime。Modern Runtime 覆盖了64位的Mac OS X Apps，还有 iOS Apps，Legacy Runtime 是早期用来给32位 Mac OS X Apps 用的，也就是可以不用管就是了。
 在这一系列文章中，我们将介绍runtime的基本工作原理，以及如何利用它让我们的程序变得更加灵活。在本文中，我们先来介绍一下类与对象，这是面向对象的基础，我们看看在Runtime中，类是如何实现的。
-
+<!-- more -->
 ### 类与对象基础数据结构
 #### Class
 Objective-C类是由Class类型来表示的，它实际上是一个指向objc_class结构体的指针。它的定义如下：

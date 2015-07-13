@@ -3,7 +3,7 @@ categories: IOS
 tags:
   - IOS
   - NSBlockOperation
-description: make NSBlockOperation cancelable
+description:
 date: 2015-06-30 09:08:23
 author:
 photos:
