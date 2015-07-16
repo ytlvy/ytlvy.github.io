@@ -4,6 +4,7 @@ categories: IOS
 tags:
   - IOS
   - Responder Chain
+
 description:
 date: 2015-07-13 21:24:22
 author:
@@ -40,7 +41,7 @@ iOS 通过` hit-testing` 来寻找点击下方的视图. `Hit-Testing` 会查找
 
 下面是[stackoverflow](http://stackoverflow.com/questions/4961386/event-handling-for-ios-how-hittestwithevent-and-pointinsidewithevent-are-r)的相关举例
 
-#### 例子1 
+#### 例子1
 ```
 +--------------------------------------------+
 |A                                                      |
@@ -74,7 +75,7 @@ Say you put your finger inside D. Here's what will happen:
 |  |       |C            X  |    |
 |  |      +---------------+   |
 |  |            |                    |
-|  +--------+                   | 
+|  +--------+                   |
 |                                    |
 +----------------------------+
 
@@ -187,5 +188,3 @@ Steps 1-3 repeat until the event reaches the root view controller.
 5. The window passes the event to the app object.
 
 > Important: If you implement a custom view to handle remote control events, action messages, shake-motion events with UIKit, or editing-menu messages, don’t forward the event or message to nextResponder directly to send it up the responder chain. Instead, invoke the superclass implementation of the current event handling method and let UIKit handle the traversal of the responder chain for you.
-
-
