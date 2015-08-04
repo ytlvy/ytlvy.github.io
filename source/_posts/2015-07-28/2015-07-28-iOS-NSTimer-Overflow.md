@@ -35,6 +35,8 @@ photos:
 
 运行之后确实在控制台每隔3秒钟输出一次 `Fire` ，然而当我们从这个界面跳转到其他界面的时候却发现：控制台还在源源不断的输出着 Fire 。看来 Timer 并没有停止。
 
+<!-- more -->
+
 ### invalidate
 既然没有停止，那我们在 DemoViewController 的 dealloc 里加上 invalidate 的方法：
 ```
