@@ -33,6 +33,7 @@ CFRelease(hello);
 大部分（但不是所有！）`Core Foundation` 和 `Foundation` 的数据类型可以使用这个技术相互转换，Apple 的文档里有一个列表（[传送门](https://developer.apple.com/library/ios/documentation/General/Conceptual/CocoaEncyclopedia/Toll-FreeBridgin/Toll-FreeBridgin.html)），列出了支持这项技术的数据类型。
 MRC 下的 `Toll-Free Bridging` 因为不涉及内存管理的转移，可以直接相互 `bridge` 而不必使用类似`__bridge`修饰字，我们之后再讨论这个问题。
 
+<!-- more -->
 
 ### Toll-Free Bridging 是如何实现的？
 
