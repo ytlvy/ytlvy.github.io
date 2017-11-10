@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Kvo on My New Hugo Site</title>
+    <link>http://ytlvy.com/tags/kvo/</link>
+    <description>Recent content in Kvo on My New Hugo Site</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Fri, 17 Jul 2015 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="http://ytlvy.com/tags/kvo/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>iOS kvo dig</title>
+      <link>http://ytlvy.com/posts/2015-07-17/2015-07-17-ios-kvo-dig/</link>
+      <pubDate>Fri, 17 Jul 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-07-17/2015-07-17-ios-kvo-dig/</guid>
+      <description>转自
+objc kvo简单探索 KVO(Key Value Observing)，是观察者模式在Foundation中的实现
+KVO的原理 简而言之就是：
+ 当一个object有观察者时，动态创建这个object的类的子类 对于每个被观察的property，重写其set方法 在重写的set方法中调用- willChangeValueForKey:和- didChangeValueForKey:通知观察者 当一个property没有观察者时，删除重写的方法 当没有observer观察任何一个property时，删除动态创建的子类  空说无凭，简单验证下。
+@interface Sark : NSObject @property (nonatomic, copy) NSString *name; @end @implementation Sark @end Sark *sark = [Sark new]; // breakpoint 1 [sark addObserver:self forKeyPath:@&amp;quot;name&amp;quot; options:NSKeyValueObservingOptionNew context:nil]; // breakpoint 2 sark.name = @&amp;quot;萨萨萨&amp;quot;; [sark removeObserver:self forKeyPath:@&amp;quot;name&amp;quot;]; // breakpoint 3  断住后分别使用- class和object_getClass()打出sark对象的Class和真实的Class
+// breakpoint 1 (lldb) po sark.class Sark (lldb) po object_getClass(sark) Sark // breakpoint 2 (lldb) po sark.</description>
+    </item>
+    
+  </channel>
+</rss>

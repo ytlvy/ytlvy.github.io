@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Uitableview on My New Hugo Site</title>
+    <link>http://ytlvy.com/tags/uitableview/</link>
+    <description>Recent content in Uitableview on My New Hugo Site</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sat, 08 Aug 2015 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="http://ytlvy.com/tags/uitableview/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>iOS UITableviewCell Swipeable</title>
+      <link>http://ytlvy.com/posts/2015-08-08/2015-08-08-ios-uitableviewcell-swipeable/</link>
+      <pubDate>Sat, 08 Aug 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-08-08/2015-08-08-ios-uitableviewcell-swipeable/</guid>
+      <description>&lt;h2 id=&#34;ios开发-可滑动的单元格&#34;&gt;&lt;code&gt;iOS开发-可滑动的单元格&lt;/code&gt;&lt;/h2&gt;
+
+&lt;blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;原文链接 : &lt;a href=&#34;https://medium.com/ios-os-x-development/swipeable-table-view-cells-in-ios-apps-472da0af1935&#34;&gt;Swipeable table view cells in iOS apps&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;译者 : &lt;a href=&#34;https://github.com/mrchenhao&#34;&gt;Harries Chen&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;校对者: &lt;a href=&#34;https://github.com/mrchenhao&#34;&gt;Mr.Simple&lt;/a&gt;&lt;br /&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;我在过去的一个月里致力于开发我的创业项目，其中有一个功能就是我想让用户通过左右滑动表格来显示更多的选项（就像系统自带的邮件程序现实更多和删除一样，在这篇文章中我将讨论一些关于这方面的方法，以及如何动手实现它）&lt;/p&gt;
+
+&lt;p&gt;首先，让我们来看一下现有的解决方法。&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;UITableViewRowAction (new in iOS 8)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;这是最好的方法如果你只是希望加一些从左滑到右才会出现的按钮。&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/CEWendel/SWTableViewCell&#34;&gt;SWTableViewCell&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;这是一个功能很全的按钮库，支持左滑和右滑，同时也可以在iOS8以前的版本中使用&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/MortimerGoro/MGSwipeTableCell&#34;&gt;MGSwipeTableCell&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;如果你想要实现表格的左右滑动功能，你可以从上面的解决方按照找到你需要的。但是为什么我们还要自己来实现呢？就我而言，我需要MGSwipeTableCell的一些功能，但是有的功能它对我并没有用，如果你想要自己来实现它，或者仅仅只是想要知道它的原理，那么接下去看。&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>UITableView Cancel Request</title>
+      <link>http://ytlvy.com/posts/2015-06-30/2015-06-30-uitableview-cancel-request/</link>
+      <pubDate>Tue, 30 Jun 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-06-30/2015-06-30-uitableview-cancel-request/</guid>
+      <description>&lt;h3 id=&#34;仅加载可见cell的图片&#34;&gt;仅加载可见Cell的图片&lt;/h3&gt;
+
+&lt;p&gt;load images for just the visible rows in viewDidLoad and when the user stops scrolling&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;-(void)viewDidLoad{
+    for (NSIndexPath *indexPath in [self.tableView indexPathsForVisibleRows]) {
+        [self loadImageForCellAtPath:indexPath];
+    }
+}
+
+-(void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
+    for (NSIndexPath *indexPath in [self.tableView indexPathsForVisibleRows]) {
+        [self loadImageForCellAtPath:indexPath];
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

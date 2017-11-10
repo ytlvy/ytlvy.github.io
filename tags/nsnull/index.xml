@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Nsnull on My New Hugo Site</title>
+    <link>http://ytlvy.com/tags/nsnull/</link>
+    <description>Recent content in Nsnull on My New Hugo Site</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Tue, 11 Aug 2015 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="http://ytlvy.com/tags/nsnull/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>iOS NSNull Detect</title>
+      <link>http://ytlvy.com/posts/2015-08-11/2015-08-11-ios-nsnull-detect/</link>
+      <pubDate>Tue, 11 Aug 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-08-11/2015-08-11-ios-nsnull-detect/</guid>
+      <description>Object-C中nil, NULL跟NSNull 相信不少开发者，都被NSNull坑过，最常见的是服务器返回的json里面，说好的字典、数组、数字，结果返回的是空值。这个时候，NSJSONSerialization 会自动把他们换成 NSNull。当我们再去用dict[@“hello”]的时候，就会出触发exception，导致程序崩溃。
+最简单的做法 相信大家都知道，[NSNull null] 并不是一个工厂方法，而是一个单例模式，那么我们直接去判断赋值的这个指针是不是[NSNull null] 就好了。
+那么问题来了，编译器会多了一个warning，很烦人。
+在这篇文章里面介绍了各种做法：
+- (void)someMethod { NSString *aString = @&amp;quot;loremipsum&amp;quot;; // This will complain: &amp;quot;Comparison of distinct pointer types (&#39;NSString *&#39; and &#39;NSNull *&#39;)&amp;quot; if (aString != [NSNull null]) { } // This works (at least for strings), but isEqual: does different things // for different classes, so it&#39;s not ideal if ([aString isEqual:[NSNull null]]) { } // If you cast it to the class you&#39;re comparing against // then you&#39;re good to go if (aString !</description>
+    </item>
+    
+  </channel>
+</rss>

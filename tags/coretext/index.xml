@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Coretext on My New Hugo Site</title>
+    <link>http://ytlvy.com/tags/coretext/</link>
+    <description>Recent content in Coretext on My New Hugo Site</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sun, 19 Jul 2015 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="http://ytlvy.com/tags/coretext/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>iOS CoreText Advance</title>
+      <link>http://ytlvy.com/posts/2015-07-19/2015-07-19-ios-coretext-advance/</link>
+      <pubDate>Sun, 19 Jul 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-07-19/2015-07-19-ios-coretext-advance/</guid>
+      <description>版权说明 原创文章，转载请保留以下信息：
+本文节选自我的图书：《iOS 开发进阶 》。 本文涉及的 Demo 工程在这里：https://github.com/tangqiaoboy/iOS-Pro。 扫码关注我的「iOS 开发」微信公众帐号： 基于 CoreText 的排版引擎：进阶 本章前言 在上一篇《基于 CoreText 的排版引擎：基础》中，我们学会了排版的基础知识，现在我们来增加复杂性，让我们的排版引擎支持图片和链接的点击。
+支持图文混排的排版引擎 改造模版文件 下面我们来进一步改造，让排版引擎支持对于图片的排版。在上一小节中，我们在设置模版文件的时候，就专门在模板文件里面留了一个名为type的字段，用于表示内容的类型。之前的type的值都是txt，这次，我们增加一个值为img的值，用于表示图片。
+我们将上一节的content.json文件修改为如下内容，增加了 2 个type值为img的配置项。由于是图片的配置项，所以我们不需要设置颜色，字号这些图片不具有的属性，但是，我们另外增加了 3 个图片的配置属性：
+ 一个名为width的属性，用于设置图片显示的宽度。 一个名为height的属性，用于设置图片显示的高度。 一个名为name的属性，用于设置图片的资源名。  [ { &amp;quot;type&amp;quot; : &amp;quot;img&amp;quot;, &amp;quot;width&amp;quot; : 200, &amp;quot;height&amp;quot; : 108, &amp;quot;name&amp;quot; : &amp;quot;coretext-image-1.jpg&amp;quot; }, { &amp;quot;color&amp;quot; : &amp;quot;blue&amp;quot;, &amp;quot;content&amp;quot; : &amp;quot; 更进一步地，实际工作中，我们更希望通过一个排版文件，来设置需要排版的文字的 &amp;quot;, &amp;quot;size&amp;quot; : 16, &amp;quot;type&amp;quot; : &amp;quot;txt&amp;quot; }, { &amp;quot;color&amp;quot; : &amp;quot;red&amp;quot;, &amp;quot;content&amp;quot; : &amp;quot; 内容、颜色、字体 &amp;quot;, &amp;quot;size&amp;quot; : 22, &amp;quot;type&amp;quot; : &amp;quot;txt&amp;quot; }, { &amp;quot;color&amp;quot; : &amp;quot;black&amp;quot;, &amp;quot;content&amp;quot; : &amp;quot; 大小等信息。\n&amp;quot;, &amp;quot;size&amp;quot; : 16, &amp;quot;type&amp;quot; : &amp;quot;txt&amp;quot; }, { &amp;quot;type&amp;quot; : &amp;quot;img&amp;quot;, &amp;quot;width&amp;quot; : 200, &amp;quot;height&amp;quot; : 130, &amp;quot;name&amp;quot; : &amp;quot;coretext-image-2.</description>
+    </item>
+    
+    <item>
+      <title>iOS CoreText Base</title>
+      <link>http://ytlvy.com/posts/2015-07-19/2015-07-19-ios-coretext-base/</link>
+      <pubDate>Sun, 19 Jul 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-07-19/2015-07-19-ios-coretext-base/</guid>
+      <description>转自
+转载声明 原创文章，转载请保留以下信息：
+本文节选自我的图书：《iOS 开发进阶 》。 本文涉及的 Demo 工程在这里：https://github.com/tangqiaoboy/iOS-Pro。 扫码关注我的「iOS 开发」微信公众帐号： 基于 CoreText 的排版引擎：基础 使用 CoreText 技术，我们可以对富文本进行复杂的排版。经过一些简单的扩展，我们还可以实现对于图片，链接的点击效果。CoreText 技术相对于 UIWebView，有着更少的内存占用，以及可以在后台渲染的优点，非常适合用于内容的排版工作。
+本章我们将从最基本的开始，一步一步完成一个支持图文混排、支持图片和链接点击的排版引擎。
+CoreText 简介 CoreText 是用于处理文字和字体的底层技术。它直接和 Core Graphics（又被称为 Quartz）打交道。Quartz 是一个 2D 图形渲染引擎，能够处理 OSX 和 iOS 中的图形显示。
+Quartz 能够直接处理字体（font）和字形（glyphs），将文字渲染到界面上，它是基础库中唯一能够处理字形的模块。因此，CoreText 为了排版，需要将显示的文本内容、位置、字体、字形直接传递给 Quartz。相比其它 UI 组件，由于 CoreText 直接和 Quartz 来交互，所以它具有高速的排版效果。
+下图是 CoreText 的架构图，可以看到，CoreText 处于非常底层的位置，上层的 UI 控件（包括 UILabel，UITextField 以及 UITextView）和 UIWebView 都是基于 CoreText 来实现的。
+ 注意：这个是 iOS7 之后的架构图，在 iOS7 以前，并没有图中的 Text Kit 类，不过 CoreText 仍然是处在最底层直接和 Core Graphics 打交道的模块。</description>
+    </item>
+    
+  </channel>
+</rss>

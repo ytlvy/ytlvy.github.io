@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Autolayout on My New Hugo Site</title>
+    <link>http://ytlvy.com/tags/autolayout/</link>
+    <description>Recent content in Autolayout on My New Hugo Site</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sat, 08 Aug 2015 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="http://ytlvy.com/tags/autolayout/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>iOS Autolayout Practices</title>
+      <link>http://ytlvy.com/posts/2015-08-08/2015-08-08-ios-autolayout-practices/</link>
+      <pubDate>Sat, 08 Aug 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-08-08/2015-08-08-ios-autolayout-practices/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;http://blog.cnbluebox.com/blog/2015/02/02/autolayout2/&#34;&gt;reference&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;autolayout小结&#34;&gt;Autolayout小结&lt;/h2&gt;
+
+&lt;h3 id=&#34;如何自动适应cell的高度&#34;&gt;如何自动适应cell的高度&lt;/h3&gt;
+
+&lt;p&gt;在IOS的布局中，计算和适应cell的高度是个经典的问题, 在frame时代，我们都知道用&lt;code&gt;sizeWithFont:&lt;/code&gt; 先计算出文字的高度，然后通过计算得出cell的高度，然后赋予&lt;code&gt;heightForRow:&lt;/code&gt;。&lt;/p&gt;
+
+&lt;p&gt;那在Autolayout时代如何计算cell的高度呢？因为sizeWithFont:方法已经不太实用了。其实Autolayout不但更简单，还可以不用写过多的计算代码达到自适应高度。&lt;/p&gt;
+
+&lt;p&gt;理论上是可以通过已知的完整的Constraints和view的属性来计算高度的，我们可以通过&lt;code&gt;systemLayoutSizeFittingSize:&lt;/code&gt;方法来获取计算出来cell的size，我们知道cell的高度需要在tableView的代理方法&lt;code&gt;tableView:heightForRowAtIndexPath:&lt;/code&gt;中实现的，那么我们考虑从以下两点来做：&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;通过创建一个额外的cell专门用来计算其高度&lt;/li&gt;
+&lt;li&gt;因为计算需要布局，所以尽量让其只计算一次，计算完可以将高度保存起来&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>AutoLayout -- Content Compression Resistance &amp; Content Hugging</title>
+      <link>http://ytlvy.com/posts/2015-06-08/2015-06-08-autolayout-content-compression-resistance-content-hugging/</link>
+      <pubDate>Mon, 08 Jun 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-06-08/2015-06-08-autolayout-content-compression-resistance-content-hugging/</guid>
+      <description>&lt;h2 id=&#34;content-compression-resistance-content-hugging&#34;&gt;Content Compression Resistance &amp;amp;&amp;amp; Content Hugging&lt;/h2&gt;
+
+&lt;p&gt;Auto Layout中, 存在Content Compression Resistance 和 Content Hugging 这两个概念.这两个概念是在&lt;code&gt;固有内容尺寸&lt;/code&gt;（Intrinsic Content Size）之上起作用的.&lt;/p&gt;
+
+&lt;h3 id=&#34;intrinsic-content-size&#34;&gt;Intrinsic Content Size&lt;/h3&gt;
+
+&lt;p&gt;包含内容的UI控件, 由内容多少而决定的大小规则.&lt;/p&gt;
+
+&lt;h3 id=&#34;content-compression-resistance-content-hugging-1&#34;&gt;Content Compression Resistance &amp;amp; Content Hugging&lt;/h3&gt;
+
+&lt;ol&gt;
+&lt;li&gt;内容大小改变是指, 内容显示内容所占空间的长度来说的.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;内容抗压指数&lt;/code&gt;，在父视图变小时, 会根据抗压指数来缩小各子控件;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;内容拥抱指数&lt;/code&gt;, 内容越集中于控件中心, 周围空白越小.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

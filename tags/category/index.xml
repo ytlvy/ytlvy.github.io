@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Category on My New Hugo Site</title>
+    <link>http://ytlvy.com/tags/category/</link>
+    <description>Recent content in Category on My New Hugo Site</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Fri, 17 Jul 2015 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="http://ytlvy.com/tags/category/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>iOS category dig</title>
+      <link>http://ytlvy.com/posts/2015-07-17/2015-07-17-ios-category-dig/</link>
+      <pubDate>Fri, 17 Jul 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-07-17/2015-07-17-ios-category-dig/</guid>
+      <description>转自
+objc category的秘密 category的真面目 objc所有类和对象都是c结构体，category当然也一样，下面是runtime中category的结构：
+struct _category_t { const char *name; // 1 struct _class_t *cls; // 2 const struct _method_list_t *instance_methods; // 3 const struct _method_list_t *class_methods; // 4 const struct _protocol_list_t *protocols; // 5 const struct _prop_list_t *properties; // 6 };   name 注意，并不是category小括号里写的名字，而是类的名字 cls 要扩展的类对象，编译期间这个值是不会有的，在app被runtime加载时才会根据name对应到类对象 instance_methods这个category所有的-方法 class_methods这个category所有的+方法 protocols这个category实现的protocol，比较不常用在category里面实现协议，但是确实支持的 properties这个category所有的property，这也是category里面可以定义属性的原因，不过这个property不会@synthesize实例变量，一般有需求添加实例变量属性时会采用objc_setAssociatedObject和objc_getAssociatedObject方法绑定方法绑定，不过这种方法生成的与一个普通的实例变量完全是两码事。  编译器，你对category干了什么？ 举个栗子看，定义下面一个类和它的category，实现忽略，保存为sark.h和sark.m
+@interface Sark : NSObject - (void)speak; @end @interface Sark (GayExtention) - (void)burst; @end  请出clang的重写命令：</description>
+    </item>
+    
+    <item>
+      <title>iOS Category</title>
+      <link>http://ytlvy.com/posts/2015-07-13/2015-07-13-ios-category/</link>
+      <pubDate>Mon, 13 Jul 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-07-13/2015-07-13-ios-category/</guid>
+      <description>&lt;h2 id=&#34;category&#34;&gt;category&lt;/h2&gt;
+
+&lt;h3 id=&#34;category-简介&#34;&gt;category 简介&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;为已存在的类, 添加方法&lt;/li&gt;
+&lt;li&gt;将类的实现, 分别存放在不同的文件中. 好处: a) 减少单体文件体积 b)按照功能划分 c)协作开发 d)按需加载&lt;/li&gt;
+&lt;li&gt;声明私有方法&lt;/li&gt;
+&lt;li&gt;模拟多继承&lt;/li&gt;
+&lt;li&gt;把framework的私有方法公开&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;extension&#34;&gt;extension&lt;/h3&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;extension 很像匿名的category. 差异: a)extension在编译器决议, 是类声明的一部分.b)用来隐藏私有属性或方法.c)只有在有类源码的前提下,才能添加extension&lt;/p&gt;
+
+&lt;p&gt;category 在运行期决议的. category无法添加实例变量, (通过association来模拟添加)&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>iOS Runtime Message And Category</title>
+      <link>http://ytlvy.com/posts/2015-07-13/2015-07-13-ios-runtime-message-and-category/</link>
+      <pubDate>Mon, 13 Jul 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-07-13/2015-07-13-ios-runtime-message-and-category/</guid>
+      <description>&lt;h3 id=&#34;习题内容&#34;&gt;习题内容&lt;/h3&gt;
+
+&lt;p&gt;下面的代码会？Compile Error / Runtime Crash / NSLog…?&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;@interface NSObject (Sark)
++ (void)foo;
+@end
+
+@implementation NSObject (Sark)
+
+- (void)foo
+{
+    NSLog(@&amp;quot;IMP: -[NSObject(Sark) foo]&amp;quot;);
+}
+
+@end
+
+int main(int argc, const char * argv[]) {
+    @autoreleasepool {
+        [NSObject foo];
+        [[NSObject new] foo];
+    }
+    return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;答案：代码正常输出，输出结果如下：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;2014-11-06 13:11:46.694 Test[14872:1110786] IMP: -[NSObject(Sark) foo]
+2014-11-06 13:11:46.695 Test[14872:1110786] IMP: -[NSObject(Sark) foo]
+&lt;/code&gt;&lt;/pre&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

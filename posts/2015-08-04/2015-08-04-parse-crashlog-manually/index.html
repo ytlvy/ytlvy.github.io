@@ -1,0 +1,829 @@
+
+
+  
+
+
+  
+
+
+
+
+  
+
+
+  
+
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="Hugo 0.30.2 with theme Tranquilpeak 0.4.2-BETA">
+    <title>parse crashLog manually</title>
+    <meta name="author" content="肖杰">
+    <meta name="keywords" content="">
+
+    <link rel="icon" href="http://ytlvy.com/favicon.png">
+    
+
+    
+    <meta name="description" content="转自
+
+如何手动解析CrashLog
+
+解决崩溃问题是移动应用开发者最日常的工作之一。如果是开发过程中遇到的崩溃，可以根据重现步骤调试，但线上版本就无能为力了。好在目前已经有很多不错的第三方CrashLog搜集平台（如友盟、Crashlytics等）为我们做好了解析工作，甚至在Xcode7里苹果也跟进了解析线上版本崩溃日志的功能，为开发者减轻了不少负担。尽管通常已经不需要我们手工处理CrashLog，了解CrashLog的还原原理和方法还是有必要的。
+
+.dSYM
+
+.dSYM(debugging SYMbols)又称为调试符号表，是苹果为了方便调试和定位问题而使用的一种调试方案，本质上使用的是起源于贝尔实验室的DWARF（Debugging With Attributed Record Formats），其在.xcarchive目录中的层次结构为：
+
+.xcarchive
+--dSYMs
+  |--Your.app.dSYM
+    |--Contents
+      |--Resources
+        |--DWARF
+
+
+关于DWARF的具体内容以后有机会再说。我们能解析CrashLog全靠.dSYM文件，解析方式见后文。
+
+">
+    <meta property="og:description" content="转自
+
+如何手动解析CrashLog
+
+解决崩溃问题是移动应用开发者最日常的工作之一。如果是开发过程中遇到的崩溃，可以根据重现步骤调试，但线上版本就无能为力了。好在目前已经有很多不错的第三方CrashLog搜集平台（如友盟、Crashlytics等）为我们做好了解析工作，甚至在Xcode7里苹果也跟进了解析线上版本崩溃日志的功能，为开发者减轻了不少负担。尽管通常已经不需要我们手工处理CrashLog，了解CrashLog的还原原理和方法还是有必要的。
+
+.dSYM
+
+.dSYM(debugging SYMbols)又称为调试符号表，是苹果为了方便调试和定位问题而使用的一种调试方案，本质上使用的是起源于贝尔实验室的DWARF（Debugging With Attributed Record Formats），其在.xcarchive目录中的层次结构为：
+
+.xcarchive
+--dSYMs
+  |--Your.app.dSYM
+    |--Contents
+      |--Resources
+        |--DWARF
+
+
+关于DWARF的具体内容以后有机会再说。我们能解析CrashLog全靠.dSYM文件，解析方式见后文。
+
+">
+    <meta property="og:type" content="blog">
+    <meta property="og:title" content="parse crashLog manually">
+    <meta property="og:url" content="/posts/2015-08-04/2015-08-04-parse-crashlog-manually/">
+    <meta property="og:site_name" content="My New Hugo Site">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="My New Hugo Site">
+    <meta name="twitter:description" content="转自
+
+如何手动解析CrashLog
+
+解决崩溃问题是移动应用开发者最日常的工作之一。如果是开发过程中遇到的崩溃，可以根据重现步骤调试，但线上版本就无能为力了。好在目前已经有很多不错的第三方CrashLog搜集平台（如友盟、Crashlytics等）为我们做好了解析工作，甚至在Xcode7里苹果也跟进了解析线上版本崩溃日志的功能，为开发者减轻了不少负担。尽管通常已经不需要我们手工处理CrashLog，了解CrashLog的还原原理和方法还是有必要的。
+
+.dSYM
+
+.dSYM(debugging SYMbols)又称为调试符号表，是苹果为了方便调试和定位问题而使用的一种调试方案，本质上使用的是起源于贝尔实验室的DWARF（Debugging With Attributed Record Formats），其在.xcarchive目录中的层次结构为：
+
+.xcarchive
+--dSYMs
+  |--Your.app.dSYM
+    |--Contents
+      |--Resources
+        |--DWARF
+
+
+关于DWARF的具体内容以后有机会再说。我们能解析CrashLog全靠.dSYM文件，解析方式见后文。
+
+">
+    
+    
+
+    
+    
+
+    
+      <meta property="og:image" content="//www.gravatar.com/avatar/8d5387e20303e26c6147cfe67990995e?s=640">
+    
+
+    
+    
+    
+
+    
+
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/jquery.fancybox.min.css" integrity="sha256-vuXZ9LGmmwtjqFX1F+EKin1ThZMub58gKULUyf0qECk=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/helpers/jquery.fancybox-thumbs.min.css" integrity="sha256-SEa4XYAHihTcEP1f5gARTB2K26Uk8PsndQYHQC1f4jU=" crossorigin="anonymous" />
+    
+    
+    <link rel="stylesheet" href="http://ytlvy.com/css/style-jsjn0006wyhpyzivf6yceb31gvpjatbcs3qzjvlumobfnugccvobqwxnnaj8.min.css" />
+    
+    
+
+    
+      
+    
+    
+  </head>
+
+  <body>
+    <div id="blog">
+      <header id="header" data-behavior="1">
+  <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+  <div class="header-title">
+    <a class="header-title-link" href="http://ytlvy.com/">My New Hugo Site</a>
+  </div>
+  
+    
+      <a class="header-right-picture "
+         href="http://ytlvy.com/#about">
+    
+    
+    
+      
+        <img class="header-picture" src="//www.gravatar.com/avatar/8d5387e20303e26c6147cfe67990995e?s=90" alt="" />
+      
+    
+    </a>
+  
+</header>
+
+      <nav id="sidebar" data-behavior="1">
+  <div class="sidebar-container">
+    
+      <div class="sidebar-profile">
+        <a href="http://ytlvy.com/#about">
+          <img class="sidebar-profile-picture" src="//www.gravatar.com/avatar/8d5387e20303e26c6147cfe67990995e?s=110" alt="" />
+        </a>
+        <h4 class="sidebar-profile-name">肖杰</h4>
+        
+          <h5 class="sidebar-profile-bio">一个瑜伽|篮球|羽毛球爱好者</h5>
+        
+      </div>
+    
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="http://ytlvy.com/">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-home"></i>
+      
+      <span class="sidebar-button-desc">Home</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="http://ytlvy.com/categories">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-bookmark"></i>
+      
+      <span class="sidebar-button-desc">Categories</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="http://ytlvy.com/tags">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+      
+      <span class="sidebar-button-desc">Tags</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="http://ytlvy.com/archives">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
+      
+      <span class="sidebar-button-desc">Archives</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="http://ytlvy.com/#about">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-question"></i>
+      
+      <span class="sidebar-button-desc">About</span>
+    </a>
+  </li>
+
+
+    </ul>
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://github.com/ytlvy" target="_blank" rel="noopener">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-github"></i>
+      
+      <span class="sidebar-button-desc">GitHub</span>
+    </a>
+  </li>
+
+
+    </ul>
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="http://ytlvy.com/index.xml">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-rss"></i>
+      
+      <span class="sidebar-button-desc">RSS</span>
+    </a>
+  </li>
+
+
+    </ul>
+  </div>
+</nav>
+
+      
+
+      <div id="main" data-behavior="1"
+        class="
+               hasCoverMetaIn
+               ">
+        <article class="post" itemscope itemType="http://schema.org/BlogPosting">
+          
+          
+            <div class="post-header main-content-wrap text-left">
+  
+    <h1 class="post-title" itemprop="headline">
+      parse crashLog manually
+    </h1>
+  
+  
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2015-08-04T00:00:00Z">
+        
+   4, 2015
+
+      </time>
+    
+    
+  
+  
+    <span></span>
+    
+      <a class="category-link" href="http://ytlvy.com/categories/ios">IOS</a>
+    
+  
+
+  </div>
+
+</div>
+          
+          <div class="post-content markdown" itemprop="articleBody">
+            <div class="main-content-wrap">
+              <p><a href="http://foggry.com/blog/2015/07/27/ru-he-shou-dong-jie-xi-crashlog/">转自</a></p>
+
+<h2 id="如何手动解析crashlog">如何手动解析CrashLog</h2>
+
+<p>解决崩溃问题是移动应用开发者最日常的工作之一。如果是开发过程中遇到的崩溃，可以根据重现步骤调试，但线上版本就无能为力了。好在目前已经有很多不错的第三方CrashLog搜集平台（如友盟、Crashlytics等）为我们做好了解析工作，甚至在Xcode7里苹果也跟进了解析线上版本崩溃日志的功能，为开发者减轻了不少负担。尽管通常已经不需要我们手工处理CrashLog，了解CrashLog的还原原理和方法还是有必要的。</p>
+
+<h3 id="dsym">.dSYM</h3>
+
+<p><code>.dSYM(debugging SYMbols)</code>又称为调试符号表，是苹果为了方便调试和定位问题而使用的一种调试方案，本质上使用的是起源于贝尔实验室的DWARF（Debugging With Attributed Record Formats），其在<code>.xcarchive</code>目录中的层次结构为：</p>
+
+<pre><code>.xcarchive
+--dSYMs
+  |--Your.app.dSYM
+    |--Contents
+      |--Resources
+        |--DWARF
+</code></pre>
+
+<p>关于DWARF的具体内容以后有机会再说。我们能解析CrashLog全靠.dSYM文件，解析方式见后文。</p>
+
+<p></p>
+
+<h3 id="确定符号表和崩溃日志的一致性">确定符号表和崩溃日志的一致性</h3>
+
+<p>有了符号表文件，有了崩溃日志文件，在解析之前一定要确保二者的对应关系，否则就算按照下述步骤解析出内容也肯定是不准确的。二者的对应关系可以通过UUID来确定。</p>
+
+<h3 id="从崩溃日志中获取uuid">从崩溃日志中获取UUID</h3>
+
+<p>崩溃日志比较靠下的位置有个<code>Binary Images</code>模块，其第一行内容如下：</p>
+
+<pre><code>Binary Images:
+0xa2000 - 0x541fff Your armv7  &lt;a5c8d3cfda65396689e4370bf3a0ac64&gt; /var/mobile/Containers/Bundle/Application/645D3184-4C20-4161-924B-BDE170FA64CC/Your.app/Your
+</code></pre>
+
+<p>从中可以看到关于你应用的若干信息：</p>
+
+<ul>
+<li>代码段的起终地址为：0xa2000 – 0x541fff</li>
+<li>运行你应用的CPU指令集为：armv7</li>
+<li>应用的UUID为：a5c8d3cfda65396689e4370bf3a0ac64（不区分大小写）</li>
+</ul>
+
+<h4 id="从符号表中获取uuid">从符号表中获取UUID</h4>
+
+<p>执行以下命令从符号表中提取UUID：</p>
+
+<pre><code>dwarfdump --uuid Your.app.dSYM
+</code></pre>
+
+<p>或者：</p>
+
+<pre><code>dwarfdump --uuid Your.app.dSYM/Contents/Resources/DWARF/Your
+</code></pre>
+
+<p>执行结果为：</p>
+
+<pre><code>UUID: A5C8D3CF-DA65-3966-89E4-370BF3A0AC64 (armv7) Your.app.dSYM/Contents/Resources/DWARF/Your
+</code></pre>
+
+<p>由此得到armv7指令集的UUID为：A5C8D3CF-DA65-3966-89E4-370BF3A0AC64（如果你的二进制文件支持多个指令集，这里会列出每个指令集对应符号表的UUID），通过和崩溃日志中的对比发现二者一致，才可进行进一步的解析操作。</p>
+
+<h3 id="计算崩溃符号表地址">计算崩溃符号表地址</h3>
+
+<p>以下面的崩溃堆栈为例：</p>
+
+<pre><code>Thread 0:
+0   libobjc.A.dylib                   0x33f10f60 0x33efe000 + 77664
+1   Foundation                        0x273526ac 0x2734a000 + 34476
+2   Foundation                        0x27355c3e 0x2734a000 + 48190
+3   UIKit                             0x29ef9d1c 0x29bbc000 + 3398940
+4   UIKit                             0x29ef9c9a 0x29bbc000 + 3398810
+5   UIKit                             0x29ef954c 0x29bbc000 + 3396940
+6   UIKit                             0x29c3a16a 0x29bbc000 + 516458
+7   UIKit                             0x29e4b8e6 0x29bbc000 + 2685158
+8   UIKit                             0x29c3a128 0x29bbc000 + 516392
+9   Your                              0x000f0846 0xa2000 + 321606
+10  UIKit                             0x29e90fb2 0x29bbc000 + 2969522
+11  UIKit                             0x29e91076 0x29bbc000 + 2969718
+12  UIKit                             0x29e867cc 0x29bbc000 + 2926540
+13  UIKit                             0x29c9e8ea 0x29bbc000 + 927978
+14  UIKit                             0x29bc8a6a 0x29bbc000 + 51818
+15  QuartzCore                        0x295f0a08 0x295e4000 + 51720
+16  QuartzCore                        0x295ec3e0 0x295e4000 + 33760
+17  QuartzCore                        0x295ec268 0x295e4000 + 33384
+18  QuartzCore                        0x295ebc4c 0x295e4000 + 31820
+19  QuartzCore                        0x295eba50 0x295e4000 + 31312
+20  QuartzCore                        0x295e5928 0x295e4000 + 6440
+21  CoreFoundation                    0x266d0d92 0x26604000 + 839058
+22  CoreFoundation                    0x266ce44e 0x26604000 + 828494
+23  CoreFoundation                    0x266ce856 0x26604000 + 829526
+24  CoreFoundation                    0x2661c3bc 0x26604000 + 99260
+25  CoreFoundation                    0x2661c1ce 0x26604000 + 98766
+26  GraphicsServices                  0x2da1a0a4 0x2da11000 + 37028
+27  UIKit                             0x29c2a7ac 0x29bbc000 + 452524
+28  Your                              0x0024643a 0xa2000 + 1721402
+29  libdyld.dylib                     0x34484aac 0x34483000 + 6828
+</code></pre>
+
+<h4 id="1-符号表堆栈地址计算方式">1、 符号表堆栈地址计算方式</h4>
+
+<p>要想利用符号表解析出崩溃对应位置，需要计算出符号表中对应的崩溃堆栈地址。而从上述堆栈中第9行可以看到，应用崩溃发生在运行时地址<code>0x000f0846</code>，该进程的运行时起始地址是<code>0xa2000</code>，崩溃处距离进程起始地址的偏移量为十进制的<code>321606</code>(对应十六进制为<code>0x4E846</code>)。三者对应关系：</p>
+
+<pre><code>0x000f0846 = 0xa2000 + 0x4E846
+</code></pre>
+
+<p>对应的公式为：</p>
+
+<pre><code>运行时堆栈地址 = 运行时起始地址 + 偏移量
+</code></pre>
+
+<p>崩溃堆栈中的起始地址和崩溃地址均为运行时地址，根据虚拟内存偏移量不变原理，只要提供了符号表TEXT段的起始地址，再加上偏移量（这里为0x4E846）就能得到符号表中的堆栈地址，即：</p>
+
+<pre><code>符号表堆栈地址 = 符号表起始地址 + 偏移量
+</code></pre>
+
+<h4 id="2-获取符号表中的text段起始地址">2、获取符号表中的TEXT段起始地址</h4>
+
+<p>符号表中TEXT段的起始地址可以通过以下命令获得：</p>
+
+<pre><code>$otool -l Your.app.dSYM/Contents/Resources/DWARF/Your
+</code></pre>
+
+<p>运行结果中的片段如下：</p>
+
+<pre><code>Load command 3
+      cmd LC_SEGMENT
+  cmdsize 736
+  segname __TEXT
+   vmaddr 0x00004000
+   vmsize 0x00700000
+  fileoff 0
+ filesize 0
+  maxprot 0x00000005
+ initprot 0x00000005
+   nsects 10
+    flags 0x0
+</code></pre>
+
+<p>其中的<code>vmaddr 0x00004000</code>字段即为TEXT段的起始地址。</p>
+
+<h4 id="3-计算符号表地址">3、计算符号表地址</h4>
+
+<p>由公式：</p>
+
+<pre><code>符号表堆栈地址 = 符号表起始地址 + 偏移量
+</code></pre>
+
+<p>可得：</p>
+
+<pre><code>0x52846 = 0x4E846 + 0x4000
+</code></pre>
+
+<p>即符号表中的崩溃地址为<code>0x52846</code>，接下来就可以根据这个地址解析出崩溃位置了。</p>
+
+<h3 id="崩溃信息还原">崩溃信息还原</h3>
+
+<p>有了符号表的崩溃地址，有以下几种方式解析崩溃信息：</p>
+
+<h4 id="dwarfdump">dwarfdump</h4>
+
+<p>命令如下：</p>
+
+<pre><code>$dwarfdump --arch armv7 Your.app.dSYM --lookup 0x52846 | grep 'Line table'
+</code></pre>
+
+<p>需要注意的是：</p>
+
+<ul>
+<li><p>这里的armv7是运行设备的CPU指令集，而不是二进制文件的指令集, 比如armv7指令集的二进制文件运行在arm64指令集的设备上，这个地方应该写arm64。</p></li>
+
+<li><p><code>—lookup</code>后面跟的一定是经过准确计算的符号表中的崩溃地址</p></li>
+
+<li><p>使用dwarfdump解析的结果较杂乱，因此使用grep命令抓取其中关键点展示出来</p></li>
+</ul>
+
+<p>运行结果如下：</p>
+
+<pre><code>Line table dir : '/data/.../Src/OBDConnectSetting/Controller'
+Line table file: 'OBDFirstConnectViewController.m' line 882, column 5 with start address 0x000000000052768
+</code></pre>
+
+<p>其中第一行是编译时文件目录，第二行包含了崩溃发生的文件名称以及文件中具体行号等信息，有了这些信息就能准确定位崩溃原因啦。</p>
+
+<h4 id="atos">atos</h4>
+
+<p>atos是另一种更加简洁的崩溃日志解析方法，使用方式如下：</p>
+
+<pre><code> $atos -o LuBao -arch armv7 0x52846
+</code></pre>
+
+<p>其执行结果如下：</p>
+
+<pre><code>-[OBDFirstConnectViewController showOilPricePickerView] (in Your) (OBDFirstConnectViewController.m:882)
+</code></pre>
+
+<p>相对<code>dwarfdump</code>命令的解析结果，更加简洁直观的指出了崩溃发生的位置。</p>
+
+<h4 id="无需符号表崩溃地址的解析方式">无需符号表崩溃地址的解析方式</h4>
+
+<p>实际上，<code>atos</code>还提供了另外一种无需计算崩溃地址对应的符号表地址的方式，命令格式如下：</p>
+
+<pre><code>$atos -o Your.app.dSYM/Contents/Resources/DWARF/Your -arch armv7 -l 0xa2000 0x000f0846
+</code></pre>
+
+<p>其中-l选项指定了二进制文件在运行时的起始地址0xa2000（获取方式见Binary Images相关内容）,后面跟的是崩溃发生的运行时地址0x000f0846，解析结果和使用计算得到的符号表中崩溃地址一致：</p>
+
+<pre><code>-[OBDFirstConnectViewController showOilPricePickerView] (in Your) (OBDFirstConnectViewController.m:882)
+</code></pre>
+
+<h3 id="参考文档">参考文档</h3>
+
+<p><a href="https://developer.apple.com/library/mac/qa/qa1765/_index.html">How to Match a Crash Report to a Build</a>
+<a href="https://developer.apple.com/library/mac/technotes/tn2004/tn2123.html">CrashReporter</a>
+<a href="https://developer.apple.com/library/ios/technotes/tn2151/_index.html">Understanding and Analyzing iOS Application Crash Reports</a>
+<a href="http://stackoverflow.com/a/12464678/2293677">atos and dwarfdump won’t symbolicate my address</a></p>
+              
+            </div>
+          </div>
+          <div id="post-footer" class="post-footer main-content-wrap">
+            
+              
+                
+                
+                  <div class="post-footer-tags">
+                    <span class="text-color-light text-small"></span><br/>
+                    
+  <a class="tag tag--primary tag--small" href="http://ytlvy.com/tags/debug/">Debug</a>
+
+                  </div>
+                
+              
+            
+            
+  <div class="post-actions-wrap">
+      <nav >
+        <ul class="post-actions post-action-nav">
+          
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="http://ytlvy.com/posts/2015-08-04/2015-08-04-jump-out-of-oop-polymorphic/" data-tooltip="jump out of OOP -- Polymorphic">
+              
+                  <i class="fa fa-angle-left"></i>
+                  <span class="hide-xs hide-sm text-small icon-ml"></span>
+                </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="http://ytlvy.com/posts/2015-07-28/2015-07-28-chun-notes/" data-tooltip="Chun notes">
+              
+                  <span class="hide-xs hide-sm text-small icon-mr"></span>
+                  <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+          
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
+      
+        <li class="post-action hide-lg hide-md hide-sm">
+          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+            <i class="fa fa-share-alt"></i>
+          </a>
+        </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://ytlvy.com/posts/2015-08-04/2015-08-04-parse-crashlog-manually/">
+              <i class="fa fa-facebook-official"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http://ytlvy.com/posts/2015-08-04/2015-08-04-parse-crashlog-manually/">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=http://ytlvy.com/posts/2015-08-04/2015-08-04-parse-crashlog-manually/">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        
+      
+      
+        <li class="post-action">
+          <a class="post-action-btn btn btn--default" href="#disqus_thread">
+            <i class="fa fa-comment-o"></i>
+          </a>
+        </li>
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#">
+        
+          <i class="fa fa-list"></i>
+        </a>
+      </li>
+    </ul>
+  </div>
+
+
+            
+              
+                <div id="disqus_thread">
+  <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+              
+            
+          </div>
+        </article>
+        <footer id="footer" class="main-content-wrap">
+  <span class="copyrights">
+    &copy; 2017 肖杰. 
+  </span>
+</footer>
+
+      </div>
+      <div id="bottom-bar" class="post-bottom-bar" data-behavior="1">
+        
+  <div class="post-actions-wrap">
+      <nav >
+        <ul class="post-actions post-action-nav">
+          
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="http://ytlvy.com/posts/2015-08-04/2015-08-04-jump-out-of-oop-polymorphic/" data-tooltip="jump out of OOP -- Polymorphic">
+              
+                  <i class="fa fa-angle-left"></i>
+                  <span class="hide-xs hide-sm text-small icon-ml"></span>
+                </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="http://ytlvy.com/posts/2015-07-28/2015-07-28-chun-notes/" data-tooltip="Chun notes">
+              
+                  <span class="hide-xs hide-sm text-small icon-mr"></span>
+                  <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+          
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
+      
+        <li class="post-action hide-lg hide-md hide-sm">
+          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+            <i class="fa fa-share-alt"></i>
+          </a>
+        </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://ytlvy.com/posts/2015-08-04/2015-08-04-parse-crashlog-manually/">
+              <i class="fa fa-facebook-official"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http://ytlvy.com/posts/2015-08-04/2015-08-04-parse-crashlog-manually/">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=http://ytlvy.com/posts/2015-08-04/2015-08-04-parse-crashlog-manually/">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        
+      
+      
+        <li class="post-action">
+          <a class="post-action-btn btn btn--default" href="#disqus_thread">
+            <i class="fa fa-comment-o"></i>
+          </a>
+        </li>
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#">
+        
+          <i class="fa fa-list"></i>
+        </a>
+      </li>
+    </ul>
+  </div>
+
+
+      </div>
+      <div id="share-options-bar" class="share-options-bar" data-behavior="1">
+  <i id="btn-close-shareoptions" class="fa fa-close"></i>
+  <ul class="share-options">
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Fytlvy.com%2Fposts%2F2015-08-04%2F2015-08-04-parse-crashlog-manually%2F">
+          <i class="fa fa-facebook-official"></i><span>%!(EXTRA string=Facebook)</span>
+        </a>
+      </li>
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=http%3A%2F%2Fytlvy.com%2Fposts%2F2015-08-04%2F2015-08-04-parse-crashlog-manually%2F">
+          <i class="fa fa-twitter"></i><span>%!(EXTRA string=Twitter)</span>
+        </a>
+      </li>
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=http%3A%2F%2Fytlvy.com%2Fposts%2F2015-08-04%2F2015-08-04-parse-crashlog-manually%2F">
+          <i class="fa fa-google-plus"></i><span>%!(EXTRA string=Google&#43;)</span>
+        </a>
+      </li>
+    
+  </ul>
+</div>
+<div id="share-options-mask" class="share-options-mask"></div>
+    </div>
+    
+    <div id="about">
+  <div id="about-card">
+    <div id="about-btn-close">
+      <i class="fa fa-remove"></i>
+    </div>
+    
+      <img id="about-card-picture" src="//www.gravatar.com/avatar/8d5387e20303e26c6147cfe67990995e?s=110" alt="" />
+    
+    <h4 id="about-card-name">肖杰</h4>
+    
+      <div id="about-card-bio">一个瑜伽|篮球|羽毛球爱好者</div>
+    
+    
+      <div id="about-card-job">
+        <i class="fa fa-briefcase"></i>
+        <br/>
+        搬砖工
+      </div>
+    
+    
+      <div id="about-card-location">
+        <i class="fa fa-map-marker"></i>
+        <br/>
+        Beijing
+      </div>
+    
+  </div>
+</div>
+
+    <div id="algolia-search-modal" class="modal-container">
+  <div class="modal">
+    <div class="modal-header">
+      <span class="close-button"><i class="fa fa-close"></i></span>
+      <a href="https://algolia.com" target="_blank" rel="noopener" class="searchby-algolia text-color-light link-unstyled">
+        <span class="searchby-algolia-text text-color-light text-small">by</span>
+        <img class="searchby-algolia-logo" src="https://www.algolia.com/static_assets/images/press/downloads/algolia-light.svg">
+      </a>
+      <i class="search-icon fa fa-search"></i>
+      <form id="algolia-search-form">
+        <input type="text" id="algolia-search-input" name="search"
+          class="form-control input--large search-input" placeholder="" />
+      </form>
+    </div>
+    <div class="modal-body">
+      <div class="no-result text-color-light text-center"></div>
+      <div class="results">
+        
+        
+      </div>
+    </div>
+    <div class="modal-footer">
+      <p class="results-count text-medium"
+         data-message-zero=""
+         data-message-one=""
+         data-message-other="">
+         0 posts found
+      </p>
+    </div>
+  </div>
+</div>
+    
+  
+    
+    <div id="cover" style="background-image:url('http://ytlvy.com/images/cover.jpg');"></div>
+  
+
+
+    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js" integrity="sha256-/BfiIkHlHoVihZdc6TFuj7MmJ0TWcWsMXkeDFwhi0zw=" crossorigin="anonymous"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.7/js/jquery.fancybox.min.js" integrity="sha256-GEAnjcTqVP+vBp3SSc8bEDQqvWAZMiHyUSIorrWwH50=" crossorigin="anonymous"></script>
+
+
+<script src="http://ytlvy.com/js/script-qi9wbxp2ya2j6p7wx1i6tgavftewndznf4v0hy2gvivk1rxgc3lm7njqb6bz.min.js"></script>
+
+
+
+<script>
+$(document).ready(function() {
+  hljs.configure({ classPrefix: '', useBR: false });
+  $('pre.code-highlight > code, pre > code').each(function(i, block) {
+    if (!$(this).hasClass('codeblock')) {
+      $(this).addClass('codeblock');
+    }
+    hljs.highlightBlock(block);
+  });
+});
+</script>
+
+
+  
+    
+      <script>
+        var disqus_config = function () {
+          this.page.url = 'http:\/\/ytlvy.com\/posts\/2015-08-04\/2015-08-04-parse-crashlog-manually\/';
+          
+            this.page.identifier = '\/posts\/2015-08-04\/2015-08-04-parse-crashlog-manually\/'
+          
+        };
+        (function() {
+          
+          
+          if (window.location.hostname == "localhost") {
+            return;
+          }
+          var d = document, s = d.createElement('script');
+          var disqus_shortname = 'hugo-tranquilpeak-theme';
+          s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+
+          s.setAttribute('data-timestamp', +new Date());
+          (d.head || d.body).appendChild(s);
+        })();
+      </script>
+    
+  
+
+
+
+    
+  </body>
+</html>
+

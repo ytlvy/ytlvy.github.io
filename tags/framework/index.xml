@@ -1,0 +1,247 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Framework on My New Hugo Site</title>
+    <link>http://ytlvy.com/tags/framework/</link>
+    <description>Recent content in Framework on My New Hugo Site</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Wed, 05 Aug 2015 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="http://ytlvy.com/tags/framework/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>iOS Application Framework Think - Network</title>
+      <link>http://ytlvy.com/posts/2015-08-05/2015-08-05-ios-application-framework-think-network/</link>
+      <pubDate>Wed, 05 Aug 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-08-05/2015-08-05-ios-application-framework-think-network/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;http://blog.cnbluebox.com/blog/2015/05/07/architecture-ios-1/&#34;&gt;reference&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;ios应用架构思考一-网络层&#34;&gt;IOS应用架构思考一（网络层）&lt;/h2&gt;
+
+&lt;p&gt;最近看到Casa Taloyum同学的关于IOS架构的文章，分享的概念和观点很值得一看，于是不禁心痒，也做些分享吧，我会从实际设计过程中需要思考的问题的角度着手来讲述，毕竟无论什么样的架构，什么样的设计都是要解决这些问题的。
+今天就先讲讲网络层的需要思考的问题吧。&lt;/p&gt;
+
+&lt;h3 id=&#34;requestoperation的设计&#34;&gt;requestOperation的设计&lt;/h3&gt;
+
+&lt;p&gt;我们都知道在客户端发送请求是需要成本的，那么设计异步的请求就是首要的问题。我们知道Cocoa提供了非常丰富和易于使用的异步api, 有&lt;code&gt;NSOperationQueue&lt;/code&gt;, &lt;code&gt;dispatch queue&lt;/code&gt;, &lt;code&gt;NSThread&lt;/code&gt;等。那么如何选择呢，答案毫无疑问的必须是&lt;code&gt;NSOperation&lt;/code&gt;。 不信你去看ASIHTTPRequest和AFNetworking. 好像这个理由不够充分是吧，而且很多人就是使用了这些框架，而不清楚它们到底为何优秀，那我就列举下一些它们的优点吧&lt;/p&gt;
+
+&lt;p&gt;首先举个反例吧：曾经有人问过我“为什么要用AFNetworking和ASI这样的框架呢，我直接dispatch到后台用类似dataWithURL:拉数据这样不是很简单？”。 那么这样的使用案例有2个很致命的缺陷：&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;无法cancel这个请求&lt;/li&gt;
+&lt;li&gt;占用了完整的一个线程&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>iOS application framework -- first</title>
+      <link>http://ytlvy.com/posts/2015-08-04/2015-08-04-ios-application-framework-first/</link>
+      <pubDate>Tue, 04 Aug 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-08-04/2015-08-04-ios-application-framework-first/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;http://casatwy.com/iosying-yong-jia-gou-tan-kai-pian.html&#34;&gt;reference&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;ios应用架构谈-开篇&#34;&gt;iOS应用架构谈 开篇&lt;/h2&gt;
+
+&lt;h3 id=&#34;缘由&#34;&gt;缘由&lt;/h3&gt;
+
+&lt;p&gt;之前安居客iOS app的第二版架构大部分内容是我做的，期间有总结了一些经验。在将近一年之后，前同事zzz在微信朋友圈上发了一个问题：假如问你一个&lt;code&gt;iOS or Android app&lt;/code&gt;的架构，你会从哪些方面来说呢？&lt;/p&gt;
+
+&lt;p&gt;当时看到这个问题正好在乘公车回家的路上，闲来无聊就答了一把。在zzz在微信朋友圈上追问了几个问题之后，我觉得有必要开个博客专门来讲讲一些个人见解。&lt;/p&gt;
+
+&lt;p&gt;其实对于iOS客户端应用的架构来说，复杂度不亚于服务端，但侧重点和入手点却跟服务端不太一样。比如客户端应用就不需要考虑类似C10K的问题，正常的app就根本不需要考虑。&lt;/p&gt;
+
+&lt;p&gt;这系列文章我会主要专注在iOS应用架构方面，很多方案也是基于iOS技术栈的特点而建立的。因为我个人不是很喜欢写Java，所以Android这边的我就不太了解了。如果你是Android开发者，你可以侧重看我提出的一些架构思想，毕竟不管做什么，思路是相通的，实现手段不同罢了。&lt;/p&gt;
+
+&lt;h3 id=&#34;当我们讨论客户端应用架构的时候-我们在讨论什么&#34;&gt;当我们讨论客户端应用架构的时候，我们在讨论什么？&lt;/h3&gt;
+
+&lt;p&gt;其实市面上大部分应用不外乎就是颠过来倒过去地做以下这些事情：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;    ---------------     ---------------     ---------------     ---------------
+    |             |     |             |     |             |     |             |
+    | 调用网络API  | --&amp;gt; |   展现列表    | --&amp;gt; |  选择列表    | --&amp;gt; |   展现单页   |
+    |             |     |             |     |             |     |             |
+    ---------------     ---------------     ---------------     ---------------
+                               ^                                        |
+                               |                                        |
+                               |                                        |
+                               ------------------------------------------
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;简单来说就是调API，展示页面，然后跳转到别的地方再调API，再展示页面。&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>iOS application framework -- network layer</title>
+      <link>http://ytlvy.com/posts/2015-08-04/2015-08-04-ios-application-framework-network-layer/</link>
+      <pubDate>Tue, 04 Aug 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-08-04/2015-08-04-ios-application-framework-network-layer/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;http://casatwy.com/iosying-yong-jia-gou-tan-wang-luo-ceng-she-ji-fang-an.html&#34;&gt;reference&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;ios应用架构谈-网络层设计方案&#34;&gt;iOS应用架构谈 网络层设计方案&lt;/h2&gt;
+
+&lt;h3 id=&#34;前言&#34;&gt;前言&lt;/h3&gt;
+
+&lt;p&gt;网络层在一个App中也是一个不可缺少的部分，工程师们在网络层能够发挥的空间也比较大。另外，苹果对网络请求部分已经做了很好的封装，业界的AFNetworking也被广泛使用。其它的ASIHttpRequest，MKNetworkKit啥的其实也都还不错，但前者已经弃坑，后者也在弃坑的边缘。在实际的App开发中，Afnetworking已经成为了事实上各大App的标准配置。&lt;/p&gt;
+
+&lt;p&gt;网络层在一个App中承载了API调用，用户操作日志记录，甚至是即时通讯等任务。我接触过一些App（开源的和不开源的）的代码，在看到网络层这一块时，尤其是在看到各位架构师各显神通展示了各种技巧，我非常为之感到兴奋。但有的时候，往往也对于其中的一些缺陷感到失望。&lt;/p&gt;
+
+&lt;p&gt;关于网络层的设计方案会有很多，需要权衡的地方也会有很多，甚至于争议的地方都会有很多。但无论如何，我都不会对这些问题做出任何逃避，我会在这篇文章中给出我对它们的看法和解决方案，观点绝不中立，不会跟大家打太极。&lt;/p&gt;
+
+&lt;p&gt;这篇文章就主要会讲这些方面：&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;网络层跟业务对接部分的设计&lt;/li&gt;
+&lt;li&gt;网络层的安全机制实现&lt;/li&gt;
+&lt;li&gt;网络层的优化方案&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>iOS application framework -- view layer</title>
+      <link>http://ytlvy.com/posts/2015-08-04/2015-08-04-ios-application-framework-view-layer/</link>
+      <pubDate>Tue, 04 Aug 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-08-04/2015-08-04-ios-application-framework-view-layer/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;http://casatwy.com/iosying-yong-jia-gou-tan-viewceng-de-zu-zhi-he-diao-yong-fang-an.html&#34;&gt;reference&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;ios应用架构谈-view层的组织和调用方案&#34;&gt;iOS应用架构谈 view层的组织和调用方案&lt;/h2&gt;
+
+&lt;h3 id=&#34;前言&#34;&gt;前言&lt;/h3&gt;
+
+&lt;p&gt;《iOS应用架构谈 开篇》出来之后，很多人来催我赶紧出第二篇。这一篇文章出得相当艰难，因为公司里的破事儿特别多，我自己又有点私事儿，以至于能用来写博客的时间不够充分。&lt;/p&gt;
+
+&lt;p&gt;现在好啦，第二篇出来了。&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;当我们开始设计View层的架构时，往往是这个App还没有开始开发，或者这个App已经发过几个版本了，然后此时需要做非常彻底的重构。&lt;/p&gt;
+
+&lt;p&gt;一般也就是这两种时机会去做View层架构，基于这个时机的特殊性，我们在这时候必须清楚认识到：View层的架构一旦实现或定型，在App发版后可修改的余地就已经非常之小了。因为它跟业务关联最为紧密，所以哪怕稍微动一点点，它所引发的蝴蝶效应都不见得是业务方能够hold住的。这样的情况，就要求我们在实现这个架构时，代码必须得改得勤快，不能偷懒。也必须抱着充分的自我怀疑态度，做决策时要拿捏好尺度。&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;View层的架构非常之重要，在我看来，这部分架构是这系列文章涉及4个方面最重要的一部分，没有之一。为什么这么说？&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>jump out of OOP -- Inherit</title>
+      <link>http://ytlvy.com/posts/2015-08-04/2015-08-04-jump-out-of-oop-inherit/</link>
+      <pubDate>Tue, 04 Aug 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-08-04/2015-08-04-jump-out-of-oop-inherit/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;http://casatwy.com/tiao-chu-mian-xiang-dui-xiang-si-xiang-yi-ji-cheng.html&#34;&gt;reference&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;跳出面向对象思想-一-继承&#34;&gt;跳出面向对象思想(一) 继承&lt;/h2&gt;
+
+&lt;h3 id=&#34;简述&#34;&gt;简述&lt;/h3&gt;
+
+&lt;p&gt;这一系列文章中谈谈面向对象思想的几个部分，并且给出对应的解决方案，这些解决方案有些是用面向过程的思路解决的，有些也还是停留在面向对象中。到最后我会给大家一个比较，然后给出结论。&lt;/p&gt;
+
+&lt;h4 id=&#34;上下文规范&#34;&gt;上下文规范&lt;/h4&gt;
+
+&lt;p&gt;在进一步地讨论这些概念之前，我需要跟大家达成一个表达上的共识，我会采用下面的语法来表达对象相关的信息&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;所有的大写字母都是类或对象，小写字母表示属性或方法。
+
+FOO:{ isLoading, _data, render(), _switch() }   这表示一个FOO对象，isLoading、_data是它的属性，render()、_switch()是它的方法，加下划线表示私有。
+
+A -&amp;gt; B                                          这表示从A派生出了B，A是父类。
+
+A -&amp;gt; B:{ [a, b, c(), d()], e, f() }             []里面是父类的东西，e、f()是派生类的东西
+
+B:{ [ A ], e, f() }                             省略了对父类的描述，用类名A代替，其他同上
+
+B:{ [ A ], e, f(), @c() }                       省略了对父类的描述，函数前加@表示重载了父类的方法。
+
+B:{ [ A,D ], e, f() }                           多继承，B继承了A和D
+
+B&amp;lt;protocol&amp;gt;                                     符合某个protocol接口的对象。
+
+&amp;lt;protocol&amp;gt;:{foo(), bar}                         protocol这个接口中包含foo()这个方法，bar这个属性。
+
+foo(A, int)                                     foo这个函数，接收A类和int类型作为参数。
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>jump out of OOP -- Package</title>
+      <link>http://ytlvy.com/posts/2015-08-04/2015-08-04-jump-out-of-oop-package/</link>
+      <pubDate>Tue, 04 Aug 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-08-04/2015-08-04-jump-out-of-oop-package/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;http://casatwy.com/tiao-chu-mian-xiang-dui-xiang-si-xiang-san-feng-zhuang.html&#34;&gt;reference&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;跳出面向对象思想-三-封装&#34;&gt;跳出面向对象思想(三) 封装&lt;/h2&gt;
+
+&lt;h3 id=&#34;简述&#34;&gt;简述&lt;/h3&gt;
+
+&lt;p&gt;我认为&amp;rdquo;封装&amp;rdquo;的概念在面向对象思想中是最基础的概念，它实质上是通过将相关的一堆函数和一堆对象放在一起，对外有函数作为操作通道，对内则以变量作为操作原料。只留给外部程序员操作方式，而不暴露具体执行细节。大部分书举的典型例子就是汽车和灯泡的例子：你不需要知道不同车子的发动机原理，只要踩油门就可以跑；你不需要知道你的灯泡是那种灯泡，打开开关就会亮。我们都会很直觉地认为这种做法非常棒，是吧？&lt;/p&gt;
+
+&lt;p&gt;但是有的时候还是会觉得有哪些地方不对劲，使用面向对象语言的时候，我隐约觉得封装也许并没有我们直觉中认为的那么好，也就是说，面向对象其实并没有我们直觉中的那么好，虽然它已经流行了很多很多年。&lt;/p&gt;
+
+&lt;h3 id=&#34;1-将数据结构和函数放在一起是否真的合理&#34;&gt;1. 将数据结构和函数放在一起是否真的合理？&lt;/h3&gt;
+
+&lt;p&gt;函数就是做事情的，它们有输入，有执行逻辑，有输出。 数据结构就是用来表达数据的，要么作为输入，要么作为输出。&lt;/p&gt;
+
+&lt;p&gt;两者本质上是属于完全不同的东西，面向对象思想将他们放到一起，使得函数的作用被限制在某一个区域里，这样做虽然能够很好地将操作归类，但是这种归类方法是根据&amp;rdquo;作用领域&amp;rdquo;来归类的，在现实世界中可以，但在程序的世界中，有些不妥。&lt;/p&gt;
+
+&lt;p&gt;不妥的理由有如下几个：&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;在并行计算时，由于执行部分和数据部分被绑定在一起，这就使得这种方案制约了并行程度。在为了更好地实现并行的时候，业界的工程师们发现了一个新的思路：函数式编程。将函数作为数据来使用，这样就能保证执行的功能在时序上的正确性了。但你不觉得，只要把数据表达和执行部分分开，形成流水线，这不就能够非常方便地将并行数提高了么？&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;我来举个例子： 在数据和函数没有分开时，程序的执行流程是这样：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;A.function1() -&amp;gt; A.function2() -&amp;gt; A.function3()     最后得到经过处理的A
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>jump out of OOP -- Polymorphic</title>
+      <link>http://ytlvy.com/posts/2015-08-04/2015-08-04-jump-out-of-oop-polymorphic/</link>
+      <pubDate>Tue, 04 Aug 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-08-04/2015-08-04-jump-out-of-oop-polymorphic/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;http://casatwy.com/tiao-chu-mian-xiang-dui-xiang-si-xiang-er-duo-tai.html&#34;&gt;reference&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;跳出面向对象思想-二-多态&#34;&gt;跳出面向对象思想(二) 多态&lt;/h2&gt;
+
+&lt;h3 id=&#34;简述&#34;&gt;简述&lt;/h3&gt;
+
+&lt;p&gt;多态一般都要跟继承结合起来说，其本质是子类通过覆盖或重载（在下文里我会多次用到覆盖或重载，我打算把它简化成覆重，意思到就好，不要太纠结这种名词。）父类的方法，来使得对同一类对象同一方法的调用产生不同的结果。这里需要辨析的地方在：同一类对象指的是继承层级再上一层的对象，更加泛化。&lt;/p&gt;
+
+&lt;p&gt;举个例子：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;Animal -&amp;gt; Cat
+Animal -&amp;gt; Dog
+
+Animal.speak()  // I&#39;m an Animal
+Cat.speak()     // I&#39;m a Cat
+Dog.speak()     // I&#39;m a Dog
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;此处Cat和Dog虽然不是同一种对象，但它们算是同一类对象，因为他们的父类都是Animal。种和类的表达可能不是很对，其实我也不知道谁更大一点，在文章中我打算用这样的符号来表示两者区别：^和^^&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

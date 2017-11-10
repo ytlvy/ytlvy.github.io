@@ -1,0 +1,858 @@
+
+
+  
+
+
+  
+
+
+
+
+  
+
+
+  
+
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="Hugo 0.30.2 with theme Tranquilpeak 0.4.2-BETA">
+    <title>iOS Application Framework Think - Network</title>
+    <meta name="author" content="肖杰">
+    <meta name="keywords" content="">
+
+    <link rel="icon" href="http://ytlvy.com/favicon.png">
+    
+
+    
+    <meta name="description" content="reference
+
+IOS应用架构思考一（网络层）
+
+最近看到Casa Taloyum同学的关于IOS架构的文章，分享的概念和观点很值得一看，于是不禁心痒，也做些分享吧，我会从实际设计过程中需要思考的问题的角度着手来讲述，毕竟无论什么样的架构，什么样的设计都是要解决这些问题的。
+今天就先讲讲网络层的需要思考的问题吧。
+
+requestOperation的设计
+
+我们都知道在客户端发送请求是需要成本的，那么设计异步的请求就是首要的问题。我们知道Cocoa提供了非常丰富和易于使用的异步api, 有NSOperationQueue, dispatch queue, NSThread等。那么如何选择呢，答案毫无疑问的必须是NSOperation。 不信你去看ASIHTTPRequest和AFNetworking. 好像这个理由不够充分是吧，而且很多人就是使用了这些框架，而不清楚它们到底为何优秀，那我就列举下一些它们的优点吧
+
+首先举个反例吧：曾经有人问过我“为什么要用AFNetworking和ASI这样的框架呢，我直接dispatch到后台用类似dataWithURL:拉数据这样不是很简单？”。 那么这样的使用案例有2个很致命的缺陷：
+
+
+无法cancel这个请求
+占用了完整的一个线程
+
+
+">
+    <meta property="og:description" content="reference
+
+IOS应用架构思考一（网络层）
+
+最近看到Casa Taloyum同学的关于IOS架构的文章，分享的概念和观点很值得一看，于是不禁心痒，也做些分享吧，我会从实际设计过程中需要思考的问题的角度着手来讲述，毕竟无论什么样的架构，什么样的设计都是要解决这些问题的。
+今天就先讲讲网络层的需要思考的问题吧。
+
+requestOperation的设计
+
+我们都知道在客户端发送请求是需要成本的，那么设计异步的请求就是首要的问题。我们知道Cocoa提供了非常丰富和易于使用的异步api, 有NSOperationQueue, dispatch queue, NSThread等。那么如何选择呢，答案毫无疑问的必须是NSOperation。 不信你去看ASIHTTPRequest和AFNetworking. 好像这个理由不够充分是吧，而且很多人就是使用了这些框架，而不清楚它们到底为何优秀，那我就列举下一些它们的优点吧
+
+首先举个反例吧：曾经有人问过我“为什么要用AFNetworking和ASI这样的框架呢，我直接dispatch到后台用类似dataWithURL:拉数据这样不是很简单？”。 那么这样的使用案例有2个很致命的缺陷：
+
+
+无法cancel这个请求
+占用了完整的一个线程
+
+
+">
+    <meta property="og:type" content="blog">
+    <meta property="og:title" content="iOS Application Framework Think - Network">
+    <meta property="og:url" content="/posts/2015-08-05/2015-08-05-ios-application-framework-think-network/">
+    <meta property="og:site_name" content="My New Hugo Site">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="My New Hugo Site">
+    <meta name="twitter:description" content="reference
+
+IOS应用架构思考一（网络层）
+
+最近看到Casa Taloyum同学的关于IOS架构的文章，分享的概念和观点很值得一看，于是不禁心痒，也做些分享吧，我会从实际设计过程中需要思考的问题的角度着手来讲述，毕竟无论什么样的架构，什么样的设计都是要解决这些问题的。
+今天就先讲讲网络层的需要思考的问题吧。
+
+requestOperation的设计
+
+我们都知道在客户端发送请求是需要成本的，那么设计异步的请求就是首要的问题。我们知道Cocoa提供了非常丰富和易于使用的异步api, 有NSOperationQueue, dispatch queue, NSThread等。那么如何选择呢，答案毫无疑问的必须是NSOperation。 不信你去看ASIHTTPRequest和AFNetworking. 好像这个理由不够充分是吧，而且很多人就是使用了这些框架，而不清楚它们到底为何优秀，那我就列举下一些它们的优点吧
+
+首先举个反例吧：曾经有人问过我“为什么要用AFNetworking和ASI这样的框架呢，我直接dispatch到后台用类似dataWithURL:拉数据这样不是很简单？”。 那么这样的使用案例有2个很致命的缺陷：
+
+
+无法cancel这个请求
+占用了完整的一个线程
+
+
+">
+    
+    
+
+    
+    
+
+    
+      <meta property="og:image" content="//www.gravatar.com/avatar/8d5387e20303e26c6147cfe67990995e?s=640">
+    
+
+    
+    
+    
+
+    
+
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/jquery.fancybox.min.css" integrity="sha256-vuXZ9LGmmwtjqFX1F+EKin1ThZMub58gKULUyf0qECk=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/helpers/jquery.fancybox-thumbs.min.css" integrity="sha256-SEa4XYAHihTcEP1f5gARTB2K26Uk8PsndQYHQC1f4jU=" crossorigin="anonymous" />
+    
+    
+    <link rel="stylesheet" href="http://ytlvy.com/css/style-jsjn0006wyhpyzivf6yceb31gvpjatbcs3qzjvlumobfnugccvobqwxnnaj8.min.css" />
+    
+    
+
+    
+      
+    
+    
+  </head>
+
+  <body>
+    <div id="blog">
+      <header id="header" data-behavior="1">
+  <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+  <div class="header-title">
+    <a class="header-title-link" href="http://ytlvy.com/">My New Hugo Site</a>
+  </div>
+  
+    
+      <a class="header-right-picture "
+         href="http://ytlvy.com/#about">
+    
+    
+    
+      
+        <img class="header-picture" src="//www.gravatar.com/avatar/8d5387e20303e26c6147cfe67990995e?s=90" alt="" />
+      
+    
+    </a>
+  
+</header>
+
+      <nav id="sidebar" data-behavior="1">
+  <div class="sidebar-container">
+    
+      <div class="sidebar-profile">
+        <a href="http://ytlvy.com/#about">
+          <img class="sidebar-profile-picture" src="//www.gravatar.com/avatar/8d5387e20303e26c6147cfe67990995e?s=110" alt="" />
+        </a>
+        <h4 class="sidebar-profile-name">肖杰</h4>
+        
+          <h5 class="sidebar-profile-bio">一个瑜伽|篮球|羽毛球爱好者</h5>
+        
+      </div>
+    
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="http://ytlvy.com/">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-home"></i>
+      
+      <span class="sidebar-button-desc">Home</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="http://ytlvy.com/categories">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-bookmark"></i>
+      
+      <span class="sidebar-button-desc">Categories</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="http://ytlvy.com/tags">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+      
+      <span class="sidebar-button-desc">Tags</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="http://ytlvy.com/archives">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
+      
+      <span class="sidebar-button-desc">Archives</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="http://ytlvy.com/#about">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-question"></i>
+      
+      <span class="sidebar-button-desc">About</span>
+    </a>
+  </li>
+
+
+    </ul>
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://github.com/ytlvy" target="_blank" rel="noopener">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-github"></i>
+      
+      <span class="sidebar-button-desc">GitHub</span>
+    </a>
+  </li>
+
+
+    </ul>
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="http://ytlvy.com/index.xml">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-rss"></i>
+      
+      <span class="sidebar-button-desc">RSS</span>
+    </a>
+  </li>
+
+
+    </ul>
+  </div>
+</nav>
+
+      
+
+      <div id="main" data-behavior="1"
+        class="
+               hasCoverMetaIn
+               ">
+        <article class="post" itemscope itemType="http://schema.org/BlogPosting">
+          
+          
+            <div class="post-header main-content-wrap text-left">
+  
+    <h1 class="post-title" itemprop="headline">
+      iOS Application Framework Think - Network
+    </h1>
+  
+  
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2015-08-05T00:00:00Z">
+        
+   5, 2015
+
+      </time>
+    
+    
+  
+  
+    <span></span>
+    
+      <a class="category-link" href="http://ytlvy.com/categories/ios">IOS</a>
+    
+  
+
+  </div>
+
+</div>
+          
+          <div class="post-content markdown" itemprop="articleBody">
+            <div class="main-content-wrap">
+              <p><a href="http://blog.cnbluebox.com/blog/2015/05/07/architecture-ios-1/">reference</a></p>
+
+<h2 id="ios应用架构思考一-网络层">IOS应用架构思考一（网络层）</h2>
+
+<p>最近看到Casa Taloyum同学的关于IOS架构的文章，分享的概念和观点很值得一看，于是不禁心痒，也做些分享吧，我会从实际设计过程中需要思考的问题的角度着手来讲述，毕竟无论什么样的架构，什么样的设计都是要解决这些问题的。
+今天就先讲讲网络层的需要思考的问题吧。</p>
+
+<h3 id="requestoperation的设计">requestOperation的设计</h3>
+
+<p>我们都知道在客户端发送请求是需要成本的，那么设计异步的请求就是首要的问题。我们知道Cocoa提供了非常丰富和易于使用的异步api, 有<code>NSOperationQueue</code>, <code>dispatch queue</code>, <code>NSThread</code>等。那么如何选择呢，答案毫无疑问的必须是<code>NSOperation</code>。 不信你去看ASIHTTPRequest和AFNetworking. 好像这个理由不够充分是吧，而且很多人就是使用了这些框架，而不清楚它们到底为何优秀，那我就列举下一些它们的优点吧</p>
+
+<p>首先举个反例吧：曾经有人问过我“为什么要用AFNetworking和ASI这样的框架呢，我直接dispatch到后台用类似dataWithURL:拉数据这样不是很简单？”。 那么这样的使用案例有2个很致命的缺陷：</p>
+
+<ol>
+<li>无法cancel这个请求</li>
+<li>占用了完整的一个线程</li>
+</ol>
+
+<p></p>
+
+<h4 id="可以cancel">可以cancel</h4>
+
+<p>请求可以cancel的需求的重要性不用说了吧，别说你没用过。使用NSOperation可以让你方便的设计cancel一个请求的方法。</p>
+
+<h4 id="线程">线程</h4>
+
+<p>说道线程可能很多人对发送请求的时候线程有个很大的误解： 每个请求占用一个线程。其实不是的，无论同时并发多少个请求，AFNetworking和ASI都是只有一个线程在等待的。不信请看AFNetworking的实现：</p>
+
+<pre><code>+ (void)networkRequestThreadEntryPoint:(id __unused)object {
+    @autoreleasepool {
+        [[NSThread currentThread] setName:@&quot;AFNetworking&quot;];
+
+        NSRunLoop *runLoop = [NSRunLoop currentRunLoop];
+        [runLoop addPort:[NSMachPort port] forMode:NSDefaultRunLoopMode];
+        [runLoop run];
+    }
+}
+
++ (NSThread *)networkRequestThread {
+    static NSThread *_networkRequestThread = nil;
+    static dispatch_once_t oncePredicate;
+    dispatch_once(&amp;oncePredicate, ^{
+        _networkRequestThread = [[NSThread alloc] initWithTarget:self selector:@selector(networkRequestThreadEntryPoint:) object:nil];
+        [_networkRequestThread start];
+    });
+
+    return _networkRequestThread;
+}
+
+- (void)start {
+    [self.lock lock];
+    if ([self isReady]) {
+        self.state = AFOperationExecutingState;
+
+        [self performSelector:@selector(operationDidStart) onThread:[[self class] networkRequestThread] withObject:nil waitUntilDone:NO modes:[self.runLoopModes allObjects]];
+    }
+    [self.lock unlock];
+}
+</code></pre>
+
+<p>从上面的代码中我们可以看到，<code>AFNetworking</code>在等待请求时其实只有个一个Thread, 然后在这个Thread上启动一个runLoop监听 <code>NSURLConnection</code> 的 <code>NSMachPort</code> 类型源。 <code>start</code>里面直接就跳到这个线程去执行了， 在加入<code>NSOperationQueue</code>时，顶多<code>start</code>方法执行的时候占用一个线程，然后真正的发送请求和等待都是在这个<code>networkRequestThread</code>里面进行的。</p>
+
+<blockquote>
+<p>补充一下，上面的描述可能引起误会，已经有人问我这个疑问了。注意， 上面讲的networkRequestThread 并不是最终访问网络并拉取数据的线程。真正的下载数据是NSURLConnection统一调度的，networkRequestThread 只是启用了一个runLoop来监听NSURLConnection的回调事件。</p>
+</blockquote>
+
+<p>了解上面两点后我们再看前面的例子，就会发现问题有多致命了。</p>
+
+<blockquote>
+<p>如果同时并发了很多个请求，那就是实实在在的占用了n个线程了，而且请求不能cancel，对于这些被占用掉得大量资源就束手无策了。</p>
+</blockquote>
+
+<h4 id="并发数量限制">并发数量限制</h4>
+
+<p>如果用<code>NSOperationQueue</code>来说明，就是<code>maxConcurrentOperationCount</code>, 最大并发数量。
+可能有人指出了, 刚才不是讲请求都是在一个线程等待的吗，那并发数量岂不是没有太大意义？ NO, 并发数量还是有重要的意义的，它的主要意义就是<strong><em>控制连接数</em></strong>。&gt; 这里多谢 CasaTaloyum 同学的勘误，我原本不知道2G, 3G, 等网络协议的限制。</p>
+
+<p>2G网络下一次只能维持一个链接，3G是2个，4G和wifi是不限。这个是对应协议的限制。如果超过这个限制发出的请求，就会报超时。
+除掉这个连接数的影响外，还有次要的影响就是带宽，下载数据是要流量的，如果同时并发了太多请求，每个连接都占用带宽，可能导致每个请求的时间均会延长，就好像你在迅雷同时下载10个文件，那么下载速度都慢了。不过考虑到现在的网速，这个场景一般都比较极限，在做一些特殊场景优化的时候或许可以考虑到。</p>
+
+<p>当然<code>maxConcurrentOperationCount</code>也不能设置太小，太小了的话，如果个别的请求太慢，导致后面的任务就启动不起来了。
+并发数量的考虑应该从上面两个点出发，因此如果有人再扯到线程上去，只能说走远了。</p>
+
+<h4 id="pause-dependency">pause &amp; dependency</h4>
+
+<p>可暂停的，可添加依赖的，这些可能不常会用到，但是如果要设计网络层框架还是要考虑的，这也是要用<code>NSOperation</code>的原因之一。</p>
+
+<blockquote>
+<p>本节内容说出了开源框架在operation的设计上的一些优点，因此也推荐这部分直接使用AFNetworking之类的框架，因为优秀的开源组件总有其优点，他们考虑了很多你甚至都没有意识到的问题，以前有是遇到过一些同学质疑AFNetworking,质疑arc, 质疑SDWebImage, 质疑Masonry等，当然不是说没有缺点，但是这些东西当你真正深入了解学习后我觉得才能做出正确的选择。</p>
+</blockquote>
+
+<h3 id="安全性">安全性</h3>
+
+<p>很多IOS客户端开发者不注重安全性，当然也因为IOS系统已经做得很不错的原因，还有安全的主要工作是在后端，比如使用https啊，比如加签啊，那么前段的网络框架设计要注意哪些安全性的问题呢。</p>
+
+<h4 id="数据加密和防篡改">数据加密和防篡改</h4>
+
+<p>如无特殊情况，数据加密就推荐用https就够了，好处就不一一列举了，现在各大互联网公司（如BAT）都在做“全站https”. 而且现在免费的SSL证书也非常好申请，几乎不要什么成本了。</p>
+
+<p>要保证接口参数不被篡改，不会被第三方恶意攻击，就要对参数进行签名。记得以前在某国内知名电商，由于接口没有类似防护，一两个小时被人利用移动端的注册接口注册了80w+账号，惨不忍睹。 而且签名密钥（其实不是密钥，就是个干扰串）不要写死，要动态下发。</p>
+
+<h4 id="https中间人">https中间人</h4>
+
+<p>https是非常安全的协议，可以参考我以前的博客RSA加密数字证书里面。但是可能还是会存在中间人攻击的问题，那么就需要打ssl钢钉，AFNetworking中的<code>AFURLConnectionOperationSSLPinningMode</code>就是可以设置ssl钢钉的，原理就是把证书或者公钥 打包到bundle中，发送请求的时候会与请求过来的证书比较，因此避免中间人发放的伪造证书可能。</p>
+
+<h4 id="dns防劫持">DNS防劫持</h4>
+
+<p>进一步的安全策略就可以考虑到DNS防劫持，原理比较简单，可以本地维护一个路由表，然后本地实现 NSURLProtocol 对host进行ip映射。如果你还不太了解NSURLProtocol，可以参考<a href="http://nshipster.cn/nsurlprotocol/">NSURLProtocol</a>进行学习</p>
+
+<h3 id="组件设计">组件设计</h3>
+
+<p>无论你是用AFNetworking之类的开源组件还是自己封装的方式，一般我们都会封装下中间组件，一来可以降低业务代码和底层组件的耦合，二来方便拓展。那么设计这些组件的时候需要注意哪些呢？</p>
+
+<h4 id="回调方式">回调方式</h4>
+
+<p>这部分选择不少，主要是能统一和方便，可能会考虑下面2个问题 1、是选择block回调方式，还是delegate, 还是target-action, 可以根据自己的喜好来设置，也可以兼容多种。 2、success和fail分开回调还是同一个方法回调。</p>
+
+<h4 id="拦截器">拦截器</h4>
+
+<p>request的部分可能会有些场景需要请求前和请求后的拦截器的设计， 即AOP入口，在这样的拦截器接口中，我们就可以做一些事情如：</p>
+
+<ol>
+<li>session过期后自动登录</li>
+<li>需要登录的接口进入登录</li>
+</ol>
+
+<h4 id="统一cancel还是单独cancel">统一cancel还是单独cancel</h4>
+
+<p>在一个页面中发送请求的时候，无疑会碰到一个问题，那就是“页面退出时请求要取消”。
+我们最开始是如何做的呢，就像内存管理，谁启动，谁cancel, 即是单独cancel. 使用方式类似下面：</p>
+
+<pre><code>@interface AViewController: UIViewController {
+  HTTPRequest *_request;
+}
+@end
+@implementation AViewController
+- (void)dealloc {
+  [_request cancel];
+}
+- (void)sendRequest {
+  [_request cancel];
+  _request = [[HTTPRequest alloc] init];
+  [HttpClient sendRequest:_request];
+}
+@end
+</code></pre>
+
+<p>然后就觉得每个地方都要在dealloc里面写cancel，很麻烦，于是可能想要做个统一的cancel，类似封装个方法在父类里面调用：</p>
+
+<pre><code>@implementation BaseViewController
+- (void)dealloc {
+  [HttpClient cancelRequestForDelegate:self];
+}
+@end
+</code></pre>
+
+<p>这样的话好像就更方便了，代码量也少了一些，调用的类也不用去管cancel了， 但是这样真的好么，虽然可能让你暂时方便了，但是这样的设计还是不紧凑，其实这个请求是否应该被取消应该是调用者的逻辑，这样就相当于一部分的逻辑放在父类里面，是有点坑的，第一种写法虽然可能麻烦写，但是就像内存管理，谁创建，谁负责销毁，这样的代码可读性和维护性更高些。不然如果遇到特殊的逻辑，可能要去动父类或底层。</p>
+
+<blockquote>
+<p>说到这里就是建议上面代码中的request对象的封装就是Operation本身，这样其实就不需要再在viewController里面写很多isLoading, isLoaded的状态位了啊，NSOperation自带的。</p>
+</blockquote>
+
+<h3 id="缓存">缓存</h3>
+
+<p>说道网络请求，就不能不提网络缓存，数据缓存是提升用户体验不可缺少的重要一环。而对于缓存可以讲的太多了，比如图片缓存可以单独开篇文章来讲了，这里就讲一下关于普通接口数据的缓存。一般我们对于缓存的方式有两种做法，一种是客户端写缓存实现和缓存逻辑，一种是遵循HTTP协议的缓存。</p>
+
+<h4 id="自己实现缓存逻辑">自己实现缓存逻辑</h4>
+
+<p>一般需要这种缓存的逻辑无非是考虑下面的需求：</p>
+
+<blockquote>
+<p>1、接口返回的数据很少变动，不希望做重复请求 2、网络慢或者服务器等异常状况容灾。</p>
+</blockquote>
+
+<p>自己实现也比较灵活，你可以写个数据库来缓存、也可以直接序列化存文件。但是缺点也比较明显，那就是缓存时间不好定义。</p>
+
+<p>既然做了缓存，那么就会遇到这个问题，就是数据刷新了之后，缓存不更新怎么办。那么其实在你选择这种缓存实现之前就需要做权衡，是数据实时性重要，还是数据加载速度重要。想好这个问题才能确定是否要这样的缓存。</p>
+
+<h4 id="http缓存">HTTP缓存</h4>
+
+<p>这种缓存方案是比较推荐的方案，HTTP协议已经定义了好了一套缓存方案，为什么不用呢。 而且苹果已经帮我们实现好了缓存的代码，NSURLCache，数据缓存在本地sqlite里。不过就是要和服务端同学一块推进。</p>
+
+<p>可以缓存的接口，可以在返回的 responseHeaders 中添加 cache-control 和 Expires 来告诉前端是否可以缓存和缓存时间等。</p>
+
+<p>而客户端可以通过设置 cachePolicy 来决定是否使用缓存</p>
+
+<pre><code>typedef NS_ENUM(NSUInteger, NSURLRequestCachePolicy)
+{
+    NSURLRequestUseProtocolCachePolicy = 0,
+
+    NSURLRequestReloadIgnoringLocalCacheData = 1,
+    NSURLRequestReloadIgnoringLocalAndRemoteCacheData = 4, // Unimplemented
+    NSURLRequestReloadIgnoringCacheData = NSURLRequestReloadIgnoringLocalCacheData,
+
+    NSURLRequestReturnCacheDataElseLoad = 2,
+    NSURLRequestReturnCacheDataDontLoad = 3,
+
+    NSURLRequestReloadRevalidatingCacheData = 5, // Unimplemented
+};
+</code></pre>
+
+<blockquote>
+<p>考虑一种场景，你不能确定数据什么时候更新，可能随时刷新，也可能几天才更新，那么我们如何使用缓存呢。
+可以使用 <code>ETag/If-None-Match</code> 或者 <code>Last-Modified/If-Modified-Since</code>。</p>
+</blockquote>
+
+<p>两种方式原理差不多，就是在发送请求的 requestHeaders 中加入 <code>If-None-Match</code> 或者 <code>If-Modified-Since</code> 字段，和服务端数据进行比较是否有更新，有更新则返回body，没有的话就在responseHeaders中告知使用缓存。 两者中， ETag是比较hash， Last-Modified是比较最后更改时间。</p>
+
+<p>ASIHTTPRequest实现了这种模式，如下</p>
+
+<pre><code>if ([self cachePolicy] &amp; (ASIAskServerIfModifiedWhenStaleCachePolicy|ASIAskServerIfModifiedCachePolicy)) {
+
+  NSDictionary *cachedHeaders = [[self downloadCache] cachedResponseHeadersForURL:[self url]];
+  if (cachedHeaders) {
+      NSString *etag = [cachedHeaders objectForKey:@&quot;Etag&quot;];
+      if (etag) {
+          [[self requestHeaders] setObject:etag forKey:@&quot;If-None-Match&quot;];
+      }
+      NSString *lastModified = [cachedHeaders objectForKey:@&quot;Last-Modified&quot;];
+      if (lastModified) {
+          [[self requestHeaders] setObject:lastModified forKey:@&quot;If-Modified-Since&quot;];
+      }
+  }
+}
+</code></pre>
+
+<h3 id="服务器推">服务器推</h3>
+
+<p>对于很多需要精细化体验的app来说，HTTP协议的模式已经不能够满足需求了， 比如支付宝可以随时随地的推活动。那么就需要服务器推的技术了。</p>
+
+<h4 id="spdy-或-http-2">SPDY 或 HTTP/2</h4>
+
+<p>spdy 和 HTTP2 协议都定义了关于服务端推送的协议，还有一些其他的相对于http的优良特性. 一些大公司应该都做了对于spdy的支持，ios中可以使用twitter开源的CocoaSPDY。 不过Google刚刚宣布了不再支持SPDY，以后都走HTTP/2了。</p>
+
+<p>关于这些我还没有详细的学习，这里就不多讲了，以后多多学习。</p>
+
+<h4 id="长连接">长连接</h4>
+
+<p>一种比较灵活和强大的方法服务器推送的方案就是TCP长连接了，长连接可以让你做很多事情，唯一的难题就是要处理好心跳包。</p>
+
+<h3 id="其他">其他</h3>
+
+<h4 id="国际化">国际化</h4>
+
+<p>在做国际化的时候，需要向服务器提供用户的语言偏好，也就是需要设置 Accept-Language 字段，如下：</p>
+
+<pre><code>[request setValue:[NSString stringWithFormat:@&quot;%@&quot;, [[NSLocale preferredLanguages] componentsJoinedByString:@&quot;, &quot;]], forHTTPHeaderField:@&quot;Accept-Language&quot;];
+</code></pre>
+
+<p>即使你的服务器还不支持国际化，把这个属性放进去会让你在需要的时候用到，而不必更新客户端。<code>AFNetworking</code>已经实现了改逻辑。</p>
+              
+            </div>
+          </div>
+          <div id="post-footer" class="post-footer main-content-wrap">
+            
+              
+                
+                
+                  <div class="post-footer-tags">
+                    <span class="text-color-light text-small"></span><br/>
+                    
+  <a class="tag tag--primary tag--small" href="http://ytlvy.com/tags/framework/">Framework</a>
+
+                  </div>
+                
+              
+            
+            
+  <div class="post-actions-wrap">
+      <nav >
+        <ul class="post-actions post-action-nav">
+          
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="http://ytlvy.com/posts/2015-08-08/2015-08-08-swift-core-image-tutorial/" data-tooltip="swift Core Image Tutorial">
+              
+                  <i class="fa fa-angle-left"></i>
+                  <span class="hide-xs hide-sm text-small icon-ml"></span>
+                </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="http://ytlvy.com/posts/2015-08-05/2015-08-05-ios-best-practices/" data-tooltip="iOS Best Practices">
+              
+                  <span class="hide-xs hide-sm text-small icon-mr"></span>
+                  <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+          
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
+      
+        <li class="post-action hide-lg hide-md hide-sm">
+          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+            <i class="fa fa-share-alt"></i>
+          </a>
+        </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://ytlvy.com/posts/2015-08-05/2015-08-05-ios-application-framework-think-network/">
+              <i class="fa fa-facebook-official"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http://ytlvy.com/posts/2015-08-05/2015-08-05-ios-application-framework-think-network/">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=http://ytlvy.com/posts/2015-08-05/2015-08-05-ios-application-framework-think-network/">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        
+      
+      
+        <li class="post-action">
+          <a class="post-action-btn btn btn--default" href="#disqus_thread">
+            <i class="fa fa-comment-o"></i>
+          </a>
+        </li>
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#">
+        
+          <i class="fa fa-list"></i>
+        </a>
+      </li>
+    </ul>
+  </div>
+
+
+            
+              
+                <div id="disqus_thread">
+  <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+              
+            
+          </div>
+        </article>
+        <footer id="footer" class="main-content-wrap">
+  <span class="copyrights">
+    &copy; 2017 肖杰. 
+  </span>
+</footer>
+
+      </div>
+      <div id="bottom-bar" class="post-bottom-bar" data-behavior="1">
+        
+  <div class="post-actions-wrap">
+      <nav >
+        <ul class="post-actions post-action-nav">
+          
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="http://ytlvy.com/posts/2015-08-08/2015-08-08-swift-core-image-tutorial/" data-tooltip="swift Core Image Tutorial">
+              
+                  <i class="fa fa-angle-left"></i>
+                  <span class="hide-xs hide-sm text-small icon-ml"></span>
+                </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="http://ytlvy.com/posts/2015-08-05/2015-08-05-ios-best-practices/" data-tooltip="iOS Best Practices">
+              
+                  <span class="hide-xs hide-sm text-small icon-mr"></span>
+                  <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+          
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
+      
+        <li class="post-action hide-lg hide-md hide-sm">
+          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+            <i class="fa fa-share-alt"></i>
+          </a>
+        </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://ytlvy.com/posts/2015-08-05/2015-08-05-ios-application-framework-think-network/">
+              <i class="fa fa-facebook-official"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http://ytlvy.com/posts/2015-08-05/2015-08-05-ios-application-framework-think-network/">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=http://ytlvy.com/posts/2015-08-05/2015-08-05-ios-application-framework-think-network/">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        
+      
+      
+        <li class="post-action">
+          <a class="post-action-btn btn btn--default" href="#disqus_thread">
+            <i class="fa fa-comment-o"></i>
+          </a>
+        </li>
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#">
+        
+          <i class="fa fa-list"></i>
+        </a>
+      </li>
+    </ul>
+  </div>
+
+
+      </div>
+      <div id="share-options-bar" class="share-options-bar" data-behavior="1">
+  <i id="btn-close-shareoptions" class="fa fa-close"></i>
+  <ul class="share-options">
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Fytlvy.com%2Fposts%2F2015-08-05%2F2015-08-05-ios-application-framework-think-network%2F">
+          <i class="fa fa-facebook-official"></i><span>%!(EXTRA string=Facebook)</span>
+        </a>
+      </li>
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=http%3A%2F%2Fytlvy.com%2Fposts%2F2015-08-05%2F2015-08-05-ios-application-framework-think-network%2F">
+          <i class="fa fa-twitter"></i><span>%!(EXTRA string=Twitter)</span>
+        </a>
+      </li>
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=http%3A%2F%2Fytlvy.com%2Fposts%2F2015-08-05%2F2015-08-05-ios-application-framework-think-network%2F">
+          <i class="fa fa-google-plus"></i><span>%!(EXTRA string=Google&#43;)</span>
+        </a>
+      </li>
+    
+  </ul>
+</div>
+<div id="share-options-mask" class="share-options-mask"></div>
+    </div>
+    
+    <div id="about">
+  <div id="about-card">
+    <div id="about-btn-close">
+      <i class="fa fa-remove"></i>
+    </div>
+    
+      <img id="about-card-picture" src="//www.gravatar.com/avatar/8d5387e20303e26c6147cfe67990995e?s=110" alt="" />
+    
+    <h4 id="about-card-name">肖杰</h4>
+    
+      <div id="about-card-bio">一个瑜伽|篮球|羽毛球爱好者</div>
+    
+    
+      <div id="about-card-job">
+        <i class="fa fa-briefcase"></i>
+        <br/>
+        搬砖工
+      </div>
+    
+    
+      <div id="about-card-location">
+        <i class="fa fa-map-marker"></i>
+        <br/>
+        Beijing
+      </div>
+    
+  </div>
+</div>
+
+    <div id="algolia-search-modal" class="modal-container">
+  <div class="modal">
+    <div class="modal-header">
+      <span class="close-button"><i class="fa fa-close"></i></span>
+      <a href="https://algolia.com" target="_blank" rel="noopener" class="searchby-algolia text-color-light link-unstyled">
+        <span class="searchby-algolia-text text-color-light text-small">by</span>
+        <img class="searchby-algolia-logo" src="https://www.algolia.com/static_assets/images/press/downloads/algolia-light.svg">
+      </a>
+      <i class="search-icon fa fa-search"></i>
+      <form id="algolia-search-form">
+        <input type="text" id="algolia-search-input" name="search"
+          class="form-control input--large search-input" placeholder="" />
+      </form>
+    </div>
+    <div class="modal-body">
+      <div class="no-result text-color-light text-center"></div>
+      <div class="results">
+        
+        
+      </div>
+    </div>
+    <div class="modal-footer">
+      <p class="results-count text-medium"
+         data-message-zero=""
+         data-message-one=""
+         data-message-other="">
+         0 posts found
+      </p>
+    </div>
+  </div>
+</div>
+    
+  
+    
+    <div id="cover" style="background-image:url('http://ytlvy.com/images/cover.jpg');"></div>
+  
+
+
+    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js" integrity="sha256-/BfiIkHlHoVihZdc6TFuj7MmJ0TWcWsMXkeDFwhi0zw=" crossorigin="anonymous"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.7/js/jquery.fancybox.min.js" integrity="sha256-GEAnjcTqVP+vBp3SSc8bEDQqvWAZMiHyUSIorrWwH50=" crossorigin="anonymous"></script>
+
+
+<script src="http://ytlvy.com/js/script-qi9wbxp2ya2j6p7wx1i6tgavftewndznf4v0hy2gvivk1rxgc3lm7njqb6bz.min.js"></script>
+
+
+
+<script>
+$(document).ready(function() {
+  hljs.configure({ classPrefix: '', useBR: false });
+  $('pre.code-highlight > code, pre > code').each(function(i, block) {
+    if (!$(this).hasClass('codeblock')) {
+      $(this).addClass('codeblock');
+    }
+    hljs.highlightBlock(block);
+  });
+});
+</script>
+
+
+  
+    
+      <script>
+        var disqus_config = function () {
+          this.page.url = 'http:\/\/ytlvy.com\/posts\/2015-08-05\/2015-08-05-ios-application-framework-think-network\/';
+          
+            this.page.identifier = '\/posts\/2015-08-05\/2015-08-05-ios-application-framework-think-network\/'
+          
+        };
+        (function() {
+          
+          
+          if (window.location.hostname == "localhost") {
+            return;
+          }
+          var d = document, s = d.createElement('script');
+          var disqus_shortname = 'hugo-tranquilpeak-theme';
+          s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+
+          s.setAttribute('data-timestamp', +new Date());
+          (d.head || d.body).appendChild(s);
+        })();
+      </script>
+    
+  
+
+
+
+    
+  </body>
+</html>
+

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Linux on My New Hugo Site</title>
+    <link>http://ytlvy.com/categories/linux/</link>
+    <description>Recent content in Linux on My New Hugo Site</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Thu, 11 Jun 2015 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="http://ytlvy.com/categories/linux/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>wget</title>
+      <link>http://ytlvy.com/posts/2015-06-11/2015-06-11-wget/</link>
+      <pubDate>Thu, 11 Jun 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-06-11/2015-06-11-wget/</guid>
+      <description>&lt;h2 id=&#34;wget&#34;&gt;wget&lt;/h2&gt;
+
+&lt;h3 id=&#34;用wget做站点镜像&#34;&gt;用wget做站点镜像&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code&gt;wget --mirror -p --convert-links -P [本地目录] [网站地址]
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code&gt;wget -r -np -nd http://appinn.com
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code&gt;wget -r -p -np -k http://dsec.pku.edu.cn/~usr_name/
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code&gt;wget -m http://www.tldp.org/LDP/abs/html/
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Dispatch_source on My New Hugo Site</title>
+    <link>http://ytlvy.com/tags/dispatch_source/</link>
+    <description>Recent content in Dispatch_source on My New Hugo Site</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Tue, 30 Jun 2015 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="http://ytlvy.com/tags/dispatch_source/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Dispatch Sources</title>
+      <link>http://ytlvy.com/posts/2015-06-30/2015-06-30-dispatch-sources/</link>
+      <pubDate>Tue, 30 Jun 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-06-30/2015-06-30-dispatch-sources/</guid>
+      <description>&lt;h2 id=&#34;dispatch-sources&#34;&gt;Dispatch Sources&lt;/h2&gt;
+
+&lt;p&gt;简单来说，是一种能够监控某种事件的对象。当事件发生的时候，此对象自动唤醒设置好的block，并在指定的queue中运行。&lt;/p&gt;
+
+&lt;h3 id=&#34;events-type&#34;&gt;events Type&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Mach port send right state changes.&lt;/li&gt;
+&lt;li&gt;Mach port receive right state changes.&lt;/li&gt;
+&lt;li&gt;External process state change.&lt;/li&gt;
+&lt;li&gt;File descriptor ready for read.&lt;/li&gt;
+&lt;li&gt;File descriptor ready for write.&lt;/li&gt;
+&lt;li&gt;Filesystem node event.&lt;/li&gt;
+&lt;li&gt;POSIX signal.&lt;/li&gt;
+&lt;li&gt;Custom timer.&lt;/li&gt;
+&lt;li&gt;Custom event.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;custom-events&#34;&gt;Custom Events&lt;/h3&gt;
+
+&lt;p&gt;通过&lt;code&gt;dispatch_source_merge_data&lt;/code&gt;来发送消息，此方法取名&lt;code&gt;merge&lt;/code&gt;的原因是，在事件回调执行前，GCD会自动合并累计的消息，直到对应的运行Queue有空闲，可以运行回调Block。所以，这是一种提高效率的方式，将多次消息合并成一个。
+自定义事件分为：&lt;code&gt;DISPATCH_SOURCE_TYPE_DATA_ADD&lt;/code&gt; 和 &lt;code&gt;DISPATCH_SOURCE_TYPE_DATA_OR&lt;/code&gt;, 每个event Source有一个&lt;code&gt;unsigned long data&lt;/code&gt;属性，用来合并&lt;code&gt;dispatch_source_merge_data&lt;/code&gt;的参数。&lt;code&gt;dispatch_source_get_data&lt;/code&gt;可以获取到当前的&lt;code&gt;data&lt;/code&gt;数据。&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

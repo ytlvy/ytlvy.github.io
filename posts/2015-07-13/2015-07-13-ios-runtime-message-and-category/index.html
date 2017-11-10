@@ -1,0 +1,1059 @@
+
+
+  
+
+
+  
+
+
+
+
+  
+
+
+  
+
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="Hugo 0.30.2 with theme Tranquilpeak 0.4.2-BETA">
+    <title>iOS Runtime Message And Category</title>
+    <meta name="author" content="肖杰">
+    <meta name="keywords" content="">
+
+    <link rel="icon" href="http://ytlvy.com/favicon.png">
+    
+
+    
+    <meta name="description" content="习题内容
+
+下面的代码会？Compile Error / Runtime Crash / NSLog…?
+
+@interface NSObject (Sark)
+&#43; (void)foo;
+@end
+
+@implementation NSObject (Sark)
+
+- (void)foo
+{
+    NSLog(@&quot;IMP: -[NSObject(Sark) foo]&quot;);
+}
+
+@end
+
+int main(int argc, const char * argv[]) {
+    @autoreleasepool {
+        [NSObject foo];
+        [[NSObject new] foo];
+    }
+    return 0;
+}
+
+
+答案：代码正常输出，输出结果如下：
+
+2014-11-06 13:11:46.694 Test[14872:1110786] IMP: -[NSObject(Sark) foo]
+2014-11-06 13:11:46.695 Test[14872:1110786] IMP: -[NSObject(Sark) foo]
+">
+    <meta property="og:description" content="习题内容
+
+下面的代码会？Compile Error / Runtime Crash / NSLog…?
+
+@interface NSObject (Sark)
+&#43; (void)foo;
+@end
+
+@implementation NSObject (Sark)
+
+- (void)foo
+{
+    NSLog(@&quot;IMP: -[NSObject(Sark) foo]&quot;);
+}
+
+@end
+
+int main(int argc, const char * argv[]) {
+    @autoreleasepool {
+        [NSObject foo];
+        [[NSObject new] foo];
+    }
+    return 0;
+}
+
+
+答案：代码正常输出，输出结果如下：
+
+2014-11-06 13:11:46.694 Test[14872:1110786] IMP: -[NSObject(Sark) foo]
+2014-11-06 13:11:46.695 Test[14872:1110786] IMP: -[NSObject(Sark) foo]
+">
+    <meta property="og:type" content="blog">
+    <meta property="og:title" content="iOS Runtime Message And Category">
+    <meta property="og:url" content="/posts/2015-07-13/2015-07-13-ios-runtime-message-and-category/">
+    <meta property="og:site_name" content="My New Hugo Site">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="My New Hugo Site">
+    <meta name="twitter:description" content="习题内容
+
+下面的代码会？Compile Error / Runtime Crash / NSLog…?
+
+@interface NSObject (Sark)
+&#43; (void)foo;
+@end
+
+@implementation NSObject (Sark)
+
+- (void)foo
+{
+    NSLog(@&quot;IMP: -[NSObject(Sark) foo]&quot;);
+}
+
+@end
+
+int main(int argc, const char * argv[]) {
+    @autoreleasepool {
+        [NSObject foo];
+        [[NSObject new] foo];
+    }
+    return 0;
+}
+
+
+答案：代码正常输出，输出结果如下：
+
+2014-11-06 13:11:46.694 Test[14872:1110786] IMP: -[NSObject(Sark) foo]
+2014-11-06 13:11:46.695 Test[14872:1110786] IMP: -[NSObject(Sark) foo]
+">
+    
+    
+
+    
+    
+
+    
+      <meta property="og:image" content="//www.gravatar.com/avatar/8d5387e20303e26c6147cfe67990995e?s=640">
+    
+
+    
+    
+    
+
+    
+
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/jquery.fancybox.min.css" integrity="sha256-vuXZ9LGmmwtjqFX1F+EKin1ThZMub58gKULUyf0qECk=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/helpers/jquery.fancybox-thumbs.min.css" integrity="sha256-SEa4XYAHihTcEP1f5gARTB2K26Uk8PsndQYHQC1f4jU=" crossorigin="anonymous" />
+    
+    
+    <link rel="stylesheet" href="http://ytlvy.com/css/style-jsjn0006wyhpyzivf6yceb31gvpjatbcs3qzjvlumobfnugccvobqwxnnaj8.min.css" />
+    
+    
+
+    
+      
+    
+    
+  </head>
+
+  <body>
+    <div id="blog">
+      <header id="header" data-behavior="1">
+  <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+  <div class="header-title">
+    <a class="header-title-link" href="http://ytlvy.com/">My New Hugo Site</a>
+  </div>
+  
+    
+      <a class="header-right-picture "
+         href="http://ytlvy.com/#about">
+    
+    
+    
+      
+        <img class="header-picture" src="//www.gravatar.com/avatar/8d5387e20303e26c6147cfe67990995e?s=90" alt="" />
+      
+    
+    </a>
+  
+</header>
+
+      <nav id="sidebar" data-behavior="1">
+  <div class="sidebar-container">
+    
+      <div class="sidebar-profile">
+        <a href="http://ytlvy.com/#about">
+          <img class="sidebar-profile-picture" src="//www.gravatar.com/avatar/8d5387e20303e26c6147cfe67990995e?s=110" alt="" />
+        </a>
+        <h4 class="sidebar-profile-name">肖杰</h4>
+        
+          <h5 class="sidebar-profile-bio">一个瑜伽|篮球|羽毛球爱好者</h5>
+        
+      </div>
+    
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="http://ytlvy.com/">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-home"></i>
+      
+      <span class="sidebar-button-desc">Home</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="http://ytlvy.com/categories">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-bookmark"></i>
+      
+      <span class="sidebar-button-desc">Categories</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="http://ytlvy.com/tags">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+      
+      <span class="sidebar-button-desc">Tags</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="http://ytlvy.com/archives">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
+      
+      <span class="sidebar-button-desc">Archives</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="http://ytlvy.com/#about">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-question"></i>
+      
+      <span class="sidebar-button-desc">About</span>
+    </a>
+  </li>
+
+
+    </ul>
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://github.com/ytlvy" target="_blank" rel="noopener">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-github"></i>
+      
+      <span class="sidebar-button-desc">GitHub</span>
+    </a>
+  </li>
+
+
+    </ul>
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="http://ytlvy.com/index.xml">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-rss"></i>
+      
+      <span class="sidebar-button-desc">RSS</span>
+    </a>
+  </li>
+
+
+    </ul>
+  </div>
+</nav>
+
+      
+
+      <div id="main" data-behavior="1"
+        class="
+               hasCoverMetaIn
+               ">
+        <article class="post" itemscope itemType="http://schema.org/BlogPosting">
+          
+          
+            <div class="post-header main-content-wrap text-left">
+  
+    <h1 class="post-title" itemprop="headline">
+      iOS Runtime Message And Category
+    </h1>
+  
+  
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2015-07-13T00:00:00Z">
+        
+   13, 2015
+
+      </time>
+    
+    
+  
+  
+    <span></span>
+    
+      <a class="category-link" href="http://ytlvy.com/categories/ios">IOS</a>
+    
+  
+
+  </div>
+
+</div>
+          
+          <div class="post-content markdown" itemprop="articleBody">
+            <div class="main-content-wrap">
+              <h3 id="习题内容">习题内容</h3>
+
+<p>下面的代码会？Compile Error / Runtime Crash / NSLog…?</p>
+
+<pre><code>@interface NSObject (Sark)
++ (void)foo;
+@end
+
+@implementation NSObject (Sark)
+
+- (void)foo
+{
+    NSLog(@&quot;IMP: -[NSObject(Sark) foo]&quot;);
+}
+
+@end
+
+int main(int argc, const char * argv[]) {
+    @autoreleasepool {
+        [NSObject foo];
+        [[NSObject new] foo];
+    }
+    return 0;
+}
+</code></pre>
+
+<p>答案：代码正常输出，输出结果如下：</p>
+
+<pre><code>2014-11-06 13:11:46.694 Test[14872:1110786] IMP: -[NSObject(Sark) foo]
+2014-11-06 13:11:46.695 Test[14872:1110786] IMP: -[NSObject(Sark) foo]
+</code></pre>
+
+<p>
+使用<code>clang -rewrite-objc main.m</code>重写，我们可以发现 main 函数中两个方法调用被转换成如下代码：</p>
+
+<pre><code>((void (*)(id, SEL))(void *)objc_msgSend)((id)objc_getClass(&quot;NSObject&quot;), sel_registerName(&quot;foo&quot;));
+ ((void (*)(id, SEL))(void *)objc_msgSend)((id)((NSObject *(*)(id, SEL))(void *)objc_msgSend)((id)objc_getClass(&quot;NSObject&quot;), sel_registerName(&quot;new&quot;)), sel_registerName(&quot;foo&quot;));
+</code></pre>
+
+<p>我们发现上述两个方法最终转换成使用 <code>objc_msgSend</code> 函数传递消息</p>
+
+<h3 id="这里先看几个概念">这里先看几个概念</h3>
+
+<p><code>objc_msgSend</code>函数定义如下:</p>
+
+<pre><code>id objc_msgSend(id self, SEL op, ...)
+</code></pre>
+
+<p>关于 id 的解释请看objc runtime系列第二篇博文： objc runtime中Object &amp; Class &amp; Meta Class的细节</p>
+
+<h3 id="什么是-sel">什么是 SEL</h3>
+
+<p>打开objc.h文件，看下SEL的定义如下:</p>
+
+<pre><code>typedef struct objc_selector *SEL;
+</code></pre>
+
+<p>SEL是一个指向<code>objc_selector</code>结构体的指针。而 <code>objc_selector</code> 的定义并没有在runtime.h中给出定义。我们可以尝试运行如下代码:</p>
+
+<pre><code>SEL sel = @selector(foo);
+NSLog(@&quot;%s&quot;, (char *)sel);
+NSLog(@&quot;%p&quot;, sel);
+
+const char *selName = [@&quot;foo&quot; UTF8String];
+SEL sel2 = sel_registerName(selName);
+NSLog(@&quot;%s&quot;, (char *)sel2);
+NSLog(@&quot;%p&quot;, sel2);
+</code></pre>
+
+<p>输出如下:</p>
+
+<pre><code>2014-11-06 13:46:08.058 Test[15053:1132268] foo
+2014-11-06 13:46:08.058 Test[15053:1132268] 0x7fff8fde5114
+2014-11-06 13:46:08.058 Test[15053:1132268] foo
+2014-11-06 13:46:08.058 Test[15053:1132268] 0x7fff8fde5114
+</code></pre>
+
+<p>Objective-C在编译时，会根据方法的名字生成一个用来区分这个方法的唯一的一个ID。只要方法名称相同，<strong><em>那么它们的ID就是相同的</em></strong>。</p>
+
+<p>两个类之间，不管它们是父类与子类的关系，还是之间没有这种关系，只要方法名相同，那么它的SEL就是一样的。每一个方法都对应着一个SEL。编译器会根据每个方法的方法名为那个方法生成唯一的SEL。这些SEL组成了一个Set集合，当我们在这个集合中查找某个方法时，只需要去找这个方法对应的SEL即可。而SEL本质是一个字符串，所以直接比较它们的地址即可。</p>
+
+<p>当然，不同的类可以拥有相同的selector。不同类的实例对象执行相同的selector时，会在各自的方法列表中去根据selector去寻找自己对应的IMP。</p>
+
+<h3 id="那么什么是imp呢">那么什么是IMP呢</h3>
+
+<p>继续看定义:</p>
+
+<pre><code>typedef id (*IMP)(id, SEL, ...); 
+</code></pre>
+
+<p>IMP本质就是一个函数指针，这个被指向的函数包含一个接收消息的对象id，调用方法的SEL，以及一些方法参数，并返回一个id。</p>
+
+<p>因此我们可以<strong><em>通过SEL获得它所对应的IMP，在取得了函数指针之后，也就意味着我们取得了需要执行方法的代码入口，这样我们就可以像普通的C语言函数调用一样使用这个函数指针。</em></strong></p>
+
+<h3 id="那么-objc-msgsend-到底是怎么工作的呢">那么 objc_msgSend 到底是怎么工作的呢</h3>
+
+<p>在Objective-C中，消息直到运行时才会绑定到方法的实现上。编译器会把代码中[target doSth]转换成 objc_msgSend消息函数，这个函数完成了动态绑定的所有事情。它的运行流程如下:</p>
+
+<ol>
+<li>检查selector是否需要忽略。(ps: Mac开发中开启GC就会忽略retain,release方法。)</li>
+<li>检查target是否为nil。如果为nil，直接cleanup，然后return。(这就是我们可以向nil发送消息的原因。)</li>
+<li>然后在target的Class中根据Selector去找IMP</li>
+</ol>
+
+<p>寻找IMP的过程:</p>
+
+<ol>
+<li>先从当前class的cache方法列表（cache methodLists）里去找</li>
+<li>找到了，跳到对应函数实现</li>
+<li>没找到，就从class的方法列表（methodLists）里找</li>
+<li>还找不到，就到super class的方法列表里找，直到找到基类(NSObject)为止</li>
+<li>最后再找不到，就会进入动态方法解析和消息转发的机制。(这部分知识，下次再细谈)</li>
+</ol>
+
+<h3 id="那么什么是方法列表呢">那么什么是方法列表呢</h3>
+
+<p>objc_class结构体定义，如下</p>
+
+<pre><code>struct objc_class {
+    Class isa  OBJC_ISA_AVAILABILITY;
+    #if !__OBJC2__
+    Class super_class                                        OBJC2_UNAVAILABLE;
+    const char *name                                         OBJC2_UNAVAILABLE;
+    long version                                             OBJC2_UNAVAILABLE;
+    long info                                                OBJC2_UNAVAILABLE;
+    long instance_size                                       OBJC2_UNAVAILABLE;
+    struct objc_ivar_list *ivars                             OBJC2_UNAVAILABLE;
+    struct objc_method_list **methodLists                    OBJC2_UNAVAILABLE;
+    struct objc_cache *cache                                 OBJC2_UNAVAILABLE;
+    struct objc_protocol_list *protocols                     OBJC2_UNAVAILABLE;
+    #endif
+} OBJC2_UNAVAILABLE;
+
+struct objc_method_list {
+    struct objc_method_list *obsolete                        OBJC2_UNAVAILABLE;
+
+    int method_count                                         OBJC2_UNAVAILABLE;
+#ifdef __LP64__
+    int space                                                OBJC2_UNAVAILABLE;
+#endif
+    /* variable length structure */
+    struct objc_method method_list[1]                        OBJC2_UNAVAILABLE;
+}
+</code></pre>
+
+<p>1) objc_method_list 就是用来存储当前类的方法链表，objc_method存储了类的某个方法的信息。</p>
+
+<p>Method</p>
+
+<pre><code>typedef struct objc_method *Method;
+</code></pre>
+
+<p>Method 是用来代表类中某个方法的类型，它实际就指向objc_method结构体，如下:</p>
+
+<pre><code>struct objc_method {
+    SEL method_name                                          OBJC2_UNAVAILABLE;
+    char *method_types                                       OBJC2_UNAVAILABLE;
+    IMP method_imp                                           OBJC2_UNAVAILABLE;
+}                                                            OBJC2_UNAVAILABLE;
+</code></pre>
+
+<ul>
+<li><code>method_types</code>是个char指针，存储着方法的参数类型和返回值类型。</li>
+<li>SEL 和 IMP 就是我们上文提到的，所以我们可以理解为objc_class中 method list保存了一组SEL&lt;-&gt;IMP的映射</li>
+</ul>
+
+<p>2) objc_cache 用来缓存用过的方法，提高性能。
+Cache</p>
+
+<pre><code>typedef struct objc_cache *Cache                             OBJC2_UNAVAILABLE;
+</code></pre>
+
+<p>实际指向<code>objc_cache</code>结构体，如下:</p>
+
+<pre><code>struct objc_cache {
+    unsigned int mask /* total = mask + 1 */                 OBJC2_UNAVAILABLE;
+    unsigned int occupied                                    OBJC2_UNAVAILABLE;
+    Method buckets[1]                                        OBJC2_UNAVAILABLE;
+};
+</code></pre>
+
+<ul>
+<li>mask: 指定分配cache buckets的总数。在方法查找中，Runtime使用这个字段确定数组的索引位置</li>
+<li>occupied: 实际占用cache buckets的总数</li>
+<li>buckets: 指定Method数据结构指针的数组。这个数组可能包含不超过mask+1个元素。需要注意的是，指针可能是NULL，表示这个缓存bucket没有被占用，另外被占用的bucket可能是不连续的。这个数组可能会随着时间而增长。</li>
+</ul>
+
+<p><code>objc_msgSend</code>每调用一次方法后，就会把该方法缓存到cache列表中，下次的时候，就直接优先从cache列表中寻找，如果cache没有，才从methodLists中查找方法。</p>
+
+<h3 id="说完了-objc-msgsend-那么题目中的category又是怎么工作的呢">说完了 objc_msgSend， 那么题目中的Category又是怎么工作的呢?</h3>
+
+<p>我们知道<code>Catagory</code>可以动态地为已经存在的类添加新的方法。这样可以保证类的原始设计规模较小，功能增加时再逐步扩展。在runtime.h中查看定义:</p>
+
+<pre><code>typedef struct objc_category *Category;
+</code></pre>
+
+<p>同样也是指向一个 <code>objc_category</code> 的C 结构体，定义如下:</p>
+
+<pre><code>struct objc_category {
+    char *category_name                                      OBJC2_UNAVAILABLE;
+    char *class_name                                         OBJC2_UNAVAILABLE;
+    struct objc_method_list *instance_methods                OBJC2_UNAVAILABLE;
+    struct objc_method_list *class_methods                   OBJC2_UNAVAILABLE;
+    struct objc_protocol_list *protocols                     OBJC2_UNAVAILABLE;
+}                                                            OBJC2_UNAVAILABLE;
+</code></pre>
+
+<p>通过上面的结构体，大家可以很清楚的看出存储的内容。我们继续往下看，打开objc源代码，在 objc-runtime-new.h中我们可以发现如下定义:</p>
+
+<pre><code>struct category_t {
+    const char *name;
+    classref_t cls;
+    struct method_list_t *instanceMethods;
+    struct method_list_t *classMethods;
+    struct protocol_list_t *protocols;
+    struct property_list_t *instanceProperties;
+};
+</code></pre>
+
+<p>上面的定义需要提到的地方有三点:</p>
+
+<ul>
+<li>name 是指 class_name 而不是 category_name</li>
+<li>cls是要扩展的类对象，编译期间是不会定义的，而是在Runtime阶段通过name对应到对应的类对象</li>
+<li>instanceProperties表示Category里所有的properties，这就是我们可以通过objc_setAssociatedObject和objc_getAssociatedObject增加实例变量的原因，不过这个和一般的实例变量是不一样的</li>
+</ul>
+
+<p>为了验证上述内容，我们使用clang -rewrite-objc main.m重写，题目中的Category被编译器转换成了这样:</p>
+
+<pre><code>// @interface NSObject (Sark)
+// + (void)foo;
+/* @end */
+
+
+// @implementation NSObject (Sark)
+
+
+static void _I_NSObject_Sark_foo(NSObject * self, SEL _cmd) {
+    NSLog((NSString *)&amp;__NSConstantStringImpl__var_folders_gm_0jk35cwn1d3326x0061qym280000gn_T_main_dd1ee3_mi_0);
+}
+
+// @end
+
+
+static struct _category_t _OBJC_$_CATEGORY_NSObject_$_Sark __attribute__ ((used, section (&quot;__DATA,__objc_const&quot;))) = 
+{
+    &quot;NSObject&quot;,
+    0, // &amp;OBJC_CLASS_$_NSObject,
+    (const struct _method_list_t *)&amp;_OBJC_$_CATEGORY_INSTANCE_METHODS_NSObject_$_Sark,
+    0,
+    0,
+    0,
+};
+
+static struct _category_t *L_OBJC_LABEL_CATEGORY_$ [1] __attribute__((used, section (&quot;__DATA, __objc_catlist,regular,no_dead_strip&quot;)))= {
+    &amp;_OBJC_$_CATEGORY_NSObject_$_Sark,
+};
+</code></pre>
+
+<ul>
+<li><em>OBJC</em>$_CATEGORY<em>NSObject</em>$_Sark是按规则生成的字符串，我们可以清楚的看到是NSObject类,且Sark是NSObject类的Category</li>
+<li>_category_t结构体第二项 classref_t 没有数据，验证了我们上面的说法</li>
+<li>由于题目中只有 - (void)foo方法，所以结构体中存储的list只有第三项instanceMethods被填充。</li>
+<li>_I_NSObject_Sark_foo代表了Category的foo方法，I表示实例方法</li>
+<li>最后这个类的Category生成了一个数组，存在了__objc_catlist里，目前数组的内容只有一个&amp;<em>OBJC</em>$_CATEGORY<em>NSObject</em>$_Sark</li>
+</ul>
+
+<h3 id="最终这些category里面的方法是如何被加载的呢">最终这些Category里面的方法是如何被加载的呢?</h3>
+
+<ol>
+<li><p>打开objc源代码，找到 objc-os.mm, 函数<code>_objc_init</code>为runtime的加载入口，由libSystem调用，进行初始化操作。</p></li>
+
+<li><p>之后调用<code>objc-runtime-new.mm</code> -&gt; <code>map_images</code>加载<code>map</code>到内存</p></li>
+
+<li><p>之后调用objc-runtime-new.mm-&gt;_<code>read_images</code>初始化内存中的map, 这个时候将会load所有的类，协议还有Category。NSOBject的<code>+load</code>方法就是这个时候调用的</p></li>
+</ol>
+
+<pre><code>// Discover categories. 
+for (EACH_HEADER) {
+    category_t **catlist = 
+        _getObjc2CategoryList(hi, &amp;count);
+    for (i = 0; i &lt; count; i++) {
+        category_t *cat = catlist[i];
+        Class cls = remapClass(cat-&gt;cls);
+
+        if (!cls) {
+            // Category's target class is missing (probably weak-linked).
+            // Disavow any knowledge of this category.
+            catlist[i] = nil;
+            if (PrintConnecting) {
+                _objc_inform(&quot;CLASS: IGNORING category \?\?\?(%s) %p with &quot;
+                             &quot;missing weak-linked target class&quot;, 
+                             cat-&gt;name, cat);
+            }
+            continue;
+        }
+
+        // Process this category. 
+        // First, register the category with its target class. 
+        // Then, rebuild the class's method lists (etc) if 
+        // the class is realized. 
+        BOOL classExists = NO;
+        if (cat-&gt;instanceMethods ||  cat-&gt;protocols  
+            ||  cat-&gt;instanceProperties) 
+        {
+            addUnattachedCategoryForClass(cat, cls, hi);
+            if (cls-&gt;isRealized()) {
+                remethodizeClass(cls);
+                classExists = YES;
+            }
+            if (PrintConnecting) {
+                _objc_inform(&quot;CLASS: found category -%s(%s) %s&quot;, 
+                             cls-&gt;nameForLogging(), cat-&gt;name, 
+                             classExists ? &quot;on existing class&quot; : &quot;&quot;);
+            }
+        }
+
+        if (cat-&gt;classMethods  ||  cat-&gt;protocols  
+            /* ||  cat-&gt;classProperties */) 
+        {
+            addUnattachedCategoryForClass(cat, cls-&gt;ISA(), hi);
+            if (cls-&gt;ISA()-&gt;isRealized()) {
+                remethodizeClass(cls-&gt;ISA());
+            }
+            if (PrintConnecting) {
+                _objc_inform(&quot;CLASS: found category +%s(%s)&quot;, 
+                             cls-&gt;nameForLogging(), cat-&gt;name);
+            }
+        }
+    }
+}
+</code></pre>
+
+<p>1) 循环调用了 _getObjc2CategoryList方法，这个方法的实现是:</p>
+
+<pre><code>GETSECT(_getObjc2CategoryList,        category_t *,    &quot;__objc_catlist&quot;);
+</code></pre>
+
+<p>方法中最后一个参数<code>__objc_catlist</code>就是编译器刚刚生成的category数组</p>
+
+<p>2) load完所有的categories之后，开始对Category进行处理。
+&gt; 从上面的代码中我们可以发现：实例方法被加入到了当前的类对象中, 类方法被加入到了当前类的Meta Class中 (cls-&gt;ISA)</p>
+
+<p>Step 1. 调用<code>addUnattachedCategoryForClass</code>方法</p>
+
+<p>Step 2. 调用<code>remethodizeClass</code>方法, 在<code>remethodizeClass</code>的实现里调用<code>attachCategoryMethods</code></p>
+
+<pre><code>static void 
+attachCategoryMethods(Class cls, category_list *cats, bool flushCaches)
+{
+    if (!cats) return;
+    if (PrintReplacedMethods) printReplacements(cls, cats);
+
+    bool isMeta = cls-&gt;isMetaClass();
+    method_list_t **mlists = (method_list_t **)
+        _malloc_internal(cats-&gt;count * sizeof(*mlists));
+
+    // Count backwards through cats to get newest categories first
+    int mcount = 0;
+    int i = cats-&gt;count;
+    BOOL fromBundle = NO;
+    while (i--) {
+        method_list_t *mlist = cat_method_list(cats-&gt;list[i].cat, isMeta);
+        if (mlist) {
+            mlists[mcount++] = mlist;
+            fromBundle |= cats-&gt;list[i].fromBundle;
+        }
+    }
+
+    attachMethodLists(cls, mlists, mcount, NO, fromBundle, flushCaches);
+
+    _free_internal(mlists);
+}
+</code></pre>
+
+<p>这里把一个类的<code>category_lis</code>t的所有方法取出来生成了<code>method list</code>。这里是倒序添加的，也就是说，新生成的category的方法会先于旧的category的方法插入。</p>
+
+<p>之后调用<code>attachMethodLists</code>将所有方法前序添加进类的<code>method list</code>中，如果原来类的方法列表是a，b，Category的方法列表是c，d。那么插入之后的方法列表将会是c，d，a，b。</p>
+
+<h3 id="小发现">小发现</h3>
+
+<ul>
+<li><p>看上面被编译器转换的代码，我们发现Category头文件被注释掉了，结合上面category的加载过程。这就是我们即使没有import category的头文件，都能够成功调用到Category方法的原因。</p></li>
+
+<li><p>runtime加载完成后，Category的原始信息在类结构中将不会存在。</p></li>
+</ul>
+
+<h3 id="解惑">解惑</h3>
+
+<p>根据上面提到的知识，我们对题目中的代码进行分析。</p>
+
+<p>1) objc runtime加载完后，NSObject的<code>Sark Category</code>被加载。而NSObject的<code>Sark Category</code>的头文件<code>+ (void)foo</code> 并没有实质参与到工作中，只是给编译器进行静态检查，所有我们编译上述代码会出现警告，提示我们没有实现 <code>+ (void)foo</code> 方法。而在代码编译中，它已经被注释掉了。</p>
+
+<p>2) 实际被加入到Class的method list的方法是 <code>- (void)foo</code>，它是一个实例方法，所以加入到当前类对象NSObject的方法列表中，而不是NSObject <code>Meta class</code>的方法列表中。</p>
+
+<p>3) 当执行 <code>[NSObject foo]</code>时，我们看下整个objc_msgSend的过程:</p>
+
+<pre><code>结合上一篇Meta Class的知识：
+
+1. objc_msgSend 第一个参数是  “(id)objc_getClass(&quot;NSObject&quot;)”，获得NSObject Class的对象
+2. 类方法在Meta Class的方法列表中找，我们在load Category方法时加入的是- (void)foo实例方法，所以
+并不在NSOBject Meta Class的方法列表中
+3. 继续往 super class中找，在上一篇博客中我们知道，NSObject Meta Class的super class是
+NSObject本身。所以，这个时候我们能够找到- (void)foo 这个方法。
+4. 所以正常输出结果
+</code></pre>
+
+<p>4) 当执行<code>[[NSObject new] foo]</code>，我们看下整个<code>objc_msgSend</code>的过程:</p>
+
+<pre><code>1. [NSObject new]生成一个NSObject对象
+2. 直接在该对象的类（NSObject）的方法列表里找
+3. 能够找到，所以正常输出结果
+</code></pre>
+              
+            </div>
+          </div>
+          <div id="post-footer" class="post-footer main-content-wrap">
+            
+              
+                
+                
+                  <div class="post-footer-tags">
+                    <span class="text-color-light text-small"></span><br/>
+                    
+  <a class="tag tag--primary tag--small" href="http://ytlvy.com/tags/ios/">IOS</a>
+
+  <a class="tag tag--primary tag--small" href="http://ytlvy.com/tags/category/">Category</a>
+
+                  </div>
+                
+              
+            
+            
+  <div class="post-actions-wrap">
+      <nav >
+        <ul class="post-actions post-action-nav">
+          
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="http://ytlvy.com/posts/2015-07-13/2015-07-13-ios-event-delivery-the-responder-chain/" data-tooltip="iOS Event Delivery/ The Responder Chain">
+              
+                  <i class="fa fa-angle-left"></i>
+                  <span class="hide-xs hide-sm text-small icon-ml"></span>
+                </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="http://ytlvy.com/posts/2015-07-13/2015-07-13-ios-runtime-object-class-meta-class/" data-tooltip="iOS Runtime Object &amp; Class &amp; Meta Class">
+              
+                  <span class="hide-xs hide-sm text-small icon-mr"></span>
+                  <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+          
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
+      
+        <li class="post-action hide-lg hide-md hide-sm">
+          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+            <i class="fa fa-share-alt"></i>
+          </a>
+        </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://ytlvy.com/posts/2015-07-13/2015-07-13-ios-runtime-message-and-category/">
+              <i class="fa fa-facebook-official"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http://ytlvy.com/posts/2015-07-13/2015-07-13-ios-runtime-message-and-category/">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=http://ytlvy.com/posts/2015-07-13/2015-07-13-ios-runtime-message-and-category/">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        
+      
+      
+        <li class="post-action">
+          <a class="post-action-btn btn btn--default" href="#disqus_thread">
+            <i class="fa fa-comment-o"></i>
+          </a>
+        </li>
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#">
+        
+          <i class="fa fa-list"></i>
+        </a>
+      </li>
+    </ul>
+  </div>
+
+
+            
+              
+                <div id="disqus_thread">
+  <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+              
+            
+          </div>
+        </article>
+        <footer id="footer" class="main-content-wrap">
+  <span class="copyrights">
+    &copy; 2017 肖杰. 
+  </span>
+</footer>
+
+      </div>
+      <div id="bottom-bar" class="post-bottom-bar" data-behavior="1">
+        
+  <div class="post-actions-wrap">
+      <nav >
+        <ul class="post-actions post-action-nav">
+          
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="http://ytlvy.com/posts/2015-07-13/2015-07-13-ios-event-delivery-the-responder-chain/" data-tooltip="iOS Event Delivery/ The Responder Chain">
+              
+                  <i class="fa fa-angle-left"></i>
+                  <span class="hide-xs hide-sm text-small icon-ml"></span>
+                </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="http://ytlvy.com/posts/2015-07-13/2015-07-13-ios-runtime-object-class-meta-class/" data-tooltip="iOS Runtime Object &amp; Class &amp; Meta Class">
+              
+                  <span class="hide-xs hide-sm text-small icon-mr"></span>
+                  <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+          
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
+      
+        <li class="post-action hide-lg hide-md hide-sm">
+          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+            <i class="fa fa-share-alt"></i>
+          </a>
+        </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://ytlvy.com/posts/2015-07-13/2015-07-13-ios-runtime-message-and-category/">
+              <i class="fa fa-facebook-official"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http://ytlvy.com/posts/2015-07-13/2015-07-13-ios-runtime-message-and-category/">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=http://ytlvy.com/posts/2015-07-13/2015-07-13-ios-runtime-message-and-category/">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        
+      
+      
+        <li class="post-action">
+          <a class="post-action-btn btn btn--default" href="#disqus_thread">
+            <i class="fa fa-comment-o"></i>
+          </a>
+        </li>
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#">
+        
+          <i class="fa fa-list"></i>
+        </a>
+      </li>
+    </ul>
+  </div>
+
+
+      </div>
+      <div id="share-options-bar" class="share-options-bar" data-behavior="1">
+  <i id="btn-close-shareoptions" class="fa fa-close"></i>
+  <ul class="share-options">
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Fytlvy.com%2Fposts%2F2015-07-13%2F2015-07-13-ios-runtime-message-and-category%2F">
+          <i class="fa fa-facebook-official"></i><span>%!(EXTRA string=Facebook)</span>
+        </a>
+      </li>
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=http%3A%2F%2Fytlvy.com%2Fposts%2F2015-07-13%2F2015-07-13-ios-runtime-message-and-category%2F">
+          <i class="fa fa-twitter"></i><span>%!(EXTRA string=Twitter)</span>
+        </a>
+      </li>
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=http%3A%2F%2Fytlvy.com%2Fposts%2F2015-07-13%2F2015-07-13-ios-runtime-message-and-category%2F">
+          <i class="fa fa-google-plus"></i><span>%!(EXTRA string=Google&#43;)</span>
+        </a>
+      </li>
+    
+  </ul>
+</div>
+<div id="share-options-mask" class="share-options-mask"></div>
+    </div>
+    
+    <div id="about">
+  <div id="about-card">
+    <div id="about-btn-close">
+      <i class="fa fa-remove"></i>
+    </div>
+    
+      <img id="about-card-picture" src="//www.gravatar.com/avatar/8d5387e20303e26c6147cfe67990995e?s=110" alt="" />
+    
+    <h4 id="about-card-name">肖杰</h4>
+    
+      <div id="about-card-bio">一个瑜伽|篮球|羽毛球爱好者</div>
+    
+    
+      <div id="about-card-job">
+        <i class="fa fa-briefcase"></i>
+        <br/>
+        搬砖工
+      </div>
+    
+    
+      <div id="about-card-location">
+        <i class="fa fa-map-marker"></i>
+        <br/>
+        Beijing
+      </div>
+    
+  </div>
+</div>
+
+    <div id="algolia-search-modal" class="modal-container">
+  <div class="modal">
+    <div class="modal-header">
+      <span class="close-button"><i class="fa fa-close"></i></span>
+      <a href="https://algolia.com" target="_blank" rel="noopener" class="searchby-algolia text-color-light link-unstyled">
+        <span class="searchby-algolia-text text-color-light text-small">by</span>
+        <img class="searchby-algolia-logo" src="https://www.algolia.com/static_assets/images/press/downloads/algolia-light.svg">
+      </a>
+      <i class="search-icon fa fa-search"></i>
+      <form id="algolia-search-form">
+        <input type="text" id="algolia-search-input" name="search"
+          class="form-control input--large search-input" placeholder="" />
+      </form>
+    </div>
+    <div class="modal-body">
+      <div class="no-result text-color-light text-center"></div>
+      <div class="results">
+        
+        
+      </div>
+    </div>
+    <div class="modal-footer">
+      <p class="results-count text-medium"
+         data-message-zero=""
+         data-message-one=""
+         data-message-other="">
+         0 posts found
+      </p>
+    </div>
+  </div>
+</div>
+    
+  
+    
+    <div id="cover" style="background-image:url('http://ytlvy.com/images/cover.jpg');"></div>
+  
+
+
+    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js" integrity="sha256-/BfiIkHlHoVihZdc6TFuj7MmJ0TWcWsMXkeDFwhi0zw=" crossorigin="anonymous"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.7/js/jquery.fancybox.min.js" integrity="sha256-GEAnjcTqVP+vBp3SSc8bEDQqvWAZMiHyUSIorrWwH50=" crossorigin="anonymous"></script>
+
+
+<script src="http://ytlvy.com/js/script-qi9wbxp2ya2j6p7wx1i6tgavftewndznf4v0hy2gvivk1rxgc3lm7njqb6bz.min.js"></script>
+
+
+
+<script>
+$(document).ready(function() {
+  hljs.configure({ classPrefix: '', useBR: false });
+  $('pre.code-highlight > code, pre > code').each(function(i, block) {
+    if (!$(this).hasClass('codeblock')) {
+      $(this).addClass('codeblock');
+    }
+    hljs.highlightBlock(block);
+  });
+});
+</script>
+
+
+  
+    
+      <script>
+        var disqus_config = function () {
+          this.page.url = 'http:\/\/ytlvy.com\/posts\/2015-07-13\/2015-07-13-ios-runtime-message-and-category\/';
+          
+            this.page.identifier = '\/posts\/2015-07-13\/2015-07-13-ios-runtime-message-and-category\/'
+          
+        };
+        (function() {
+          
+          
+          if (window.location.hostname == "localhost") {
+            return;
+          }
+          var d = document, s = d.createElement('script');
+          var disqus_shortname = 'hugo-tranquilpeak-theme';
+          s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+
+          s.setAttribute('data-timestamp', +new Date());
+          (d.head || d.body).appendChild(s);
+        })();
+      </script>
+    
+  
+
+
+
+    
+  </body>
+</html>
+

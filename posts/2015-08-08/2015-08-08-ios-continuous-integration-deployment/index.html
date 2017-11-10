@@ -1,0 +1,799 @@
+
+
+  
+
+
+  
+
+
+
+
+  
+
+
+  
+
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="Hugo 0.30.2 with theme Tranquilpeak 0.4.2-BETA">
+    <title>iOS Continuous Integration &amp; Deployment</title>
+    <meta name="author" content="肖杰">
+    <meta name="keywords" content="">
+
+    <link rel="icon" href="http://ytlvy.com/favicon.png">
+    
+
+    
+    <meta name="description" content="iOS项目的持续集成与管理
+
+
+
+原文链接 : Continuous Integration &amp; Deployment for iOS Projects
+原文作者 : Matt Oakes
+译文出自 :  开发技术前线 www.devtf.cn
+译者 : Sam Lau
+校对者: Mr.Simple
+状态 :  校正完
+
+
+
+当实现新功能时，如果忽略可维护性而引入技术债务，那将会需要延迟解决它或导致增加维护成本。
+
+最近我们已经思考通过哪些方式来提高代码的质量：
+
+
+当代码的质量下降时，通过设置一些工具来马上提醒开发者
+文档化一些编码规范和思考在过去的几个项目中如何避免维护性差的问题
+
+
+我将会简单地概括我们需要设置什么才能自动监控代码质量.
+
+#基础
+我们选择一个持续集成工具Jenkins，让它运行在一台放在我们工作室的Mac Mini。其实我不怎么喜欢Jenkins，但到目前为止，它是最稳定和最适合的工具来完成这些工作。
+
+我们已经通过Homebrew和rbenv来分别安装Jenkins和Ruby，而rbenv能够为我们提供一个最新和稳定的Ruby Gems环境。有个Homebrew和Ruby Gems两个包管理工具之后，我们就几乎能够安装所有我们需要的工具，但很少会破坏与原有OS X系统更新提供的Ruby。
+
+">
+    <meta property="og:description" content="iOS项目的持续集成与管理
+
+
+
+原文链接 : Continuous Integration &amp; Deployment for iOS Projects
+原文作者 : Matt Oakes
+译文出自 :  开发技术前线 www.devtf.cn
+译者 : Sam Lau
+校对者: Mr.Simple
+状态 :  校正完
+
+
+
+当实现新功能时，如果忽略可维护性而引入技术债务，那将会需要延迟解决它或导致增加维护成本。
+
+最近我们已经思考通过哪些方式来提高代码的质量：
+
+
+当代码的质量下降时，通过设置一些工具来马上提醒开发者
+文档化一些编码规范和思考在过去的几个项目中如何避免维护性差的问题
+
+
+我将会简单地概括我们需要设置什么才能自动监控代码质量.
+
+#基础
+我们选择一个持续集成工具Jenkins，让它运行在一台放在我们工作室的Mac Mini。其实我不怎么喜欢Jenkins，但到目前为止，它是最稳定和最适合的工具来完成这些工作。
+
+我们已经通过Homebrew和rbenv来分别安装Jenkins和Ruby，而rbenv能够为我们提供一个最新和稳定的Ruby Gems环境。有个Homebrew和Ruby Gems两个包管理工具之后，我们就几乎能够安装所有我们需要的工具，但很少会破坏与原有OS X系统更新提供的Ruby。
+
+">
+    <meta property="og:type" content="blog">
+    <meta property="og:title" content="iOS Continuous Integration &amp; Deployment">
+    <meta property="og:url" content="/posts/2015-08-08/2015-08-08-ios-continuous-integration-deployment/">
+    <meta property="og:site_name" content="My New Hugo Site">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="My New Hugo Site">
+    <meta name="twitter:description" content="iOS项目的持续集成与管理
+
+
+
+原文链接 : Continuous Integration &amp; Deployment for iOS Projects
+原文作者 : Matt Oakes
+译文出自 :  开发技术前线 www.devtf.cn
+译者 : Sam Lau
+校对者: Mr.Simple
+状态 :  校正完
+
+
+
+当实现新功能时，如果忽略可维护性而引入技术债务，那将会需要延迟解决它或导致增加维护成本。
+
+最近我们已经思考通过哪些方式来提高代码的质量：
+
+
+当代码的质量下降时，通过设置一些工具来马上提醒开发者
+文档化一些编码规范和思考在过去的几个项目中如何避免维护性差的问题
+
+
+我将会简单地概括我们需要设置什么才能自动监控代码质量.
+
+#基础
+我们选择一个持续集成工具Jenkins，让它运行在一台放在我们工作室的Mac Mini。其实我不怎么喜欢Jenkins，但到目前为止，它是最稳定和最适合的工具来完成这些工作。
+
+我们已经通过Homebrew和rbenv来分别安装Jenkins和Ruby，而rbenv能够为我们提供一个最新和稳定的Ruby Gems环境。有个Homebrew和Ruby Gems两个包管理工具之后，我们就几乎能够安装所有我们需要的工具，但很少会破坏与原有OS X系统更新提供的Ruby。
+
+">
+    
+    
+
+    
+    
+
+    
+      <meta property="og:image" content="//www.gravatar.com/avatar/8d5387e20303e26c6147cfe67990995e?s=640">
+    
+
+    
+    
+    
+
+    
+
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/jquery.fancybox.min.css" integrity="sha256-vuXZ9LGmmwtjqFX1F+EKin1ThZMub58gKULUyf0qECk=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/helpers/jquery.fancybox-thumbs.min.css" integrity="sha256-SEa4XYAHihTcEP1f5gARTB2K26Uk8PsndQYHQC1f4jU=" crossorigin="anonymous" />
+    
+    
+    <link rel="stylesheet" href="http://ytlvy.com/css/style-jsjn0006wyhpyzivf6yceb31gvpjatbcs3qzjvlumobfnugccvobqwxnnaj8.min.css" />
+    
+    
+
+    
+      
+    
+    
+  </head>
+
+  <body>
+    <div id="blog">
+      <header id="header" data-behavior="1">
+  <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+  <div class="header-title">
+    <a class="header-title-link" href="http://ytlvy.com/">My New Hugo Site</a>
+  </div>
+  
+    
+      <a class="header-right-picture "
+         href="http://ytlvy.com/#about">
+    
+    
+    
+      
+        <img class="header-picture" src="//www.gravatar.com/avatar/8d5387e20303e26c6147cfe67990995e?s=90" alt="" />
+      
+    
+    </a>
+  
+</header>
+
+      <nav id="sidebar" data-behavior="1">
+  <div class="sidebar-container">
+    
+      <div class="sidebar-profile">
+        <a href="http://ytlvy.com/#about">
+          <img class="sidebar-profile-picture" src="//www.gravatar.com/avatar/8d5387e20303e26c6147cfe67990995e?s=110" alt="" />
+        </a>
+        <h4 class="sidebar-profile-name">肖杰</h4>
+        
+          <h5 class="sidebar-profile-bio">一个瑜伽|篮球|羽毛球爱好者</h5>
+        
+      </div>
+    
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="http://ytlvy.com/">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-home"></i>
+      
+      <span class="sidebar-button-desc">Home</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="http://ytlvy.com/categories">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-bookmark"></i>
+      
+      <span class="sidebar-button-desc">Categories</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="http://ytlvy.com/tags">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+      
+      <span class="sidebar-button-desc">Tags</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="http://ytlvy.com/archives">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
+      
+      <span class="sidebar-button-desc">Archives</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="http://ytlvy.com/#about">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-question"></i>
+      
+      <span class="sidebar-button-desc">About</span>
+    </a>
+  </li>
+
+
+    </ul>
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://github.com/ytlvy" target="_blank" rel="noopener">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-github"></i>
+      
+      <span class="sidebar-button-desc">GitHub</span>
+    </a>
+  </li>
+
+
+    </ul>
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="http://ytlvy.com/index.xml">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-rss"></i>
+      
+      <span class="sidebar-button-desc">RSS</span>
+    </a>
+  </li>
+
+
+    </ul>
+  </div>
+</nav>
+
+      
+
+      <div id="main" data-behavior="1"
+        class="
+               hasCoverMetaIn
+               ">
+        <article class="post" itemscope itemType="http://schema.org/BlogPosting">
+          
+          
+            <div class="post-header main-content-wrap text-left">
+  
+    <h1 class="post-title" itemprop="headline">
+      iOS Continuous Integration &amp; Deployment
+    </h1>
+  
+  
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2015-08-08T00:00:00Z">
+        
+   8, 2015
+
+      </time>
+    
+    
+  
+  
+    <span></span>
+    
+      <a class="category-link" href="http://ytlvy.com/categories/ios">IOS</a>
+    
+  
+
+  </div>
+
+</div>
+          
+          <div class="post-content markdown" itemprop="articleBody">
+            <div class="main-content-wrap">
+              <h2 id="ios项目的持续集成与管理">iOS项目的持续集成与管理</h2>
+
+<blockquote>
+<ul>
+<li>原文链接 : <a href="https://medium.com/ribot-labs/continuous-integration-deployment-for-ios-projects-7358b72ca2e9">Continuous Integration &amp; Deployment for iOS Projects</a></li>
+<li>原文作者 : <a href="https://medium.com/@matto1990">Matt Oakes</a></li>
+<li><a href="http://www.devtf.cn">译文出自 :  开发技术前线 www.devtf.cn</a></li>
+<li>译者 : <a href="https://github.com/samlaudev">Sam Lau</a></li>
+<li>校对者: <a href="https://github.com/bboyfeiyu">Mr.Simple</a><br /></li>
+<li>状态 :  校正完</li>
+</ul>
+</blockquote>
+
+<p>当实现新功能时，如果忽略可维护性而引入<a href="http://en.wikipedia.org/wiki/Technical_debt">技术债务</a>，那将会需要延迟解决它或导致增加维护成本。</p>
+
+<p>最近我们已经思考通过哪些方式来提高代码的质量：</p>
+
+<ul>
+<li>当代码的质量下降时，通过设置一些工具来马上提醒开发者</li>
+<li>文档化一些编码规范和思考在过去的几个项目中如何避免维护性差的问题</li>
+</ul>
+
+<p><strong>我将会简单地概括我们需要设置什么才能自动监控代码质量.</strong></p>
+
+<p>#基础
+我们选择一个持续集成工具<a href="https://jenkins-ci.org/">Jenkins</a>，让它运行在一台放在我们工作室的Mac Mini。其实我不怎么喜欢Jenkins，但到目前为止，它是最稳定和最适合的工具来完成这些工作。</p>
+
+<p>我们已经通过<a href="https://brew.sh/">Homebrew</a>和<a href="https://github.com/sstephenson/rbenv">rbenv</a>来分别安装Jenkins和Ruby，而rbenv能够为我们提供一个最新和稳定的<a href="https://rubygems.org/">Ruby Gems</a>环境。有个Homebrew和Ruby Gems两个包管理工具之后，我们就几乎能够安装所有我们需要的工具，但很少会破坏与原有OS X系统更新提供的Ruby。</p>
+
+<p></p>
+
+<p>#单元测试
+我们使用<a href="https://github.com/specta/specta">Specta</a>和<a href="https://github.com/specta/expecta">Expecta</a>来测试我们的iOS项目。</p>
+
+<p>Specta让我们采用行为驱动开发(BDD)风格的语法来编写测试，相比于*XCTest*的语法，它更加易读。它还有一个强大的分组测试功能，在测试之前或之后运行一些代码块，这样的话，能够极大地减少重复代码。</p>
+
+<p>Expecta是一个匹配器框架，我们可以在测试中使用它来创建断言。它的语法非常强大，与此同时，它比内建的*XCAssert*套件更加易读。例如：</p>
+
+<pre><code>expect(@&quot;foo&quot;).to.equal(@&quot;foo&quot;);
+expect(foo).notTo.equal(1);
+expect([bar isBar]).to.equal(YES);
+expect(baz).to.equal(3.14159);
+</code></pre>
+
+<p>我们在开发时，通过XCode来运行测试；而使用通过Homebrew来安装的Jenkins时，会借助<a href="https://github.com/facebook/xctool">XCTool</a>。XCTool是一个可代替的选择来*xcodebuild*，它能让你通过命令行的方式来非常轻松地运行测试套件和生成JUnit风格的测试报告。</p>
+
+<pre><code>$ xctool -workspace Project.xcworkspace -scheme Project -reporter junit:junit-report.xml test
+
+</code></pre>
+
+<p>这些测试报告会发布在Jenkins上，而Jenkins会使用<a href="https://wiki.jenkins-ci.org/display/JENKINS/JUnit+Plugin">JUnit Plugin</a>来根据时间的推移提供单元测试结果的图表，同时会向我们显示我们的测试是否稳定。</p>
+
+<div align="center">
+
+<img src="https://d262ilb51hltx0.cloudfront.net/max/1600/1*YXbjsC43-eVvMPPw2CXn6A.png"/>
+</div>
+
+<p>#Pull Request测试
+我们想我们的测试尽可能运行以至于如果我们破坏什么东西，我们就会马上知道。我们在<a href="https://www.atlassian.com/git/tutorials/comparing-workflows/feature-branch-workflow/">feature branches</a>做些修改，然后提交一个pull request到Github，那么代码就会被另一个开发者审查。只要被打开，我们就能运行所有的测试来确保没有任何东西被破坏。</p>
+
+<p>当新的pull requst是开放状态时，为了管理这些，我们安装<a href="https://wiki.jenkins-ci.org/display/JENKINS/GitHub+pull+request+builder+plugin">Github Pull Request plugin</a>来将信息从Github发送到Jenkins。如果有任何测试失败，它将会显示在Github，然后我们就不将代码合并，直到代码被修复为止。</p>
+
+<p>#代码覆盖率
+我们也会用<a href="http://gcovr.com/">Gcovr</a>工具来生成代码覆盖率报告，Gcovr的安装方式也是Homebrew。你需要针对main target的debug congfiguration改变两个构建设置来配置项目。将*Generate Test Coverage Files*和*Instrument Program Flow*都设置为*YES*。</p>
+
+<div align="center">
+
+<img src="https://d262ilb51hltx0.cloudfront.net/max/1200/1*Aq8ClxmME0tcpf747uPguQ.png"/>
+</div>
+
+<p>当我们运行单元测试来生成代码覆盖率报告时，我们需要将*OBJROOT=./build*添加到XCTool命令行的尾部。</p>
+
+<pre><code>$ gcovr -r . — object-directory build/Project.build/Debug-iphonesimulator/Project.build/Objects-normal/x86_64 — exclude ‘.*Tests.*’ — xml &gt; coverage.xml
+
+</code></pre>
+
+<p>Gcovr输出的代码覆盖率报告也会被插件<a href="https://wiki.jenkins-ci.org/display/JENKINS/Cobertura+Plugin">Cobertura Jenkins plugin</a>发布，这个插件会提供一种可视化的方式来根据时间的推移来显示代码覆盖率。</p>
+
+<p>现在我们不仅可以看到测试是否通过，还可以看到代码的测试覆盖范围。</p>
+
+<p>#静态分析
+在工具集中，其中一个强大并能够保持高质量的代码的工具就是静态分析工具。这些工具会扫描你的代码，然后生成一个报告，这个报告会告诉你破坏代码风格规则的代码位置。举几个规则的例子：</p>
+
+<ul>
+<li>未使用的变量或参数</li>
+<li>长变量名，方法名或代码行</li>
+<li>覆盖一个方法，但没有在这个方法调用<em>super</em></li>
+<li>方法太长或方法过于复杂</li>
+<li>还更多的规格&hellip;</li>
+</ul>
+
+<p>我们使用<a href="http://oclint.org/">OCLint</a>静态分析工具，这个工具能够支持C，C++和Objective-C语言。OCLint通过结合XCTool使用来生成<strong>json-compilation-database</strong> reporter
+，从而提供<a href="http://docs.oclint.org/en/dev/guide/xctool.html">great integration</a>特性。我们首先添加另一个reporter到我们的XCTool命令行，然后将那个report传递到OCLint来执行静态分析。</p>
+
+<pre><code>$ xctool -workspace Project.xcworkspace -scheme Project -reporter junit:junit-report.xml -reporter json-compilation-database:compile_commands.json test
+$ oclint-json-compilation-database -e Pods -report-type pmd -o oclint-pmd.xml
+
+</code></pre>
+
+<p>这个report以<a href="http://pmd.sourceforge.net/">PMD</a>的方式来生成，然后使用<a href="https://wiki.jenkins-ci.org/display/JENKINS/PMD+Plugin">PMD Plugin</a>被发布到Jenkins。有了这些插件之后，你也可以在测试失败之前，设置每个警告的优先级(底，中，高)中一些限制。最初，我们设置这些限制为低，那么只要我们引入代码，就会被提醒，从而提高代码质量。</p>
+
+<div align="center">
+
+<img src="https://d262ilb51hltx0.cloudfront.net/max/1600/1*fkHdHqA_WGoWATdAs6or0A.png"/>
+</div>
+
+<p>#自动部署
+最后一个问题不是如何提高代码质量，而是如何节省时间。开发者通常都会将编译好的代码通过<a href="https://www.crashlytics.com/">Crashlytics</a>发送到设计师来设计审查，或在sprint结束演示时发给用户。发送一个已经编译好的app通常花一个开发者的10分钟左右时间，但它需要他们来切换任务和干扰他们的心流。</p>
+
+<p>最近我们已经配置一个在夜晚构建系统，它会在早上自动发送一个新版本的app给每个人。</p>
+
+<p>为了做到这样，我们使用<a href="http://fastlane.tools/">fastlane</a>。fastlane是一个定义<strong>lanes</strong>的一些操作来执行的强大工具集。现在我们有三个已经定义好的lanes，一个是用来发布给ribot开发者，一个是用来发布给在ribot的每个人，最后一个是发布给用户。</p>
+
+<pre><code>before_all do |lane|
+ cert
+ sigh
+end
+desc “Deploy a new build to ribot iOS developers over crashlytics”
+lane :dev do
+ ipa
+ crashlytics({ groups: ‘ribot-developers’ })
+end
+desc “Deploy a new build to people at ribot over crashlytics”
+lane :internal do
+ ensure_git_status_clean
+ append_build_time
+ ipa
+ crashlytics({ groups: ‘ribot’ })
+ reset_git_repo
+end
+desc “Deploy a new build to everyone over crashlytics”
+lane :external do
+ ensure_git_status_clean
+ increment_build_number
+ ipa
+ crashlytics({ groups: [‘ribot’, ‘client’] })
+ commit_version_bump
+ add_git_tag
+ push_to_git_remote
+end
+after_all do |lane|
+ clean_build_artifacts
+end
+
+</code></pre>
+
+<p>通过使用<strong>fastlane</strong>工具(通过Ruby Gems来安装)来运行一个lane。</p>
+
+<pre><code>fastlane internal
+
+</code></pre>
+
+<p>在开始使用所有的*lanes<em>之前，我们应该自动确保我们有一个有效的signing certificate和最新的provisioning profile。所有我们的配置都放在一个</em>.env*文件，它让我们有些默认配置，但当我们运行*fastlane*根据需要来覆盖它们。</p>
+
+<p>在将来，我们会通过使用*deliver*操作来自动化app store提交过程。</p>
+
+<p>#最后总结
+到目前为止，我们已经尝试这些过程，并在工程中呈现出好的结果。我们期望看到只要适当地使用这些工具，就能提高代码的质量，这些报告将会让我们随着时间推移来量化代码质量。我们期待在下一个工程中适当地使用这些工具会发生什么。</p>
+              
+            </div>
+          </div>
+          <div id="post-footer" class="post-footer main-content-wrap">
+            
+              
+                
+                
+                  <div class="post-footer-tags">
+                    <span class="text-color-light text-small"></span><br/>
+                    
+  <a class="tag tag--primary tag--small" href="http://ytlvy.com/tags/deployment/">Deployment</a>
+
+                  </div>
+                
+              
+            
+            
+  <div class="post-actions-wrap">
+      <nav >
+        <ul class="post-actions post-action-nav">
+          
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="http://ytlvy.com/posts/2015-08-08/2015-08-08-ios-background-modes-tutorial/" data-tooltip="iOS Background Modes Tutorial">
+              
+                  <i class="fa fa-angle-left"></i>
+                  <span class="hide-xs hide-sm text-small icon-ml"></span>
+                </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="http://ytlvy.com/posts/2015-08-08/2015-08-08-ios-dispatch-async-usages-tips/" data-tooltip="iOS Dispatch_async usages tips">
+              
+                  <span class="hide-xs hide-sm text-small icon-mr"></span>
+                  <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+          
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
+      
+        <li class="post-action hide-lg hide-md hide-sm">
+          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+            <i class="fa fa-share-alt"></i>
+          </a>
+        </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://ytlvy.com/posts/2015-08-08/2015-08-08-ios-continuous-integration-deployment/">
+              <i class="fa fa-facebook-official"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http://ytlvy.com/posts/2015-08-08/2015-08-08-ios-continuous-integration-deployment/">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=http://ytlvy.com/posts/2015-08-08/2015-08-08-ios-continuous-integration-deployment/">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        
+      
+      
+        <li class="post-action">
+          <a class="post-action-btn btn btn--default" href="#disqus_thread">
+            <i class="fa fa-comment-o"></i>
+          </a>
+        </li>
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#">
+        
+          <i class="fa fa-list"></i>
+        </a>
+      </li>
+    </ul>
+  </div>
+
+
+            
+              
+                <div id="disqus_thread">
+  <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+              
+            
+          </div>
+        </article>
+        <footer id="footer" class="main-content-wrap">
+  <span class="copyrights">
+    &copy; 2017 肖杰. 
+  </span>
+</footer>
+
+      </div>
+      <div id="bottom-bar" class="post-bottom-bar" data-behavior="1">
+        
+  <div class="post-actions-wrap">
+      <nav >
+        <ul class="post-actions post-action-nav">
+          
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="http://ytlvy.com/posts/2015-08-08/2015-08-08-ios-background-modes-tutorial/" data-tooltip="iOS Background Modes Tutorial">
+              
+                  <i class="fa fa-angle-left"></i>
+                  <span class="hide-xs hide-sm text-small icon-ml"></span>
+                </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="http://ytlvy.com/posts/2015-08-08/2015-08-08-ios-dispatch-async-usages-tips/" data-tooltip="iOS Dispatch_async usages tips">
+              
+                  <span class="hide-xs hide-sm text-small icon-mr"></span>
+                  <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+          
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
+      
+        <li class="post-action hide-lg hide-md hide-sm">
+          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+            <i class="fa fa-share-alt"></i>
+          </a>
+        </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://ytlvy.com/posts/2015-08-08/2015-08-08-ios-continuous-integration-deployment/">
+              <i class="fa fa-facebook-official"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http://ytlvy.com/posts/2015-08-08/2015-08-08-ios-continuous-integration-deployment/">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=http://ytlvy.com/posts/2015-08-08/2015-08-08-ios-continuous-integration-deployment/">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        
+      
+      
+        <li class="post-action">
+          <a class="post-action-btn btn btn--default" href="#disqus_thread">
+            <i class="fa fa-comment-o"></i>
+          </a>
+        </li>
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#">
+        
+          <i class="fa fa-list"></i>
+        </a>
+      </li>
+    </ul>
+  </div>
+
+
+      </div>
+      <div id="share-options-bar" class="share-options-bar" data-behavior="1">
+  <i id="btn-close-shareoptions" class="fa fa-close"></i>
+  <ul class="share-options">
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Fytlvy.com%2Fposts%2F2015-08-08%2F2015-08-08-ios-continuous-integration-deployment%2F">
+          <i class="fa fa-facebook-official"></i><span>%!(EXTRA string=Facebook)</span>
+        </a>
+      </li>
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=http%3A%2F%2Fytlvy.com%2Fposts%2F2015-08-08%2F2015-08-08-ios-continuous-integration-deployment%2F">
+          <i class="fa fa-twitter"></i><span>%!(EXTRA string=Twitter)</span>
+        </a>
+      </li>
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=http%3A%2F%2Fytlvy.com%2Fposts%2F2015-08-08%2F2015-08-08-ios-continuous-integration-deployment%2F">
+          <i class="fa fa-google-plus"></i><span>%!(EXTRA string=Google&#43;)</span>
+        </a>
+      </li>
+    
+  </ul>
+</div>
+<div id="share-options-mask" class="share-options-mask"></div>
+    </div>
+    
+    <div id="about">
+  <div id="about-card">
+    <div id="about-btn-close">
+      <i class="fa fa-remove"></i>
+    </div>
+    
+      <img id="about-card-picture" src="//www.gravatar.com/avatar/8d5387e20303e26c6147cfe67990995e?s=110" alt="" />
+    
+    <h4 id="about-card-name">肖杰</h4>
+    
+      <div id="about-card-bio">一个瑜伽|篮球|羽毛球爱好者</div>
+    
+    
+      <div id="about-card-job">
+        <i class="fa fa-briefcase"></i>
+        <br/>
+        搬砖工
+      </div>
+    
+    
+      <div id="about-card-location">
+        <i class="fa fa-map-marker"></i>
+        <br/>
+        Beijing
+      </div>
+    
+  </div>
+</div>
+
+    <div id="algolia-search-modal" class="modal-container">
+  <div class="modal">
+    <div class="modal-header">
+      <span class="close-button"><i class="fa fa-close"></i></span>
+      <a href="https://algolia.com" target="_blank" rel="noopener" class="searchby-algolia text-color-light link-unstyled">
+        <span class="searchby-algolia-text text-color-light text-small">by</span>
+        <img class="searchby-algolia-logo" src="https://www.algolia.com/static_assets/images/press/downloads/algolia-light.svg">
+      </a>
+      <i class="search-icon fa fa-search"></i>
+      <form id="algolia-search-form">
+        <input type="text" id="algolia-search-input" name="search"
+          class="form-control input--large search-input" placeholder="" />
+      </form>
+    </div>
+    <div class="modal-body">
+      <div class="no-result text-color-light text-center"></div>
+      <div class="results">
+        
+        
+      </div>
+    </div>
+    <div class="modal-footer">
+      <p class="results-count text-medium"
+         data-message-zero=""
+         data-message-one=""
+         data-message-other="">
+         0 posts found
+      </p>
+    </div>
+  </div>
+</div>
+    
+  
+    
+    <div id="cover" style="background-image:url('http://ytlvy.com/images/cover.jpg');"></div>
+  
+
+
+    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js" integrity="sha256-/BfiIkHlHoVihZdc6TFuj7MmJ0TWcWsMXkeDFwhi0zw=" crossorigin="anonymous"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.7/js/jquery.fancybox.min.js" integrity="sha256-GEAnjcTqVP+vBp3SSc8bEDQqvWAZMiHyUSIorrWwH50=" crossorigin="anonymous"></script>
+
+
+<script src="http://ytlvy.com/js/script-qi9wbxp2ya2j6p7wx1i6tgavftewndznf4v0hy2gvivk1rxgc3lm7njqb6bz.min.js"></script>
+
+
+
+<script>
+$(document).ready(function() {
+  hljs.configure({ classPrefix: '', useBR: false });
+  $('pre.code-highlight > code, pre > code').each(function(i, block) {
+    if (!$(this).hasClass('codeblock')) {
+      $(this).addClass('codeblock');
+    }
+    hljs.highlightBlock(block);
+  });
+});
+</script>
+
+
+  
+    
+      <script>
+        var disqus_config = function () {
+          this.page.url = 'http:\/\/ytlvy.com\/posts\/2015-08-08\/2015-08-08-ios-continuous-integration-deployment\/';
+          
+            this.page.identifier = '\/posts\/2015-08-08\/2015-08-08-ios-continuous-integration-deployment\/'
+          
+        };
+        (function() {
+          
+          
+          if (window.location.hostname == "localhost") {
+            return;
+          }
+          var d = document, s = d.createElement('script');
+          var disqus_shortname = 'hugo-tranquilpeak-theme';
+          s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+
+          s.setAttribute('data-timestamp', +new Date());
+          (d.head || d.body).appendChild(s);
+        })();
+      </script>
+    
+  
+
+
+
+    
+  </body>
+</html>
+

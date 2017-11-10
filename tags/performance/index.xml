@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Performance on My New Hugo Site</title>
+    <link>http://ytlvy.com/tags/performance/</link>
+    <description>Recent content in Performance on My New Hugo Site</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sat, 08 Aug 2015 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="http://ytlvy.com/tags/performance/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Swift Increasing Performance by Reducing Dynamic Dispatch</title>
+      <link>http://ytlvy.com/posts/2015-08-08/2015-08-08-swift-increasing-performance-by-reducing-dynamic-dispatch/</link>
+      <pubDate>Sat, 08 Aug 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-08-08/2015-08-08-swift-increasing-performance-by-reducing-dynamic-dispatch/</guid>
+      <description>&lt;h2 id=&#34;通过减少动态分发来提高swift的执行效率&#34;&gt;通过减少动态分发来提高Swift的执行效率&lt;/h2&gt;
+
+&lt;blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;原文链接 : &lt;a href=&#34;https://developer.apple.com/swift/blog/?id=27&#34;&gt;Increasing Performance by Reducing Dynamic Dispatch&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;原文作者 : &lt;a href=&#34;https://developer.apple.com/swift&#34;&gt;Apple官方博文&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;译文出自 : &lt;a href=&#34;www.devtf.cn&#34;&gt;开发技术前线 www.devtf.cn&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;译者 : &lt;a href=&#34;https://github.com/samw00/&#34;&gt;samw00&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;和其他很多编程语言一样，Swift允许一个类重写其父类中声明的方法和属性。这意味着程序在运行时需要先确定要调用的方法和访问的属性是属于哪个类的，确定之后，则会执行间接调用（indirect call）或间接访问（indirect access）。这个运行机制称为&lt;strong&gt;动态分发&lt;/strong&gt;（dynamic dispatch）。这个机制能够提高语言的表现力，但其付出的代价是在每次间接调用或间接访问时，会产生一定量的运行时开销（runtime overhead）。在执行敏感代码时，最好能避免产生这样的开销。这篇博客将罗列三种通过消除这动态分发机制来提高程序执行效率的方式：&lt;code&gt;final&lt;/code&gt;，&lt;code&gt;private&lt;/code&gt;和全模块优化（Whole Module Optimization）。&lt;/p&gt;
+
+&lt;p&gt;Consider the following example:&lt;/p&gt;
+
+&lt;p&gt;先来看看下面这段代码&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;class ParticleModel {
+    var point = ( 0.0, 0.0 )
+    var velocity = 100.0
+
+    func updatePoint(newPoint: (Double, Double), newVelocity: Double) {
+        point = newPoint
+        velocity = newVelocity
+    }
+
+    func update(newP: (Double, Double), newV: Double) {
+        updatePoint(newP, newVelocity: newV)
+    }
+}
+
+var p = ParticalModel()
+for i in stride(from: 0.0, through: 360, by: 1.0) {
+    p.update((i * sin(i), i), newV: i * 1000)
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

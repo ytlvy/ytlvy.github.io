@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Animation on My New Hugo Site</title>
+    <link>http://ytlvy.com/tags/animation/</link>
+    <description>Recent content in Animation on My New Hugo Site</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Tue, 11 Aug 2015 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="http://ytlvy.com/tags/animation/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>iOS APP Icon Longpress shake</title>
+      <link>http://ytlvy.com/posts/2015-08-11/2015-08-11-ios-app-icon-longpress-shake/</link>
+      <pubDate>Tue, 11 Aug 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-08-11/2015-08-11-ios-app-icon-longpress-shake/</guid>
+      <description>&lt;h2 id=&#34;ios-app图标长按抖动效果的实现-caanimation&#34;&gt;iOS APP图标长按抖动效果的实现（CAAnimation）&lt;/h2&gt;
+
+&lt;p&gt;实现效果:当长按图标时，图标抖动，点击图标以外区域时停止抖动&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://img.blog.csdn.net/20150808181226925&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;工程下载：&lt;a href=&#34;https://github.com/Nongchaozhe/iconShakeDemo&#34;&gt;github工程下载&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;1) 视图代码&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;@interface ViewController ()
+{
+    UIImageView *imageView;
+}
+@end
+
+@implementation ViewController
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+
+    imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 100, 100)];
+    imageView.center = self.view.center;
+    imageView.image = [UIImage imageNamed:@&amp;quot;icon1&amp;quot;];
+    imageView.userInteractionEnabled = YES;
+    [self.view addSubview:imageView];
+
+    //添加长按手势
+    UILongPressGestureRecognizer *recognize = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(longPress)];
+    //长按响应时间
+    recognize.minimumPressDuration = 1;
+    [imageView addGestureRecognizer:recognize];
+    // Do any additional setup after loading the view, typically from a nib.
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Swift custom-view-controller-transitions-tutorial</title>
+      <link>http://ytlvy.com/posts/2015-08-08/2015-08-08-swift-custom-view-controller-transitions-tutorial/</link>
+      <pubDate>Sat, 08 Aug 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-08-08/2015-08-08-swift-custom-view-controller-transitions-tutorial/</guid>
+      <description>&lt;h1 id=&#34;使用swift自定义viewcontroller切换效果与动画&#34;&gt;使用Swift自定义ViewController切换效果与动画&lt;/h1&gt;
+
+&lt;blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;原文链接 : &lt;a href=&#34;http://www.appcoda.com/custom-view-controller-transitions-tutorial/&#34;&gt;custom-view-controller-transitions-tutorial&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;原文作者 : &lt;a href=&#34;http://www.appcoda.com/custom-view-controller-transitions-tutorial/&#34;&gt;joyce echessa&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;www.devtf.cn&#34;&gt;译文出自 :  开发技术前线 www.devtf.cn&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;译者 : &lt;a href=&#34;https:www.devtd.cn&#34;&gt;Shopie&lt;/a&gt;&lt;br /&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;当我们把从Apple iOS设备上内置的app从一个view切换到另一个的时候，我们可以看到各种不同的动态切换。比如，把详细view controller滑动到主view controller时呈现出的切换动画（通常在短信app或设置app中可以看到），以及代表了不同view controller之间切换的各种不间断过渡。&lt;/p&gt;
+
+&lt;p&gt;iOS 7引入了自定义view controller切换，使得开发人员能够在他们的app中实现不同 view controller之间的自定义切换动画。我们通过本教程来看看如何自定义切换动画。本教程还会讲到如何创建手势切换，也就是交互式切换。首先，大家需要下载starter项目，我们在后续的整个教程中将会用到。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://www.appcoda.com/wp-content/uploads/2015/03/custom-view-transition.jpg&#34; alt=&#34;pic-1&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

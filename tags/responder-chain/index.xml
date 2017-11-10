@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Responder Chain on My New Hugo Site</title>
+    <link>http://ytlvy.com/tags/responder-chain/</link>
+    <description>Recent content in Responder Chain on My New Hugo Site</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Mon, 13 Jul 2015 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="http://ytlvy.com/tags/responder-chain/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>iOS Event Delivery/ The Responder Chain</title>
+      <link>http://ytlvy.com/posts/2015-07-13/2015-07-13-ios-event-delivery-the-responder-chain/</link>
+      <pubDate>Mon, 13 Jul 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-07-13/2015-07-13-ios-event-delivery-the-responder-chain/</guid>
+      <description>&lt;h2 id=&#34;event-delivery-the-responder-chain&#34;&gt;Event Delivery: The Responder Chain&lt;/h2&gt;
+
+&lt;p&gt;当你设计应用的时候, 应用需要动态响应事件. 例如: 点击事件, (可以在显示屏上的不同对象上多次触发), 你需要决定那个对象来响应此事件, 并且需要了解这个对象是如何接收事件的.&lt;/p&gt;
+
+&lt;p&gt;当用户触发一个事件时, UIKit 创建一个&lt;code&gt;event object&lt;/code&gt;, 此对象包含了需要处理的信息. 然后将此事件对象放入到当前 app 的事件队列中. 例如&lt;code&gt;touch&lt;/code&gt;事件, 这种事件对象就是一个包含了一组&lt;code&gt;touch&lt;/code&gt;的&lt;code&gt;UIEvent&lt;/code&gt; 对象. &lt;code&gt;motion&lt;/code&gt;事件, 此对象由你使用的&lt;code&gt;framework&lt;/code&gt;和你感兴趣的&lt;code&gt;motion&lt;/code&gt;类型来决定.&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Touch events. 当前 window 对象首先尝试将事件传送给 &lt;code&gt;touch&lt;/code&gt; 触发的视图.这个视图被称为&lt;code&gt;hit-test&lt;/code&gt; 视图. 寻找&lt;code&gt;hit-test&lt;/code&gt;视图的过程被称为&lt;code&gt;hit-testing&lt;/code&gt;, 将在下面描述.&lt;/li&gt;
+&lt;li&gt;Motion and remote control events. 对于这些事件, 当前 window 对象会将 &lt;code&gt;shaking-motion&lt;/code&gt; 或 &lt;code&gt;emote control event&lt;/code&gt; 发送给&lt;code&gt;first responder&lt;/code&gt;来响应.&lt;code&gt;first responder&lt;/code&gt;也将在下面描述.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;hit-testing-returns-the-view-where-a-touch-occurred&#34;&gt;Hit-Testing Returns the View Where a Touch Occurred&lt;/h3&gt;
+
+&lt;p&gt;iOS 通过&lt;code&gt;hit-testing&lt;/code&gt; 来寻找点击下方的视图. &lt;code&gt;Hit-Testing&lt;/code&gt; 会查找任何包含该&lt;code&gt;touch&lt;/code&gt;点坐标的视图对象, 规则为此坐标位于视图的&lt;code&gt;bounds&lt;/code&gt;中, 如果包含, 会继续递归检测此视图的所有子视图. 在视图树中包含该点击的最下层视图, 即是&lt;code&gt;hit-test&lt;/code&gt;视图. 当 iOS 决定了 &lt;code&gt;hit-test&lt;/code&gt; 视图后, 会将点击事件发送给此视图来处理.&lt;/p&gt;
+
+&lt;p&gt;说明如下, 假设用户点击了视图 E, iOS 查找&lt;code&gt;hit-test&lt;/code&gt; 视图的逻辑如下:
+1. 点击在视图 A 的范围内, 然后检测 子视图 B 和 C
+2.  点击不再视图 B 范围内, 但是在视图 C 范围内, 继续检测 子视图 D 和 E
+3.  点击不再视图 D 里, 但是在视图 E 中.
+
+视图 E 是最下层且包含 &lt;code&gt;touch&lt;/code&gt;的视图树, 所以就是&lt;code&gt;hit-test&lt;/code&gt;&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

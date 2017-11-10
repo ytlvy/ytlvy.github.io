@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Random on My New Hugo Site</title>
+    <link>http://ytlvy.com/tags/random/</link>
+    <description>Recent content in Random on My New Hugo Site</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Mon, 06 Jul 2015 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="http://ytlvy.com/tags/random/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Random</title>
+      <link>http://ytlvy.com/posts/2015-07-06/2015-07-06-random/</link>
+      <pubDate>Mon, 06 Jul 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-07-06/2015-07-06-random/</guid>
+      <description>&lt;h2 id=&#34;arc4random&#34;&gt;arc4random()&lt;/h2&gt;
+
+&lt;h3 id=&#34;random-int-between-0-and-n-1&#34;&gt;Random int between 0 and N - 1&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code&gt;NSUInteger r = arc4random_uniform(N);
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;random-int-between-1-and-n&#34;&gt;Random int between 1 and N&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code&gt;NSUInteger r = arc4random_uniform(N) + 1;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;random-double-between-0-and-1&#34;&gt;Random double between 0 and 1&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code&gt;srand48(time(0));
+double r = drand48();
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

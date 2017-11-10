@@ -1,0 +1,1029 @@
+
+
+  
+
+
+  
+
+
+
+
+  
+
+
+  
+
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="Hugo 0.30.2 with theme Tranquilpeak 0.4.2-BETA">
+    <title>iOS Best Practices</title>
+    <meta name="author" content="肖杰">
+    <meta name="keywords" content="">
+
+    <link rel="icon" href="http://ytlvy.com/favicon.png">
+    
+
+    
+    <meta name="description" content="iOS Best Practices
+
+这里总结一下iOS最佳实践，主要参考Futurice developers的文章iOS Good Practices，同时加上了一些自己的理解
+
+##目录
+* 初始化项目
+* iOS架构
+* API设计
+* 高质量代码
+* 编码规范
+* iOS开源库
+* iOS基本技能
+* 自动化构建
+* 优化App
+
+
+##初始化项目
+###UI采用Interface Builder还是手写代码
+当开始一个iOS项目时，一个常见的问题就是编写所有的views是采用手写代码的方式还是使用Interface Builder的Storyboard或XIB文件。两种方式都可以实现相同UI效果，但几点需要考虑：
+
+####为什么使用代码？
+* 当多人协作开发时，由于Storyboard复杂的XML结构，它更容易发生版本冲突，这比手写代码的方式更难合并代码。
+* 手写代码更容易地结构化和重用views，因此使你的代码库保持DRY。
+* 所有的信息都在同一个地方。在Interface Builder中，你必须通过点击所有inspectors才能找到你想要的东西。
+
+">
+    <meta property="og:description" content="iOS Best Practices
+
+这里总结一下iOS最佳实践，主要参考Futurice developers的文章iOS Good Practices，同时加上了一些自己的理解
+
+##目录
+* 初始化项目
+* iOS架构
+* API设计
+* 高质量代码
+* 编码规范
+* iOS开源库
+* iOS基本技能
+* 自动化构建
+* 优化App
+
+
+##初始化项目
+###UI采用Interface Builder还是手写代码
+当开始一个iOS项目时，一个常见的问题就是编写所有的views是采用手写代码的方式还是使用Interface Builder的Storyboard或XIB文件。两种方式都可以实现相同UI效果，但几点需要考虑：
+
+####为什么使用代码？
+* 当多人协作开发时，由于Storyboard复杂的XML结构，它更容易发生版本冲突，这比手写代码的方式更难合并代码。
+* 手写代码更容易地结构化和重用views，因此使你的代码库保持DRY。
+* 所有的信息都在同一个地方。在Interface Builder中，你必须通过点击所有inspectors才能找到你想要的东西。
+
+">
+    <meta property="og:type" content="blog">
+    <meta property="og:title" content="iOS Best Practices">
+    <meta property="og:url" content="/posts/2015-08-05/2015-08-05-ios-best-practices/">
+    <meta property="og:site_name" content="My New Hugo Site">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="My New Hugo Site">
+    <meta name="twitter:description" content="iOS Best Practices
+
+这里总结一下iOS最佳实践，主要参考Futurice developers的文章iOS Good Practices，同时加上了一些自己的理解
+
+##目录
+* 初始化项目
+* iOS架构
+* API设计
+* 高质量代码
+* 编码规范
+* iOS开源库
+* iOS基本技能
+* 自动化构建
+* 优化App
+
+
+##初始化项目
+###UI采用Interface Builder还是手写代码
+当开始一个iOS项目时，一个常见的问题就是编写所有的views是采用手写代码的方式还是使用Interface Builder的Storyboard或XIB文件。两种方式都可以实现相同UI效果，但几点需要考虑：
+
+####为什么使用代码？
+* 当多人协作开发时，由于Storyboard复杂的XML结构，它更容易发生版本冲突，这比手写代码的方式更难合并代码。
+* 手写代码更容易地结构化和重用views，因此使你的代码库保持DRY。
+* 所有的信息都在同一个地方。在Interface Builder中，你必须通过点击所有inspectors才能找到你想要的东西。
+
+">
+    
+    
+
+    
+    
+
+    
+      <meta property="og:image" content="//www.gravatar.com/avatar/8d5387e20303e26c6147cfe67990995e?s=640">
+    
+
+    
+    
+    
+
+    
+
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/jquery.fancybox.min.css" integrity="sha256-vuXZ9LGmmwtjqFX1F+EKin1ThZMub58gKULUyf0qECk=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/helpers/jquery.fancybox-thumbs.min.css" integrity="sha256-SEa4XYAHihTcEP1f5gARTB2K26Uk8PsndQYHQC1f4jU=" crossorigin="anonymous" />
+    
+    
+    <link rel="stylesheet" href="http://ytlvy.com/css/style-jsjn0006wyhpyzivf6yceb31gvpjatbcs3qzjvlumobfnugccvobqwxnnaj8.min.css" />
+    
+    
+
+    
+      
+    
+    
+  </head>
+
+  <body>
+    <div id="blog">
+      <header id="header" data-behavior="1">
+  <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+  <div class="header-title">
+    <a class="header-title-link" href="http://ytlvy.com/">My New Hugo Site</a>
+  </div>
+  
+    
+      <a class="header-right-picture "
+         href="http://ytlvy.com/#about">
+    
+    
+    
+      
+        <img class="header-picture" src="//www.gravatar.com/avatar/8d5387e20303e26c6147cfe67990995e?s=90" alt="" />
+      
+    
+    </a>
+  
+</header>
+
+      <nav id="sidebar" data-behavior="1">
+  <div class="sidebar-container">
+    
+      <div class="sidebar-profile">
+        <a href="http://ytlvy.com/#about">
+          <img class="sidebar-profile-picture" src="//www.gravatar.com/avatar/8d5387e20303e26c6147cfe67990995e?s=110" alt="" />
+        </a>
+        <h4 class="sidebar-profile-name">肖杰</h4>
+        
+          <h5 class="sidebar-profile-bio">一个瑜伽|篮球|羽毛球爱好者</h5>
+        
+      </div>
+    
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="http://ytlvy.com/">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-home"></i>
+      
+      <span class="sidebar-button-desc">Home</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="http://ytlvy.com/categories">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-bookmark"></i>
+      
+      <span class="sidebar-button-desc">Categories</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="http://ytlvy.com/tags">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+      
+      <span class="sidebar-button-desc">Tags</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="http://ytlvy.com/archives">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
+      
+      <span class="sidebar-button-desc">Archives</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="http://ytlvy.com/#about">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-question"></i>
+      
+      <span class="sidebar-button-desc">About</span>
+    </a>
+  </li>
+
+
+    </ul>
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://github.com/ytlvy" target="_blank" rel="noopener">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-github"></i>
+      
+      <span class="sidebar-button-desc">GitHub</span>
+    </a>
+  </li>
+
+
+    </ul>
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="http://ytlvy.com/index.xml">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-rss"></i>
+      
+      <span class="sidebar-button-desc">RSS</span>
+    </a>
+  </li>
+
+
+    </ul>
+  </div>
+</nav>
+
+      
+
+      <div id="main" data-behavior="1"
+        class="
+               hasCoverMetaIn
+               ">
+        <article class="post" itemscope itemType="http://schema.org/BlogPosting">
+          
+          
+            <div class="post-header main-content-wrap text-left">
+  
+    <h1 class="post-title" itemprop="headline">
+      iOS Best Practices
+    </h1>
+  
+  
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2015-08-05T00:00:00Z">
+        
+   5, 2015
+
+      </time>
+    
+    
+  
+  
+    <span></span>
+    
+      <a class="category-link" href="http://ytlvy.com/categories/ios">IOS</a>
+    
+  
+
+  </div>
+
+</div>
+          
+          <div class="post-content markdown" itemprop="articleBody">
+            <div class="main-content-wrap">
+              <h1 id="ios-best-practices">iOS Best Practices</h1>
+
+<p>这里总结一下iOS最佳实践，主要参考Futurice developers的文章<a href="https://github.com/futurice/ios-good-practices">iOS Good Practices</a>，同时加上了一些自己的理解</p>
+
+<p>##目录
+* <a href="#setup_project">初始化项目</a>
+* <a href="#iOS_architecture">iOS架构</a>
+* <a href="#api_design">API设计</a>
+* <a href="#high_quality_code">高质量代码</a>
+* <a href="#code_style">编码规范</a>
+* <a href="#iOS_open_source_lib">iOS开源库</a>
+* <a href="#iOS_basic_skills">iOS基本技能</a>
+* <a href="#build_automation">自动化构建</a>
+* <a href="#optimiaze_app">优化App</a></p>
+
+<p><b id="setup_project"></b>
+##初始化项目
+###UI采用Interface Builder还是手写代码
+当开始一个iOS项目时，一个常见的问题就是编写所有的views是采用手写代码的方式还是使用Interface Builder的Storyboard或XIB文件。两种方式都可以实现相同UI效果，但几点需要考虑：</p>
+
+<p>####为什么使用代码？
+* 当多人协作开发时，由于Storyboard复杂的XML结构，它更容易发生版本冲突，这比手写代码的方式更难合并代码。
+* 手写代码更容易地结构化和重用views，因此使你的代码库保持<a href="http://en.wikipedia.org/wiki/Don%27t_repeat_yourself">DRY</a>。
+* 所有的信息都在同一个地方。在Interface Builder中，你必须通过点击所有inspectors才能找到你想要的东西。</p>
+
+<p></p>
+
+<p>####为什么使用Storyboard？
+* 为了更少的技术要求，Storyboard通过微调颜色或布局约束等方式来直接对项目做出贡献是一种很好的方式。但它需要设置工程并且需要时间来学习基础。
+* 由于你无需构建项目就可以预览一些变化，迭代速度就变得更快了
+* 在Xcode 6，自定义字体和UI元素最后都以可视化的方式在Storyboard上显示，当你设计最终外观时，给你更加好的灵感。
+* 从iOS 8开始，<a href="http://blog.futurice.com/adaptive-view-ios8">Size Class</a>允许你为不同的类型的设备和屏幕来设计并且没有重复</p>
+
+<p>###Git版本控制与.gitignore
+创建工程之后，一个好的步骤就是使用<a href="https://git-scm.com">git</a>对工程进行版本控制并且有个合适的<code>.gitignore</code>文件。这个文件的作用主要是忽略不想要的文件(用户设置、临时文件等)，不将它们存放在仓库。幸运的是，Github都提供<a href="https://github.com/github/gitignore/blob/master/Objective-C.gitignore">Objective-C</a> 和 <a href="https://github.com/github/gitignore/blob/master/Swift.gitignore">Swift</a>两种模板。</p>
+
+<p>###Build设置与Faux Pas/Infer
+为了提高<strong>代码质量</strong>，你可以配置一些Build Settings：</p>
+
+<ul>
+<li><p>启用<strong>Analyze During &lsquo;Build&rsquo;</strong>，在源文件运行Clang静态分析工具
+<img src="https://raw.githubusercontent.com/samlaudev/iOS-Best-Practices/master/ScreenShots/Enable-Build-Static-Analysis.png" alt="" /></p></li>
+
+<li><p>启用<strong>Treat Warnings as Errors</strong>，它会导致所有的警告都当做错误来处理
+<img src="https://raw.githubusercontent.com/samlaudev/iOS-Best-Practices/master/ScreenShots/Treat-Warnings-As-Errors.png" alt="" /></p></li>
+</ul>
+
+<p>除了配置build settings之外，你还可以通过工具<a href="http://fauxpasapp.com/">Faux Pas</a>或<a href="https://github.com/facebook/infer">Facebook Infer</a>来检测静态错误。它通过分析你代码库，然后查找出你意想不到的问题。在上架任何iOS或Mac的app之前使用它吧。</p>
+
+<p>###使用CocoaPods管理库
+如果你打算引入额外的依赖(例如，第三方库)到你工程，<a href="http://www.cocoapods.org/">CocoaPods</a>提供一种容易和快速的集成方式。下面简单介绍它的安装和使用</p>
+
+<p>####安装CocoaPods
+使用以下命令就能安装<strong>CocoaPods</strong>：</p>
+
+<pre><code>sudo gem install cocoapods
+</code></pre>
+
+<p>输入上述命令可能很久都没响应，因为CocoaPods也被墙了。所以使用淘宝的镜像会快不少，</p>
+
+<pre><code>gem sources --remove https://rubygems.org/
+gem sources -a http://ruby.taobao.org/
+</code></pre>
+
+<p>####使用CocoaPods
+* 使用<code>pod search</code>来搜索你需要安装的库。例如，你想安装<code>mantle</code>这个iOS库，使用这个命令来搜索：<code>pod search mantle</code>，显示以下结果：
+<img src="https://raw.githubusercontent.com/samlaudev/iOS-Best-Practices/master/ScreenShots/pod-search.png" alt="" />
+红色圈住的内容就是安装库时<code>Podfile</code>文件需要的配置信息</p>
+
+<ul>
+<li><p>在工程目录下创建<code>Podfile</code>文件。这个文件主要保存依赖库信息，告诉CocoaPods去下载和管理哪些依赖库。创建之后，将<code>pod 'Mantle', '~&gt; 1.5.4'</code>追加到Podfile文件
+<img src="https://raw.githubusercontent.com/samlaudev/iOS-Best-Practices/master/ScreenShots/Podfile-Demo.png" alt="" /></p></li>
+
+<li><p>使用<code>pod install --verbose --no-repo-update</code>安装第三方库。</p></li>
+
+<li><p>如果在后来为了添加或删除第三库而修改<code>Podfile</code>文件，使用<code>pod update --verbose --no-repo-update</code>更新第三方库。</p></li>
+
+<li><p>由于安装和更新库的命令太长，使用shell的命名别名来简化，以后只需输入<code>pod_install</code>和<code>pod_update</code>即可安装和更新第三方库了</p></li>
+</ul>
+
+<pre><code> #setup pod update alias name
+ alias pod_update='pod update --verbose --no-repo-update'
+ alias pod_install='pod install --verbose --no-repo-update'
+</code></pre>
+
+<ul>
+<li>安装好第三方库之后，关闭Xcode，然后打开<code>.xcworkspace</code>而不是<code>.xcproject</code>文件，然后引入对应第三方库的头文件，你就可以使用第三方库了。</li>
+</ul>
+
+<p>###项目目录结构
+为了组织目录里面的上百个源代码文件，最好的方式就是根据你的架构来设置目录结构。例如，你可以采用以下目录结构：</p>
+
+<pre><code>├─ AppDelegate
+├─ General
+├─ Macro            
+├─ Sections
+├─ Helpers
+├─ Vendor
+├─ Resources
+</code></pre>
+
+<ul>
+<li><p>####AppDelegate
+这个目录主要存放AppDelegate.h(.m)文件，是整个app的入口文件，所以单独拿出来。</p></li>
+
+<li><p>####General
+这个目录放会被重用的Views、Controllers、Categories和DataSources等。里面大概是这样：</p></li>
+</ul>
+
+<pre><code> General
+     |- Cell
+        |- ELMBaseCell
+        ...
+     |- Views
+        |- ELMScollView
+        |- ELMPullToRefresh
+        ...
+     |- Controllers
+        |- ELMBaseViewController
+        ...
+     |- Categories
+        |- UIViewController+Sizzle
+        |- UIImageView+Downloader
+        ...
+     |- DataSources
+        |- ArrayDataSource
+        ...
+</code></pre>
+
+<p>这里的<code>ELM</code>是项目的首字母缩写</p>
+
+<ul>
+<li>####Macro
+这个目录下放了整个app会用到的宏定义，里面大概是这样：</li>
+</ul>
+
+<pre><code> Macro
+     |- AppMacro.h
+     |- NotificationMacro.h
+     |- VendorMacro.h
+     |- UtilsMacro.h
+     ...
+</code></pre>
+
+<p>如果有新的类型的宏定义，可以再新建一个相关的Macro.h。</p>
+
+<ul>
+<li>####Sections
+这个目录下面的文件对应的是app的具体单元，如导航、瀑布流等等。里面大概是这样：</li>
+</ul>
+
+<pre><code> Sections
+     |- Menu
+     |- Setting
+     |- Collection
+     ...
+</code></pre>
+
+<p>而每个具体单元对应存放几个部分<code>View</code>, <code>Controller</code>, <code>ViewModel</code>, <code>Model</code>, <code>Network</code>的类。</p>
+
+<ul>
+<li>####Helpers
+这个目录放一些帮助类，文件名与功能挂钩。里面大概是这样：</li>
+</ul>
+
+<pre><code> Helpers
+     |- ELMShareHelper
+     |- ELMHelper
+     |- ELMEmotionHelper
+     ...
+</code></pre>
+
+<p>帮助类的主要作用是帮助Controller瘦身，也可以提供一定程度的复用。</p>
+
+<ul>
+<li><p>####Vendors
+这个目录放第三方的类库/SDK，如UMeng、WeiboSDK、WeixinSDK等等。</p></li>
+
+<li><p>####Resources
+这个目录下放的是app会用到的一些资源，例如声音、数据，但<strong>图片</strong>存放在<code>Images.xcassets</code>目录。</p></li>
+</ul>
+
+<p>项目结构的参考链接：<a href="http://limboy.me/ios/2013/09/23/build-ios-application.html">iOS项目的目录结构和开发流程</a></p>
+
+<p>###Assets资源
+<a href="https://developer.apple.com/library/ios/recipes/xcode_help-image_catalog-1.0/Recipe.html">Asset catalogs</a>是管理你的项目所有可视化资源(visual assets)的最好方式。它们可以保存通用和特定设备(4寸iPhone，视网膜iPhone、iPad等)两种资源和会根据文件名自动提供合适的资源。</p>
+
+<p>####使用Bitmap Images
+Asset catalogs仅暴露图像集合的名字，在图像集合中抽离实际的文件名。这样话，很好地防止assset资源命名冲突，因为像<code>button_large@2x.png</code>这样的文件在它们的图像集合被划分命名空间。但当命名assets时遵循一些规则会更加方便。</p>
+
+<pre><code>IconCheckmarkHighlighted.png // Universal, non-Retina
+IconCheckmarkHighlighted@2x.png // Universal, Retina
+IconCheckmarkHighlighted~iphone.png // iPhone, non-Retina
+IconCheckmarkHighlighted@2x~iphone.png // iPhone, Retina
+IconCheckmarkHighlighted-568h@2x~iphone.png // iPhone, Retina, 4-inch
+IconCheckmarkHighlighted~ipad.png // iPad, non-Retina
+IconCheckmarkHighlighted@2x~ipad.png // iPad, Retina
+</code></pre>
+
+<p>修饰后缀<code>-568h</code>, <code>@2x</code>, <code>~iphone</code> 和 <code>~ipad</code>并不是必要的，但如果有了它之后，当拖动文件到图像集合会自动将它们放在合适的位置，因此，如果发生分配错误，这会很难发现它们。</p>
+
+<p>####使用 Vector Images
+你也可以把由设计师设计的原始<a href="http://martiancraft.com/blog/2014/09/vector-images-xcode6/">vector graphics (PDFs)</a>添加到asset catalogs，然后Xcode会自动生成bitmaps。这样会减少工程的复杂性(管理更少的文件)。</p>
+
+<p>###杂项
+####App Icon和Launch Image
+* <strong>App Icon:</strong> 选中工程目录下的<code>Images.xcassets</code>文件，向AppIcon中添加Spotlight、Settings和App Icons</p>
+
+<p><img src="https://raw.githubusercontent.com/samlaudev/iOS-Best-Practices/master/ScreenShots/AppIcons.png" alt="" />
+ （引用饿了么App图片）</p>
+
+<ul>
+<li><strong>Launch Image:</strong> Xcode6之后，每次创建工程之后都会创建<code>LaunchScreen.xib</code>文件来显示启动画面，如果你想采用之前的Launch Image方式，你需要在工程设置中<code>Geneal</code>的<strong>App Icons and Launch Images</strong>中设置Launch Images Source.
+<img src="https://raw.githubusercontent.com/samlaudev/iOS-Best-Practices/master/ScreenShots/Project-General-AppIcons-Settings.png" alt="" /></li>
+</ul>
+
+<p>然后添加图片到LaunchImage中</p>
+
+<p><img src="https://raw.githubusercontent.com/samlaudev/iOS-Best-Practices/master/ScreenShots/LaunchImages.png" alt="" />
+ （引用饿了么App图片）</p>
+
+<p>####Bundle Display Name
+一般来说，Bundle Display Name跟工程名相同。例如， 你设置工程名为<code>MeiTuanWaiMai</code>，那么App显示Bundle Display Name就为<code>MeiTuanWaiMai</code>。
+ <img src="https://raw.githubusercontent.com/samlaudev/iOS-Best-Practices/master/ScreenShots/Bundle-Display-Name1.png" alt="" /></p>
+
+<p>但一般我们都需要在<code>Info.plist</code>文件中添加一个<code>Bundle display name</code>字段来修改名字。例如，我修改为<strong>美团外卖</strong>。</p>
+
+<p><img src="https://raw.githubusercontent.com/samlaudev/iOS-Best-Practices/master/ScreenShots/Modify-Bundle-Display-Name.png" alt="" /></p>
+
+<p>修改后效果如下：</p>
+
+<p><img src="https://github.com/samlaudev/iOS-Best-Practices/raw/master/ScreenShots/Bundle-Display-Name2.png" alt="" /></p>
+
+<p>####状态栏
+状态栏默认是黑色，如果你想改为<strong>白色</strong>，首先在项目设置General中将<code>Status Bar Style</code>设置为<code>Light</code></p>
+
+<p><img src="https://raw.githubusercontent.com/samlaudev/iOS-Best-Practices/master/ScreenShots/Project-Settings-StatusBar-Light.png" alt="" /></p>
+
+<p>然后在<code>Info.plist</code>文件中添加多一个字段<code>View controller-based status bar appearance</code>，并设置为<code>NO</code></p>
+
+<p><img src="https://raw.githubusercontent.com/samlaudev/iOS-Best-Practices/master/ScreenShots/Info-Settings.png" alt="" /></p>
+
+<p><b id="iOS_architecture"></b>
+##iOS架构
+* <a href="http://programmers.stackexchange.com/questions/184396/mvcs-model-view-controller-store">Model-View-Controller-Store (MVCS)</a>
+    * 这是Apple默认的架构(MVC)，通过引入<strong>Store层</strong>使它能够访问Model实例和处理网络请求、缓存等
+    * 每个Store对象暴露给view controller一个<code>RACSignal</code>对象或一个<code>void</code>返回值的自定义completion block方法
+* <a href="http://www.objc.io/issue-13/mvvm.html">Model-View-ViewModel (MVVM)</a>
+    * 出于&rdquo;重量级的view controllers&rdquo;: MVVM想将<code>UIViewController</code>子类那部分处理view之间状态和交互逻辑抽离到ViewModel，保持Controller的精简和让代码更加容易测试。
+    * 对于很多Cocoa开发者都是新的概念，但可以参考文章<a href="http://cocoasamurai.blogspot.de/2013/03/basic-mvvm-with-reactivecocoa.html">cocoasamurai-rac</a>和<a href="http://www.raywenderlich.com/74106/mvvm-tutorial-with-reactivecocoa-part-1">raywenderlich-mvvm</a>
+* <a href="http://www.objc.io/issue-13/viper.html">View-Interactor-Presenter-Entity-Routing (VIPER)</a>
+      * 它是比较特殊的架构，适用于大型的项目，当感觉连MVVM都太混乱了和难以测试，你是时候了解这个架构了。</p>
+
+<h3 id="event-模式">“Event”模式</h3>
+
+<p>这里有一些通知其他对象的常用方法：</p>
+
+<ul>
+<li><strong>Delegation:</strong> <em>(一对一)</em> Apple经常地使用它(有些人会说，太多了)。当想从model view执行回调时，你就会使用它。</li>
+<li><strong>Callback blocks:</strong> <em>(一对一)</em> 当相关代码段之间关系紧密时，它能使代码之间更加松耦合。当有很多的senders时，它比delegation更加容易扩展。</li>
+<li><strong>Notification Center:</strong> <em>(一对多)</em> 这是多个对象发送&rdquo;事件&rdquo;给多个观察者的最常用方式。耦合度非常低 - notifications甚至在没有引用dispatching object的情况下被全局观察。</li>
+<li><strong>Key-Value Observing (KVO):</strong> <em>(一对多)</em> 不需要被观察者显式地发送&rdquo;事件&rdquo;只要 <em>Key-Value Coding (KVC)</em> 符合被观察的键(属性)。通常不推荐使用，因为它隐式的特性以及繁琐的API。</li>
+<li><strong>Signals:</strong> <em>(一对多)</em> <a href="https://github.com/ReactiveCocoa/ReactiveCocoa">ReactiveCocoa</a>的核心就是通过提供一些<a href="http://elm-lang.org/learn/Escape-from-Callback-Hell.elm">callback hell</a>，允许将你和核心内容链接和组合.</li>
+</ul>
+
+<h3 id="models">Models</h3>
+
+<h3 id="views">Views</h3>
+
+<h3 id="controllers">Controllers</h3>
+
+<p>####代码结构规范</p>
+
+<pre><code>#pragma mark - Lifecycle
+- (instancetype)init {}
+- (void)dealloc {}
+- (void)viewDidLoad {}
+- (void)viewWillAppear:(BOOL)animated {}
+- (void)didReceiveMemoryWarning {}
+
+#pragma mark - Custom Accessors
+- (void)setCustomProperty:(id)value {}
+- (id)customProperty {}
+
+#pragma mark - IBActions/Event Response
+- (IBAction)submitData:(id)sender {}
+- (void)someButtonDidPressed:(UIButton*)button
+
+#pragma mark - Protocol conformance
+#pragma mark - UITextFieldDelegate
+#pragma mark - UITableViewDataSource
+#pragma mark - UITableViewDelegate
+
+#pragma mark - Public
+- (void)publicMethod {}
+
+#pragma mark - Private
+- (void)privateMethod {}
+
+#pragma mark - NSCopying
+- (id)copyWithZone:(NSZone *)zone {}
+
+#pragma mark - NSObject
+- (NSString *)description {}
+
+</code></pre>
+
+<p>####对controller&rdquo;瘦身&rdquo;</p>
+
+<p>###网络</p>
+
+<p>###数据存储</p>
+
+<p>###iOS架构参考博客系列
+####<a href="http://casatwy.com">Casa Taloyum</a>的iOS应用架构
+* <a href="http://casatwy.com/iosying-yong-jia-gou-tan-kai-pian.html">iOS应用架构谈 开篇</a>
+* <a href="http://casatwy.com/iosying-yong-jia-gou-tan-viewceng-de-zu-zhi-he-diao-yong-fang-an.html">iOS应用架构谈 view层的组织和调用方案</a>
+* <a href="http://casatwy.com/iosying-yong-jia-gou-tan-wang-luo-ceng-she-ji-fang-an.html">iOS应用架构谈 网络层设计方案</a>
+* iOS应用架构谈 动态部署方案
+* iOS应用架构谈 本地持久化方案</p>
+
+<p>####<a href="http://objccn.io">Objc中国</a>的iOS架构
+* <a href="http://objccn.io/issue-13-1/">MVVM 介绍</a>
+* <a href="http://objccn.io/issue-13-2/">避免滥用单例</a>
+* <a href="http://objccn.io/issue-13-3/">iOS 中的行为</a>
+* <a href="http://objccn.io/issue-13-4/">子类</a>
+* <a href="http://objccn.io/issue-13-5/">使用VIPER构建iOS应用</a></p>
+
+<p><b id="api_design"></b>
+##API设计
+###面向对象基本概念
+* 抽象
+* 封装
+* 继承
+* 多态</p>
+
+<p>###面向对象设计原则
+####单一职责原则(Single Responsibility Principle)
+####开放封闭原则(Open Close Principle)
+####Liskov替换原则(Liskov Substitution Principle)
+####接口隔离原则(Interface Segregation Principle)
+####依赖倒置原则(Dependency Inversion Principle)</p>
+
+<p>###设计模式
+###重构
+###AOP
+<a href="https://github.com/steipete/Aspects">Aspects</a>
+###依赖注入
+<a href="https://github.com/DyCI/dyci-main">dyci-main</a></p>
+
+<p><b id="high_quality_code"></b>
+##高质量代码
+###简洁性
+###易读性
+###复用性
+###可测试性
+###健壮性</p>
+
+<p><b id="code_style"></b>
+##编码规范
+关于Objective-C的编码规范，请参考我翻译的<a href="https://github.com/samlaudev/Objective-C-Coding-Style">raywenderlich.com Objective-C编码规范</a></p>
+
+<p><b id="iOS_open_source_lib"></b>
+##iOS开源库
+* <a href="https://github.com/ReactiveCocoa/ReactiveCocoa">ReactiveCocoa</a>
+* <a href="https://github.com/steipete/Aspects">Aspects</a>
+* <a href="https://github.com/AFNetworking/AFNetworking">AFNetworking</a>
+* <a href="https://github.com/Mantle/Mantle">Mantle</a>
+* <a href="https://github.com/SnapKit/Masonry">Masonry</a>
+* <a href="https://github.com/cloudkite/Classy">Classy</a>
+* <a href="https://github.com/olegam/ClassyLiveLayout">ClassyLiveLayout</a>
+* <a href="https://github.com/kiwi-bdd/Kiwi">Kiwi</a>
+* <a href="https://github.com/ccgus/fmdb">FMDB</a>
+* <a href="https://github.com/mysterioustrousers/MTDates">MTDates</a>
+* <a href="https://github.com/rs/SDWebImage">SDWebImage</a></p>
+
+<p><b id="iOS_basic_skills"></b>
+##iOS基本技能
+###多线程管理
+###内存管理
+###AutoLayout适配不同屏幕
+###自定义复用控件
+###自定义动画
+###调试
+###崩溃报告分析
+###阅读开源项目</p>
+
+<p><b id="build_automation"></b>
+##自动化构建
+###优化编译速度
+###构建配置</p>
+
+<p>###分析</p>
+
+<p>###部署配置</p>
+
+<p><b id="optimiaze_app"></b>
+##优化App</p>
+
+<p>###可执行文件瘦身</p>
+              
+            </div>
+          </div>
+          <div id="post-footer" class="post-footer main-content-wrap">
+            
+              
+                
+                
+                  <div class="post-footer-tags">
+                    <span class="text-color-light text-small"></span><br/>
+                    
+  <a class="tag tag--primary tag--small" href="http://ytlvy.com/tags/practices/">Practices</a>
+
+                  </div>
+                
+              
+            
+            
+  <div class="post-actions-wrap">
+      <nav >
+        <ul class="post-actions post-action-nav">
+          
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="http://ytlvy.com/posts/2015-08-05/2015-08-05-ios-application-framework-think-network/" data-tooltip="iOS Application Framework Think - Network">
+              
+                  <i class="fa fa-angle-left"></i>
+                  <span class="hide-xs hide-sm text-small icon-ml"></span>
+                </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="http://ytlvy.com/posts/2015-08-04/2015-08-04-c-programe-memory-management/" data-tooltip="C programe memory management">
+              
+                  <span class="hide-xs hide-sm text-small icon-mr"></span>
+                  <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+          
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
+      
+        <li class="post-action hide-lg hide-md hide-sm">
+          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+            <i class="fa fa-share-alt"></i>
+          </a>
+        </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://ytlvy.com/posts/2015-08-05/2015-08-05-ios-best-practices/">
+              <i class="fa fa-facebook-official"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http://ytlvy.com/posts/2015-08-05/2015-08-05-ios-best-practices/">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=http://ytlvy.com/posts/2015-08-05/2015-08-05-ios-best-practices/">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        
+      
+      
+        <li class="post-action">
+          <a class="post-action-btn btn btn--default" href="#disqus_thread">
+            <i class="fa fa-comment-o"></i>
+          </a>
+        </li>
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#">
+        
+          <i class="fa fa-list"></i>
+        </a>
+      </li>
+    </ul>
+  </div>
+
+
+            
+              
+                <div id="disqus_thread">
+  <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+              
+            
+          </div>
+        </article>
+        <footer id="footer" class="main-content-wrap">
+  <span class="copyrights">
+    &copy; 2017 肖杰. 
+  </span>
+</footer>
+
+      </div>
+      <div id="bottom-bar" class="post-bottom-bar" data-behavior="1">
+        
+  <div class="post-actions-wrap">
+      <nav >
+        <ul class="post-actions post-action-nav">
+          
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="http://ytlvy.com/posts/2015-08-05/2015-08-05-ios-application-framework-think-network/" data-tooltip="iOS Application Framework Think - Network">
+              
+                  <i class="fa fa-angle-left"></i>
+                  <span class="hide-xs hide-sm text-small icon-ml"></span>
+                </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="http://ytlvy.com/posts/2015-08-04/2015-08-04-c-programe-memory-management/" data-tooltip="C programe memory management">
+              
+                  <span class="hide-xs hide-sm text-small icon-mr"></span>
+                  <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+          
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
+      
+        <li class="post-action hide-lg hide-md hide-sm">
+          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+            <i class="fa fa-share-alt"></i>
+          </a>
+        </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://ytlvy.com/posts/2015-08-05/2015-08-05-ios-best-practices/">
+              <i class="fa fa-facebook-official"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http://ytlvy.com/posts/2015-08-05/2015-08-05-ios-best-practices/">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=http://ytlvy.com/posts/2015-08-05/2015-08-05-ios-best-practices/">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        
+      
+      
+        <li class="post-action">
+          <a class="post-action-btn btn btn--default" href="#disqus_thread">
+            <i class="fa fa-comment-o"></i>
+          </a>
+        </li>
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#">
+        
+          <i class="fa fa-list"></i>
+        </a>
+      </li>
+    </ul>
+  </div>
+
+
+      </div>
+      <div id="share-options-bar" class="share-options-bar" data-behavior="1">
+  <i id="btn-close-shareoptions" class="fa fa-close"></i>
+  <ul class="share-options">
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Fytlvy.com%2Fposts%2F2015-08-05%2F2015-08-05-ios-best-practices%2F">
+          <i class="fa fa-facebook-official"></i><span>%!(EXTRA string=Facebook)</span>
+        </a>
+      </li>
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=http%3A%2F%2Fytlvy.com%2Fposts%2F2015-08-05%2F2015-08-05-ios-best-practices%2F">
+          <i class="fa fa-twitter"></i><span>%!(EXTRA string=Twitter)</span>
+        </a>
+      </li>
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=http%3A%2F%2Fytlvy.com%2Fposts%2F2015-08-05%2F2015-08-05-ios-best-practices%2F">
+          <i class="fa fa-google-plus"></i><span>%!(EXTRA string=Google&#43;)</span>
+        </a>
+      </li>
+    
+  </ul>
+</div>
+<div id="share-options-mask" class="share-options-mask"></div>
+    </div>
+    
+    <div id="about">
+  <div id="about-card">
+    <div id="about-btn-close">
+      <i class="fa fa-remove"></i>
+    </div>
+    
+      <img id="about-card-picture" src="//www.gravatar.com/avatar/8d5387e20303e26c6147cfe67990995e?s=110" alt="" />
+    
+    <h4 id="about-card-name">肖杰</h4>
+    
+      <div id="about-card-bio">一个瑜伽|篮球|羽毛球爱好者</div>
+    
+    
+      <div id="about-card-job">
+        <i class="fa fa-briefcase"></i>
+        <br/>
+        搬砖工
+      </div>
+    
+    
+      <div id="about-card-location">
+        <i class="fa fa-map-marker"></i>
+        <br/>
+        Beijing
+      </div>
+    
+  </div>
+</div>
+
+    <div id="algolia-search-modal" class="modal-container">
+  <div class="modal">
+    <div class="modal-header">
+      <span class="close-button"><i class="fa fa-close"></i></span>
+      <a href="https://algolia.com" target="_blank" rel="noopener" class="searchby-algolia text-color-light link-unstyled">
+        <span class="searchby-algolia-text text-color-light text-small">by</span>
+        <img class="searchby-algolia-logo" src="https://www.algolia.com/static_assets/images/press/downloads/algolia-light.svg">
+      </a>
+      <i class="search-icon fa fa-search"></i>
+      <form id="algolia-search-form">
+        <input type="text" id="algolia-search-input" name="search"
+          class="form-control input--large search-input" placeholder="" />
+      </form>
+    </div>
+    <div class="modal-body">
+      <div class="no-result text-color-light text-center"></div>
+      <div class="results">
+        
+        
+      </div>
+    </div>
+    <div class="modal-footer">
+      <p class="results-count text-medium"
+         data-message-zero=""
+         data-message-one=""
+         data-message-other="">
+         0 posts found
+      </p>
+    </div>
+  </div>
+</div>
+    
+  
+    
+    <div id="cover" style="background-image:url('http://ytlvy.com/images/cover.jpg');"></div>
+  
+
+
+    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js" integrity="sha256-/BfiIkHlHoVihZdc6TFuj7MmJ0TWcWsMXkeDFwhi0zw=" crossorigin="anonymous"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.7/js/jquery.fancybox.min.js" integrity="sha256-GEAnjcTqVP+vBp3SSc8bEDQqvWAZMiHyUSIorrWwH50=" crossorigin="anonymous"></script>
+
+
+<script src="http://ytlvy.com/js/script-qi9wbxp2ya2j6p7wx1i6tgavftewndznf4v0hy2gvivk1rxgc3lm7njqb6bz.min.js"></script>
+
+
+
+<script>
+$(document).ready(function() {
+  hljs.configure({ classPrefix: '', useBR: false });
+  $('pre.code-highlight > code, pre > code').each(function(i, block) {
+    if (!$(this).hasClass('codeblock')) {
+      $(this).addClass('codeblock');
+    }
+    hljs.highlightBlock(block);
+  });
+});
+</script>
+
+
+  
+    
+      <script>
+        var disqus_config = function () {
+          this.page.url = 'http:\/\/ytlvy.com\/posts\/2015-08-05\/2015-08-05-ios-best-practices\/';
+          
+            this.page.identifier = '\/posts\/2015-08-05\/2015-08-05-ios-best-practices\/'
+          
+        };
+        (function() {
+          
+          
+          if (window.location.hostname == "localhost") {
+            return;
+          }
+          var d = document, s = d.createElement('script');
+          var disqus_shortname = 'hugo-tranquilpeak-theme';
+          s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+
+          s.setAttribute('data-timestamp', +new Date());
+          (d.head || d.body).appendChild(s);
+        })();
+      </script>
+    
+  
+
+
+
+    
+  </body>
+</html>
+

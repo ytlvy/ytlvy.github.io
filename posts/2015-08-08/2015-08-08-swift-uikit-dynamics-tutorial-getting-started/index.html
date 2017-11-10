@@ -1,0 +1,1064 @@
+
+
+  
+
+
+  
+
+
+
+
+  
+
+
+  
+
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="Hugo 0.30.2 with theme Tranquilpeak 0.4.2-BETA">
+    <title>Swift UIKit Dynamics Tutorial: Getting Started</title>
+    <meta name="author" content="肖杰">
+    <meta name="keywords" content="">
+
+    <link rel="icon" href="http://ytlvy.com/favicon.png">
+    
+
+    
+    <meta name="description" content="UIKit Dynamics 教程: 起步
+
+
+
+原文链接 : UIKit Dynamics Tutorial: Getting Started
+原文作者: James Frost
+译文出自: 开发技术前线http://www.devtf.cn/
+译者 : Lollypo
+校对者: Harries Chen
+状态 :  完成
+
+
+
+更新备注:本教程是由Colin Eberhardt编写的 iOS 7 by Tutorials其中某章节的精简版本.由James Frost更新到iOS8并用Swift重写,在Xcode 6 beta 7版本上测试通过。
+
+iOS的设计目标鼓励你去创建数字界面模拟触摸，手势，改变方向等，就好像它们真实的物理对象而远非像素的集合。最终给予用户更深层级的交互而不是肤浅的拟真设计。
+
+这听起来感觉挺难的，因为让数字界面看起来是真实的远比让它感觉是真实的简单。不过好在你有一些漂亮的新工具:
+
+
+UIKit Dynamics 是集成到UIKit中的物理引擎。这允许你创建一个感觉像是真实的界面，通过添加一些行为，例如重力，锚连接 (弹簧)以及力. 你可以定义你希望你的界面需要的物理特征, Dynamics会帮你关心其他的细枝末节。
+Motion Effects 允许你创建类似于iOS 7 主屏幕中酷酷的视差效果. 基本上你可以利用手机加速器提供的数据来创建界面来模拟手机方向发生改变的反应。
+
+
+当一起使用的时候，由 Dynamics 与 Motion形成用户体验的工具，让你的界面给用户生活带来非同一般的体验。当观察到他们的操作是通过一种自然、动态的方式，你的用户将会与你的app进行更深层次的连接。
+
+
+注意: 由于本教程编写的时候iOS 8 还处于测试中，因此没有提供iOS8的截图. 所有的截图都是iOS7环境下的,不过看起来与iOS 8相差不大.
+
+
+">
+    <meta property="og:description" content="UIKit Dynamics 教程: 起步
+
+
+
+原文链接 : UIKit Dynamics Tutorial: Getting Started
+原文作者: James Frost
+译文出自: 开发技术前线http://www.devtf.cn/
+译者 : Lollypo
+校对者: Harries Chen
+状态 :  完成
+
+
+
+更新备注:本教程是由Colin Eberhardt编写的 iOS 7 by Tutorials其中某章节的精简版本.由James Frost更新到iOS8并用Swift重写,在Xcode 6 beta 7版本上测试通过。
+
+iOS的设计目标鼓励你去创建数字界面模拟触摸，手势，改变方向等，就好像它们真实的物理对象而远非像素的集合。最终给予用户更深层级的交互而不是肤浅的拟真设计。
+
+这听起来感觉挺难的，因为让数字界面看起来是真实的远比让它感觉是真实的简单。不过好在你有一些漂亮的新工具:
+
+
+UIKit Dynamics 是集成到UIKit中的物理引擎。这允许你创建一个感觉像是真实的界面，通过添加一些行为，例如重力，锚连接 (弹簧)以及力. 你可以定义你希望你的界面需要的物理特征, Dynamics会帮你关心其他的细枝末节。
+Motion Effects 允许你创建类似于iOS 7 主屏幕中酷酷的视差效果. 基本上你可以利用手机加速器提供的数据来创建界面来模拟手机方向发生改变的反应。
+
+
+当一起使用的时候，由 Dynamics 与 Motion形成用户体验的工具，让你的界面给用户生活带来非同一般的体验。当观察到他们的操作是通过一种自然、动态的方式，你的用户将会与你的app进行更深层次的连接。
+
+
+注意: 由于本教程编写的时候iOS 8 还处于测试中，因此没有提供iOS8的截图. 所有的截图都是iOS7环境下的,不过看起来与iOS 8相差不大.
+
+
+">
+    <meta property="og:type" content="blog">
+    <meta property="og:title" content="Swift UIKit Dynamics Tutorial: Getting Started">
+    <meta property="og:url" content="/posts/2015-08-08/2015-08-08-swift-uikit-dynamics-tutorial-getting-started/">
+    <meta property="og:site_name" content="My New Hugo Site">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="My New Hugo Site">
+    <meta name="twitter:description" content="UIKit Dynamics 教程: 起步
+
+
+
+原文链接 : UIKit Dynamics Tutorial: Getting Started
+原文作者: James Frost
+译文出自: 开发技术前线http://www.devtf.cn/
+译者 : Lollypo
+校对者: Harries Chen
+状态 :  完成
+
+
+
+更新备注:本教程是由Colin Eberhardt编写的 iOS 7 by Tutorials其中某章节的精简版本.由James Frost更新到iOS8并用Swift重写,在Xcode 6 beta 7版本上测试通过。
+
+iOS的设计目标鼓励你去创建数字界面模拟触摸，手势，改变方向等，就好像它们真实的物理对象而远非像素的集合。最终给予用户更深层级的交互而不是肤浅的拟真设计。
+
+这听起来感觉挺难的，因为让数字界面看起来是真实的远比让它感觉是真实的简单。不过好在你有一些漂亮的新工具:
+
+
+UIKit Dynamics 是集成到UIKit中的物理引擎。这允许你创建一个感觉像是真实的界面，通过添加一些行为，例如重力，锚连接 (弹簧)以及力. 你可以定义你希望你的界面需要的物理特征, Dynamics会帮你关心其他的细枝末节。
+Motion Effects 允许你创建类似于iOS 7 主屏幕中酷酷的视差效果. 基本上你可以利用手机加速器提供的数据来创建界面来模拟手机方向发生改变的反应。
+
+
+当一起使用的时候，由 Dynamics 与 Motion形成用户体验的工具，让你的界面给用户生活带来非同一般的体验。当观察到他们的操作是通过一种自然、动态的方式，你的用户将会与你的app进行更深层次的连接。
+
+
+注意: 由于本教程编写的时候iOS 8 还处于测试中，因此没有提供iOS8的截图. 所有的截图都是iOS7环境下的,不过看起来与iOS 8相差不大.
+
+
+">
+    
+    
+
+    
+    
+
+    
+      <meta property="og:image" content="//www.gravatar.com/avatar/8d5387e20303e26c6147cfe67990995e?s=640">
+    
+
+    
+    
+    
+
+    
+
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/jquery.fancybox.min.css" integrity="sha256-vuXZ9LGmmwtjqFX1F+EKin1ThZMub58gKULUyf0qECk=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/helpers/jquery.fancybox-thumbs.min.css" integrity="sha256-SEa4XYAHihTcEP1f5gARTB2K26Uk8PsndQYHQC1f4jU=" crossorigin="anonymous" />
+    
+    
+    <link rel="stylesheet" href="http://ytlvy.com/css/style-jsjn0006wyhpyzivf6yceb31gvpjatbcs3qzjvlumobfnugccvobqwxnnaj8.min.css" />
+    
+    
+
+    
+      
+    
+    
+  </head>
+
+  <body>
+    <div id="blog">
+      <header id="header" data-behavior="1">
+  <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+  <div class="header-title">
+    <a class="header-title-link" href="http://ytlvy.com/">My New Hugo Site</a>
+  </div>
+  
+    
+      <a class="header-right-picture "
+         href="http://ytlvy.com/#about">
+    
+    
+    
+      
+        <img class="header-picture" src="//www.gravatar.com/avatar/8d5387e20303e26c6147cfe67990995e?s=90" alt="" />
+      
+    
+    </a>
+  
+</header>
+
+      <nav id="sidebar" data-behavior="1">
+  <div class="sidebar-container">
+    
+      <div class="sidebar-profile">
+        <a href="http://ytlvy.com/#about">
+          <img class="sidebar-profile-picture" src="//www.gravatar.com/avatar/8d5387e20303e26c6147cfe67990995e?s=110" alt="" />
+        </a>
+        <h4 class="sidebar-profile-name">肖杰</h4>
+        
+          <h5 class="sidebar-profile-bio">一个瑜伽|篮球|羽毛球爱好者</h5>
+        
+      </div>
+    
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="http://ytlvy.com/">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-home"></i>
+      
+      <span class="sidebar-button-desc">Home</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="http://ytlvy.com/categories">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-bookmark"></i>
+      
+      <span class="sidebar-button-desc">Categories</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="http://ytlvy.com/tags">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+      
+      <span class="sidebar-button-desc">Tags</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="http://ytlvy.com/archives">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
+      
+      <span class="sidebar-button-desc">Archives</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="http://ytlvy.com/#about">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-question"></i>
+      
+      <span class="sidebar-button-desc">About</span>
+    </a>
+  </li>
+
+
+    </ul>
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://github.com/ytlvy" target="_blank" rel="noopener">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-github"></i>
+      
+      <span class="sidebar-button-desc">GitHub</span>
+    </a>
+  </li>
+
+
+    </ul>
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="http://ytlvy.com/index.xml">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-rss"></i>
+      
+      <span class="sidebar-button-desc">RSS</span>
+    </a>
+  </li>
+
+
+    </ul>
+  </div>
+</nav>
+
+      
+
+      <div id="main" data-behavior="1"
+        class="
+               hasCoverMetaIn
+               ">
+        <article class="post" itemscope itemType="http://schema.org/BlogPosting">
+          
+          
+            <div class="post-header main-content-wrap text-left">
+  
+    <h1 class="post-title" itemprop="headline">
+      Swift UIKit Dynamics Tutorial: Getting Started
+    </h1>
+  
+  
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2015-08-08T00:00:00Z">
+        
+   8, 2015
+
+      </time>
+    
+    
+  
+  
+    <span></span>
+    
+      <a class="category-link" href="http://ytlvy.com/categories/swift">Swift</a>
+    
+  
+
+  </div>
+
+</div>
+          
+          <div class="post-content markdown" itemprop="articleBody">
+            <div class="main-content-wrap">
+              <h2 id="uikit-dynamics-教程-起步">UIKit Dynamics 教程: 起步</h2>
+
+<blockquote>
+<ul>
+<li>原文链接 : <a href="http://www.raywenderlich.com/76147/uikit-dynamics-tutorial-swift">UIKit Dynamics Tutorial: Getting Started</a></li>
+<li>原文作者: <a href="http://www.raywenderlich.com/u/frosty">James Frost</a></li>
+<li>译文出自: <a href="http://www.devtf.cn/">开发技术前线http://www.devtf.cn/</a></li>
+<li>译者 : <a href="https://github.com/Lollypo">Lollypo</a></li>
+<li>校对者: <a href="https://github.com/mrchenhao">Harries Chen</a></li>
+<li>状态 :  完成</li>
+</ul>
+</blockquote>
+
+<p><strong>更新备注</strong>:本教程是由<a href="http://www.raywenderlich.com/u/ColinEberhardt">Colin Eberhardt</a>编写的<a href="http://www.raywenderlich.com/?page_id=48020"> iOS 7 by Tutorials</a>其中某章节的精简版本.由James Frost更新到iOS8并用Swift重写,在Xcode 6 beta 7版本上测试通过。</p>
+
+<p>iOS的设计目标鼓励你去创建数字界面模拟触摸，手势，改变方向等，就好像它们真实的物理对象而远非像素的集合。最终给予用户更深层级的交互而不是肤浅的拟真设计。</p>
+
+<p>这听起来感觉挺难的，因为让数字界面看起来是真实的远比让它感觉是真实的简单。不过好在你有一些漂亮的新工具:</p>
+
+<ul>
+<li><strong>UIKit Dynamics</strong> 是集成到UIKit中的物理引擎。这允许你创建一个感觉像是真实的界面，通过添加一些行为，例如重力，锚连接 (弹簧)以及力. 你可以定义你希望你的界面需要的物理特征, Dynamics会帮你关心其他的细枝末节。</li>
+<li><strong>Motion Effects</strong> 允许你创建类似于iOS 7 主屏幕中酷酷的视差效果. 基本上你可以利用手机加速器提供的数据来创建界面来模拟手机方向发生改变的反应。</li>
+</ul>
+
+<p>当一起使用的时候，由 Dynamics 与 Motion形成用户体验的工具，让你的界面给用户生活带来非同一般的体验。当观察到他们的操作是通过一种自然、动态的方式，你的用户将会与你的app进行更深层次的连接。</p>
+
+<blockquote>
+<p><strong>注意</strong>: 由于本教程编写的时候iOS 8 还处于测试中，因此<a href="http://www.raywenderlich.com/?p=74138">没有提供iOS8的截图</a>. 所有的截图都是iOS7环境下的,不过看起来与iOS 8相差不大.</p>
+</blockquote>
+
+<p></p>
+
+<h3 id="getting-started-起步">Getting started  起步</h3>
+
+<p>UIKit Dynamics是非常有趣的；最好的学习方法就是脚踏实地先学一些小例子。</p>
+
+<p>打开Xcode，依次选择<strong>File / New / Project …</strong> 然后选择 <strong>iOS Application / Single View Application</strong> 最后命名你的项目为<strong>DynamicsDemo</strong>。项目创建完成之后，打开 <strong>ViewController.swift</strong> ，然后在<code>viewDidLoad</code>方法中添加如下代码:</p>
+
+<pre><code class="language-swift">let square = UIView(frame: CGRect(x: 100, y: 100, width: 100, height: 100))
+square.backgroundColor = UIColor.grayColor()
+view.addSubview(square)
+</code></pre>
+
+<p>以上代码仅仅是在界面上添加一个方形的<code>UIView</code>。</p>
+
+<p>运行你的App,你就可以在模拟器中看到如下的正方形:</p>
+
+<p><img src="http://cdn1.raywenderlich.com/wp-content/uploads/2013/09/LonelySquare.png" alt="" /></p>
+
+<p>如果你在真机中运行此app,可以尝试倾斜、颠倒甚至是摇晃它.你会发现这样做没什么效果.这是因为一切是按照设计来工作的.当你添加一个View到界面上时,你希望它一直固定在设定好的坐标上,除非是你给界面添加一些动态的效果.</p>
+
+<h3 id="adding-gravity-添加重力">Adding gravity   添加重力</h3>
+
+<p>还是在 <strong>ViewController.swift</strong>中，在<code>viewDidLoad</code>之上加上下面这些属性:</p>
+
+<pre><code class="language-swift">var animator: UIDynamicAnimator!
+var gravity: UIGravityBehavior!
+</code></pre>
+
+<p>这些属性是表示自动拆包可选类型(在类型后由!表示).这些属性必须是可选类型的,因为我们在<code>init</code>方法中不会初始化它们.同时也是因为在你初始化之后它们不可能为空.这样通过!就可以避免每一次都手动拆包.</p>
+
+<p>在<code>viewDidLoad</code>方法的最后加上这段代码:</p>
+
+<pre><code class="language-swift">animator = UIDynamicAnimator(referenceView: view)
+gravity = UIGravityBehavior(items: [square])
+animator.addBehavior(gravity)
+</code></pre>
+
+<p>我会在一会儿之后解释这个.现在,运行你的程序.你会看到你的方块慢慢的开始加速向下运行,直到掉落在屏幕的底部.</p>
+
+<p><img src="http://cdn1.raywenderlich.com/wp-content/uploads/2013/09/FallingSquare.png" alt="" /></p>
+
+<p>刚刚添加的代码中,有两个Dynamics的类在起作用:</p>
+
+<ul>
+<li><strong>UIDynamicAnimator</strong> 是UIKit物理引擎.这个类跟踪你添加到Dynamics中的各种行为,例如重力,并且提供了整体的上下文.当你创建一个动画实例时, 你需要传递一个该动画用来定义坐标系统的View.</li>
+<li><strong>UIGravityBehavior</strong> 模拟重力行为以及对一个或者多个物体施力,允许你模拟物理行为.当你创建一个行为的实例时, 你需要将此行为关联到一系列的物体上  — 通常来说是View. 这样你就可以选择哪些物体受到该行为的影响,在这个案例中物体受重力影响.</li>
+</ul>
+
+<p>大多数的行为有一些配置属性;例如,重力行为允许你改变它的角度和大小.尝试修改这些属性让你的对象降落,侧移,或者是不同加速度的对角线.</p>
+
+<p>注意:稍微说一下,在物理世界中,重力(g)表示米每秒平方,约等于9.8m/s2.使用牛顿第二定律,运用下列公式可以计算出在重力的影响下物体将会下滑多远.</p>
+
+<p><strong>distance = 0.5 × g × time2</strong></p>
+
+<p>在UIKit Dynamics中,该公式是一样的不过单位却是有所不同.你使用的是每千像素平方秒而不是米.使用牛顿第二定律,基于你所提供的重力组件,仍然可以计算出在任意时间点你的View的地点.</p>
+
+<p>但是你真的需要全部了解么?并不是这样;你真正需要知道的是<strong>g</strong>越大就表示物体下降的越快,这在数学的角度来看并不难理解.</p>
+
+<h3 id="setting-boundaries-设定边界">Setting boundaries  设定边界</h3>
+
+<p>虽然你看不到它，这个方块甚至会继续下落后即便它已经消失在屏幕的底部.为了让它在屏幕的范围内，你需要定义一个边界.</p>
+
+<p>在<strong>ViewController.swift</strong>中添加另外一个属性:</p>
+
+<pre><code class="language-swift">var collision: UICollisionBehavior!
+</code></pre>
+
+<p>在<code>viewDidLoad</code>方法的最后加上这几行:</p>
+
+<pre><code class="language-swift">collision = UICollisionBehavior(items: [square])
+collision.translatesReferenceBoundsIntoBoundary = true
+animator.addBehavior(collision)
+</code></pre>
+
+<p>以上代码创建了一个碰撞行为,其中定义了若干边界与该物体交互.</p>
+
+<p>以上代码将<code>translatesReferenceBoundsIntoBoundary</code> 属性设为<code>true</code>,而不是显示的定义边界坐标. 这表示被关联的View的坐标被用于<code>UIDynamicAnimator</code>.</p>
+
+<p>运行程序,你会看到方块碰撞屏幕的底部,然后反弹一下,停了下来,就像这样:</p>
+
+<p><img src="http://cdn1.raywenderlich.com/wp-content/uploads/2013/09/SquareAtRest.png" alt="" /></p>
+
+<p>这是一些令人印象深刻的行为,特别是考虑到你此时只添加了这一点代码.</p>
+
+<h3 id="handling-collisions-处理碰撞">Handling collisions  处理碰撞</h3>
+
+<p>接下来,你将添加一个不可移动的障碍物来与下落的方块进行碰撞交互.</p>
+
+<p>将下面的代码添加到<code>viewDidLoad</code>方法中添加方块View的后面:</p>
+
+<pre><code class="language-swift">let barrier = UIView(frame: CGRect(x: 0, y: 300, width: 130, height: 20))
+barrier.backgroundColor = UIColor.redColor()
+view.addSubview(barrier)
+</code></pre>
+
+<p>运行你的程序;你会看到一个红色的&rdquo;障碍物&rdquo;在屏幕的中间穿过.然而事实是障碍物并未对下落的方块产生影响:</p>
+
+<p><img src="http://cdn4.raywenderlich.com/wp-content/uploads/2013/09/BadBarrier.png" alt="" /></p>
+
+<p>这并不是你想要的效果,但这却是一个重要的提醒:Dynamics为只对已关联的行为的View产生影响.</p>
+
+<p>可以看一下这张图:</p>
+
+<p><img src="http://cdn1.raywenderlich.com/wp-content/uploads/2013/09/DynamicClasses.png" alt="" /></p>
+
+<p><strong>UIDynamicAnimator</strong>与一个提供了坐标系统的View相关联.然后你在与此关联的物体上添加了若干个行为对它们施力.大多数行为可以与多个物体关联,同样的一个物体也可以与若干个行为关联.上面的图显示当前程序中有关联的行为.</p>
+
+<p>无论是你现在代码中的行为还是障碍物都是不被知道的,所以从引擎系统角度看,障碍物是不存在的.</p>
+
+<h3 id="making-objects-respond-to-collisions-让物体对碰撞做出反应">Making objects respond to collisions  让物体对碰撞做出反应</h3>
+
+<p>为了使方块与障碍物相碰撞,找到初始化碰撞行为的那行,然后替换成下面的:</p>
+
+<pre><code class="language-swift">collision = UICollisionBehavior(items: [square, barrier])
+</code></pre>
+
+<p>碰撞对象需要知道应该与之几乎的每一个View;因此添加障碍物到物体列表中,这样就允许碰撞对象与之发生作用.</p>
+
+<p>运行你的程序;这两个对象产生碰撞行为,如下面的截图所示:</p>
+
+<p><img src="http://cdn3.raywenderlich.com/wp-content/uploads/2013/09/GoodBarrier.png" alt="" /></p>
+
+<p>这个碰撞的行为围绕与之关联的每个物体,形成了一个&rdquo;边界&rdquo;.将他们从对象改变成更坚固的物体.</p>
+
+<p>更新之前的图示,现在可以看到现在碰撞行为与View相关联了:</p>
+
+<p><img src="http://cdn2.raywenderlich.com/wp-content/uploads/2013/09/DynamicClasses2.png" alt="" /></p>
+
+<p>然后,两个物体的相互作用还是有些不太对劲.障碍物应该是不可移动的,但是当两个物体碰撞时,你当前的配置的障碍物向着屏幕的底部移动了.</p>
+
+<p>更奇怪的是,障碍物居然在屏幕底部弹跳,而且不像方块那样停止下来 -这样是因为重力行为没有与障碍物交互.这同样也解释了为什么障碍物直到与方块碰撞才移动.</p>
+
+<p>看起来你需要一个不一样的解决问题的办法.由于障碍物是不可移动的,没有任何必须要让运动引擎直到它的存在,但这样如何检测碰撞呢?</p>
+
+<h3 id="invisible-boundaries-and-collisions-可见的边界与碰撞">Invisible boundaries and collisions  可见的边界与碰撞</h3>
+
+<p>恢复碰撞行为的初始化到原来的状态，让它只知道方块：</p>
+
+<pre><code class="language-swift">collision = UICollisionBehavior(items: [square])
+</code></pre>
+
+<p>此行之后,添加以下内容:</p>
+
+<pre><code class="language-swift">// add a boundary that has the same frame as the barrier
+collision.addBoundaryWithIdentifier(&quot;barrier&quot;, forPath: UIBezierPath(rect: barrier.frame))
+</code></pre>
+
+<p>上面的代码添加了一个具有同样结构的障碍物View作为可见的边界.这个红色的障碍物保持着对用户可见,但对Dynamics引擎不可见,同时,边界对于Dynamics引擎可见,对于用户却不可见.当方块落下时,看起来似乎是与障碍物交互的,然而实际上却是撞到了不可移动的边界.</p>
+
+<p>运行你的程序看看这个动作,如下图:</p>
+
+<p><img src="http://cdn1.raywenderlich.com/wp-content/uploads/2013/09/BestBarrier.png" alt="" /></p>
+
+<p>现在方块在边界处反弹,旋转了一下,然后继续继续朝屏幕底部落下.</p>
+
+<p>现在的UIKit Dynamics的能力变得相当清楚：你可以用少量代码完成效果.在这之中有很多细节;接下来的部分我将向你展示一些Dynamics在你的应用程序中与对象的交互细节。</p>
+
+<h3 id="behind-the-scenes-of-collisions-碰撞背后的知识">Behind the scenes of collisions  碰撞背后的知识</h3>
+
+<p>任何Dynamic行为都有一个action属性,用来提供一个block,在动画的每一步都执行:添加以下代码到<code>viewDidLoad</code>:</p>
+
+<pre><code class="language-swift">collision.action = {
+  println(&quot;\(NSStringFromCGAffineTransform(square.transform)) \(NSStringFromCGPoint(square.center))&quot;)
+}
+</code></pre>
+
+<p>以上代码的日志记录了下落方块的center与transform属性.运行程序,然后你就会在Xcode的输出窗口看到这些输出.</p>
+
+<p>从开始到400毫秒这段时间,你应该是看到类似下面的日志信息:</p>
+
+<pre><code class="language-swift">[1, 0, 0, 1, 0, 0], {150, 236}
+[1, 0, 0, 1, 0, 0], {150, 243}
+[1, 0, 0, 1, 0, 0], {150, 250}
+</code></pre>
+
+<p>这里你可以看到运动引擎一直在改变方块的center — 也就是动画执行中的每一步的frame值.</p>
+
+<p>只要方块撞到障碍物,就开始旋转,这就会生成类似以下的日志信息:</p>
+
+<pre><code class="language-swift">[0.99797821, 0.063557133, -0.063557133, 0.99797821, 0, 0] {152, 247}
+[0.99192101, 0.12685727, -0.12685727, 0.99192101, 0, 0] {154, 244}
+[0.97873402, 0.20513339, -0.20513339, 0.97873402, 0, 0] {157, 241}
+</code></pre>
+
+<p>这里你可以看到Dynamics使用的是transform与基于底层物理模型定位视图偏移的组合.</p>
+
+<p>虽然对于Dynamics的这些属性的兴趣可能不大,不过重要的是要知道,他们正在发挥作用.因此,如果你以编程方式更改frame或transform的属性,你可以假设这些值将被覆盖.这意味着当对象被Dynamics控制时,你就不能使用transform缩放对象了.</p>
+
+<p>该方法为Dynamics行为签名,选择物体而不是View.应用动力学行为的唯一需要就是让对象实现 <code>UIDynamicItem</code> 协议,这样:</p>
+
+<pre><code class="language-swift">protocol UIDynamicItem : NSObjectProtocol {
+  var center: CGPoint { get set }
+  var bounds: CGRect { get }
+  var transform: CGAffineTransform { get set }
+}
+</code></pre>
+
+<p><code>UIDynamicItem</code>协议允许Dynamics读写center和transform属性,允许其基于其内部计算来移动物体.它对bounds也有读取的权限,用来确定物体的大小。这允许它来创建碰撞边界的四周的物体以及计算当前物体的质量.</p>
+
+<p>这个协议意味着引擎不与UIView耦合,此外还有一个UIKit类不是视图但仍然遵循这个协议:<code>UICollectionViewLayoutAttributes</code>.这允许引擎在集合视图内执行动画.</p>
+
+<h3 id="collision-notifications-碰撞提醒">Collision notifications 碰撞提醒</h3>
+
+<p>到目前为止,你已经添加了一些视图和行为然后让Dynamics控制.在这一节你会看看如何在物体碰撞时接收通知.</p>
+
+<p>还是在<strong>ViewController.swift</strong>文件中,修改类的声明来遵循 <code>UICollisionBehaviorDelegate</code>协议:</p>
+
+<pre><code>class ViewController: UIViewController, UICollisionBehaviorDelegate {
+</code></pre>
+
+<p>在 <code>viewDidLoad</code>方法中,将视图控制器设置为刚刚初始化的碰撞代理对象,如下:</p>
+
+<pre><code>collision.collisionDelegate = self
+</code></pre>
+
+<p>接下来,在类中实现碰撞行为代理中的一个方法:</p>
+
+<pre><code class="language-swift">func collisionBehavior(behavior: UICollisionBehavior!, beganContactForItem item: UIDynamicItem!, withBoundaryIdentifier identifier: NSCopying!, atPoint p: CGPoint) {
+
+  println(&quot;Boundary contact occurred - \(identifier)&quot;)
+
+}
+</code></pre>
+
+<p>该代理方法会在发生碰撞时调用.这会在控制台输出日志信息.为了避免太多的日志信息搞乱了控制台的消息,请随意删除上一节添加的<code>collision.action</code>日志.</p>
+
+<p>运行程序,物体发生交互,然后控制台会输出这些:</p>
+
+<pre><code>Boundary contact occurred - barrier
+Boundary contact occurred - barrier
+Boundary contact occurred - nil
+Boundary contact occurred - nil
+Boundary contact occurred - nil
+Boundary contact occurred - nil
+</code></pre>
+
+<p>从上面的日志消息中可以看到,方块与标识的边界发生两次碰撞;这是您前面添加的不可见的边界。(null)标识符是指外部引用视图边界.</p>
+
+<p>这些日志消息可以引人入胜(很严肃的说!),不过需要提供一个视觉指示项来表示反弹.</p>
+
+<p>在第二次输出日志的行后,添加以下代码:</p>
+
+<pre><code class="language-swift">let collidingView = item as UIView
+collidingView.backgroundColor = UIColor.yellowColor()
+UIView.animateWithDuration(0.3) {
+collidingView.backgroundColor = UIColor.grayColor()
+}
+</code></pre>
+
+<p>上面的代码将碰撞物体的的背景颜色更改为黄色,然后再消褪到灰色.</p>
+
+<p>运行程序然后查看这个效果:</p>
+
+<p><img src="http://cdn3.raywenderlich.com/wp-content/uploads/2013/09/YellowCollision.png" alt="" /></p>
+
+<p>方块每次碰撞到边界都会变化成黄色.</p>
+
+<p>到目前为止UIKit Dynamics 通过计算它们的bounds自动为你的物体设置物理属性(如质量和弹性).接下来你将看到如何自己使用<code>UIDynamicItemBehavior</code>类来控制这些物理属性.</p>
+
+<h3 id="configuring-item-properties-设置属性">Configuring item properties  设置属性</h3>
+
+<p>在<code>viewDidLoad</code>方法中,在方法的末尾加上以下代码:</p>
+
+<pre><code>let itemBehaviour = UIDynamicItemBehavior(items: [square])
+itemBehaviour.elasticity = 0.6
+animator.addBehavior(itemBehaviour)
+</code></pre>
+
+<p>以上代码创建了一个物体行为,并与方块关联上,接着将其添加到animator中. elasticity属性控制物体的弹力;其值为1.0时表示碰撞完全反弹;也就是说,碰撞不消耗能量或者减缓速度.你为方块设置的elasticity为0.6,这意味着你的方块每次碰撞时都会减缓速度.</p>
+
+<p>运行你的程序,然后你会发现方块现在的行为很有弹性,如下所示:</p>
+
+<p><img src="http://cdn5.raywenderlich.com/wp-content/uploads/2013/09/PrettyBounce.png" alt="" /></p>
+
+<blockquote>
+<p>注意:如果你想知道我是如何产生上图的方块轨迹图的,这实际上很简单!我只是添加了一个block到每个行为中的action属性中,该block每三秒执行一次,然后使用当前方块的center和transform属性在视图中添加一个新的方块.下面就是我的解决方案.
+解决方案:</p>
+
+<pre><code>var updateCount = 0
+collision.action = {
+  if (updateCount % 3 == 0) {
+    let outline = UIView(frame: square.bounds)
+    outline.transform = square.transform
+    outline.center = square.center
+    outline.alpha = 0.5
+    outline.backgroundColor = UIColor.clearColor()
+    outline.layer.borderColor = square.layer.presentationLayer().backgroundColor
+    outline.layer.borderWidth = 1.0
+    self.view.addSubview(outline)
+  }
+    ++updateCount
+}
+</code></pre>
+</blockquote>
+
+<p>在上面的代码你只改变了物体的弹力;然而,物体的行为类有许多可以控制的属性,如下:</p>
+
+<ul>
+<li><code>elasticity</code> – 弹力,决定碰撞时的弹力,例如,当物体发生碰撞行为时的弹力或者韧性.</li>
+<li><code>friction</code>   –  摩擦力,决定物体滑动时的抵抗力.</li>
+<li><code>density</code>   –  密度,如果加上大小,就能表示物体的质量.质量越大,物体越难加速或减速.</li>
+<li><code>resistance</code> – 阻力,任何线性运动的抵抗力.与摩擦力不同的是,摩擦力只对滑动有效.</li>
+<li><code>angularResistance</code> – 旋转的阻力.</li>
+<li><code>allowsRotation</code> – 这个有点意思,因为这不表示真实物理世界中的属性. 将这个属性设置为NO可以让物体不管任何发生力量的旋转都无效.</li>
+</ul>
+
+<h3 id="adding-behaviors-dynamically-动态添加行为">Adding behaviors dynamically  动态添加行为</h3>
+
+<p>在当前情况下,你的程序为系统设置全部的行为,然后让Dynamics处理系统中的物理事件直到是全部的物体都静止下来.接下来,你将看到如何动态的添加与删除行为.</p>
+
+<p>打开<strong>ViewController.swift</strong>,然后在<code>viewDidLoad</code>方法中添加以下属性:</p>
+
+<pre><code>var firstContact = false
+</code></pre>
+
+<p>添加以下代码到碰撞的代理方法<code>collisionBehavior(behavior:beganContactForItem:withBoundaryIdentifier:atPoint:)</code>的最后</p>
+
+<pre><code>if (!firstContact) {
+  firstContact = true
+
+  let square = UIView(frame: CGRect(x: 30, y: 0, width: 100, height: 100))
+  square.backgroundColor = UIColor.grayColor()
+  view.addSubview(square)
+
+  collision.addItem(square)
+  gravity.addItem(square)
+
+  let attach = UIAttachmentBehavior(item: collidingView, attachedToItem:square)
+  animator.addBehavior(attach)
+}
+</code></pre>
+
+<p>以上代码检测初次接触时的障碍物和方块,然后创建第二个方块,并为其添加碰撞与重力行为.此外,你创建一个锚链接行为来为一对对象创建虚拟的弹簧效果.</p>
+
+<p>运行你的程序;当最初的方块碰撞到障碍物时,你将会看到一个新的方块出现,就像下面这样:</p>
+
+<p><img src="http://cdn5.raywenderlich.com/wp-content/uploads/2013/09/Attachment.png" alt="" /></p>
+
+<p>尽管这样看起来两个方块之间似乎是连接着的,不过你在屏幕上是无法看到线条或者弹簧之类的.</p>
+
+<h3 id="user-interaction-用户交互">User Interaction  用户交互</h3>
+
+<p>正如刚刚所看到的那样,你可以动态的添加或是删除你定义的物理系统中正在运动的行为.在最后一节,你将添加另一种类型的Dynamics行为-<code>UISnapBehavior</code>,当用户点击屏幕时,<code>UISnapBehavior</code>会生成一个弹簧动画跳转到指定位置.</p>
+
+<p>删除你在上一节添加的代码:<code>firstContact</code>属性与<code>collisionBehavior()</code>中的if语句.这样当界面中只有一个方块时,就很容易看出来<code>UISnapBehavior</code>的作用.</p>
+
+<p>在<code>viewDidLoad</code>中加上这两个属性:</p>
+
+<pre><code>var square: UIView!
+var snap: UISnapBehavior!
+</code></pre>
+
+<p>这记录了方块视图,这样你就可以在控制器的任何地方访问到它.接下来你就会用到<code>snap</code>对象.</p>
+
+<p>在<code>viewDidLoad</code>方法中,从声明方块的地方移除<code>let</code>关键字,这样就可以使用新的属性来替代局部变量:</p>
+
+<pre><code>square = UIView(frame: CGRect(x: 100, y: 100, width: 100, height: 100))
+</code></pre>
+
+<p>最后,实现<code>touchesEnded</code>方法,每当用户点击屏幕的时候就创建新的触摸行为:</p>
+
+<pre><code>override func touchesEnded(touches: NSSet, withEvent event: UIEvent) {
+  if (snap != nil) {
+    animator.removeBehavior(snap)
+  }
+ 
+  let touch = touches.anyObject() as UITouch 
+  snap = UISnapBehavior(item: square, snapToPoint: touch.locationInView(view))
+  animator.addBehavior(snap)
+}
+</code></pre>
+
+<p>这段代码相当简单.首先,它会检查当前是否已经存在触摸行为并且移除.然后创建一个新的触摸行为来检测用户是否触摸方块,最后添加到animator中.</p>
+
+<p>运行你的程序.尝试点击一下;无论你点击哪个地方,方块都应该会放大.</p>
+
+<h3 id="where-to-go-from-here-何去何从">Where To Go From Here? 何去何从</h3>
+
+<p>此时,你应该对于Dynamics的核心概念有了一定的理解.你可以下载本教程最后<a href="http://cdn5.raywenderlich.com/wp-content/uploads/2014/07/DynamicsDemo-Final-7.zip">DynamicsDemo项目</a> 进行进一步的研究。</p>
+
+<p>UIKit Dynamics 给你的应用带来物理引擎的能力.通过精妙的的反弹和弹簧和重力效果,给你的应用程序注入新的血液,让用户如同身临其境.</p>
+
+<p>如果你想要更深入的学习UIKit Dynamics,请查阅我们编写的<a href="http://www.raywenderlich.com/?page_id=48020">iOS 7 By Tutorials</a>. 这本书让你的知识更进一步,向你展示如何在真实场景中使用UIKit Dynamics:</p>
+
+<p><img src="http://cdn5.raywenderlich.com/wp-content/uploads/2013/09/SandwichFlowDynamics.png" alt="" /></p>
+
+<p>用户可以把菜谱上一瞥,当他们将菜谱放回时,它会掉回菜谱堆中,或者靠近屏幕顶部.最终给予应用程序一个真实的物理效果。</p>
+
+<p>我希望你能喜欢这个UIKit Dynamics的教程,我们觉得这是非常炫酷的,期待你在程序中创造性的使用他们.如果你有任何的问题或意见,请在一下进行讨论!</p>
+              
+            </div>
+          </div>
+          <div id="post-footer" class="post-footer main-content-wrap">
+            
+              
+                
+                
+                  <div class="post-footer-tags">
+                    <span class="text-color-light text-small"></span><br/>
+                    
+  <a class="tag tag--primary tag--small" href="http://ytlvy.com/tags/uikit-dynamics/">UIKit Dynamics</a>
+
+                  </div>
+                
+              
+            
+            
+  <div class="post-actions-wrap">
+      <nav >
+        <ul class="post-actions post-action-nav">
+          
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="http://ytlvy.com/posts/2015-08-08/2015-08-08-swift-uikit-dynamics-tossing-views/" data-tooltip="Swift UIKit Dynamics - Tossing Views">
+              
+                  <i class="fa fa-angle-left"></i>
+                  <span class="hide-xs hide-sm text-small icon-ml"></span>
+                </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="http://ytlvy.com/posts/2015-08-08/2015-08-08-swift-custom-view-controller-transitions-tutorial/" data-tooltip="Swift custom-view-controller-transitions-tutorial">
+              
+                  <span class="hide-xs hide-sm text-small icon-mr"></span>
+                  <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+          
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
+      
+        <li class="post-action hide-lg hide-md hide-sm">
+          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+            <i class="fa fa-share-alt"></i>
+          </a>
+        </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://ytlvy.com/posts/2015-08-08/2015-08-08-swift-uikit-dynamics-tutorial-getting-started/">
+              <i class="fa fa-facebook-official"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http://ytlvy.com/posts/2015-08-08/2015-08-08-swift-uikit-dynamics-tutorial-getting-started/">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=http://ytlvy.com/posts/2015-08-08/2015-08-08-swift-uikit-dynamics-tutorial-getting-started/">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        
+      
+      
+        <li class="post-action">
+          <a class="post-action-btn btn btn--default" href="#disqus_thread">
+            <i class="fa fa-comment-o"></i>
+          </a>
+        </li>
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#">
+        
+          <i class="fa fa-list"></i>
+        </a>
+      </li>
+    </ul>
+  </div>
+
+
+            
+              
+                <div id="disqus_thread">
+  <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+              
+            
+          </div>
+        </article>
+        <footer id="footer" class="main-content-wrap">
+  <span class="copyrights">
+    &copy; 2017 肖杰. 
+  </span>
+</footer>
+
+      </div>
+      <div id="bottom-bar" class="post-bottom-bar" data-behavior="1">
+        
+  <div class="post-actions-wrap">
+      <nav >
+        <ul class="post-actions post-action-nav">
+          
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="http://ytlvy.com/posts/2015-08-08/2015-08-08-swift-uikit-dynamics-tossing-views/" data-tooltip="Swift UIKit Dynamics - Tossing Views">
+              
+                  <i class="fa fa-angle-left"></i>
+                  <span class="hide-xs hide-sm text-small icon-ml"></span>
+                </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="http://ytlvy.com/posts/2015-08-08/2015-08-08-swift-custom-view-controller-transitions-tutorial/" data-tooltip="Swift custom-view-controller-transitions-tutorial">
+              
+                  <span class="hide-xs hide-sm text-small icon-mr"></span>
+                  <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+          
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
+      
+        <li class="post-action hide-lg hide-md hide-sm">
+          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+            <i class="fa fa-share-alt"></i>
+          </a>
+        </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://ytlvy.com/posts/2015-08-08/2015-08-08-swift-uikit-dynamics-tutorial-getting-started/">
+              <i class="fa fa-facebook-official"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http://ytlvy.com/posts/2015-08-08/2015-08-08-swift-uikit-dynamics-tutorial-getting-started/">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=http://ytlvy.com/posts/2015-08-08/2015-08-08-swift-uikit-dynamics-tutorial-getting-started/">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        
+      
+      
+        <li class="post-action">
+          <a class="post-action-btn btn btn--default" href="#disqus_thread">
+            <i class="fa fa-comment-o"></i>
+          </a>
+        </li>
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#">
+        
+          <i class="fa fa-list"></i>
+        </a>
+      </li>
+    </ul>
+  </div>
+
+
+      </div>
+      <div id="share-options-bar" class="share-options-bar" data-behavior="1">
+  <i id="btn-close-shareoptions" class="fa fa-close"></i>
+  <ul class="share-options">
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Fytlvy.com%2Fposts%2F2015-08-08%2F2015-08-08-swift-uikit-dynamics-tutorial-getting-started%2F">
+          <i class="fa fa-facebook-official"></i><span>%!(EXTRA string=Facebook)</span>
+        </a>
+      </li>
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=http%3A%2F%2Fytlvy.com%2Fposts%2F2015-08-08%2F2015-08-08-swift-uikit-dynamics-tutorial-getting-started%2F">
+          <i class="fa fa-twitter"></i><span>%!(EXTRA string=Twitter)</span>
+        </a>
+      </li>
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=http%3A%2F%2Fytlvy.com%2Fposts%2F2015-08-08%2F2015-08-08-swift-uikit-dynamics-tutorial-getting-started%2F">
+          <i class="fa fa-google-plus"></i><span>%!(EXTRA string=Google&#43;)</span>
+        </a>
+      </li>
+    
+  </ul>
+</div>
+<div id="share-options-mask" class="share-options-mask"></div>
+    </div>
+    
+    <div id="about">
+  <div id="about-card">
+    <div id="about-btn-close">
+      <i class="fa fa-remove"></i>
+    </div>
+    
+      <img id="about-card-picture" src="//www.gravatar.com/avatar/8d5387e20303e26c6147cfe67990995e?s=110" alt="" />
+    
+    <h4 id="about-card-name">肖杰</h4>
+    
+      <div id="about-card-bio">一个瑜伽|篮球|羽毛球爱好者</div>
+    
+    
+      <div id="about-card-job">
+        <i class="fa fa-briefcase"></i>
+        <br/>
+        搬砖工
+      </div>
+    
+    
+      <div id="about-card-location">
+        <i class="fa fa-map-marker"></i>
+        <br/>
+        Beijing
+      </div>
+    
+  </div>
+</div>
+
+    <div id="algolia-search-modal" class="modal-container">
+  <div class="modal">
+    <div class="modal-header">
+      <span class="close-button"><i class="fa fa-close"></i></span>
+      <a href="https://algolia.com" target="_blank" rel="noopener" class="searchby-algolia text-color-light link-unstyled">
+        <span class="searchby-algolia-text text-color-light text-small">by</span>
+        <img class="searchby-algolia-logo" src="https://www.algolia.com/static_assets/images/press/downloads/algolia-light.svg">
+      </a>
+      <i class="search-icon fa fa-search"></i>
+      <form id="algolia-search-form">
+        <input type="text" id="algolia-search-input" name="search"
+          class="form-control input--large search-input" placeholder="" />
+      </form>
+    </div>
+    <div class="modal-body">
+      <div class="no-result text-color-light text-center"></div>
+      <div class="results">
+        
+        
+      </div>
+    </div>
+    <div class="modal-footer">
+      <p class="results-count text-medium"
+         data-message-zero=""
+         data-message-one=""
+         data-message-other="">
+         0 posts found
+      </p>
+    </div>
+  </div>
+</div>
+    
+  
+    
+    <div id="cover" style="background-image:url('http://ytlvy.com/images/cover.jpg');"></div>
+  
+
+
+    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js" integrity="sha256-/BfiIkHlHoVihZdc6TFuj7MmJ0TWcWsMXkeDFwhi0zw=" crossorigin="anonymous"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.7/js/jquery.fancybox.min.js" integrity="sha256-GEAnjcTqVP+vBp3SSc8bEDQqvWAZMiHyUSIorrWwH50=" crossorigin="anonymous"></script>
+
+
+<script src="http://ytlvy.com/js/script-qi9wbxp2ya2j6p7wx1i6tgavftewndznf4v0hy2gvivk1rxgc3lm7njqb6bz.min.js"></script>
+
+
+
+<script>
+$(document).ready(function() {
+  hljs.configure({ classPrefix: '', useBR: false });
+  $('pre.code-highlight > code, pre > code').each(function(i, block) {
+    if (!$(this).hasClass('codeblock')) {
+      $(this).addClass('codeblock');
+    }
+    hljs.highlightBlock(block);
+  });
+});
+</script>
+
+
+  
+    
+      <script>
+        var disqus_config = function () {
+          this.page.url = 'http:\/\/ytlvy.com\/posts\/2015-08-08\/2015-08-08-swift-uikit-dynamics-tutorial-getting-started\/';
+          
+            this.page.identifier = '\/posts\/2015-08-08\/2015-08-08-swift-uikit-dynamics-tutorial-getting-started\/'
+          
+        };
+        (function() {
+          
+          
+          if (window.location.hostname == "localhost") {
+            return;
+          }
+          var d = document, s = d.createElement('script');
+          var disqus_shortname = 'hugo-tranquilpeak-theme';
+          s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+
+          s.setAttribute('data-timestamp', +new Date());
+          (d.head || d.body).appendChild(s);
+        })();
+      </script>
+    
+  
+
+
+
+    
+  </body>
+</html>
+

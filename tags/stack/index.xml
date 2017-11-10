@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Stack on My New Hugo Site</title>
+    <link>http://ytlvy.com/tags/stack/</link>
+    <description>Recent content in Stack on My New Hugo Site</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Fri, 03 Jul 2015 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="http://ytlvy.com/tags/stack/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Stack And Heap OverFlow</title>
+      <link>http://ytlvy.com/posts/2015-07-03/2015-07-03-stack-and-heap-overflow/</link>
+      <pubDate>Fri, 03 Jul 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-07-03/2015-07-03-stack-and-heap-overflow/</guid>
+      <description>&lt;p&gt;翻译自&lt;a href=&#34;https://developer.apple.com/library/mac/documentation/Security/Conceptual/SecureCodingGuide/Articles/BufferOverflows.html&#34;&gt;https://developer.apple.com/library/mac/documentation/Security/Conceptual/SecureCodingGuide/Articles/BufferOverflows.html&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;栈溢出&#34;&gt;栈溢出&lt;/h2&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;在大部分操作系统中, 每个程序拥有一个&lt;strong&gt;&lt;em&gt;栈&lt;/em&gt;&lt;/strong&gt;(多线程程序,每个线程拥有一个单独的栈), 栈用于局部变量的存储.
+栈被划分为单元, 此单元被成为帧(frame), 每个帧包含了某个函数的某一调用的全部数据.这些数据包含: 函数参数, 全部的临时变量,和 linkage 信息(就是调用函数的地址. 以便当前代码执行完毕后, 返回原位置继续执行). 通过配置编译参数,也可以包含下一帧的顶部地址.数据的布局以及排序,由操作系统决定,不同系统略有差异.
+当函数被调用的时候, 一个新的栈帧被添加到栈的顶部. 当函数返回时,顶部的栈帧被移除.在执行过程中, 程序只能直接访问栈顶帧得数据(指针除外, 但是不建议如此设计).这种设计,方便了递归调用的实现, 因为每个子递归调用拥有独立的临时变量和参数备份.
+下图介绍了栈的组织结构.(这只是示意图, 实际情况要根据 cpu设计来决定)&lt;/p&gt;
+&lt;/blockquote&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

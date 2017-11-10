@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Dispatch Once on My New Hugo Site</title>
+    <link>http://ytlvy.com/tags/dispatch-once/</link>
+    <description>Recent content in Dispatch Once on My New Hugo Site</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Tue, 30 Jun 2015 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="http://ytlvy.com/tags/dispatch-once/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>DispatchOnce</title>
+      <link>http://ytlvy.com/posts/2015-06-30/2015-06-30-dispatchonce/</link>
+      <pubDate>Tue, 30 Jun 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-06-30/2015-06-30-dispatchonce/</guid>
+      <description>&lt;p&gt;&lt;img src=&#34;http://ytlvy.com/images/DispatchOnce.jpg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;dispatch-once&#34;&gt;Dispatch_Once&lt;/h2&gt;
+
+&lt;p&gt;四种场景如上图
+1. 第一次执行，&lt;code&gt;block调用&lt;/code&gt;，调用结束后需要置标记变量
+2. 非第一次执行，而此时#1&lt;code&gt;block调用&lt;/code&gt;尚未完成(预执行拿到的 obj 为 nil, 此时需要废弃此次预执行)，线程需进入等待#1状态
+3. 非第一次执行，而此时#1&lt;code&gt;block调用&lt;/code&gt;已经完成(预执行拿到的 obj 已经初始化完毕)此时线程的预执行是正确的, 之后可能继续执行,也可能由于时间问题,废弃此次预执行进入等待
+4. 非第一次执行，而此时#1已经完成，线程预执行后, 直接跳过block而进行后续任务&lt;/p&gt;
+
+&lt;p&gt;Dispatch_Once 保证了当第一个线程在进行alloc 对象时，有其他线程发起, 会废弃此线程的预执行，进入等待。在第一个线程结束时，将正在等待的线程唤醒。而实现这一机制的方法是在生成对象和变更identifier之间加入一个大于预执行时间的等待来实现的。&lt;/p&gt;
+
+&lt;h3 id=&#34;dispatch-once实现用到的技术&#34;&gt;Dispatch_Once实现用到的技术&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;原子操作 &amp;ldquo;原子比较交换函数&amp;rdquo; __sync_bool_compare_and_swap&lt;/li&gt;
+&lt;li&gt;cpuid指令 实现大于预执行时间的延迟等待&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;dispatch_thread_semaphore 来实现线程之间的等待和唤醒
+&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

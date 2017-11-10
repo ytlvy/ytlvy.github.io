@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Lldb on My New Hugo Site</title>
+    <link>http://ytlvy.com/tags/lldb/</link>
+    <description>Recent content in Lldb on My New Hugo Site</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Thu, 16 Jul 2015 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="http://ytlvy.com/tags/lldb/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>LLDB</title>
+      <link>http://ytlvy.com/posts/2015-07-16/2015-07-16-lldb/</link>
+      <pubDate>Thu, 16 Jul 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-07-16/2015-07-16-lldb/</guid>
+      <description>build Programs normally have to be compiled with a special option to allow debugging to take place. On UNIX, the option for clang++ is the -g option. For example
+clang++ -Wall -g -o prog1 prog1.cpp  We also include the -Wall option, which lists warnings (the &amp;lsquo;all&amp;rsquo; is to list all warnings). Note that this option leads to executable files that are larger and slower, so you may not want to use it for final distributions or time-critical programs.</description>
+    </item>
+    
+  </channel>
+</rss>

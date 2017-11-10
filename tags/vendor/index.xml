@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Vendor on My New Hugo Site</title>
+    <link>http://ytlvy.com/tags/vendor/</link>
+    <description>Recent content in Vendor on My New Hugo Site</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Tue, 04 Aug 2015 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="http://ytlvy.com/tags/vendor/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>ios GPUImage simple use</title>
+      <link>http://ytlvy.com/posts/2015-08-04/2015-08-04-ios-gpuimage-simple-use/</link>
+      <pubDate>Tue, 04 Aug 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-08-04/2015-08-04-ios-gpuimage-simple-use/</guid>
+      <description>GPUImage GPUImage 作者是 Brad Larson，以 BSD 协议放出，能够在图像、实时摄像头影像和视频上使用 GPU 加速的滤镜和其他效果.
+GPU vs. CPU 每只 iPhone 都有两个处理器：一个 CPU，也就是中央处理器，和一个 GPU，也就是图形处理器。每个处理器都有它自己的优势，现代芯片架构（例如 Apple A4）把 CPU 和 GPU 集成在一个物理封装里。
+在 Xcode 里面写 C 和 Objective-C 的时候，产生的指令绝大部分会被 CPU 执行。相对地，GPU 是一枚专用芯片，专门用来做独立的小操作，例如图形渲染。GPU 执行的指令和 CPU 是有很大区别的，因此用特殊的语言来编写：OpenGL（特别地，在 iPhone 和 iPad 上使用 OpenGL ES）
+渲染管线 GPUImage 从本质上来说是一个渲染管线的 Objective-C抽象。从相机、网络或者磁盘上加载的源图像，在经过一系列滤镜处理后，最终输出到了 view、graphics context 或是数据流中。
+例如说，摄像头中的图像可以应用一个 Color Levels 滤镜，来模拟各种色盲效果，然后实时显示在一个 view 中。
+GPUImageVideoCamera *videoCamera = [[GPUImageVideoCamera alloc] initWithSessionPreset:AVCaptureSessionPreset640x480 cameraPosition:AVCaptureDevicePositionBack]; videoCamera.outputImageOrientation = UIInterfaceOrientationPortrait; GPUImageFilter *filter = [[GPUImageLevelsFilter alloc] initWithFragmentShaderFromFile:@&amp;quot;CustomShader&amp;quot;]; [filter setRedMin:0.</description>
+    </item>
+    
+  </channel>
+</rss>

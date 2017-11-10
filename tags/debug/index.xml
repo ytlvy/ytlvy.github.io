@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Debug on My New Hugo Site</title>
+    <link>http://ytlvy.com/tags/debug/</link>
+    <description>Recent content in Debug on My New Hugo Site</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Tue, 04 Aug 2015 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="http://ytlvy.com/tags/debug/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>parse crashLog manually</title>
+      <link>http://ytlvy.com/posts/2015-08-04/2015-08-04-parse-crashlog-manually/</link>
+      <pubDate>Tue, 04 Aug 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-08-04/2015-08-04-parse-crashlog-manually/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;http://foggry.com/blog/2015/07/27/ru-he-shou-dong-jie-xi-crashlog/&#34;&gt;转自&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;如何手动解析crashlog&#34;&gt;如何手动解析CrashLog&lt;/h2&gt;
+
+&lt;p&gt;解决崩溃问题是移动应用开发者最日常的工作之一。如果是开发过程中遇到的崩溃，可以根据重现步骤调试，但线上版本就无能为力了。好在目前已经有很多不错的第三方CrashLog搜集平台（如友盟、Crashlytics等）为我们做好了解析工作，甚至在Xcode7里苹果也跟进了解析线上版本崩溃日志的功能，为开发者减轻了不少负担。尽管通常已经不需要我们手工处理CrashLog，了解CrashLog的还原原理和方法还是有必要的。&lt;/p&gt;
+
+&lt;h3 id=&#34;dsym&#34;&gt;.dSYM&lt;/h3&gt;
+
+&lt;p&gt;&lt;code&gt;.dSYM(debugging SYMbols)&lt;/code&gt;又称为调试符号表，是苹果为了方便调试和定位问题而使用的一种调试方案，本质上使用的是起源于贝尔实验室的DWARF（Debugging With Attributed Record Formats），其在&lt;code&gt;.xcarchive&lt;/code&gt;目录中的层次结构为：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;.xcarchive
+--dSYMs
+  |--Your.app.dSYM
+    |--Contents
+      |--Resources
+        |--DWARF
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;关于DWARF的具体内容以后有机会再说。我们能解析CrashLog全靠.dSYM文件，解析方式见后文。&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>xcode condition breakpoint non-ascii</title>
+      <link>http://ytlvy.com/posts/2015-07-28/2015-07-28-xcode-condition-breakpoint-non-ascii/</link>
+      <pubDate>Tue, 28 Jul 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-07-28/2015-07-28-xcode-condition-breakpoint-non-ascii/</guid>
+      <description> 设置变量 expr username = @&amp;quot;username&amp;quot; expr password = @&amp;quot;badpassword&amp;quot;  条件断点 (BOOL)[item isEqualToString:@&amp;quot;three&amp;quot;] //非 ASCII 码写法 (BOOL)[(NSString*)titleName isEqualToString:[NSString stringWithUTF8String:&amp;quot;消息&amp;quot;]]  </description>
+    </item>
+    
+    <item>
+      <title>Debug</title>
+      <link>http://ytlvy.com/posts/2015-07-16/2015-07-16-debug/</link>
+      <pubDate>Thu, 16 Jul 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-07-16/2015-07-16-debug/</guid>
+      <description>调试 DTrace You can use DTrace to monitor a running application to see the methods and the classes that are called. You can easily monitor an iOS app running in the Simulator using DTrace on the command line, First you will need to find the PID of the application using ps and then you can run a DTrace probe like the following:
+sudo dtrace -q -n &#39;objc1234:::entry { printf(&amp;quot;%s %s\n&amp;quot;, probemod, probefunc); }&#39;  where 1234 is the process ID of the app.</description>
+    </item>
+    
+    <item>
+      <title>LLDB</title>
+      <link>http://ytlvy.com/posts/2015-07-16/2015-07-16-lldb/</link>
+      <pubDate>Thu, 16 Jul 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-07-16/2015-07-16-lldb/</guid>
+      <description>build Programs normally have to be compiled with a special option to allow debugging to take place. On UNIX, the option for clang++ is the -g option. For example
+clang++ -Wall -g -o prog1 prog1.cpp  We also include the -Wall option, which lists warnings (the &amp;lsquo;all&amp;rsquo; is to list all warnings). Note that this option leads to executable files that are larger and slower, so you may not want to use it for final distributions or time-critical programs.</description>
+    </item>
+    
+    <item>
+      <title>iOS Crash文件的解析</title>
+      <link>http://ytlvy.com/posts/2015-07-15/2015-07-15-ios-crash%E6%96%87%E4%BB%B6%E7%9A%84%E8%A7%A3%E6%9E%90/</link>
+      <pubDate>Wed, 15 Jul 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-07-15/2015-07-15-ios-crash%E6%96%87%E4%BB%B6%E7%9A%84%E8%A7%A3%E6%9E%90/</guid>
+      <description>&lt;p&gt;-&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;http://www.cnblogs.com/smileEvday/p/Crash1.html&#34;&gt;转自&lt;/a&gt;&lt;/p&gt;
+
+&lt;h1 id=&#34;ios-crash文件的解析&#34;&gt;iOS Crash文件的解析&lt;/h1&gt;
+
+&lt;p&gt;开发程序的过程中不管我们已经如何小心，总是会在不经意间遇到程序闪退。脑补一下当你在一群人面前自信的拿着你的App做功能预演的时候，流畅的操作被无情地Crash打断。联想起老罗在发布Smartisan OS的时候说了，他准备了10个手机，如果一台有问题，就换一台，如果10台后挂了他就不做手机了。好了不闲扯了，今天就跟大家一起聊聊iOSCrash文件的组成以及常用的分析工具。&lt;/p&gt;
+
+&lt;p&gt;　　有一个WWDC 2010的视频推荐大家抽空看看，视频名称&lt;a href=&#34;https://developer.apple.com/videos/wwdc/2010/?id=317&#34;&gt;&amp;ldquo;Understanding Crash Reports on iPhone OS&amp;rdquo;&lt;/a&gt;，该视频详细讲解了Crash文件的结构。当然如果你没时间看的话，不妨阅读以下这篇文章。&lt;/p&gt;
+
+&lt;h2 id=&#34;crash文件结构&#34;&gt;Crash文件结构&lt;/h2&gt;
+
+&lt;p&gt;当程序运行Crash的时候，系统会把运行的最后时刻的运行信息记录下来，存储到一个文件中，也就是我们所说的Crash文件。iOS的Crash日志通常由以下6各部分组成。 &lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>iOS 内存警告</title>
+      <link>http://ytlvy.com/posts/2015-07-15/2015-07-15-ios-%E5%86%85%E5%AD%98%E8%AD%A6%E5%91%8A/</link>
+      <pubDate>Wed, 15 Jul 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-07-15/2015-07-15-ios-%E5%86%85%E5%AD%98%E8%AD%A6%E5%91%8A/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;http://www.cnblogs.com/smileEvday/archive/2012/03/07/MemoryWarning.html&#34;&gt;转自&lt;/a&gt;&lt;/p&gt;
+
+&lt;h1 id=&#34;内存警告&#34;&gt;内存警告&lt;/h1&gt;
+
+&lt;p&gt;系统有四种内存警告&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;typedef enum {
+　   OSMemoryNotificationLevelAny      = -1,
+　   OSMemoryNotificationLevelNormal   =  0,
+　   OSMemoryNotificationLevelWarning  =  1,
+　   OSMemoryNotificationLevelUrgent   =  2,
+　   OSMemoryNotificationLevelCritical =  3
+} OSMemoryNotificationLevel;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;　　通常我们在程序中接收到最多的就是Memory warning level 1，这个时候就证明系统内存紧张了，我们的程序必须做出相应，释放不必要的内存。通常如果我们处理得当的话，内存警告就会到此停止，恢复正常状态。如果我们在接收到&lt;code&gt;memory warning level 1&lt;/code&gt;以后坐视不理的话，系统可能还会再尝试通知几次&lt;code&gt;level 1&lt;/code&gt;，如果还是不去处理的话，系统将会发出更高一级的内存警告&lt;code&gt;level 2&lt;/code&gt;，通常的结果就是我们的App被强制退出，系统收回内存。当然系统在发出level 2的警告时，也会取尝试做一些清理内存的事，例如关闭不必要的后台程序等。很显然我们不该寄希望于系统自己清理，这就好比你的胳膊被划破了，身体肯定会有自修复功能，但是如果伤口比较大的话，肯定还是需要人工处理一下的。&lt;/p&gt;
+
+&lt;p&gt;到目前位置我还没有见过level 3的警告，根据stack over flow上面讲的&amp;rdquo;当发生level 3警告时，系统内核将会接管，很有可能关掉IOS的主界面进程（SpringBorad），甚至会重启&amp;rdquo;，照这个意思来说我们程序里面接收不到，也实属正常，系统自己的东西都被干掉了，我们肯定早被kill了。  KennyTM写的原文地址： &lt;a href=&#34;http://stackoverflow.com/questions/2915247/iphone-os-memory-warnings-what-do-the-different-levels-mean&#34;&gt;http://stackoverflow.com/questions/2915247/iphone-os-memory-warnings-what-do-the-different-levels-mean&lt;/a&gt;&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

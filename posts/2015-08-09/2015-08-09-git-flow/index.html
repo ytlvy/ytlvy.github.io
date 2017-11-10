@@ -1,0 +1,864 @@
+
+
+  
+
+
+  
+
+
+
+
+  
+
+
+  
+
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="Hugo 0.30.2 with theme Tranquilpeak 0.4.2-BETA">
+    <title>git flow</title>
+    <meta name="author" content="肖杰">
+    <meta name="keywords" content="">
+
+    <link rel="icon" href="http://ytlvy.com/favicon.png">
+    
+
+    
+    <meta name="description" content="reference
+
+A successful Git branching model
+
+git flow 工作流, 流转示意图:
+
+
+
+去中心化 和 中心化
+
+此工作流中, 存在唯一的中心仓库 &ndash; origin. 每个程序员向中心仓库, 拉取更新和提交更新. 然而, 程序员也可以被划分为小组, 来进入更进一步的划分, 先从这些分中心仓库 来拉取更新和提交更新, 先完成小组的同步, 再和中心仓库同步.
+
+
+
+主要分支
+
+这个工作流的核心为两个主分支:
+
+
+Master
+Develop
+
+
+
+
+">
+    <meta property="og:description" content="reference
+
+A successful Git branching model
+
+git flow 工作流, 流转示意图:
+
+
+
+去中心化 和 中心化
+
+此工作流中, 存在唯一的中心仓库 &ndash; origin. 每个程序员向中心仓库, 拉取更新和提交更新. 然而, 程序员也可以被划分为小组, 来进入更进一步的划分, 先从这些分中心仓库 来拉取更新和提交更新, 先完成小组的同步, 再和中心仓库同步.
+
+
+
+主要分支
+
+这个工作流的核心为两个主分支:
+
+
+Master
+Develop
+
+
+
+
+">
+    <meta property="og:type" content="blog">
+    <meta property="og:title" content="git flow">
+    <meta property="og:url" content="/posts/2015-08-09/2015-08-09-git-flow/">
+    <meta property="og:site_name" content="My New Hugo Site">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="My New Hugo Site">
+    <meta name="twitter:description" content="reference
+
+A successful Git branching model
+
+git flow 工作流, 流转示意图:
+
+
+
+去中心化 和 中心化
+
+此工作流中, 存在唯一的中心仓库 &ndash; origin. 每个程序员向中心仓库, 拉取更新和提交更新. 然而, 程序员也可以被划分为小组, 来进入更进一步的划分, 先从这些分中心仓库 来拉取更新和提交更新, 先完成小组的同步, 再和中心仓库同步.
+
+
+
+主要分支
+
+这个工作流的核心为两个主分支:
+
+
+Master
+Develop
+
+
+
+
+">
+    
+    
+
+    
+    
+
+    
+      <meta property="og:image" content="//www.gravatar.com/avatar/8d5387e20303e26c6147cfe67990995e?s=640">
+    
+
+    
+    
+    
+
+    
+
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/jquery.fancybox.min.css" integrity="sha256-vuXZ9LGmmwtjqFX1F+EKin1ThZMub58gKULUyf0qECk=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/helpers/jquery.fancybox-thumbs.min.css" integrity="sha256-SEa4XYAHihTcEP1f5gARTB2K26Uk8PsndQYHQC1f4jU=" crossorigin="anonymous" />
+    
+    
+    <link rel="stylesheet" href="http://ytlvy.com/css/style-jsjn0006wyhpyzivf6yceb31gvpjatbcs3qzjvlumobfnugccvobqwxnnaj8.min.css" />
+    
+    
+
+    
+      
+    
+    
+  </head>
+
+  <body>
+    <div id="blog">
+      <header id="header" data-behavior="1">
+  <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+  <div class="header-title">
+    <a class="header-title-link" href="http://ytlvy.com/">My New Hugo Site</a>
+  </div>
+  
+    
+      <a class="header-right-picture "
+         href="http://ytlvy.com/#about">
+    
+    
+    
+      
+        <img class="header-picture" src="//www.gravatar.com/avatar/8d5387e20303e26c6147cfe67990995e?s=90" alt="" />
+      
+    
+    </a>
+  
+</header>
+
+      <nav id="sidebar" data-behavior="1">
+  <div class="sidebar-container">
+    
+      <div class="sidebar-profile">
+        <a href="http://ytlvy.com/#about">
+          <img class="sidebar-profile-picture" src="//www.gravatar.com/avatar/8d5387e20303e26c6147cfe67990995e?s=110" alt="" />
+        </a>
+        <h4 class="sidebar-profile-name">肖杰</h4>
+        
+          <h5 class="sidebar-profile-bio">一个瑜伽|篮球|羽毛球爱好者</h5>
+        
+      </div>
+    
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="http://ytlvy.com/">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-home"></i>
+      
+      <span class="sidebar-button-desc">Home</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="http://ytlvy.com/categories">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-bookmark"></i>
+      
+      <span class="sidebar-button-desc">Categories</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="http://ytlvy.com/tags">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+      
+      <span class="sidebar-button-desc">Tags</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="http://ytlvy.com/archives">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
+      
+      <span class="sidebar-button-desc">Archives</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="http://ytlvy.com/#about">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-question"></i>
+      
+      <span class="sidebar-button-desc">About</span>
+    </a>
+  </li>
+
+
+    </ul>
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://github.com/ytlvy" target="_blank" rel="noopener">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-github"></i>
+      
+      <span class="sidebar-button-desc">GitHub</span>
+    </a>
+  </li>
+
+
+    </ul>
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="http://ytlvy.com/index.xml">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-rss"></i>
+      
+      <span class="sidebar-button-desc">RSS</span>
+    </a>
+  </li>
+
+
+    </ul>
+  </div>
+</nav>
+
+      
+
+      <div id="main" data-behavior="1"
+        class="
+               hasCoverMetaIn
+               ">
+        <article class="post" itemscope itemType="http://schema.org/BlogPosting">
+          
+          
+            <div class="post-header main-content-wrap text-left">
+  
+    <h1 class="post-title" itemprop="headline">
+      git flow
+    </h1>
+  
+  
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2015-08-09T00:00:00Z">
+        
+   9, 2015
+
+      </time>
+    
+    
+  
+  
+    <span></span>
+    
+      <a class="category-link" href="http://ytlvy.com/categories/git">Git</a>
+    
+  
+
+  </div>
+
+</div>
+          
+          <div class="post-content markdown" itemprop="articleBody">
+            <div class="main-content-wrap">
+              <p><a href="http://nvie.com/posts/a-successful-git-branching-model/">reference</a></p>
+
+<h2 id="a-successful-git-branching-model">A successful Git branching model</h2>
+
+<p><code>git flow</code> 工作流, 流转示意图:</p>
+
+<p><img src="http://nvie.com/img/git-model@2x.png" alt="git flow" /></p>
+
+<h3 id="去中心化-和-中心化">去中心化 和 中心化</h3>
+
+<p>此工作流中, 存在唯一的<code>中心仓库</code> &ndash; <code>origin</code>. 每个程序员向中心仓库, 拉取更新和提交更新. 然而, 程序员也可以被划分为小组, 来进入更进一步的划分, 先从这些<code>分中心仓库</code> 来拉取更新和提交更新, 先完成小组的同步, 再和中心仓库同步.</p>
+
+<p><img src="http://nvie.com/img/centr-decentr@2x.png" alt="" /></p>
+
+<h3 id="主要分支">主要分支</h3>
+
+<p>这个工作流的核心为两个主分支:</p>
+
+<ol>
+<li>Master</li>
+<li>Develop</li>
+</ol>
+
+<p><img src="http://nvie.com/img/main-branches@2x.png" alt="" /></p>
+
+<p></p>
+
+<p>在<code>origin</code> 上的主分支, 对 Git 用户来说是很熟悉了, 另外一个则是 <code>develop</code> 分支. 我们认为 <code>origin/master</code> 分支的 <code>HEAD</code> 总是<strong>发布版</strong>的源代码. 而 <code>origin/develop</code> 分支的 <code>HEAD</code> 则是为下一个开发版准备的最新开发状态. 此分支也被称为<strong>整合分支</strong>. 这也是所有 <code>nightly</code> 版本编译的来源.</p>
+
+<p>当在开发分支上达到一定的稳定状态时, 会被合并到 <code>master</code> 分支, 从而生成一个全新的发布版本. 我们倾向于严格的处理主分支的合并, 此外, 我们可以采用一个 <code>Git hook</code> 脚本来监控主分支的 <code>commit</code> 事件, 然后自动打包, 并将程序分发到产品服务器.</p>
+
+<h3 id="支持分支">支持分支</h3>
+
+<p>除了主要分支外, 工作流还使用了很多支持分支, 来方便并发开发. 比如: 新功能开发, 版本发布准备和版本 bug 修复工作同步处理. 不像主要分支, 这些分支都有一定的生命周期, 他们将最终被删除.</p>
+
+<p>支持分支类型:</p>
+
+<ol>
+<li>Feature branches</li>
+<li>Release branches</li>
+<li>Hotfix branches</li>
+</ol>
+
+<p>这些分支都有自己独特的使命, 并存在严格的处理规则, 例如从哪里派生, 合并到哪里.这些分支在技术角度是没有区别的, 只是我们人为的划分为不同的功能.</p>
+
+<h3 id="feature-branches">Feature branches</h3>
+
+<p>可以派生自:
+<code>Develop</code> 分支</p>
+
+<p>必须合并到:
+<code>Develop</code> 分支</p>
+
+<p>命名规则:
+除 <code>master, develop, release-*, or hotfix-*</code> 以外</p>
+
+<p><img src="http://nvie.com/img/fb@2x.png" alt="" /></p>
+
+<p><code>Feature branches</code> 主要用来开发新功能. 当进入 <code>Feature</code> 开发时, 最终会发布到那个版本, 可能还没有确定. <code>Feature</code>分支最终会合并入 <code>Develop</code>分支, 或者废弃. <code>Feature</code>分支只存在于开发库中, 不应该同步到 <code>origin</code> 中心仓库.</p>
+
+<h4 id="creating-a-feature-branch">Creating a feature branch</h4>
+
+<p>从<code>develop</code> 派生新的功能分支</p>
+
+<pre><code>$ git checkout -b myfeature develop
+Switched to a new branch &quot;myfeature&quot;
+</code></pre>
+
+<h4 id="incorporating-a-finished-feature-on-develop">Incorporating a finished feature on develop</h4>
+
+<p>当功能分支结束开发, 合并回开发分支.</p>
+
+<pre><code>$ git checkout develop
+Switched to branch 'develop'
+
+$ git merge --no-ff myfeature
+Updating ea1b82a..05e9557
+(Summary of changes)
+
+$ git branch -d myfeature
+Deleted branch myfeature (was 05e9557).
+
+$ git push origin develop
+</code></pre>
+
+<p><code>--no-ff</code> 符号会使得合并总是生成一个新的提交点, 即使是 <code>fast-forward</code> 合并. 这可以避免丢失分支的历史存在信息.</p>
+
+<p><img src="http://nvie.com/img/merge-without-ff@2x.png" alt="" /></p>
+
+<p>在上图中, 后面不添加 <code>--no-ff</code> 的做法, 就使得我们很难看出, 曾经合并了一个功能分支, 除非通过阅读所有的日志信息.</p>
+
+<h3 id="release-branches">Release branches</h3>
+
+<p>可以派生自:
+<code>Develop</code> 分支</p>
+
+<p>必须合并到:
+<code>develop</code> 分支 和 <code>master</code> 分支</p>
+
+<p>命名规则:
+<code>release-*</code></p>
+
+<p>发布分支为下一个版本的发布做准备. 它允许少量的 bug 修复, 以及发布准备(例如: 版本号, 编译日期, 等). 通过在发布分支做这些事情, 可以使得 开发分支 清晰的去合并新的功能分支, 从而为下一个版本做准备.</p>
+
+<p>发布分支是在开发分支达到一定的发布状态时, 才在开发分支派生的, 例如至少要在所有当前版本功能, 都合并入开发分支后. 此时所有的未来版本功能不应合并入开发分支, 直到发布分支派生后为止.</p>
+
+<h4 id="creating-a-release-branch">Creating a release branch</h4>
+
+<pre><code>$ git checkout -b release-1.2 develop
+Switched to a new branch &quot;release-1.2&quot;
+
+$ ./bump-version.sh 1.2
+Files modified successfully, version bumped to 1.2.
+
+$ git commit -a -m &quot;Bumped version number to 1.2&quot;
+[release-1.2 74d9424] Bumped version number to 1.2
+1 files changed, 1 insertions(+), 1 deletions(-)
+</code></pre>
+
+<p><code>bump-version.sh</code> 脚本为一个变更文件版本号的脚本, 此步骤可以通过手工更改代替.</p>
+
+<p>这个新分支会存在一段时间, 直到可以确定发布为止. 在此阶段, 此分支的主要功能为 bug 修改. 此时严禁合并大的功能模块. 此分支会最终合并回开发分支, 在开发分支为下一个发布做准备.</p>
+
+<h4 id="finishing-a-release-branch">Finishing a release branch</h4>
+
+<p>当发布分支准备完毕后, 会被首先合并到 <code>master</code> 分支, 因为所有的发布状态都会放到此分支. 然后在主分支打标签, 以便未来浏览. 最后在发布分支上的修改会合并回 <code>develop</code>.</p>
+
+<pre><code>$ git checkout master
+Switched to branch 'master'
+
+$ git merge --no-ff release-1.2
+Merge made by recursive.
+(Summary of changes)
+
+$ git tag -a 1.2
+</code></pre>
+
+<p>发布完成, 也打完了标签</p>
+
+<blockquote>
+<p>你可能希望使用 <code>-s or -u &lt;key&gt;</code> 来打标签</p>
+</blockquote>
+
+<p>合并回 <code>develop</code></p>
+
+<pre><code>$ git checkout develop
+Switched to branch 'develop'
+
+$ git merge --no-ff release-1.2
+Merge made by recursive.
+(Summary of changes)
+</code></pre>
+
+<p>这一步可能引起冲突, 如果发生, 先解决冲突再提交.</p>
+
+<p>删除此分支</p>
+
+<pre><code>$ git branch -d release-1.2
+Deleted branch release-1.2 (was ff452fe).
+</code></pre>
+
+<h3 id="hotfix-branches">Hotfix branches</h3>
+
+<p>可以派生自:
+<code>master</code> 分支</p>
+
+<p>必须合并到:
+<code>develop</code> 分支 和 <code>master</code> 分支</p>
+
+<p>命名规则:
+<code>hotfix-*</code></p>
+
+<p><code>Hotfix</code> 分支和 <code>release</code> 分支很像, 都是为新的版本发布做准备. 他们为解决某个线上产品版本的严重 bug 而生. 它的存在是为了不打断现阶段的开发进程.</p>
+
+<p><img src="http://nvie.com/img/hotfix-branches@2x.png" alt="" /></p>
+
+<h4 id="creating-the-hotfix-branch">Creating the hotfix branch</h4>
+
+<p><code>Hotfix</code> 分支派生自 <code>master</code>分支. 例如: 当前版本为1.2, 出现了严重问题. 然而在 <code>develop</code> 分支修改是很不稳定的, 因为此分支目前可能有新的不完善的功能, 所以我们需要派生一个 <code>Hotfix</code> 分支.</p>
+
+<pre><code>$ git checkout -b hotfix-1.2.1 master
+Switched to a new branch &quot;hotfix-1.2.1&quot;
+
+$ ./bump-version.sh 1.2.1
+Files modified successfully, version bumped to 1.2.1.
+
+$ git commit -a -m &quot;Bumped version number to 1.2.1&quot;
+[hotfix-1.2.1 41e61bb] Bumped version number to 1.2.1
+1 files changed, 1 insertions(+), 1 deletions(-)
+</code></pre>
+
+<blockquote>
+<p>不要忘记修改版本信息</p>
+</blockquote>
+
+<p>然后 bug 修复完了, 我们需要提交修改</p>
+
+<pre><code>$ git commit -m &quot;Fixed severe production problem&quot;
+[hotfix-1.2.1 abbe5d6] Fixed severe production problem
+5 files changed, 32 insertions(+), 17 deletions(-)
+</code></pre>
+
+<h4 id="finishing-a-hotfix-branch">Finishing a hotfix branch</h4>
+
+<p>结束后, <code>bugfix</code> 需要合并回 <code>master</code>, 同时也需要合并到 <code>develop</code>.</p>
+
+<p>合并到主分支</p>
+
+<pre><code>$ git checkout master
+Switched to branch 'master'
+
+$ git merge --no-ff hotfix-1.2.1
+Merge made by recursive.
+(Summary of changes)
+
+$ git tag -a 1.2.1
+</code></pre>
+
+<p>合并到开发分支</p>
+
+<pre><code>$ git checkout develop
+Switched to branch 'develop'
+
+$ git merge --no-ff hotfix-1.2.1
+Merge made by recursive.
+(Summary of changes)
+</code></pre>
+
+<p>例外情况为, 如果此时 <code>release</code>分支存在, 则直接合并入此 <code>release</code>分支, 不再直接合并入 <code>develop</code>. 因为<code>release</code>分支最终回合并回 <code>develop</code>.</p>
+
+<p>删除此分支</p>
+
+<pre><code>$ git branch -d hotfix-1.2.1
+Deleted branch hotfix-1.2.1 (was abbe5d6).
+</code></pre>
+              
+            </div>
+          </div>
+          <div id="post-footer" class="post-footer main-content-wrap">
+            
+              
+                
+                
+                  <div class="post-footer-tags">
+                    <span class="text-color-light text-small"></span><br/>
+                    
+  <a class="tag tag--primary tag--small" href="http://ytlvy.com/tags/git/">Git</a>
+
+                  </div>
+                
+              
+            
+            
+  <div class="post-actions-wrap">
+      <nav >
+        <ul class="post-actions post-action-nav">
+          
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="http://ytlvy.com/posts/2015-08-11/2015-08-11-ios-nsnull-detect/" data-tooltip="iOS NSNull Detect">
+              
+                  <i class="fa fa-angle-left"></i>
+                  <span class="hide-xs hide-sm text-small icon-ml"></span>
+                </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="http://ytlvy.com/posts/2015-08-08/2015-08-08-how-to-implement-a-circular-image-loader-animation-with-cashapelayer/" data-tooltip="How To Implement A Circular Image Loader Animation with CAShapeLayer">
+              
+                  <span class="hide-xs hide-sm text-small icon-mr"></span>
+                  <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+          
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
+      
+        <li class="post-action hide-lg hide-md hide-sm">
+          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+            <i class="fa fa-share-alt"></i>
+          </a>
+        </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://ytlvy.com/posts/2015-08-09/2015-08-09-git-flow/">
+              <i class="fa fa-facebook-official"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http://ytlvy.com/posts/2015-08-09/2015-08-09-git-flow/">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=http://ytlvy.com/posts/2015-08-09/2015-08-09-git-flow/">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        
+      
+      
+        <li class="post-action">
+          <a class="post-action-btn btn btn--default" href="#disqus_thread">
+            <i class="fa fa-comment-o"></i>
+          </a>
+        </li>
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#">
+        
+          <i class="fa fa-list"></i>
+        </a>
+      </li>
+    </ul>
+  </div>
+
+
+            
+              
+                <div id="disqus_thread">
+  <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+              
+            
+          </div>
+        </article>
+        <footer id="footer" class="main-content-wrap">
+  <span class="copyrights">
+    &copy; 2017 肖杰. 
+  </span>
+</footer>
+
+      </div>
+      <div id="bottom-bar" class="post-bottom-bar" data-behavior="1">
+        
+  <div class="post-actions-wrap">
+      <nav >
+        <ul class="post-actions post-action-nav">
+          
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="http://ytlvy.com/posts/2015-08-11/2015-08-11-ios-nsnull-detect/" data-tooltip="iOS NSNull Detect">
+              
+                  <i class="fa fa-angle-left"></i>
+                  <span class="hide-xs hide-sm text-small icon-ml"></span>
+                </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="http://ytlvy.com/posts/2015-08-08/2015-08-08-how-to-implement-a-circular-image-loader-animation-with-cashapelayer/" data-tooltip="How To Implement A Circular Image Loader Animation with CAShapeLayer">
+              
+                  <span class="hide-xs hide-sm text-small icon-mr"></span>
+                  <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+          
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
+      
+        <li class="post-action hide-lg hide-md hide-sm">
+          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+            <i class="fa fa-share-alt"></i>
+          </a>
+        </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://ytlvy.com/posts/2015-08-09/2015-08-09-git-flow/">
+              <i class="fa fa-facebook-official"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http://ytlvy.com/posts/2015-08-09/2015-08-09-git-flow/">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=http://ytlvy.com/posts/2015-08-09/2015-08-09-git-flow/">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        
+      
+      
+        <li class="post-action">
+          <a class="post-action-btn btn btn--default" href="#disqus_thread">
+            <i class="fa fa-comment-o"></i>
+          </a>
+        </li>
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#">
+        
+          <i class="fa fa-list"></i>
+        </a>
+      </li>
+    </ul>
+  </div>
+
+
+      </div>
+      <div id="share-options-bar" class="share-options-bar" data-behavior="1">
+  <i id="btn-close-shareoptions" class="fa fa-close"></i>
+  <ul class="share-options">
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Fytlvy.com%2Fposts%2F2015-08-09%2F2015-08-09-git-flow%2F">
+          <i class="fa fa-facebook-official"></i><span>%!(EXTRA string=Facebook)</span>
+        </a>
+      </li>
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=http%3A%2F%2Fytlvy.com%2Fposts%2F2015-08-09%2F2015-08-09-git-flow%2F">
+          <i class="fa fa-twitter"></i><span>%!(EXTRA string=Twitter)</span>
+        </a>
+      </li>
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=http%3A%2F%2Fytlvy.com%2Fposts%2F2015-08-09%2F2015-08-09-git-flow%2F">
+          <i class="fa fa-google-plus"></i><span>%!(EXTRA string=Google&#43;)</span>
+        </a>
+      </li>
+    
+  </ul>
+</div>
+<div id="share-options-mask" class="share-options-mask"></div>
+    </div>
+    
+    <div id="about">
+  <div id="about-card">
+    <div id="about-btn-close">
+      <i class="fa fa-remove"></i>
+    </div>
+    
+      <img id="about-card-picture" src="//www.gravatar.com/avatar/8d5387e20303e26c6147cfe67990995e?s=110" alt="" />
+    
+    <h4 id="about-card-name">肖杰</h4>
+    
+      <div id="about-card-bio">一个瑜伽|篮球|羽毛球爱好者</div>
+    
+    
+      <div id="about-card-job">
+        <i class="fa fa-briefcase"></i>
+        <br/>
+        搬砖工
+      </div>
+    
+    
+      <div id="about-card-location">
+        <i class="fa fa-map-marker"></i>
+        <br/>
+        Beijing
+      </div>
+    
+  </div>
+</div>
+
+    <div id="algolia-search-modal" class="modal-container">
+  <div class="modal">
+    <div class="modal-header">
+      <span class="close-button"><i class="fa fa-close"></i></span>
+      <a href="https://algolia.com" target="_blank" rel="noopener" class="searchby-algolia text-color-light link-unstyled">
+        <span class="searchby-algolia-text text-color-light text-small">by</span>
+        <img class="searchby-algolia-logo" src="https://www.algolia.com/static_assets/images/press/downloads/algolia-light.svg">
+      </a>
+      <i class="search-icon fa fa-search"></i>
+      <form id="algolia-search-form">
+        <input type="text" id="algolia-search-input" name="search"
+          class="form-control input--large search-input" placeholder="" />
+      </form>
+    </div>
+    <div class="modal-body">
+      <div class="no-result text-color-light text-center"></div>
+      <div class="results">
+        
+        
+      </div>
+    </div>
+    <div class="modal-footer">
+      <p class="results-count text-medium"
+         data-message-zero=""
+         data-message-one=""
+         data-message-other="">
+         0 posts found
+      </p>
+    </div>
+  </div>
+</div>
+    
+  
+    
+    <div id="cover" style="background-image:url('http://ytlvy.com/images/cover.jpg');"></div>
+  
+
+
+    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js" integrity="sha256-/BfiIkHlHoVihZdc6TFuj7MmJ0TWcWsMXkeDFwhi0zw=" crossorigin="anonymous"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.7/js/jquery.fancybox.min.js" integrity="sha256-GEAnjcTqVP+vBp3SSc8bEDQqvWAZMiHyUSIorrWwH50=" crossorigin="anonymous"></script>
+
+
+<script src="http://ytlvy.com/js/script-qi9wbxp2ya2j6p7wx1i6tgavftewndznf4v0hy2gvivk1rxgc3lm7njqb6bz.min.js"></script>
+
+
+
+<script>
+$(document).ready(function() {
+  hljs.configure({ classPrefix: '', useBR: false });
+  $('pre.code-highlight > code, pre > code').each(function(i, block) {
+    if (!$(this).hasClass('codeblock')) {
+      $(this).addClass('codeblock');
+    }
+    hljs.highlightBlock(block);
+  });
+});
+</script>
+
+
+  
+    
+      <script>
+        var disqus_config = function () {
+          this.page.url = 'http:\/\/ytlvy.com\/posts\/2015-08-09\/2015-08-09-git-flow\/';
+          
+            this.page.identifier = '\/posts\/2015-08-09\/2015-08-09-git-flow\/'
+          
+        };
+        (function() {
+          
+          
+          if (window.location.hostname == "localhost") {
+            return;
+          }
+          var d = document, s = d.createElement('script');
+          var disqus_shortname = 'hugo-tranquilpeak-theme';
+          s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+
+          s.setAttribute('data-timestamp', +new Date());
+          (d.head || d.body).appendChild(s);
+        })();
+      </script>
+    
+  
+
+
+
+    
+  </body>
+</html>
+

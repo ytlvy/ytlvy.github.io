@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Cloudkit on My New Hugo Site</title>
+    <link>http://ytlvy.com/tags/cloudkit/</link>
+    <description>Recent content in Cloudkit on My New Hugo Site</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sat, 08 Aug 2015 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="http://ytlvy.com/tags/cloudkit/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>iOS8 iCloud</title>
+      <link>http://ytlvy.com/posts/2015-08-08/2015-08-08-ios8-icloud/</link>
+      <pubDate>Sat, 08 Aug 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-08-08/2015-08-08-ios8-icloud/</guid>
+      <description>&lt;h2 id=&#34;ios8使用icloud&#34;&gt;&lt;code&gt;iOS8使用icloud&lt;/code&gt;&lt;/h2&gt;
+
+&lt;blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;原文链接 : &lt;a href=&#34;http://www.appcoda.com/cloudkit-introduction-tutorial/&#34;&gt;Working with CloudKit in iOS 8&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;译文出自 &lt;a href=&#34;http://www.dectf.cn&#34;&gt;开发技术前线&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;译者 : &lt;a href=&#34;https://github.com/mrchenhao&#34;&gt;Harries Chen&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;对于开发者来说，如何用适当的方式来存储应用程序数据是一个比较重要的问题。 毫无疑问，任何应用都或多或少需要存储一些数据。对于一般的应用程序来说，被保存的数据各不相同，大部分时间都被存储在本地以便再次在相同的设备运行该应用程序。尽管这不是是唯一的选择。随着云服务的发展，一个应用程序也可以把数据存储在云端，既可以完全把数据存储在云端，也可以本地和远程都存储。&lt;/p&gt;
+
+&lt;p&gt;有许多网络服务商提供云服务，通常会赠送一定的免费空间。其中之一就是苹果，也就是著名的云服务提供商iCloud。开发人员可以访问iCloud，把它作为一个存储方式。有多种方法可以从iCloud中存储和读取数据，但在本教程中，我们将专注于其中之一：CloudKitframework。
+&lt;img src=&#34;http://img.blog.csdn.net/20150515220618400&#34; alt=&#34;这里写图片描述&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;当你处理结构化数据（不是单纯的文件和文档）并希望将其保存在网络上的，使用CloudKit会非常方便。通过CloudKit，可以很容易的做到其它数据库能做的事情，代替数据库、记录等等。事实上，一条CloudKit记录就是iOS中大家都知道的字典，当然CloudKit还可以处理其它不同的数据。通过本教程，我们会发现使用这个框架是有趣的，而不是特别困难。&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

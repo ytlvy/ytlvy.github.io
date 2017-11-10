@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Arc on My New Hugo Site</title>
+    <link>http://ytlvy.com/tags/arc/</link>
+    <description>Recent content in Arc on My New Hugo Site</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sat, 08 Aug 2015 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="http://ytlvy.com/tags/arc/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Swift Memory management</title>
+      <link>http://ytlvy.com/posts/2015-08-08/2015-08-08-swift-memory-management/</link>
+      <pubDate>Sat, 08 Aug 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-08-08/2015-08-08-swift-memory-management/</guid>
+      <description>&lt;h2 id=&#34;swift和自动引用计数-arc-整理之强-弱和无主引用&#34;&gt;Swift和自动引用计数(ARC)整理之强，弱和无主引用&lt;/h2&gt;
+
+&lt;blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;原文链接 : &lt;a href=&#34;http://www.andrewcbancroft.com/2015/05/08/strong-weak-and-unowned-sorting-out-arc-and-swift/&#34;&gt;Strong, Weak, and Unowned - Sorting out ARC and Swift&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;原文作者 : &lt;a href=&#34;http://www.andrewcbancroft.com/&#34;&gt;Andrew Bancroft&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;译文出自 : &lt;a href=&#34;www.devtf.cn&#34;&gt;开发技术前线 www.devtf.cn&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;译者 : &lt;a href=&#34;https://github.com/samw00/&#34;&gt;samw00&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;校对者:  &lt;a href=&#34;https://github.com/bboyfeiyu/&#34;&gt;MrSimple&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;状态 :  完成&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;我敢打赌有相当一部分的Swfit开发者纠结于&lt;code&gt;strong&lt;/code&gt;（强引用），&lt;code&gt;weak&lt;/code&gt;（弱引用)和&lt;code&gt;unowned&lt;/code&gt;（无主引用）这几种不同类型的引用方式对他们的代码在运行时所造成的影响。如果我的日子依赖于自动引用计数（ARC）,我想我是不会费神来尝试解释其中的奥妙的。&lt;/p&gt;
+
+&lt;p&gt;在我每次声明变量或是常量时，我都不是特别确定到底应该用哪种类型的引用，为了让自己不再纠结，我最终决定把&lt;a href=&#34;https://developer.apple.com/library/ios/documentation/Swift/Conceptual/Swift_Programming_Language/AutomaticReferenceCounting.html&#34;&gt;苹果官方关于ARC的文档&lt;/a&gt;拿出来拜读，试着去理解和消化里面的每一句话。这篇文章尝试着把我脑里关于Swift和自动引用计数（ARC）的整理分享给大家。&lt;/p&gt;
+
+&lt;p&gt;这篇文章稍微有点长所以我想：“为何不先把总结直接抛出来让小伙伴们先睹为快呢？然后如果实好奇再继续看我是如何得出这总结的”。所以下面献上我的总结！&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>iOS ARC Practices</title>
+      <link>http://ytlvy.com/posts/2015-07-28/2015-07-28-ios-arc-practices/</link>
+      <pubDate>Tue, 28 Jul 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-07-28/2015-07-28-ios-arc-practices/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;http://amattn.com/p/arc_best_practices.html&#34;&gt;转自&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;arc-最佳实践&#34;&gt;ARC 最佳实践&lt;/h2&gt;
+
+&lt;h3 id=&#34;general&#34;&gt;General&lt;/h3&gt;
+
+&lt;p&gt;1) 数值变量应该使用 assign：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;@property (nonatomic, assign) int scalarInt;
+@property (nonatomic, assign) CGFloat scalarFloat;
+@property (nonatomic, assign) CGPoint scalarStruct;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;2) 在层次结构上属于下一级的对象应该使用 strong ：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;@property (nonatomic, strong) id childObject;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;3) 在层次结构上属于上一级的对象应该使用 weak ，另外，当出现循环引用的时候也应该使用 weak ：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;@property (nonatomic, weak) id parentObject;
+@property (nonatomic, weak) NSObject &amp;lt;SomeDelegate&amp;gt; *delegate;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;4) 闭包应该使用 copy ：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;@property (nonatomic, copy) SomeBlockType someBlock;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;5) 在 dealloc 里：&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;从观察者中移除 (remove observers)&lt;/li&gt;
+&lt;li&gt;取消订阅通知 (unregister for notifications)&lt;/li&gt;
+&lt;li&gt;设置非 weak 的委托为 nil (set any non-weak delegates to nil)&lt;/li&gt;
+&lt;li&gt;关闭所有的计时器 (invalidate any timers)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;6) 所有的 IBOutlet 都应该是 weak 的。除非顶层的 IBOutlet 应该是 strong 的，比如 UIViewController 的 View 是需要直接拥有的，所以应该设置成 strong&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>ARC dealloc cxx_destruct</title>
+      <link>http://ytlvy.com/posts/2015-07-17/2015-07-17-arc-dealloc-cxx-destruct/</link>
+      <pubDate>Fri, 17 Jul 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-07-17/2015-07-17-arc-dealloc-cxx-destruct/</guid>
+      <description>转
+ARC下dealloc过程及.cxx_destruct的探究 我是前言 这次探索源自于自己一直以来对ARC的一个疑问，在MRC时代，经常写下面的代码：
+- (void)dealloc { self.array = nil; self.string = nil; // ... // // 非Objc对象内存的释放，如CFRelease(...) // ... // [super dealloc]; }  对象析构时将内部其他对象release掉，申请的非Objc对象的内存当然也一并处理掉，最后调用super，继续将父类对象做析构。而现如今到了ARC时代，只剩下了下面的代码：
+- (void)dealloc { // ... // // 非Objc对象内存的释放，如CFRelease(...) // ... // }  问题来了：
+ 这个对象实例变量（Ivars）的释放去哪儿了？ 没有显示的调用[super dealloc]，上层的析构去哪儿了？  ARC文档中对dealloc过程的解释 llvm官方的ARC文档 中对ARC下的dealloc过程做了简单说明，从中还是能找出些有用的信息：
+ A class may provide a method definition for an instance method named dealloc. This method will be called after the final release of the object but before it is deallocated or any of its instance variables are destroyed.</description>
+    </item>
+    
+    <item>
+      <title>ios arc dig</title>
+      <link>http://ytlvy.com/posts/2015-07-17/2015-07-17-ios-arc-dig/</link>
+      <pubDate>Fri, 17 Jul 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-07-17/2015-07-17-ios-arc-dig/</guid>
+      <description>转自
+objc arc的简单探索 ARC or not？ Automatic Reference Counting是objc发展以来相当重要的一个进步
+ 对于开发者，任何能降低开发难度，简化代码的功能，我们都应该去了解和使用。 我们应该利用一切“偷懒”的机会，将软件开发的复杂度分解并控制在一个个小的范围内，使得对于分解后的每一个小的任务，都能被新手掌握和维护。
+ 基于简化开发的思想来看，ARC绝对是一个没理由拒绝的技术进步。 ARC随着iOS5问世，到现在iOS8都快出了，你还在手动写retain，release么？除了固守思想外，对ARC的恐惧大都来自对它的未知。
+比如我在公司尝试说服team使用ARC时被质疑的几个问题：
+ ARC和Java的GC一样，会导致一部分性能损耗？ 首先，ARC和GC是两码事，ARC是编译时编译器“帮你”插入了原本需要自己手写的内存管理代码，而非像GC一样运行时的垃圾回收系统
+ ARC内存不知道什么时候释放，导致不可控的内存涨落？ 了解ARC的原理后，就知道，ARC下编译器插入的内存管理的代码是经过优化的，对于使用完的内存，多运行一行代码都不会浪费，可以这么说，手写的内存管理必须达到很严谨的水平才可能达到ARC自动生成的一样完整且没有疏漏
+ ARC下面自己不管理内存，很不爽，很没有安全感 这纯粹是习惯的问题了，开发者的目标是用最简化的手段完成一个最可靠的程序，进步需要改变的。好在编译选项中提供了-fobjc-arc和-fno-objc-arc来保证整个的变革的继续下去，就像社会主义中国里的港澳
+  ARC的约定 使用ARC之后一个费解的地方是，一个方法生成的对象，没有任何附加标示，ARC怎么知道生成的对象是不是autorelease的呢？
+@interface Sark : NSObject + (instancetype)sarkWithMark:(NSString *)mark; // 1 - (instancetype)initWithMark:(NSString *)mark; // 2 @end  这是非ARC时常用的手段，1生成autorelease对象，2生成普通对象，而现在ARC不能调用autorelease，使用时怎么能知道呢？
+{ // ... Sark *sark1 = [Sark sarkWithMark:@&amp;quot;萨萨萨&amp;quot;]; Sark *sark2 = [[Sark alloc] initWithMark:@&amp;quot;萨萨萨&amp;quot;]; }  使用约定，NS定义了下面三个编译属性
+#define NS_RETURNS_RETAINED __attribute__((ns_returns_retained)) #define NS_RETURNS_NOT_RETAINED __attribute__((ns_returns_not_retained)) #define NS_RETURNS_INNER_POINTER __attribute__((objc_returns_inner_pointer))  这三个属性是Clang自己使用的标示，除非特殊情况不要自己使用，但是这些对理解ARC是很有帮助的。 这里还要介绍一个概念，Method family</description>
+    </item>
+    
+    <item>
+      <title>ios self in arc</title>
+      <link>http://ytlvy.com/posts/2015-07-17/2015-07-17-ios-self-in-arc/</link>
+      <pubDate>Fri, 17 Jul 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-07-17/2015-07-17-ios-self-in-arc/</guid>
+      <description>转自
+ARC对self的内存管理 记录下前两天的一次讨论，源于网络库YTKNetwork中“YTKRequest.m”的 - start 方法其中的几行代码：
+- (void)start { // ...... YTKRequest *strongSelf = self; [strongSelf.delegate requestFinished:strongSelf]; if (strongSelf.successCompletionBlock) { strongSelf.successCompletionBlock(strongSelf); } [strongSelf clearCompletionBlock]; }  具体的问题大概是这样：
+ 调用方（如view controller）实例化并强引用YTKRequest对象，将自己作为其delegate 调用方调用YTKRequest的 - start 方法发起网络请求 调用方在 - requestFinished: 中执行了self.request = nil; YTKRequest中，- start方法在回调完-requestFinished: 后 BAD_ACCESS了  也就是说，- start方法还未返回时，self就被外部释放了。作者发现了这个潜在的问题，所以在方法局部增设了一个strongSelf的强引用来保证self的生命周期延续到方法结束。问题是解决了，但是更希望知道原因。
+简化说明就是：
+- (void)foo { // self被delegate持有 [self.delegate callout]; // 外部释放了这个对象 // 这里self野指针 }  现在想想还是比较不符合常理，入参的self居然不能保证这个函数执行完成。后来查阅了下文档，发现是ARC的(gao)机(de)制(gui)，clang的《这篇ARC文档》中有明确的解释，总结如下：
+ ARC下，self既不是strong也不是weak，而是unsafe_unretained的，也就是说，入参的self被表示为：（init系列方法的self除外）  - (void)start { const __unsafe_unretained YTKRequest *self; // .</description>
+    </item>
+    
+  </channel>
+</rss>

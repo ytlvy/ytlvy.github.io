@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Property on My New Hugo Site</title>
+    <link>http://ytlvy.com/tags/property/</link>
+    <description>Recent content in Property on My New Hugo Site</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Mon, 13 Jul 2015 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="http://ytlvy.com/tags/property/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>iOS Runtime 成员变量与属性</title>
+      <link>http://ytlvy.com/posts/2015-07-13/2015-07-13-ios-runtime-%E6%88%90%E5%91%98%E5%8F%98%E9%87%8F%E4%B8%8E%E5%B1%9E%E6%80%A7/</link>
+      <pubDate>Mon, 13 Jul 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-07-13/2015-07-13-ios-runtime-%E6%88%90%E5%91%98%E5%8F%98%E9%87%8F%E4%B8%8E%E5%B1%9E%E6%80%A7/</guid>
+      <description>&lt;h3 id=&#34;习题内容&#34;&gt;习题内容&lt;/h3&gt;
+
+&lt;p&gt;下面代码会? Compile Error / Runtime Crash / NSLog…?&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;@interface Sark : NSObject
+@property (nonatomic, copy) NSString *name;
+@end
+
+@implementation Sark
+
+- (void)speak {
+    NSLog(@&amp;quot;my name is %@&amp;quot;, self.name);
+}
+
+@end
+
+@interface Test : NSObject
+@end
+
+@implementation Test
+
+- (instancetype)init {
+    self = [super init];
+    if (self) {
+        id cls = [Sark class];
+        void *obj = &amp;amp;cls;
+        [(__bridge id)obj speak];
+    }
+    return self;
+}
+
+@end
+
+int main(int argc, const char * argv[]) {
+    @autoreleasepool {
+        [[Test alloc] init];
+    }
+    return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;答案：代码正常输出，输出结果为：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;2014-11-07 14:08:25.698 Test[1097:57255] my name is &amp;lt;Test: 0x1001002d0&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>iOS property attribute</title>
+      <link>http://ytlvy.com/posts/2015-07-13/2015-07-13-ios-property-attribute/</link>
+      <pubDate>Mon, 13 Jul 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-07-13/2015-07-13-ios-property-attribute/</guid>
+      <description>&lt;h2 id=&#34;ios-property-ivar-local-variable&#34;&gt;iOS property &amp;amp;&amp;amp; ivar &amp;amp;&amp;amp; local variable&lt;/h2&gt;
+
+&lt;h3 id=&#34;default-attributes&#34;&gt;default attributes&lt;/h3&gt;
+
+&lt;ol&gt;
+&lt;li&gt;property: atomic assign readwrite&lt;/li&gt;
+&lt;li&gt;ivar &amp;amp;&amp;amp; local varibal: strong readwrite non-atomic&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;atomic 在实现中通过加入 lock 的方式来保证多线程安全, 但是这只是很简单的一种线程安全, 只局限于此属性的读写.实际应用场景中, 业务的原子性, 是需要自己来实现的.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h3 id=&#34;when-to-use-copy&#34;&gt;when to use copy&lt;/h3&gt;
+
+&lt;ol&gt;
+&lt;li&gt;NSStrings: 为了防止其他地方修改&lt;/li&gt;
+&lt;li&gt;block: 防止自动释放&lt;/li&gt;
+&lt;li&gt;可变数据类型, 当你想阻止其他拥有者变更数据时.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h3 id=&#34;尽量使用-copy-关键字&#34;&gt;尽量使用 copy 关键字&lt;/h3&gt;
+
+&lt;p&gt;任何实现了&lt;code&gt;NSCopying&lt;/code&gt;协议的类型, 都应该尽量采用&lt;code&gt;copy&lt;/code&gt;. 因为我们定义的属性,在使用时可能是用一个可变的子属性来赋值的, 例如&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;@interface Book : NSObject
+ 
+@property (strong, nonatomic) NSString *title;
+ 
+@end
+
+
+- (void)stringExample {
+ 
+    NSMutableString *bookTitle = [NSMutableString stringWithString:@&amp;quot;Best book ever&amp;quot;];
+ 
+    Book *book = [[Book alloc] init];
+    book.title = bookTitle;
+ 
+    [bookTitle setString:@&amp;quot;Worst book ever&amp;quot;];
+ 
+    NSLog(@&amp;quot;book title %@&amp;quot;, book.title);
+ 
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

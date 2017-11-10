@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Mrc Arc on My New Hugo Site</title>
+    <link>http://ytlvy.com/tags/mrc-arc/</link>
+    <description>Recent content in Mrc Arc on My New Hugo Site</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Tue, 16 Jun 2015 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="http://ytlvy.com/tags/mrc-arc/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>ios MRC &amp;&amp; ARC</title>
+      <link>http://ytlvy.com/posts/2015-06-16/2015-06-16-ios-mrc-arc/</link>
+      <pubDate>Tue, 16 Jun 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-06-16/2015-06-16-ios-mrc-arc/</guid>
+      <description>&lt;h2 id=&#34;arc&#34;&gt;ARC&lt;/h2&gt;
+
+&lt;h3 id=&#34;mrc&#34;&gt;MRC&lt;/h3&gt;
+
+&lt;h4 id=&#34;mrc内存管理原则&#34;&gt;MRC内存管理原则&lt;/h4&gt;
+
+&lt;p&gt;􏰀1. You have ownership of any objects you create.
+2.􏰀 You can take ownership of an object using retain.
+􏰀3. When no longer needed, you must relinquish ownership of an object you own.
+􏰀4. You must not relinquish ownership of an object you don’t own.&lt;/p&gt;
+
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Action for Objective-C Object&lt;/th&gt;
+&lt;th&gt;Objective-C Method&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;Create and have ownership of it&lt;/td&gt;
+&lt;td&gt;alloc/new/copy/mutableCopy group&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;Take ownership of it&lt;/td&gt;
+&lt;td&gt;retian&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;Relinquish it&lt;/td&gt;
+&lt;td&gt;release&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;Dispose of it&lt;/td&gt;
+&lt;td&gt;dealloc&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;h4 id=&#34;调用者持有&#34;&gt;调用者持有&lt;/h4&gt;
+
+&lt;p&gt;Relinquishing Ownership of a Retained Object. 下面的例子将函数将自己持有的obj, 通过return传递给了调用者,由调用者来来持有此变量&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;- (id)allocObject
+{
+  /*
+  - You create an object and have ownership. */
+  id obj = [[NSObject alloc] init];
+  /*
+  - At this moment, this method has ownership of the object. */
+  return obj; 
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,1032 @@
+
+
+  
+
+
+  
+
+
+
+
+  
+
+
+  
+
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="Hugo 0.30.2 with theme Tranquilpeak 0.4.2-BETA">
+    <title>Swift custom-view-controller-transitions-tutorial</title>
+    <meta name="author" content="肖杰">
+    <meta name="keywords" content="">
+
+    <link rel="icon" href="http://ytlvy.com/favicon.png">
+    
+
+    
+    <meta name="description" content="使用Swift自定义ViewController切换效果与动画
+
+
+
+原文链接 : custom-view-controller-transitions-tutorial
+原文作者 : joyce echessa
+译文出自 :  开发技术前线 www.devtf.cn
+译者 : Shopie
+
+
+
+当我们把从Apple iOS设备上内置的app从一个view切换到另一个的时候，我们可以看到各种不同的动态切换。比如，把详细view controller滑动到主view controller时呈现出的切换动画（通常在短信app或设置app中可以看到），以及代表了不同view controller之间切换的各种不间断过渡。
+
+iOS 7引入了自定义view controller切换，使得开发人员能够在他们的app中实现不同 view controller之间的自定义切换动画。我们通过本教程来看看如何自定义切换动画。本教程还会讲到如何创建手势切换，也就是交互式切换。首先，大家需要下载starter项目，我们在后续的整个教程中将会用到。
+
+
+
+">
+    <meta property="og:description" content="使用Swift自定义ViewController切换效果与动画
+
+
+
+原文链接 : custom-view-controller-transitions-tutorial
+原文作者 : joyce echessa
+译文出自 :  开发技术前线 www.devtf.cn
+译者 : Shopie
+
+
+
+当我们把从Apple iOS设备上内置的app从一个view切换到另一个的时候，我们可以看到各种不同的动态切换。比如，把详细view controller滑动到主view controller时呈现出的切换动画（通常在短信app或设置app中可以看到），以及代表了不同view controller之间切换的各种不间断过渡。
+
+iOS 7引入了自定义view controller切换，使得开发人员能够在他们的app中实现不同 view controller之间的自定义切换动画。我们通过本教程来看看如何自定义切换动画。本教程还会讲到如何创建手势切换，也就是交互式切换。首先，大家需要下载starter项目，我们在后续的整个教程中将会用到。
+
+
+
+">
+    <meta property="og:type" content="blog">
+    <meta property="og:title" content="Swift custom-view-controller-transitions-tutorial">
+    <meta property="og:url" content="/posts/2015-08-08/2015-08-08-swift-custom-view-controller-transitions-tutorial/">
+    <meta property="og:site_name" content="My New Hugo Site">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="My New Hugo Site">
+    <meta name="twitter:description" content="使用Swift自定义ViewController切换效果与动画
+
+
+
+原文链接 : custom-view-controller-transitions-tutorial
+原文作者 : joyce echessa
+译文出自 :  开发技术前线 www.devtf.cn
+译者 : Shopie
+
+
+
+当我们把从Apple iOS设备上内置的app从一个view切换到另一个的时候，我们可以看到各种不同的动态切换。比如，把详细view controller滑动到主view controller时呈现出的切换动画（通常在短信app或设置app中可以看到），以及代表了不同view controller之间切换的各种不间断过渡。
+
+iOS 7引入了自定义view controller切换，使得开发人员能够在他们的app中实现不同 view controller之间的自定义切换动画。我们通过本教程来看看如何自定义切换动画。本教程还会讲到如何创建手势切换，也就是交互式切换。首先，大家需要下载starter项目，我们在后续的整个教程中将会用到。
+
+
+
+">
+    
+    
+
+    
+    
+
+    
+      <meta property="og:image" content="//www.gravatar.com/avatar/8d5387e20303e26c6147cfe67990995e?s=640">
+    
+
+    
+    
+    
+
+    
+
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/jquery.fancybox.min.css" integrity="sha256-vuXZ9LGmmwtjqFX1F+EKin1ThZMub58gKULUyf0qECk=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/helpers/jquery.fancybox-thumbs.min.css" integrity="sha256-SEa4XYAHihTcEP1f5gARTB2K26Uk8PsndQYHQC1f4jU=" crossorigin="anonymous" />
+    
+    
+    <link rel="stylesheet" href="http://ytlvy.com/css/style-jsjn0006wyhpyzivf6yceb31gvpjatbcs3qzjvlumobfnugccvobqwxnnaj8.min.css" />
+    
+    
+
+    
+      
+    
+    
+  </head>
+
+  <body>
+    <div id="blog">
+      <header id="header" data-behavior="1">
+  <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+  <div class="header-title">
+    <a class="header-title-link" href="http://ytlvy.com/">My New Hugo Site</a>
+  </div>
+  
+    
+      <a class="header-right-picture "
+         href="http://ytlvy.com/#about">
+    
+    
+    
+      
+        <img class="header-picture" src="//www.gravatar.com/avatar/8d5387e20303e26c6147cfe67990995e?s=90" alt="" />
+      
+    
+    </a>
+  
+</header>
+
+      <nav id="sidebar" data-behavior="1">
+  <div class="sidebar-container">
+    
+      <div class="sidebar-profile">
+        <a href="http://ytlvy.com/#about">
+          <img class="sidebar-profile-picture" src="//www.gravatar.com/avatar/8d5387e20303e26c6147cfe67990995e?s=110" alt="" />
+        </a>
+        <h4 class="sidebar-profile-name">肖杰</h4>
+        
+          <h5 class="sidebar-profile-bio">一个瑜伽|篮球|羽毛球爱好者</h5>
+        
+      </div>
+    
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="http://ytlvy.com/">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-home"></i>
+      
+      <span class="sidebar-button-desc">Home</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="http://ytlvy.com/categories">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-bookmark"></i>
+      
+      <span class="sidebar-button-desc">Categories</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="http://ytlvy.com/tags">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+      
+      <span class="sidebar-button-desc">Tags</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="http://ytlvy.com/archives">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
+      
+      <span class="sidebar-button-desc">Archives</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="http://ytlvy.com/#about">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-question"></i>
+      
+      <span class="sidebar-button-desc">About</span>
+    </a>
+  </li>
+
+
+    </ul>
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://github.com/ytlvy" target="_blank" rel="noopener">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-github"></i>
+      
+      <span class="sidebar-button-desc">GitHub</span>
+    </a>
+  </li>
+
+
+    </ul>
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="http://ytlvy.com/index.xml">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-rss"></i>
+      
+      <span class="sidebar-button-desc">RSS</span>
+    </a>
+  </li>
+
+
+    </ul>
+  </div>
+</nav>
+
+      
+
+      <div id="main" data-behavior="1"
+        class="
+               hasCoverMetaIn
+               ">
+        <article class="post" itemscope itemType="http://schema.org/BlogPosting">
+          
+          
+            <div class="post-header main-content-wrap text-left">
+  
+    <h1 class="post-title" itemprop="headline">
+      Swift custom-view-controller-transitions-tutorial
+    </h1>
+  
+  
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2015-08-08T00:00:00Z">
+        
+   8, 2015
+
+      </time>
+    
+    
+  
+  
+    <span></span>
+    
+      <a class="category-link" href="http://ytlvy.com/categories/swift">Swift</a>
+    
+  
+
+  </div>
+
+</div>
+          
+          <div class="post-content markdown" itemprop="articleBody">
+            <div class="main-content-wrap">
+              <h1 id="使用swift自定义viewcontroller切换效果与动画">使用Swift自定义ViewController切换效果与动画</h1>
+
+<blockquote>
+<ul>
+<li>原文链接 : <a href="http://www.appcoda.com/custom-view-controller-transitions-tutorial/">custom-view-controller-transitions-tutorial</a></li>
+<li>原文作者 : <a href="http://www.appcoda.com/custom-view-controller-transitions-tutorial/">joyce echessa</a></li>
+<li><a href="www.devtf.cn">译文出自 :  开发技术前线 www.devtf.cn</a></li>
+<li>译者 : <a href="https:www.devtd.cn">Shopie</a><br /></li>
+</ul>
+</blockquote>
+
+<p>当我们把从Apple iOS设备上内置的app从一个view切换到另一个的时候，我们可以看到各种不同的动态切换。比如，把详细view controller滑动到主view controller时呈现出的切换动画（通常在短信app或设置app中可以看到），以及代表了不同view controller之间切换的各种不间断过渡。</p>
+
+<p>iOS 7引入了自定义view controller切换，使得开发人员能够在他们的app中实现不同 view controller之间的自定义切换动画。我们通过本教程来看看如何自定义切换动画。本教程还会讲到如何创建手势切换，也就是交互式切换。首先，大家需要下载starter项目，我们在后续的整个教程中将会用到。</p>
+
+<p><img src="http://www.appcoda.com/wp-content/uploads/2015/03/custom-view-transition.jpg" alt="pic-1" /></p>
+
+<p></p>
+
+<h2 id="开始着手">开始着手</h2>
+
+<p>我们需要按照以下步骤来创建自定义切换：</p>
+
+<ul>
+<li><p>创建一个实现了<code>UIViewControllerAnimatedTransitioning</code>协议的类。这里我们需要写执行动画的代码。我们把这个类叫做animation controller。</p></li>
+
+<li><p>在展示view controller之前，我们需要建立一个类作为其transitioning delegate。这个delegate会从animation controller得到一个回调信号用于展示view controller。</p></li>
+
+<li><p>实现回调方法返回步骤一的animation controller实例。</p></li>
+</ul>
+
+<p>运行starter项目后我们可以看到关于条目列表的表格视图。导航条上有一个Action按钮，点击这个按钮我们可以看到一个从底部上滑的以普通模态呈现的view。我们接下来就要为这个view写一个自定义切换程序。</p>
+
+<p><img src="http://www.appcoda.com/wp-content/uploads/2015/03/vid01.gif" alt="pic-2" /></p>
+
+<h2 id="自定义present-transition">自定义Present Transition</h2>
+
+<p>上文提到，我们首先要做的是创建一个animation controller。创建一个继承自NSObject的<code>CustomPresentAnimationController</code>类。根据图示更改其定义。</p>
+
+<pre><code>class CustomPresentAnimationController: NSObject, UIViewControllerAnimatedTransitioning {
+    // ....
+}
+</code></pre>
+
+<p><code>UIViewControllerAnimatedTransitioning</code>协议中有两个我们接下来需要添加的方法。将以下方法添加到类中。</p>
+
+<pre><code>func transitionDuration(transitionContext: UIViewControllerContextTransitioning) -&amp;gt; NSTimeInterval {
+    return 2.5
+}
+    
+func animateTransition(transitionContext: UIViewControllerContextTransitioning) {
+        
+    let fromViewController = transitionContext.viewControllerForKey(UITransitionContextFromViewControllerKey)!
+    let toViewController = transitionContext.viewControllerForKey(UITransitionContextToViewControllerKey)!
+    let finalFrameForVC = transitionContext.finalFrameForViewController(toViewController)
+    let containerView = transitionContext.containerView()
+    let bounds = UIScreen.mainScreen().bounds
+    toViewController.view.frame = CGRectOffset(finalFrameForVC, 0, bounds.size.height)
+    containerView.addSubview(toViewController.view)
+        
+    UIView.animateWithDuration(transitionDuration(transitionContext), delay: 0.0, usingSpringWithDamping: 0.5, initialSpringVelocity: 0.0, options: .CurveLinear, animations: {
+        fromViewController.view.alpha = 0.5
+        toViewController.view.frame = finalFrameForVC
+        }, completion: {
+            finished in
+            transitionContext.completeTransition(true)
+            fromViewController.view.alpha = 1.0
+    })
+}
+</code></pre>
+
+<p>第一个方法指定了切换动画的时长。在demo app中我们将其设置为2.5秒，但在实际情况中的app大家将这个值设置为更短一些可能会更好。</p>
+
+<p>在第二个方法中我们使用transitionContext来获得我们从&hellip;导航、导航到的view controller，动画完成后transition context应得到的最终框架，以及存储与to view controller和from view controller相关的view的container view。</p>
+
+<p>然后我们把<code>to view</code>放在屏幕正下方。之后把它添加到container view和animate closure中，通过将其最终框架设置在transition context给出的位置来实现<code>to view</code>的动画效果。我们还会实现<code>from view</code>的alpha值的动画效果，以便<code>to view</code>往屏幕上方<code>from view</code>滑动时，<code>from view</code>会淡出。该动画效果设置的时长根据<code>transitionDuration(transitionContext:)</code>中的设置而定。在completion closure中，当动画完成时transition context会收到通知，然后将<code>from view</code>的alpha值恢复正常。之后框架会将<code>from view</code>从container中移出。</p>
+
+<p>animation controller完成之后，我们需要将其链接到storyboard segue。</p>
+
+<p>打开ItemsTableViewController.swift文件，按图所示更改类定义。</p>
+
+<pre><code>class ItemsTableViewController: UITableViewController, UIViewControllerTransitioningDelegate {
+</code></pre>
+
+<p>UIViewController有一个叫做<code>transitionDelegate</code>的属性，这个属性用于支持自定义切换。当切换到一个view controller时，框架会检查这个属性以便确定是否需要使用自定义切换。</p>
+
+<p>打开Main.storyboard并选择<code>Present modally segue to Action View Controller</code>，在Attributes Inspector中将其Identifier设置为<code>showAction</code>。</p>
+
+<p><img src="http://www.appcoda.com/wp-content/uploads/2015/03/pic02.png" alt="pic-3" /></p>
+
+<p>返回ItemsTableViewController并将下列代码添加到类中。</p>
+
+<pre><code>let customPresentAnimationController = CustomPresentAnimationController()
+
+override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        
+    if segue.identifier == &quot;showAction&quot; {
+        let toViewController = segue.destinationViewController as UIViewController
+        toViewController.transitioningDelegate = self
+    }
+}
+</code></pre>
+
+<p>这里我们将创建一个animation controller的实例，之后我们在<code>prepareForSegue()</code>功能中发现Action屏幕的segue，并设置destination view controller的<code>transitionDelegate</code>属性。</p>
+
+<p>将下列<code>UIViewControllerTransitioningDelegate</code>方法添加到类中。这一步会返回我们的自定义animation controller实例。</p>
+
+<pre><code>func animationControllerForPresentedController(presented: UIViewController, presentingController presenting: UIViewController, sourceController source: UIViewController) -&amp;gt; UIViewControllerAnimatedTransitioning? {
+    return customPresentAnimationController
+}
+</code></pre>
+
+<p>运行app后我们可以看到屏幕中的Action view缓慢往上滑动，最后稳定下来之前出现些许弹跳。</p>
+
+<p><img src="http://www.appcoda.com/wp-content/uploads/2015/03/vid02.gif" alt="pic-4" /></p>
+
+<p>如果大家想看到一个稍微不同的结果，那么我们可以在CustomPresentAnimationController.swift稍作改变：</p>
+
+<pre><code>toViewController.view.frame = CGRectOffset(finalFrameForVC, 0, bounds.size.height)
+</code></pre>
+
+<p>改变后如下所示，其中我们将to view controller的原始位置放到了屏幕上方。</p>
+
+<pre><code>toViewController.view.frame = CGRectOffset(finalFrameForVC, 0, -bounds.size.height)
+</code></pre>
+
+<p>运行app，Action view会从上往下落。</p>
+
+<p><img src="http://www.appcoda.com/wp-content/uploads/2015/03/vid03.gif" alt="pic-5" /></p>
+
+<p>##自定义消隐(Dismiss)转场效果</p>
+
+<p>我们之前为了呈现view设置了一个自定义切换效果，但当View消隐时，view会使用Apple设定的默认切换。</p>
+
+<p><img src="http://www.appcoda.com/wp-content/uploads/2015/03/vid04.gif" alt="pic-6" /></p>
+
+<p><code>UIViewControllerTransitioningDelegate</code>也可以使我们在解散以及呈现view controller时指定一个animation controller来使用。下面我们就来创建。</p>
+
+<p>创建一个名为 <code>CustomDismissAnimationController</code> 的类，作为<code>NSObject</code>的子类。按照以下代码更改其定义。</p>
+
+<pre><code>class CustomDismissAnimationController: NSObject, UIViewControllerAnimatedTransitioning {
+</code></pre>
+
+<p>将以下代码添加到类中。</p>
+
+<pre><code>func transitionDuration(transitionContext: UIViewControllerContextTransitioning) -&amp;gt; NSTimeInterval {
+    return 2
+}
+
+func animateTransition(transitionContext: UIViewControllerContextTransitioning) {
+    let fromViewController = transitionContext.viewControllerForKey(UITransitionContextFromViewControllerKey)!
+    let toViewController = transitionContext.viewControllerForKey(UITransitionContextToViewControllerKey)!
+    let finalFrameForVC = transitionContext.finalFrameForViewController(toViewController)
+    let containerView = transitionContext.containerView()
+    toViewController.view.frame = finalFrameForVC
+    toViewController.view.alpha = 0.5
+    containerView.addSubview(toViewController.view)
+    containerView.sendSubviewToBack(toViewController.view)
+    
+    UIView.animateWithDuration(transitionDuration(transitionContext), animations: {
+        fromViewController.view.frame = CGRectInset(fromViewController.view.frame, fromViewController.view.frame.size.width / 2, fromViewController.view.frame.size.height / 2)
+        toViewController.view.alpha = 1.0
+    }, completion: {
+        finished in
+        transitionContext.completeTransition(true)
+    })
+}
+</code></pre>
+
+<p>这与实现presentation transition非常相似。在<code>animateTransition()</code>功能中，我们得到to view controller和from view controller。这里的 <code>to view controller</code>作为table view controller。我们改变其view的alpha值，以便我们开始制作动画效果时它会在淡出时迅速消失。之后我们把view添加到container并把它放置在from view controller的view后面以保证其不可视。</p>
+
+<p>在动画块中，我们为<code>from view</code>的尺寸制作动画效果，使其宽和高为0并保持居中。这样我们就可以得到一个将<code>from view</code>缩减至无的效果。我们还会把<code>to view</code>的alpha进行动态化以便使其完全可视。</p>
+
+<p>添加以下属性至ItemsTableViewController中。</p>
+
+<pre><code>let customDismissAnimationController = CustomDismissAnimationController()
+</code></pre>
+
+<p>添加以下功能至类中。</p>
+
+<pre><code>func animationControllerForDismissedController(dismissed: UIViewController) -&amp;gt; UIViewControllerAnimatedTransitioning? {
+    return customDismissAnimationController
+}
+</code></pre>
+
+<p><code>UIViewControllerTransitioningDelegate</code>协议提供了以上功能，把一个解散的view controller中的animation controller收回。</p>
+
+<p>运行app我们可以看到以下效果。</p>
+
+<p><img src="http://www.appcoda.com/wp-content/uploads/2015/03/vid05.gif" alt="pic-7" /></p>
+
+<p>这个动画效果并不是我们预期的。大家可以看到，from view的白色框架如我们所预期的缩小了，但是view中的image的尺寸并没有变化。这是因为view的边框改变并不影响其子框架。那么我们将使用UIView snapshotting来修复。</p>
+
+<p>UIView snapshotting的工作原理是通过给现有的UIView生成快照并将其放入一个轻量级UIView。之后我们会在淡出动画，而不是实际view中使用这张快照。</p>
+
+<p>用以下代码替换<code>animateTransition()</code>功能。</p>
+
+<pre><code>func animateTransition(transitionContext: UIViewControllerContextTransitioning) {
+    let fromViewController = transitionContext.viewControllerForKey(UITransitionContextFromViewControllerKey)!
+    let toViewController = transitionContext.viewControllerForKey(UITransitionContextToViewControllerKey)!
+    let finalFrameForVC = transitionContext.finalFrameForViewController(toViewController)
+    let containerView = transitionContext.containerView()
+    toViewController.view.frame = finalFrameForVC
+    toViewController.view.alpha = 0.5
+    containerView.addSubview(toViewController.view)
+    containerView.sendSubviewToBack(toViewController.view)
+        
+    let snapshotView = fromViewController.view.snapshotViewAfterScreenUpdates(false)
+    snapshotView.frame = fromViewController.view.frame
+    containerView.addSubview(snapshotView)
+        
+    fromViewController.view.removeFromSuperview()
+        
+    UIView.animateWithDuration(transitionDuration(transitionContext), animations: {
+        snapshotView.frame = CGRectInset(fromViewController.view.frame, fromViewController.view.frame.size.width / 2, fromViewController.view.frame.size.height / 2)
+        toViewController.view.alpha = 1.0
+    }, completion: {
+        finished in
+        snapshotView.removeFromSuperview()
+        transitionContext.completeTransition(true)
+    })  
+}
+</code></pre>
+
+<p>这里我们会创建一个<code>from view controller</code>的view的快照，将其添加到container并把container中的<code>from view</code>移出。之后我们在动画中缩小这张快照，动画完成后，将snapshot view从container中移出。</p>
+
+<p>再次运行时动画应该会很顺畅了。</p>
+
+<p><img src="http://www.appcoda.com/wp-content/uploads/2015/03/vid06.gif" alt="pic-8" /></p>
+
+<p>##Navigation controller transitions</p>
+
+<p>我们已经在modal view controller presentation中添加了一个自定义切换，这个自定义切换中的presenting view controller添加了transitioning delegate。但是，当我们使用<code>UITabBarController</code>或<code>UINavigationController</code>来工作时，每个view controller都设置一个delegate就显得非常麻烦。</p>
+
+<p>这些controller提供了一个更简单的方法，通过这个方法transition的animationcontroller会通过<code>UITabBarControllerDelegate</code> 或 <code>UINavigationControllerDelegate</code>来提供。</p>
+
+<p>在navigation controller中添加一个自定义切换后我们可以看到其运转状态。</p>
+
+<p>首先，创建一个animation controller。创建一个名为<code>CustomNavigationAnimationController</code>的类，将其作为<code>NSObject</code>的子类并按下列方式更改其定义。</p>
+
+<pre><code>class CustomNavigationAnimationController: NSObject, UIViewControllerAnimatedTransitioning {
+</code></pre>
+
+<p>将以下代码添加到类中。对于这个animation controller，我本人使用的是一个简版的<a href="https://github.com/andresbrun/ABCustomUINavigationController#cube">this cube animation</a>。我们只需要像前面提到的两个animation controller一样建立这个animation controller。需要注意逆类变量。我们要用它来决定动画的方向，取决于我们是否从主视图过渡到详细视图或从详细视图过渡到主视图。</p>
+
+<pre><code>var reverse: Bool = false
+    
+func transitionDuration(transitionContext: UIViewControllerContextTransitioning) -&amp;gt; NSTimeInterval {
+    return 1.5
+}
+    
+func animateTransition(transitionContext: UIViewControllerContextTransitioning) {
+    let containerView = transitionContext.containerView()
+    let toViewController = transitionContext.viewControllerForKey(UITransitionContextToViewControllerKey)!
+    let fromViewController = transitionContext.viewControllerForKey(UITransitionContextFromViewControllerKey)!
+    let toView = toViewController.view
+    let fromView = fromViewController.view
+    let direction: CGFloat = reverse ? -1 : 1
+    let const: CGFloat = -0.005
+        
+    toView.layer.anchorPoint = CGPointMake(direction == 1 ? 0 : 1, 0.5)
+    fromView.layer.anchorPoint = CGPointMake(direction == 1 ? 1 : 0, 0.5)
+        
+    var viewFromTransform: CATransform3D = CATransform3DMakeRotation(direction * CGFloat(M_PI_2), 0.0, 1.0, 0.0)
+    var viewToTransform: CATransform3D = CATransform3DMakeRotation(-direction * CGFloat(M_PI_2), 0.0, 1.0, 0.0)
+    viewFromTransform.m34 = const
+    viewToTransform.m34 = const
+        
+    containerView.transform = CGAffineTransformMakeTranslation(direction * containerView.frame.size.width / 2.0, 0)
+    toView.layer.transform = viewToTransform
+    containerView.addSubview(toView)
+        
+    UIView.animateWithDuration(transitionDuration(transitionContext), animations: {
+        containerView.transform = CGAffineTransformMakeTranslation(-direction * containerView.frame.size.width / 2.0, 0)
+        fromView.layer.transform = viewFromTransform
+        toView.layer.transform = CATransform3DIdentity
+    }, completion: {
+        finished in
+        containerView.transform = CGAffineTransformIdentity
+        fromView.layer.transform = CATransform3DIdentity
+        toView.layer.transform = CATransform3DIdentity
+        fromView.layer.anchorPoint = CGPointMake(0.5, 0.5)
+        toView.layer.anchorPoint = CGPointMake(0.5, 0.5)
+    
+        if (transitionContext.transitionWasCancelled()) {
+            toView.removeFromSuperview()
+        } else {
+            fromView.removeFromSuperview()
+        }
+        transitionContext.completeTransition(!transitionContext.transitionWasCancelled())
+    })        
+}
+</code></pre>
+
+<p>打开ItemsTableViewController并按照以下内容修改类定义。</p>
+
+<pre><code>class ItemsTableViewController: UITableViewController, UIViewControllerTransitioningDelegate, UINavigationControllerDelegate {
+</code></pre>
+
+<p><code>UINavigationControllerDelegate</code>提供animation controller。</p>
+
+<p>将以下属性添加到类中。</p>
+
+<pre><code>let customNavigationAnimationController = CustomNavigationAnimationController()
+</code></pre>
+
+<p>在<code>viewDidLoad()</code>末尾添加以下代码。</p>
+
+<pre><code>navigationController?.delegate = self
+</code></pre>
+
+<p>以上步骤设置了host navigation controller的delegate以便新的transition delegate方法能够被收到。</p>
+
+<p>然后将以下代码添加到类中。</p>
+
+<pre><code>func navigationController(navigationController: UINavigationController, animationControllerForOperation operation: UINavigationControllerOperation, fromViewController fromVC: UIViewController, toViewController toVC: UIViewController) -&amp;gt; UIViewControllerAnimatedTransitioning? {
+    customNavigationAnimationController.reverse = operation == .Pop
+    return customNavigationAnimationController
+}
+</code></pre>
+
+<p>以上功能称之为请求animation controller在from view controller和to view controller之间进行导航，它会返回animation controller的实例。切换的方向取决于这是一个push navigation还是一个pop navigation操作。</p>
+
+<p>运行app。选择一个table view cell后大家看到的动画效果如下。</p>
+
+<p><img src="http://www.appcoda.com/wp-content/uploads/2015/03/vid07.gif" alt="pic-9" /></p>
+
+<p>##使其更具交互式特点</p>
+
+<p>接下来我们将使以上切换更具交互式特点，也就是说，用户能够通过手势控制切换。</p>
+
+<p>iOS内置app具有这个特点。我们可以从屏幕左侧滑动来发起切换，代替后退按钮的功能。大家可以进行短暂滑动以下来简单查看主视图，然后取消切换。滑动距离稍长就会触发pop navigation操作。</p>
+
+<p><img src="http://www.appcoda.com/wp-content/uploads/2015/03/vid08.gif" alt="pic-10" /></p>
+
+<p>首先，我们需要一个interaction controller。交互式controller使用<code>UIViewControllerInteractiveTransitioning</code>协议。navigation controller delegate 或 transitioning delegate在请求animation controller后会要求一个可选的interaction controller。</p>
+
+<p>我们来创建一个interaction controller。创建一个新的类，取名为<code>CustomInteractionController</code>并使其作为<code>UIPercentDrivenInteractiveTransition</code>的子类。</p>
+
+<p><code>UIPercentDrivenInteractiveTransition</code> implements the <code>UIViewControllerInteractiveTransitioning</code> protocol so we wont have to add that to our class.</p>
+
+<p>由于<code>UIPercentDrivenInteractiveTransition</code> 实现 <code>UIViewControllerInteractiveTransitioning</code>协议，所以我们不需要添加到类中。</p>
+
+<p>要想使用<code>UIPercentDrivenInteractiveTransition</code>，animation controller必须使用单个UIView动画，以便动画能够被停止、翻转及使用。</p>
+
+<p>把以下代码添加到类中。</p>
+
+<pre><code>var navigationController: UINavigationController!
+var shouldCompleteTransition = false
+var transitionInProgress = false
+var completionSeed: CGFloat {
+    return 1 - percentComplete
+}
+    
+func attachToViewController(viewController: UIViewController) {
+    navigationController = viewController.navigationController
+    setupGestureRecognizer(viewController.view)
+}
+    
+private func setupGestureRecognizer(view: UIView) {
+        view.addGestureRecognizer(UIPanGestureRecognizer(target: self, action: &quot;handlePanGesture:&quot;))
+}
+    
+func handlePanGesture(gestureRecognizer: UIPanGestureRecognizer) {
+    let viewTranslation = gestureRecognizer.translationInView(gestureRecognizer.view!.superview!)
+    switch gestureRecognizer.state {
+    case .Began:
+        transitionInProgress = true
+        navigationController.popViewControllerAnimated(true)
+    case .Changed:
+        var const = CGFloat(fminf(fmaxf(Float(viewTranslation.x / 200.0), 0.0), 1.0))
+        shouldCompleteTransition = const &amp;gt; 0.5
+        updateInteractiveTransition(const)
+    case .Cancelled, .Ended:
+        transitionInProgress = false
+        if !shouldCompleteTransition || gestureRecognizer.state == .Cancelled {
+            cancelInteractiveTransition()
+        } else {
+            finishInteractiveTransition()
+        }
+    default:
+        println(&quot;Swift switch must be exhaustive, thus the default&quot;)
+    }
+}
+</code></pre>
+
+<p><code>attachToViewController()</code>方法获得navigation controller在发生手势操作时用来发起pop transition的引用。下一步，我们设立一个手势识别器，滑动操作时识别器会调用<code>handlePanGesture()</code>方法。这检查了手势识别器的状态并在每一个阶段执行下列操作：</p>
+
+<ul>
+<li>开始：把<code>transitionInProgress</code> 设为真，并发起pop navigation。</li>
+<li>更改：此时手势正在进行，所以它决定了切换的百分比。一个200点滑动会是切换达到100%。之后它将通过手势停止的地方来判断切换是否完成。此时我们要确定用户是否在释放前滑到了屏幕的一半处。</li>
+<li>取消/结束：如果<code>shouldCompleteTransition</code>被设为假或者手势被取消，把<code>transitionInProgress</code>设为假，并取消切换。否则，切换完成。</li>
+</ul>
+
+<p>我们使用计算属性来确定完成速度。<code>completionSeed</code>具有<code>UIPercentDrivenInteractiveTransition</code>属性，它会在手势完成时通知框架还剩多少动画。如果互动取消，数字更大会使view controller更迅速返回。</p>
+
+<p>打开ItemsTableViewController.swift 并把下列代码添加到类中之后，大家就可以使用我们的interaction controller了。</p>
+
+<pre><code>let customInteractionController = CustomInteractionController()
+</code></pre>
+
+<p>在<code>navigationController(_:animationControllerForOperation:
+fromViewController:toViewController:)</code>功能起始处添加以下代码。</p>
+
+<pre><code>if operation == .Push {
+    customInteractionController.attachToViewController(toVC)
+}
+</code></pre>
+
+<p>它会调用CustomInteractionController的<code>attachToViewController()</code>方法并在发现push navigation操作时给这个方法传递to view controller的一个引用。</p>
+
+<p>然后添加以下代码到类中。</p>
+
+<pre><code>func navigationController(navigationController: UINavigationController, interactionControllerForAnimationController animationController: UIViewControllerAnimatedTransitioning) -&amp;gt; UIViewControllerInteractiveTransitioning? {
+    return customInteractionController.transitionInProgress ? customInteractionController : nil
+}
+</code></pre>
+
+<p>框架请求并获得animation controller后，它会使用以上方法请求interaction controller。如果切换正在进行，那么将会返回interaction controller的一个实例。</p>
+
+<p>运行app后我们将看到如图所示的切换。</p>
+
+<p><img src="http://www.appcoda.com/wp-content/uploads/2015/03/vid09.gif" alt="pic-11" /></p>
+
+<h2 id="总结">总结</h2>
+
+<p>大家已经知道如何创建自定义view controller切换以及如何使切换具有交互性。有了这些特性之后，开发者可以完全掌控app中从一个view切换到另一个view时使用的动画，由此带给用户更好的体验。大家可以在<a href="https://github.com/appcoda/CustomViewTransitionDemo">此处下载项目</a>。</p>
+              
+            </div>
+          </div>
+          <div id="post-footer" class="post-footer main-content-wrap">
+            
+              
+                
+                
+                  <div class="post-footer-tags">
+                    <span class="text-color-light text-small"></span><br/>
+                    
+  <a class="tag tag--primary tag--small" href="http://ytlvy.com/tags/animation/">Animation</a>
+
+                  </div>
+                
+              
+            
+            
+  <div class="post-actions-wrap">
+      <nav >
+        <ul class="post-actions post-action-nav">
+          
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="http://ytlvy.com/posts/2015-08-08/2015-08-08-swift-uikit-dynamics-tutorial-getting-started/" data-tooltip="Swift UIKit Dynamics Tutorial: Getting Started">
+              
+                  <i class="fa fa-angle-left"></i>
+                  <span class="hide-xs hide-sm text-small icon-ml"></span>
+                </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="http://ytlvy.com/posts/2015-08-08/2015-08-08-ios-autolayout-practices/" data-tooltip="iOS Autolayout Practices">
+              
+                  <span class="hide-xs hide-sm text-small icon-mr"></span>
+                  <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+          
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
+      
+        <li class="post-action hide-lg hide-md hide-sm">
+          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+            <i class="fa fa-share-alt"></i>
+          </a>
+        </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://ytlvy.com/posts/2015-08-08/2015-08-08-swift-custom-view-controller-transitions-tutorial/">
+              <i class="fa fa-facebook-official"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http://ytlvy.com/posts/2015-08-08/2015-08-08-swift-custom-view-controller-transitions-tutorial/">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=http://ytlvy.com/posts/2015-08-08/2015-08-08-swift-custom-view-controller-transitions-tutorial/">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        
+      
+      
+        <li class="post-action">
+          <a class="post-action-btn btn btn--default" href="#disqus_thread">
+            <i class="fa fa-comment-o"></i>
+          </a>
+        </li>
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#">
+        
+          <i class="fa fa-list"></i>
+        </a>
+      </li>
+    </ul>
+  </div>
+
+
+            
+              
+                <div id="disqus_thread">
+  <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+              
+            
+          </div>
+        </article>
+        <footer id="footer" class="main-content-wrap">
+  <span class="copyrights">
+    &copy; 2017 肖杰. 
+  </span>
+</footer>
+
+      </div>
+      <div id="bottom-bar" class="post-bottom-bar" data-behavior="1">
+        
+  <div class="post-actions-wrap">
+      <nav >
+        <ul class="post-actions post-action-nav">
+          
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="http://ytlvy.com/posts/2015-08-08/2015-08-08-swift-uikit-dynamics-tutorial-getting-started/" data-tooltip="Swift UIKit Dynamics Tutorial: Getting Started">
+              
+                  <i class="fa fa-angle-left"></i>
+                  <span class="hide-xs hide-sm text-small icon-ml"></span>
+                </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="http://ytlvy.com/posts/2015-08-08/2015-08-08-ios-autolayout-practices/" data-tooltip="iOS Autolayout Practices">
+              
+                  <span class="hide-xs hide-sm text-small icon-mr"></span>
+                  <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+          
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
+      
+        <li class="post-action hide-lg hide-md hide-sm">
+          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+            <i class="fa fa-share-alt"></i>
+          </a>
+        </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://ytlvy.com/posts/2015-08-08/2015-08-08-swift-custom-view-controller-transitions-tutorial/">
+              <i class="fa fa-facebook-official"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http://ytlvy.com/posts/2015-08-08/2015-08-08-swift-custom-view-controller-transitions-tutorial/">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=http://ytlvy.com/posts/2015-08-08/2015-08-08-swift-custom-view-controller-transitions-tutorial/">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        
+      
+      
+        <li class="post-action">
+          <a class="post-action-btn btn btn--default" href="#disqus_thread">
+            <i class="fa fa-comment-o"></i>
+          </a>
+        </li>
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#">
+        
+          <i class="fa fa-list"></i>
+        </a>
+      </li>
+    </ul>
+  </div>
+
+
+      </div>
+      <div id="share-options-bar" class="share-options-bar" data-behavior="1">
+  <i id="btn-close-shareoptions" class="fa fa-close"></i>
+  <ul class="share-options">
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Fytlvy.com%2Fposts%2F2015-08-08%2F2015-08-08-swift-custom-view-controller-transitions-tutorial%2F">
+          <i class="fa fa-facebook-official"></i><span>%!(EXTRA string=Facebook)</span>
+        </a>
+      </li>
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=http%3A%2F%2Fytlvy.com%2Fposts%2F2015-08-08%2F2015-08-08-swift-custom-view-controller-transitions-tutorial%2F">
+          <i class="fa fa-twitter"></i><span>%!(EXTRA string=Twitter)</span>
+        </a>
+      </li>
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=http%3A%2F%2Fytlvy.com%2Fposts%2F2015-08-08%2F2015-08-08-swift-custom-view-controller-transitions-tutorial%2F">
+          <i class="fa fa-google-plus"></i><span>%!(EXTRA string=Google&#43;)</span>
+        </a>
+      </li>
+    
+  </ul>
+</div>
+<div id="share-options-mask" class="share-options-mask"></div>
+    </div>
+    
+    <div id="about">
+  <div id="about-card">
+    <div id="about-btn-close">
+      <i class="fa fa-remove"></i>
+    </div>
+    
+      <img id="about-card-picture" src="//www.gravatar.com/avatar/8d5387e20303e26c6147cfe67990995e?s=110" alt="" />
+    
+    <h4 id="about-card-name">肖杰</h4>
+    
+      <div id="about-card-bio">一个瑜伽|篮球|羽毛球爱好者</div>
+    
+    
+      <div id="about-card-job">
+        <i class="fa fa-briefcase"></i>
+        <br/>
+        搬砖工
+      </div>
+    
+    
+      <div id="about-card-location">
+        <i class="fa fa-map-marker"></i>
+        <br/>
+        Beijing
+      </div>
+    
+  </div>
+</div>
+
+    <div id="algolia-search-modal" class="modal-container">
+  <div class="modal">
+    <div class="modal-header">
+      <span class="close-button"><i class="fa fa-close"></i></span>
+      <a href="https://algolia.com" target="_blank" rel="noopener" class="searchby-algolia text-color-light link-unstyled">
+        <span class="searchby-algolia-text text-color-light text-small">by</span>
+        <img class="searchby-algolia-logo" src="https://www.algolia.com/static_assets/images/press/downloads/algolia-light.svg">
+      </a>
+      <i class="search-icon fa fa-search"></i>
+      <form id="algolia-search-form">
+        <input type="text" id="algolia-search-input" name="search"
+          class="form-control input--large search-input" placeholder="" />
+      </form>
+    </div>
+    <div class="modal-body">
+      <div class="no-result text-color-light text-center"></div>
+      <div class="results">
+        
+        
+      </div>
+    </div>
+    <div class="modal-footer">
+      <p class="results-count text-medium"
+         data-message-zero=""
+         data-message-one=""
+         data-message-other="">
+         0 posts found
+      </p>
+    </div>
+  </div>
+</div>
+    
+  
+    
+    <div id="cover" style="background-image:url('http://ytlvy.com/images/cover.jpg');"></div>
+  
+
+
+    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js" integrity="sha256-/BfiIkHlHoVihZdc6TFuj7MmJ0TWcWsMXkeDFwhi0zw=" crossorigin="anonymous"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.7/js/jquery.fancybox.min.js" integrity="sha256-GEAnjcTqVP+vBp3SSc8bEDQqvWAZMiHyUSIorrWwH50=" crossorigin="anonymous"></script>
+
+
+<script src="http://ytlvy.com/js/script-qi9wbxp2ya2j6p7wx1i6tgavftewndznf4v0hy2gvivk1rxgc3lm7njqb6bz.min.js"></script>
+
+
+
+<script>
+$(document).ready(function() {
+  hljs.configure({ classPrefix: '', useBR: false });
+  $('pre.code-highlight > code, pre > code').each(function(i, block) {
+    if (!$(this).hasClass('codeblock')) {
+      $(this).addClass('codeblock');
+    }
+    hljs.highlightBlock(block);
+  });
+});
+</script>
+
+
+  
+    
+      <script>
+        var disqus_config = function () {
+          this.page.url = 'http:\/\/ytlvy.com\/posts\/2015-08-08\/2015-08-08-swift-custom-view-controller-transitions-tutorial\/';
+          
+            this.page.identifier = '\/posts\/2015-08-08\/2015-08-08-swift-custom-view-controller-transitions-tutorial\/'
+          
+        };
+        (function() {
+          
+          
+          if (window.location.hostname == "localhost") {
+            return;
+          }
+          var d = document, s = d.createElement('script');
+          var disqus_shortname = 'hugo-tranquilpeak-theme';
+          s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+
+          s.setAttribute('data-timestamp', +new Date());
+          (d.head || d.body).appendChild(s);
+        })();
+      </script>
+    
+  
+
+
+
+    
+  </body>
+</html>
+

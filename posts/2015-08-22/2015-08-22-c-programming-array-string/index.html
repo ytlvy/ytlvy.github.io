@@ -1,0 +1,934 @@
+
+
+  
+
+
+  
+
+
+
+
+  
+
+
+  
+
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="Hugo 0.30.2 with theme Tranquilpeak 0.4.2-BETA">
+    <title>C programming -- Array &amp; String</title>
+    <meta name="author" content="肖杰">
+    <meta name="keywords" content="">
+
+    <link rel="icon" href="http://ytlvy.com/favicon.png">
+    
+
+    
+    <meta name="description" content="reference
+
+C语言之数组和字符串
+
+概览
+
+数组在C语言中有着特殊的地位，它有很多特性，例如它的存储是连续的，数组的名称就是数组的地址等。而在C语言中是没有String类型的，那么如果要表示一个字符串，就必须使用字符数组。今天主要就介绍如下三个方面：
+
+
+一维数组
+多维数组
+字符串
+
+
+一维数组
+
+一维数组操作比较简单，但是需要注意，数组长度必须是固定的，长度不能使用变量进行初始化；如果声明的同时进行赋值则数组长度可以省略，编译器会自动计算数组长度；同时数组不能先声明再一次性赋值（当然可以对每个元素一一赋值）。
+
+#include &lt;stdio.h&gt;
+
+int main(){
+    int len = 2;
+    //int a[len] = { 1, 2};//错误,不能使变量
+    int a[2];//正确
+    a[0] = 1;
+    a[1] = 2;
+    //a[2] = 3;//超过数组长度，但是编译器并不会检查，运行报错
+    int b[&#39;a&#39;] = {1,2,3};//&#39;a&#39;=97，所以可以作为数组长度，但是后面的元素没有初始化，其值默认为0
+    for (int i = 0; i &lt; 97; &#43;&#43;i){
+        printf(&quot;b[%d]=%d\n&quot;,i,b[i]);
+    }
+    int c[2 * 3];//2*3是固定值可以作为数组长度
+    int d[] = { 1, 2, 3 };//如果初始化的同时赋值则数组长度可以省略，当前个数为3
+}
+
+
+">
+    <meta property="og:description" content="reference
+
+C语言之数组和字符串
+
+概览
+
+数组在C语言中有着特殊的地位，它有很多特性，例如它的存储是连续的，数组的名称就是数组的地址等。而在C语言中是没有String类型的，那么如果要表示一个字符串，就必须使用字符数组。今天主要就介绍如下三个方面：
+
+
+一维数组
+多维数组
+字符串
+
+
+一维数组
+
+一维数组操作比较简单，但是需要注意，数组长度必须是固定的，长度不能使用变量进行初始化；如果声明的同时进行赋值则数组长度可以省略，编译器会自动计算数组长度；同时数组不能先声明再一次性赋值（当然可以对每个元素一一赋值）。
+
+#include &lt;stdio.h&gt;
+
+int main(){
+    int len = 2;
+    //int a[len] = { 1, 2};//错误,不能使变量
+    int a[2];//正确
+    a[0] = 1;
+    a[1] = 2;
+    //a[2] = 3;//超过数组长度，但是编译器并不会检查，运行报错
+    int b[&#39;a&#39;] = {1,2,3};//&#39;a&#39;=97，所以可以作为数组长度，但是后面的元素没有初始化，其值默认为0
+    for (int i = 0; i &lt; 97; &#43;&#43;i){
+        printf(&quot;b[%d]=%d\n&quot;,i,b[i]);
+    }
+    int c[2 * 3];//2*3是固定值可以作为数组长度
+    int d[] = { 1, 2, 3 };//如果初始化的同时赋值则数组长度可以省略，当前个数为3
+}
+
+
+">
+    <meta property="og:type" content="blog">
+    <meta property="og:title" content="C programming -- Array &amp; String">
+    <meta property="og:url" content="/posts/2015-08-22/2015-08-22-c-programming-array-string/">
+    <meta property="og:site_name" content="My New Hugo Site">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="My New Hugo Site">
+    <meta name="twitter:description" content="reference
+
+C语言之数组和字符串
+
+概览
+
+数组在C语言中有着特殊的地位，它有很多特性，例如它的存储是连续的，数组的名称就是数组的地址等。而在C语言中是没有String类型的，那么如果要表示一个字符串，就必须使用字符数组。今天主要就介绍如下三个方面：
+
+
+一维数组
+多维数组
+字符串
+
+
+一维数组
+
+一维数组操作比较简单，但是需要注意，数组长度必须是固定的，长度不能使用变量进行初始化；如果声明的同时进行赋值则数组长度可以省略，编译器会自动计算数组长度；同时数组不能先声明再一次性赋值（当然可以对每个元素一一赋值）。
+
+#include &lt;stdio.h&gt;
+
+int main(){
+    int len = 2;
+    //int a[len] = { 1, 2};//错误,不能使变量
+    int a[2];//正确
+    a[0] = 1;
+    a[1] = 2;
+    //a[2] = 3;//超过数组长度，但是编译器并不会检查，运行报错
+    int b[&#39;a&#39;] = {1,2,3};//&#39;a&#39;=97，所以可以作为数组长度，但是后面的元素没有初始化，其值默认为0
+    for (int i = 0; i &lt; 97; &#43;&#43;i){
+        printf(&quot;b[%d]=%d\n&quot;,i,b[i]);
+    }
+    int c[2 * 3];//2*3是固定值可以作为数组长度
+    int d[] = { 1, 2, 3 };//如果初始化的同时赋值则数组长度可以省略，当前个数为3
+}
+
+
+">
+    
+    
+
+    
+    
+
+    
+      <meta property="og:image" content="//www.gravatar.com/avatar/8d5387e20303e26c6147cfe67990995e?s=640">
+    
+
+    
+    
+    
+
+    
+
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/jquery.fancybox.min.css" integrity="sha256-vuXZ9LGmmwtjqFX1F+EKin1ThZMub58gKULUyf0qECk=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/helpers/jquery.fancybox-thumbs.min.css" integrity="sha256-SEa4XYAHihTcEP1f5gARTB2K26Uk8PsndQYHQC1f4jU=" crossorigin="anonymous" />
+    
+    
+    <link rel="stylesheet" href="http://ytlvy.com/css/style-jsjn0006wyhpyzivf6yceb31gvpjatbcs3qzjvlumobfnugccvobqwxnnaj8.min.css" />
+    
+    
+
+    
+      
+    
+    
+  </head>
+
+  <body>
+    <div id="blog">
+      <header id="header" data-behavior="1">
+  <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+  <div class="header-title">
+    <a class="header-title-link" href="http://ytlvy.com/">My New Hugo Site</a>
+  </div>
+  
+    
+      <a class="header-right-picture "
+         href="http://ytlvy.com/#about">
+    
+    
+    
+      
+        <img class="header-picture" src="//www.gravatar.com/avatar/8d5387e20303e26c6147cfe67990995e?s=90" alt="" />
+      
+    
+    </a>
+  
+</header>
+
+      <nav id="sidebar" data-behavior="1">
+  <div class="sidebar-container">
+    
+      <div class="sidebar-profile">
+        <a href="http://ytlvy.com/#about">
+          <img class="sidebar-profile-picture" src="//www.gravatar.com/avatar/8d5387e20303e26c6147cfe67990995e?s=110" alt="" />
+        </a>
+        <h4 class="sidebar-profile-name">肖杰</h4>
+        
+          <h5 class="sidebar-profile-bio">一个瑜伽|篮球|羽毛球爱好者</h5>
+        
+      </div>
+    
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="http://ytlvy.com/">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-home"></i>
+      
+      <span class="sidebar-button-desc">Home</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="http://ytlvy.com/categories">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-bookmark"></i>
+      
+      <span class="sidebar-button-desc">Categories</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="http://ytlvy.com/tags">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+      
+      <span class="sidebar-button-desc">Tags</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="http://ytlvy.com/archives">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
+      
+      <span class="sidebar-button-desc">Archives</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="http://ytlvy.com/#about">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-question"></i>
+      
+      <span class="sidebar-button-desc">About</span>
+    </a>
+  </li>
+
+
+    </ul>
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://github.com/ytlvy" target="_blank" rel="noopener">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-github"></i>
+      
+      <span class="sidebar-button-desc">GitHub</span>
+    </a>
+  </li>
+
+
+    </ul>
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="http://ytlvy.com/index.xml">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-rss"></i>
+      
+      <span class="sidebar-button-desc">RSS</span>
+    </a>
+  </li>
+
+
+    </ul>
+  </div>
+</nav>
+
+      
+
+      <div id="main" data-behavior="1"
+        class="
+               hasCoverMetaIn
+               ">
+        <article class="post" itemscope itemType="http://schema.org/BlogPosting">
+          
+          
+            <div class="post-header main-content-wrap text-left">
+  
+    <h1 class="post-title" itemprop="headline">
+      C programming -- Array &amp; String
+    </h1>
+  
+  
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2015-08-22T00:00:00Z">
+        
+   22, 2015
+
+      </time>
+    
+    
+  
+  
+    <span></span>
+    
+      <a class="category-link" href="http://ytlvy.com/categories/ios">IOS</a>
+    
+  
+
+  </div>
+
+</div>
+          
+          <div class="post-content markdown" itemprop="articleBody">
+            <div class="main-content-wrap">
+              <p><a href="http://www.cnblogs.com/kenshincui/p/3843505.html">reference</a></p>
+
+<h2 id="c语言之数组和字符串">C语言之数组和字符串</h2>
+
+<h3 id="概览">概览</h3>
+
+<p>数组在C语言中有着特殊的地位，它有很多特性，例如它的存储是连续的，数组的名称就是数组的地址等。而在C语言中是没有String类型的，那么如果要表示一个字符串，就必须使用字符数组。今天主要就介绍如下三个方面：</p>
+
+<ul>
+<li>一维数组</li>
+<li>多维数组</li>
+<li>字符串</li>
+</ul>
+
+<h3 id="一维数组">一维数组</h3>
+
+<p>一维数组操作比较简单，但是需要注意，数组长度必须是固定的，长度不能使用变量进行初始化；如果声明的同时进行赋值则数组长度可以省略，编译器会自动计算数组长度；同时数组不能先声明再一次性赋值（当然可以对每个元素一一赋值）。</p>
+
+<pre><code>#include &lt;stdio.h&gt;
+
+int main(){
+    int len = 2;
+    //int a[len] = { 1, 2};//错误,不能使变量
+    int a[2];//正确
+    a[0] = 1;
+    a[1] = 2;
+    //a[2] = 3;//超过数组长度，但是编译器并不会检查，运行报错
+    int b['a'] = {1,2,3};//'a'=97，所以可以作为数组长度，但是后面的元素没有初始化，其值默认为0
+    for (int i = 0; i &lt; 97; ++i){
+        printf(&quot;b[%d]=%d\n&quot;,i,b[i]);
+    }
+    int c[2 * 3];//2*3是固定值可以作为数组长度
+    int d[] = { 1, 2, 3 };//如果初始化的同时赋值则数组长度可以省略，当前个数为3
+}
+</code></pre>
+
+<p></p>
+
+<h3 id="扩展-数组的存储">扩展&ndash;数组的存储</h3>
+
+<p>数组在内存中存储在一块连续的空间中，如果知道数组类型（int、float等）和初始地址就可以知道其他元素的地址，同时由于数组名等于数组第一个元素的地址，所以当数组作为参数（作为参数时形参可以省略）其实是引用传递。</p>
+
+<pre><code>#include &lt;stdio.h&gt;
+
+int main(){
+    int const l = 3;
+    int a[l] = { 1, 2,3 };
+    for (int i = 0; i &lt; l; ++i){
+        //由于当前在32位编译器下，int型长度为4个字节，可以判断出三个地址两两相差都是4
+        printf(&quot;a[%d]=%d,address=%x\n&quot;, i, a[i], &amp;a[i]);
+    }
+    /*当前输出结果：
+    a[0] = 1, address = c9f95c
+    a[1] = 2, address = c9f960
+    a[2] = 3, address = c9f964*/
+}
+</code></pre>
+
+<p>我们看一下上面定义的数组在内存中存储结构</p>
+
+<p><img src="http://images.cnitblog.com/blog/62046/201407/142058350217075.png" alt="" /></p>
+
+<p>再来看一下数组作为参数传递的情况，数组作为参数传递的是数组的地址</p>
+
+<pre><code>#include &lt;stdio.h&gt;
+
+void changeValue(int a[]){ a[0] = 10;
+}
+
+int main(){ int a[2] = {1,2};
+    changeValue(a); for (int i = 0; i &lt; 2; ++i){
+        printf(&quot;a[%d]=%d\n&quot;,i,a[i]);
+    } /*打印结果
+    a[0]=10
+    a[1]=2
+    */
+}
+</code></pre>
+
+<h3 id="多维数组">多维数组</h3>
+
+<p>多维数组其实可以看成是一个特殊的一维数组，只是每个元素又是一个一维数组，下面简单看一下多维数组的初始化和赋值</p>
+
+<pre><code>#include &lt;stdio.h&gt;
+
+int main(){
+    int a[2][3];//2行3列，二维数组可以看成是一个特殊的一维数组，只是它的每一个元素又是一个一维数组
+    a[0][0] = 1;
+    a[0][1] = 2;
+    a[0][2] = 3;
+    a[1][0] = 4;
+    a[1][1] = 5;
+    a[1][2] = 6;
+    for (int i = 0; i &lt; 2; ++i){
+        for (int j = 0; j &lt; 3; ++j){
+            printf(&quot;a[%d][%d]=%d,address=%x\n&quot;, i, j, a[i][j], &amp;a[i][j]);
+        }
+    }
+    /*打印结果
+    a[0][0]=1,address=f8fb24
+    a[0][1]=2,address=f8fb28
+    a[0][2]=3,address=f8fb2c
+    a[1][0]=4,address=f8fb30
+    a[1][1]=5,address=f8fb34
+    a[1][2]=6,address=f8fb38
+    */
+    //初始化并直接赋值
+    int b[2][3] = { { 1, 2, 3 }, { 4, 5, 6 } };
+    //由于数组的赋值顺序是先从第一行第一列，再第一行第二列...然后第二行第一列...，所以我们也可以写成如下形式
+    int c[2][3] = { 1, 2, 3, 4, 5, 6 };
+    //也可以只初始化部分数据，其余元素默认为0
+    int d[2][3] = { 1, 2, 3, 4 };
+    for (int i = 0; i &lt; 2; ++i){
+        for (int j = 0; j &lt; 3; ++j){
+            printf(&quot;d[%d][%d]=%d\n&quot;, i, j, d[i][j]);
+        }
+    }
+    /*打印结果
+    d[0][0]=1
+    d[0][1]=2
+    d[0][2]=3
+    d[1][0]=4
+    d[1][1]=0
+    d[1][2]=0
+    */
+    //当然下面赋值也可以
+    int e[2][3] = { {}, { 4, 5, 6 } };
+    //可以省略行号,但是绝对不可以省略列号，因为按照上面说的赋值顺序，它无法判断有多少行
+    int f[][3] = { {1,2,3},{4,5,6} };
+}
+</code></pre>
+
+<h4 id="扩展-多维数组的存储">扩展&ndash;多维数组的存储</h4>
+
+<p>以上面a数组为例，它在内存中的结构如下图</p>
+
+<p><img src="http://images.cnitblog.com/blog/62046/201407/142058356937703.png" alt="" /></p>
+
+<p>根据上图和一维数组的存储，对于二维数组可以得出如下结论:数组名就是整个二维数组的地址，也等于第一行数组名的地址，还等于第一个元素的地址；第二行数组名等于第二行第一个元素的地址。用表达式表示：</p>
+
+<p>a=a[0]=&amp;a[0][0]
+a[1]=&amp;a[1][0]</p>
+
+<p>同样可以得出a[i][j]=a[i]+j。关于三维数组、四维数组等多维数组，其实可以以此类推，在此不再赘述。</p>
+
+<h3 id="字符串">字符串</h3>
+
+<p>在C语言中是没有字符串类型的，如果要表示字符串需要使用char类型的数组，因为字符串本身就是多个字符的组合。但是需要注意的是字符串是一个特殊的数组，在它的结束位置必须要加一个”\0”（ASCII中0是空操作符，表示什么也不做）来表示字符串结束，否则编译器是不知道什么时候字符串已经结束的。当直接使用字符串赋值的时候程序会自动加上”\0”作为结束符。</p>
+
+<pre><code>//
+//  main.c
+//  ArrayAndString
+//
+//  Created by KenshinCui on 14-7-06.
+//  Copyright (c) 2014年 Kenshin Cui. All rights reserved.
+//
+
+#include &lt;stdio.h&gt;
+
+int main(int argc, const char * argv[])
+{
+
+    char a[] = {'K','e','n','s','h','i','n','\0'};
+    printf(&quot;%s&quot;,a); //结果：Kenshin，注意使用%s输出字符串内容，如果换成整形输出格式其实输出的是a的地址
+    printf(&quot;\n&quot;);
+    printf(&quot;address=%x&quot;, a); //结果：address=5fbff890
+    printf(&quot;\n&quot;);
+    //后面的\0绝对不能省略,如果没有\0则会出现如下情况
+    char b[] = { 'I', 'a', 'm'};
+    printf(&quot;%s&quot;,b); //没有按照期望输出，多了一些垃圾数据，在当前环境打印结果：IamKenshin
+    printf(&quot;\n&quot;);
+    printf(&quot;address=%x&quot;,b); //结果：address=5fbff88d
+    printf(&quot;\n&quot;);
+    //直接赋值为字符串，此时不需要手动添加\0，编译器会自动添加
+    char c[] = &quot;Kenshin&quot;;
+    printf(&quot;c=%s&quot;,c); //结果：c=Kenshin
+    printf(&quot;\n&quot;);
+    
+    //二维数组存储多个字符串
+    char d[2][3]={&quot;Kenshin&quot;,&quot;Kaoru&quot;,&quot;Rose&quot;,&quot;Jack&quot;,&quot;Tom&quot;,&quot;Jerry&quot;};
+    
+    
+    return 0;
+}
+</code></pre>
+
+<p>从上面代码注释中可以看到打印b的时候不是直接打印出来“Iam”而是打印出了“IamKenshin”，原因就是编译器无法判断字符串是否结束，要解释为什么打印出“IamKenshin”我们需要了解a和b在内存中的存储。</p>
+
+<p><img src="http://images.cnitblog.com/blog/62046/201407/142058363658331.png" alt="" /></p>
+
+<p>从图中我们不难发现由于a占用8个字节，而定义完a后直接定义了b，此时分配的空间连续，b占用3个字节，这样当输出b的时候由于输出完“Iam”之后并未遇到”\0”标记，程序继续输出直到遇到数组a中的“\0”才结束，因此输出内容为“IamKenshin”。</p>
+
+<h4 id="扩展-字符串操作常用函数">扩展&ndash;字符串操作常用函数</h4>
+
+<p>下面简单看一下和字符和字符串相关的常用的几个函数</p>
+
+<pre><code>//
+//  main.c
+//  ArrayAndString
+//
+//  Created by Kenshin Cui on 14-7-04.
+//  Copyright (c) 2014年 Kenshin Cui. All rights reserved.
+//
+
+#include &lt;stdio.h&gt;
+
+int main(int argc, const char * argv[])
+{
+    /*字符操作*/
+    putchar('a'); //结果：a，putchar一次只能输出一个字符
+    printf(&quot;\n&quot;);
+    putchar(97);//结果:a
+    printf(&quot;\n&quot;);
+    char a;
+    a=getchar();//getchar()一次只能接收一个字符，可以接收空格、tab、回车
+    printf(&quot;a=%c&quot;,a);
+    printf(&quot;\n&quot;);
+
+    /*字符串操作*/
+    char b[]=&quot;Kenshin&quot;;
+    printf(&quot;b=%s&quot;,b);
+    printf(&quot;\n&quot;);
+    puts(b); //puts用于输出单个字符串，不能像printf格式化输出，会自动添加换行
+    printf(&quot;\n&quot;);
+    
+    char c[10];
+    scanf(&quot;%s&quot;,c);//注意c没必要写成&amp;c，因为c本身就代表了数组的地址
+    printf(&quot;c=%s\n&quot;,c);//注意即使你输入的内容大于10，也能正确输出，但是下面的gets()函数却不行
+    printf(&quot;\n&quot;);
+    
+    //gets()函数，注意它是不安全的，因为接收的时候不知道它的大小容易造成溢出，建议不要使用
+    char d[10];
+    gets(d); //gets一次只能接收一个字符串，但是scanf可接收多个；scanf不能接收空格、tab，gets则可以
+    printf(&quot;d=%s&quot;,d);
+    printf(&quot;\n&quot;);
+    
+    char e[]={'K','s','\0'};
+    printf(&quot;%lu&quot;,strlen(e)); //结果是：2，不是3，因为\0不计入长度
+    printf(&quot;\n&quot;);
+    char f[]={&quot;Kenshin&quot;};
+    printf(&quot;%lu&quot;,strlen(f)); //结果是：7
+    printf(&quot;\n&quot;);
+    
+    char g[5];
+    strcpy(g,&quot;hello,world!&quot;);
+    printf(&quot;%s&quot;,g); //结果是：hello,即使定义的g长度为5，但是也能完全拷贝进去
+    printf(&quot;\n&quot;);
+    char h[5];
+    char i[]={'a','b','c','\0','d','e','f','\0'};
+    strcpy(h,i);
+    printf(&quot;%s&quot;,h); //结果是：abc,遇到第一个\0则结束
+    printf(&quot;\n&quot;);
+    
+    strcat(i,&quot;ghi&quot;);
+    printf(&quot;%s&quot;,i); //结果是：abcghi,注意不是abcdefghi,strcat，从i第一\0开始使用“ghi”覆盖，覆盖完之后加上一个\0,在内存中目前应该是：{'a','b','c','g','h','i','\0','f','\0'}
+    printf(&quot;\n&quot;);
+    
+    char j[]=&quot;abc&quot;;
+    char k[]=&quot;aBc&quot;;
+    char l[]=&quot;acb&quot;;
+    char m[]={'a','\0'};
+    printf(&quot;%d,%d,%d&quot;,strcmp(j,k),strcmp(k,l),strcmp(l,m));//遇到第一个不相同的字符或\0则返回两者前后之差，结果：32,-33,99
+    printf(&quot;\n&quot;);
+
+    return 0;
+}
+</code></pre>
+
+<blockquote>
+<p>1.在Xcode中会提示gets是不安全的，推荐使用fgets()。
+2.strlen()只用于计算字符串长度，由于在C语言中字符串使用字符数组长度表示，所以它可以计算带有’\0’结尾的字符数组长度，但是它并不能计算其他类型的数组长度。</p>
+</blockquote>
+              
+            </div>
+          </div>
+          <div id="post-footer" class="post-footer main-content-wrap">
+            
+              
+                
+                
+                  <div class="post-footer-tags">
+                    <span class="text-color-light text-small"></span><br/>
+                    
+  <a class="tag tag--primary tag--small" href="http://ytlvy.com/tags/c/">C</a>
+
+                  </div>
+                
+              
+            
+            
+  <div class="post-actions-wrap">
+      <nav >
+        <ul class="post-actions post-action-nav">
+          
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="http://ytlvy.com/posts/2015-08-22/2015-08-22-big-endian-little-endian/" data-tooltip="Big-endian &amp;&amp; Little-endian">
+              
+                  <i class="fa fa-angle-left"></i>
+                  <span class="hide-xs hide-sm text-small icon-ml"></span>
+                </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="http://ytlvy.com/posts/2015-08-22/2015-08-22-c-programming-precompile/" data-tooltip="C programming -- Precompile">
+              
+                  <span class="hide-xs hide-sm text-small icon-mr"></span>
+                  <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+          
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
+      
+        <li class="post-action hide-lg hide-md hide-sm">
+          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+            <i class="fa fa-share-alt"></i>
+          </a>
+        </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://ytlvy.com/posts/2015-08-22/2015-08-22-c-programming-array-string/">
+              <i class="fa fa-facebook-official"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http://ytlvy.com/posts/2015-08-22/2015-08-22-c-programming-array-string/">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=http://ytlvy.com/posts/2015-08-22/2015-08-22-c-programming-array-string/">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        
+      
+      
+        <li class="post-action">
+          <a class="post-action-btn btn btn--default" href="#disqus_thread">
+            <i class="fa fa-comment-o"></i>
+          </a>
+        </li>
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#">
+        
+          <i class="fa fa-list"></i>
+        </a>
+      </li>
+    </ul>
+  </div>
+
+
+            
+              
+                <div id="disqus_thread">
+  <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+              
+            
+          </div>
+        </article>
+        <footer id="footer" class="main-content-wrap">
+  <span class="copyrights">
+    &copy; 2017 肖杰. 
+  </span>
+</footer>
+
+      </div>
+      <div id="bottom-bar" class="post-bottom-bar" data-behavior="1">
+        
+  <div class="post-actions-wrap">
+      <nav >
+        <ul class="post-actions post-action-nav">
+          
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="http://ytlvy.com/posts/2015-08-22/2015-08-22-big-endian-little-endian/" data-tooltip="Big-endian &amp;&amp; Little-endian">
+              
+                  <i class="fa fa-angle-left"></i>
+                  <span class="hide-xs hide-sm text-small icon-ml"></span>
+                </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="http://ytlvy.com/posts/2015-08-22/2015-08-22-c-programming-precompile/" data-tooltip="C programming -- Precompile">
+              
+                  <span class="hide-xs hide-sm text-small icon-mr"></span>
+                  <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+          
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
+      
+        <li class="post-action hide-lg hide-md hide-sm">
+          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+            <i class="fa fa-share-alt"></i>
+          </a>
+        </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://ytlvy.com/posts/2015-08-22/2015-08-22-c-programming-array-string/">
+              <i class="fa fa-facebook-official"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http://ytlvy.com/posts/2015-08-22/2015-08-22-c-programming-array-string/">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=http://ytlvy.com/posts/2015-08-22/2015-08-22-c-programming-array-string/">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        
+      
+      
+        <li class="post-action">
+          <a class="post-action-btn btn btn--default" href="#disqus_thread">
+            <i class="fa fa-comment-o"></i>
+          </a>
+        </li>
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#">
+        
+          <i class="fa fa-list"></i>
+        </a>
+      </li>
+    </ul>
+  </div>
+
+
+      </div>
+      <div id="share-options-bar" class="share-options-bar" data-behavior="1">
+  <i id="btn-close-shareoptions" class="fa fa-close"></i>
+  <ul class="share-options">
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Fytlvy.com%2Fposts%2F2015-08-22%2F2015-08-22-c-programming-array-string%2F">
+          <i class="fa fa-facebook-official"></i><span>%!(EXTRA string=Facebook)</span>
+        </a>
+      </li>
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=http%3A%2F%2Fytlvy.com%2Fposts%2F2015-08-22%2F2015-08-22-c-programming-array-string%2F">
+          <i class="fa fa-twitter"></i><span>%!(EXTRA string=Twitter)</span>
+        </a>
+      </li>
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=http%3A%2F%2Fytlvy.com%2Fposts%2F2015-08-22%2F2015-08-22-c-programming-array-string%2F">
+          <i class="fa fa-google-plus"></i><span>%!(EXTRA string=Google&#43;)</span>
+        </a>
+      </li>
+    
+  </ul>
+</div>
+<div id="share-options-mask" class="share-options-mask"></div>
+    </div>
+    
+    <div id="about">
+  <div id="about-card">
+    <div id="about-btn-close">
+      <i class="fa fa-remove"></i>
+    </div>
+    
+      <img id="about-card-picture" src="//www.gravatar.com/avatar/8d5387e20303e26c6147cfe67990995e?s=110" alt="" />
+    
+    <h4 id="about-card-name">肖杰</h4>
+    
+      <div id="about-card-bio">一个瑜伽|篮球|羽毛球爱好者</div>
+    
+    
+      <div id="about-card-job">
+        <i class="fa fa-briefcase"></i>
+        <br/>
+        搬砖工
+      </div>
+    
+    
+      <div id="about-card-location">
+        <i class="fa fa-map-marker"></i>
+        <br/>
+        Beijing
+      </div>
+    
+  </div>
+</div>
+
+    <div id="algolia-search-modal" class="modal-container">
+  <div class="modal">
+    <div class="modal-header">
+      <span class="close-button"><i class="fa fa-close"></i></span>
+      <a href="https://algolia.com" target="_blank" rel="noopener" class="searchby-algolia text-color-light link-unstyled">
+        <span class="searchby-algolia-text text-color-light text-small">by</span>
+        <img class="searchby-algolia-logo" src="https://www.algolia.com/static_assets/images/press/downloads/algolia-light.svg">
+      </a>
+      <i class="search-icon fa fa-search"></i>
+      <form id="algolia-search-form">
+        <input type="text" id="algolia-search-input" name="search"
+          class="form-control input--large search-input" placeholder="" />
+      </form>
+    </div>
+    <div class="modal-body">
+      <div class="no-result text-color-light text-center"></div>
+      <div class="results">
+        
+        
+      </div>
+    </div>
+    <div class="modal-footer">
+      <p class="results-count text-medium"
+         data-message-zero=""
+         data-message-one=""
+         data-message-other="">
+         0 posts found
+      </p>
+    </div>
+  </div>
+</div>
+    
+  
+    
+    <div id="cover" style="background-image:url('http://ytlvy.com/images/cover.jpg');"></div>
+  
+
+
+    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js" integrity="sha256-/BfiIkHlHoVihZdc6TFuj7MmJ0TWcWsMXkeDFwhi0zw=" crossorigin="anonymous"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.7/js/jquery.fancybox.min.js" integrity="sha256-GEAnjcTqVP+vBp3SSc8bEDQqvWAZMiHyUSIorrWwH50=" crossorigin="anonymous"></script>
+
+
+<script src="http://ytlvy.com/js/script-qi9wbxp2ya2j6p7wx1i6tgavftewndznf4v0hy2gvivk1rxgc3lm7njqb6bz.min.js"></script>
+
+
+
+<script>
+$(document).ready(function() {
+  hljs.configure({ classPrefix: '', useBR: false });
+  $('pre.code-highlight > code, pre > code').each(function(i, block) {
+    if (!$(this).hasClass('codeblock')) {
+      $(this).addClass('codeblock');
+    }
+    hljs.highlightBlock(block);
+  });
+});
+</script>
+
+
+  
+    
+      <script>
+        var disqus_config = function () {
+          this.page.url = 'http:\/\/ytlvy.com\/posts\/2015-08-22\/2015-08-22-c-programming-array-string\/';
+          
+            this.page.identifier = '\/posts\/2015-08-22\/2015-08-22-c-programming-array-string\/'
+          
+        };
+        (function() {
+          
+          
+          if (window.location.hostname == "localhost") {
+            return;
+          }
+          var d = document, s = d.createElement('script');
+          var disqus_shortname = 'hugo-tranquilpeak-theme';
+          s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+
+          s.setAttribute('data-timestamp', +new Date());
+          (d.head || d.body).appendChild(s);
+        })();
+      </script>
+    
+  
+
+
+
+    
+  </body>
+</html>
+

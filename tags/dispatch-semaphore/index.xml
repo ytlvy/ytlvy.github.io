@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Dispatch Semaphore on My New Hugo Site</title>
+    <link>http://ytlvy.com/tags/dispatch-semaphore/</link>
+    <description>Recent content in Dispatch Semaphore on My New Hugo Site</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Tue, 30 Jun 2015 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="http://ytlvy.com/tags/dispatch-semaphore/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Dispatch_semaphore</title>
+      <link>http://ytlvy.com/posts/2015-06-30/2015-06-30-dispatch-semaphore/</link>
+      <pubDate>Tue, 30 Jun 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-06-30/2015-06-30-dispatch-semaphore/</guid>
+      <description>&lt;p&gt;&lt;img src=&#34;http://ytlvy.com/images/DispatchSemaphore.jpg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;dispatch-semaphore&#34;&gt;Dispatch_semaphore&lt;/h2&gt;
+
+&lt;p&gt;&lt;code&gt;semaphore&lt;/code&gt; 通过&lt;code&gt;dispatch_semaphore_create&lt;/code&gt;创建一个信号量来实现多线程并发数控制, 此信号量为最高可进行的并发数. 通过&lt;code&gt;dispatch_semaphore_wait&lt;/code&gt;来消耗一个信号量,并进入其后的执行逻辑, 在逻辑执行完毕后,通过&lt;code&gt;dispatch_semaphore_signal&lt;/code&gt;来释放一个信号量, 并唤醒正在等待的线程. 如果&lt;code&gt;dispatch_semaphore_wait&lt;/code&gt;操作时,信号量为0则进入等待状态.&lt;/p&gt;
+
+&lt;h3 id=&#34;functions&#34;&gt;functions&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;dispatch_semaphore_create&lt;/li&gt;
+&lt;li&gt;dispatch_semaphore_wait (减少一个信号量)&lt;/li&gt;
+&lt;li&gt;dispatch_semaphore_signal (增加一个信号量)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;实例&#34;&gt;实例&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code&gt;- (void)test4{
+    int data = 3;
+    __block int mainData = 0;
+    __block int sum = 0;
+    __block dispatch_semaphore_t sem = dispatch_semaphore_create(2);
+    dispatch_queue_t ioQueue = dispatch_queue_create(&amp;quot;com.dreamingwish.imagegcd.io&amp;quot;, DISPATCH_QUEUE_SERIAL);
+    
+    dispatch_queue_t queue = dispatch_queue_create(&amp;quot;StudyBlocks&amp;quot;, DISPATCH_QUEUE_CONCURRENT);
+    dispatch_group_t group = dispatch_group_create();
+    
+    for (int i =0 ; i&amp;lt;100; i++) {
+        @autoreleasepool {
+            dispatch_semaphore_wait(sem, DISPATCH_TIME_FOREVER);  // -1 非零即通过
+            dispatch_group_async(group, ioQueue, ^{
+//                dispatch_semaphore_wait(sem, DISPATCH_TIME_FOREVER);
+                dispatch_group_async(group, queue, ^{
+                    sum += data;
+                    
+                    __block int nsum = sum;
+                    dispatch_group_async(group, ioQueue, ^{
+                        NSLog(@&amp;quot; &amp;gt;&amp;gt; Sum: %d&amp;quot;, nsum);
+                        
+                        dispatch_semaphore_signal(sem);  // +1
+                    });
+                    
+                });
+            });
+        }
+    }
+    dispatch_group_wait(group, DISPATCH_TIME_FOREVER);
+//    dispatch_semaphore_wait(sem, DISPATCH_TIME_FOREVER);
+    for (int j =0; j&amp;lt;5; j++) {
+        mainData++;
+        NSLog(@&amp;quot; &amp;gt;&amp;gt; MainData: %d&amp;quot;, mainData);
+    }
+//    dispatch_semaphore_signal(sem);
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

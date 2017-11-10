@@ -1,0 +1,929 @@
+
+
+  
+
+
+  
+
+
+
+
+  
+
+
+  
+
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="Hugo 0.30.2 with theme Tranquilpeak 0.4.2-BETA">
+    <title>iOS ARC Practices</title>
+    <meta name="author" content="肖杰">
+    <meta name="keywords" content="">
+
+    <link rel="icon" href="http://ytlvy.com/favicon.png">
+    
+
+    
+    <meta name="description" content="转自
+
+ARC 最佳实践
+
+General
+
+1) 数值变量应该使用 assign：
+
+@property (nonatomic, assign) int scalarInt;
+@property (nonatomic, assign) CGFloat scalarFloat;
+@property (nonatomic, assign) CGPoint scalarStruct;
+
+
+2) 在层次结构上属于下一级的对象应该使用 strong ：
+
+@property (nonatomic, strong) id childObject;
+
+
+3) 在层次结构上属于上一级的对象应该使用 weak ，另外，当出现循环引用的时候也应该使用 weak ：
+
+@property (nonatomic, weak) id parentObject;
+@property (nonatomic, weak) NSObject &lt;SomeDelegate&gt; *delegate;
+
+
+4) 闭包应该使用 copy ：
+
+@property (nonatomic, copy) SomeBlockType someBlock;
+
+
+5) 在 dealloc 里：
+
+
+从观察者中移除 (remove observers)
+取消订阅通知 (unregister for notifications)
+设置非 weak 的委托为 nil (set any non-weak delegates to nil)
+关闭所有的计时器 (invalidate any timers)
+
+
+6) 所有的 IBOutlet 都应该是 weak 的。除非顶层的 IBOutlet 应该是 strong 的，比如 UIViewController 的 View 是需要直接拥有的，所以应该设置成 strong
+
+">
+    <meta property="og:description" content="转自
+
+ARC 最佳实践
+
+General
+
+1) 数值变量应该使用 assign：
+
+@property (nonatomic, assign) int scalarInt;
+@property (nonatomic, assign) CGFloat scalarFloat;
+@property (nonatomic, assign) CGPoint scalarStruct;
+
+
+2) 在层次结构上属于下一级的对象应该使用 strong ：
+
+@property (nonatomic, strong) id childObject;
+
+
+3) 在层次结构上属于上一级的对象应该使用 weak ，另外，当出现循环引用的时候也应该使用 weak ：
+
+@property (nonatomic, weak) id parentObject;
+@property (nonatomic, weak) NSObject &lt;SomeDelegate&gt; *delegate;
+
+
+4) 闭包应该使用 copy ：
+
+@property (nonatomic, copy) SomeBlockType someBlock;
+
+
+5) 在 dealloc 里：
+
+
+从观察者中移除 (remove observers)
+取消订阅通知 (unregister for notifications)
+设置非 weak 的委托为 nil (set any non-weak delegates to nil)
+关闭所有的计时器 (invalidate any timers)
+
+
+6) 所有的 IBOutlet 都应该是 weak 的。除非顶层的 IBOutlet 应该是 strong 的，比如 UIViewController 的 View 是需要直接拥有的，所以应该设置成 strong
+
+">
+    <meta property="og:type" content="blog">
+    <meta property="og:title" content="iOS ARC Practices">
+    <meta property="og:url" content="/posts/2015-07-28/2015-07-28-ios-arc-practices/">
+    <meta property="og:site_name" content="My New Hugo Site">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="My New Hugo Site">
+    <meta name="twitter:description" content="转自
+
+ARC 最佳实践
+
+General
+
+1) 数值变量应该使用 assign：
+
+@property (nonatomic, assign) int scalarInt;
+@property (nonatomic, assign) CGFloat scalarFloat;
+@property (nonatomic, assign) CGPoint scalarStruct;
+
+
+2) 在层次结构上属于下一级的对象应该使用 strong ：
+
+@property (nonatomic, strong) id childObject;
+
+
+3) 在层次结构上属于上一级的对象应该使用 weak ，另外，当出现循环引用的时候也应该使用 weak ：
+
+@property (nonatomic, weak) id parentObject;
+@property (nonatomic, weak) NSObject &lt;SomeDelegate&gt; *delegate;
+
+
+4) 闭包应该使用 copy ：
+
+@property (nonatomic, copy) SomeBlockType someBlock;
+
+
+5) 在 dealloc 里：
+
+
+从观察者中移除 (remove observers)
+取消订阅通知 (unregister for notifications)
+设置非 weak 的委托为 nil (set any non-weak delegates to nil)
+关闭所有的计时器 (invalidate any timers)
+
+
+6) 所有的 IBOutlet 都应该是 weak 的。除非顶层的 IBOutlet 应该是 strong 的，比如 UIViewController 的 View 是需要直接拥有的，所以应该设置成 strong
+
+">
+    
+    
+
+    
+    
+
+    
+      <meta property="og:image" content="//www.gravatar.com/avatar/8d5387e20303e26c6147cfe67990995e?s=640">
+    
+
+    
+    
+    
+
+    
+
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/jquery.fancybox.min.css" integrity="sha256-vuXZ9LGmmwtjqFX1F+EKin1ThZMub58gKULUyf0qECk=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/helpers/jquery.fancybox-thumbs.min.css" integrity="sha256-SEa4XYAHihTcEP1f5gARTB2K26Uk8PsndQYHQC1f4jU=" crossorigin="anonymous" />
+    
+    
+    <link rel="stylesheet" href="http://ytlvy.com/css/style-jsjn0006wyhpyzivf6yceb31gvpjatbcs3qzjvlumobfnugccvobqwxnnaj8.min.css" />
+    
+    
+
+    
+      
+    
+    
+  </head>
+
+  <body>
+    <div id="blog">
+      <header id="header" data-behavior="1">
+  <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+  <div class="header-title">
+    <a class="header-title-link" href="http://ytlvy.com/">My New Hugo Site</a>
+  </div>
+  
+    
+      <a class="header-right-picture "
+         href="http://ytlvy.com/#about">
+    
+    
+    
+      
+        <img class="header-picture" src="//www.gravatar.com/avatar/8d5387e20303e26c6147cfe67990995e?s=90" alt="" />
+      
+    
+    </a>
+  
+</header>
+
+      <nav id="sidebar" data-behavior="1">
+  <div class="sidebar-container">
+    
+      <div class="sidebar-profile">
+        <a href="http://ytlvy.com/#about">
+          <img class="sidebar-profile-picture" src="//www.gravatar.com/avatar/8d5387e20303e26c6147cfe67990995e?s=110" alt="" />
+        </a>
+        <h4 class="sidebar-profile-name">肖杰</h4>
+        
+          <h5 class="sidebar-profile-bio">一个瑜伽|篮球|羽毛球爱好者</h5>
+        
+      </div>
+    
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="http://ytlvy.com/">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-home"></i>
+      
+      <span class="sidebar-button-desc">Home</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="http://ytlvy.com/categories">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-bookmark"></i>
+      
+      <span class="sidebar-button-desc">Categories</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="http://ytlvy.com/tags">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+      
+      <span class="sidebar-button-desc">Tags</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="http://ytlvy.com/archives">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
+      
+      <span class="sidebar-button-desc">Archives</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="http://ytlvy.com/#about">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-question"></i>
+      
+      <span class="sidebar-button-desc">About</span>
+    </a>
+  </li>
+
+
+    </ul>
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://github.com/ytlvy" target="_blank" rel="noopener">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-github"></i>
+      
+      <span class="sidebar-button-desc">GitHub</span>
+    </a>
+  </li>
+
+
+    </ul>
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="http://ytlvy.com/index.xml">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-rss"></i>
+      
+      <span class="sidebar-button-desc">RSS</span>
+    </a>
+  </li>
+
+
+    </ul>
+  </div>
+</nav>
+
+      
+
+      <div id="main" data-behavior="1"
+        class="
+               hasCoverMetaIn
+               ">
+        <article class="post" itemscope itemType="http://schema.org/BlogPosting">
+          
+          
+            <div class="post-header main-content-wrap text-left">
+  
+    <h1 class="post-title" itemprop="headline">
+      iOS ARC Practices
+    </h1>
+  
+  
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2015-07-28T00:00:00Z">
+        
+   28, 2015
+
+      </time>
+    
+    
+  
+  
+    <span></span>
+    
+      <a class="category-link" href="http://ytlvy.com/categories/ios">IOS</a>
+    
+  
+
+  </div>
+
+</div>
+          
+          <div class="post-content markdown" itemprop="articleBody">
+            <div class="main-content-wrap">
+              <p><a href="http://amattn.com/p/arc_best_practices.html">转自</a></p>
+
+<h2 id="arc-最佳实践">ARC 最佳实践</h2>
+
+<h3 id="general">General</h3>
+
+<p>1) 数值变量应该使用 assign：</p>
+
+<pre><code>@property (nonatomic, assign) int scalarInt;
+@property (nonatomic, assign) CGFloat scalarFloat;
+@property (nonatomic, assign) CGPoint scalarStruct;
+</code></pre>
+
+<p>2) 在层次结构上属于下一级的对象应该使用 strong ：</p>
+
+<pre><code>@property (nonatomic, strong) id childObject;
+</code></pre>
+
+<p>3) 在层次结构上属于上一级的对象应该使用 weak ，另外，当出现循环引用的时候也应该使用 weak ：</p>
+
+<pre><code>@property (nonatomic, weak) id parentObject;
+@property (nonatomic, weak) NSObject &lt;SomeDelegate&gt; *delegate;
+</code></pre>
+
+<p>4) 闭包应该使用 copy ：</p>
+
+<pre><code>@property (nonatomic, copy) SomeBlockType someBlock;
+</code></pre>
+
+<p>5) 在 dealloc 里：</p>
+
+<ul>
+<li>从观察者中移除 (remove observers)</li>
+<li>取消订阅通知 (unregister for notifications)</li>
+<li>设置非 weak 的委托为 nil (set any non-weak delegates to nil)</li>
+<li>关闭所有的计时器 (invalidate any timers)</li>
+</ul>
+
+<p>6) 所有的 IBOutlet 都应该是 weak 的。除非顶层的 IBOutlet 应该是 strong 的，比如 UIViewController 的 View 是需要直接拥有的，所以应该设置成 strong</p>
+
+<p></p>
+
+<h3 id="bridging">Bridging</h3>
+
+<p>从文档来看是这样的：</p>
+
+<pre><code>id my_id;
+CFStringRef my_cfref;
+NSString   *a = (__bridge NSString*)my_cfref;     // Noop cast.
+CFStringRef b = (__bridge CFStringRef)my_id;      // Noop cast.
+NSString   *c = (__bridge_transfer NSString*)my_cfref; // -1 on the CFRef
+CFStringRef d = (__bridge_retained CFStringRef)my_id;  // returned CFRef +1
+</code></pre>
+
+<p>简单的翻译成大白话：
+- __bridge 只做类型转换，但是不修改对象内存的管理权。
+- __bridge_transfer 将 Core Foundation 的对象转换为 Objective-C 的对象，同时将对象内存的管理权交给 ARC 。 ARC 会自动将引用计数减1 。
+- __bridge_retained 将 Objective-C 的对象转换为 Core Foundation 的对象，同时将对象内存的管理权交给我们，引用计数会自动加1。后续需要使用 CFRelease 或者相关方法来释放对象。</p>
+
+<h3 id="nserror">NSError</h3>
+
+<p>无所不在的 <code>NSError</code> 有点特殊，在标准的 Cocoa 使用中， <code>NSError</code> 是通过外部参数 <code>(out-parameter)</code> 实现的，又称为 <code>indirect pointer</code> 。</p>
+
+<p>在 ARC 里， <code>out-parameter</code> 默认是 <code>__autoreleasing</code> 的，并且实现方法应该是这样的：</p>
+
+<pre><code>- (BOOL)performWithError:(__autoreleasing NSError **)error {
+    // 如果发生了一些错误
+    if (error) {
+        // 写入到外部参数， ARC 会自动释放
+        *error = [[NSError alloc] initWithDomain:@&quot;&quot; 
+                                            code:-1 
+                                        userInfo:nil];
+        return NO;
+    }
+    else {
+        return YES;
+    }
+}
+</code></pre>
+
+<p>当我们使用这个方法的时候， *error 前面应该加上 __autoreleasing 的标记：</p>
+
+<pre><code>NSError __autoreleasing *error = error;
+BOOL OK = [myObject performOperationWithError:&amp;error];
+if (!OK)
+{
+    // handle the error.
+}
+</code></pre>
+
+<p>如果你标记了 <code>__autoreleasing</code> ，编译器会简单的插入一个临时的中介对象。这是为了能够向下兼容的妥协方案，因为有些编译器的设置并没有自动把它们设置为 <code>__autoreleasing</code> ，所以为了安全起见，还是加上 <code>__autoreleasing</code> 的比较保险。</p>
+
+<h3 id="autoreleasepool">@autoreleasepool</h3>
+
+<p>可以在如下场景使用自动释放池：</p>
+
+<ul>
+<li>遍历很多很多遍的时候</li>
+<li>创建大量的临时变量</li>
+</ul>
+
+<p>比如下面这个例子：</p>
+
+<pre><code>// 如果 someArray 里的元素非常多
+for (id obj in someArray) {
+    @autoreleasepool {
+        // 或者在每次遍历里都创建了大量的临时变量
+    }
+}
+</code></pre>
+
+<p>我们可以通过 <code>@autoreleasepool</code> 标记创建和销毁一个自动释放池。</p>
+
+<h3 id="blocks">Blocks</h3>
+
+<p>总的来说，闭包用起来还行，但是还是有那么点小问题。</p>
+
+<p>当我们把闭包添加到集合中的时候 (比如 NSArray) ，一定要先 copy 一下：</p>
+
+<pre><code>someBlockType someBlock = ^{NSLog(@&quot;hi&quot;);};
+[someArray addObject:[someBlock copy]];
+</code></pre>
+
+<p>循环引用是十分危险的，你可能看到过这些 warning ：</p>
+
+<pre><code>warning: capturing 'self' strongly in this 
+block is likely to lead to a retain cycle 
+[-Warc-retain-cycles,4]
+
+SomeBlockType someBlock = ^{
+    [self someMethod];
+};
+</code></pre>
+
+<p>警告的原因是 <code>someBlock</code> 是 <code>self</code> 的强引用，而 <code>someBlock</code> 又捕捉并且 <code>retain</code> 了 <code>self。</code></p>
+
+<p>再举一个表现不明显的循环引用：任何变量的父对象都是会被捕捉的：</p>
+
+<pre><code>// 下面这个闭包会持有 &quot;self&quot;
+SomeBlockType someBlock = ^{
+    BOOL isDone = _isDone;  // _isDone 是 self 的一个变量
+};
+</code></pre>
+
+<p>更安全但是也更啰嗦的方法是使用 weakSelf ：</p>
+
+<pre><code>__weak SomeObjectClass *weakSelf = self;
+
+SomeBlockType someBlock = ^{
+    SomeObjectClass *strongSelf = weakSelf;
+    if (strongSelf == nil)
+    {
+        // The original self doesn't exist anymore.
+        // Ignore, notify or otherwise handle this case.
+    }
+    else
+    {
+        [strongSelf someMethod];
+    }
+};
+</code></pre>
+
+<p>有时候你也需要注意避免对象的循环引用：如果 someObject 将会被 block 强引用，可以用 weakSomeObject 打破循环引用：</p>
+
+<pre><code>SomeObjectClass *someObject = ...
+__weak SomeObjectClass *weakSomeObject = someObject;
+
+someObject.completionHandler = ^{
+    SomeObjectClass *strongSomeObject = weakSomeObject;
+    if (strongSomeObject == nil)
+    {
+        // The original someObject doesn't exist anymore.
+        // Ignore, notify or otherwise handle this case.
+    }
+    else
+    {
+        // okay, NOW we can do something with someObject
+        [strongSomeObject someMethod];
+    }
+};
+</code></pre>
+
+<h3 id="accessing-cgthings-from-nsthings-or-uithings">Accessing CGThings from NSThings or UIThings</h3>
+
+<p>先看一段代码：</p>
+
+<pre><code>UIColor *redColor = [UIColor redColor]; 
+CGColorRef redRef = redColor.CGColor;
+// 用 redRef 做一些事情
+</code></pre>
+
+<p>上面这段代码有一些很隐蔽的问题。当你创建 <code>redRef</code> 的时候，如果 <code>redColor</code> 不再被使用，那么 <code>redColor</code> 会在备注那一行立即被销毁。</p>
+
+<p>问题是 <code>redColor</code> 持有了 <code>redRef</code> ，当访问 <code>redRef</code> 的时候，它有可能是也有可能不再是一个 <code>colorRef</code> 。更糟糕的是，这种问题很少在虚拟机上出现，这更有可能在那种低内存的设备上出现，比如第一代的 <code>iPad</code> 老爷机。</p>
+
+<p>解决的方案也有很多。最关键的一点是：在使用 <code>redRef</code> 的时候，我们需要保证 <code>redColor</code> 是有效的。</p>
+
+<p>一种最简单的方式就是使用 <code>__autoreleasingpool</code> ：</p>
+
+<pre><code>UIColor * __autoreleasing redColor = [UIColor redColor];
+CGColorRef redRef = redColor.CGColor;
+</code></pre>
+
+<p>注意这时候 <code>redColor</code> 在方法返回之前都不会被释放掉，所以我们可以放心的在当前的方法里使用 <code>redRef</code> 。</p>
+
+<p>另一种方法是 <code>retain</code> 一下 <code>redRef</code> ：</p>
+
+<pre><code>UIColor *redColor = [UIColor redColor];
+CGColorRef redRef = CFRetain(redColor.CGColor);
+// 尽情的使用 redRef ，注意，在结束的时候要 release
+CFRelease(redRef)
+</code></pre>
+
+<p>注意：我们需要在 <code>redColor.CGColor</code> 处使用 <code>CFRetain()</code>，因为在最近一次使用之后 <code>redColor</code> 就被释放了。比如下面这段代码就是没啥用的：</p>
+
+<pre><code>UIColor *redColor = [UIColor redColor];
+CGColorRef redRef = redColor.CGColor; // redColor 在这行代码之后就被 release 了
+CFRetain(redRef);  // 这里可能会崩溃
+</code></pre>
+
+<p>有趣的是标记了 这里可能会崩溃 的那一行。在我的印象里，在虚拟机里很少崩溃，而在真机上就很常见。</p>
+
+<h3 id="单例模式">单例模式</h3>
+
+<p>标准的单例模式的实现应该是这个样子的：</p>
+
+<pre><code>+ (MyClass *)singleton
+{
+    static MyClass *sharedMyClass = nil;
+    static dispatch_once_t once = 0;
+    dispatch_once(&amp;once, ^{sharedMyClass = [[self alloc] init];});
+    return sharedMyClass;
+}
+</code></pre>
+
+<p>有时候我们还需要销毁单例，不过如果不是用在单元测试里，那么很有可能你不该使用单例模式。</p>
+
+<p>可以销毁并重建的单例模式是这样的：</p>
+
+<pre><code>// 在 singleton 外声明一个静态变量
+static MyClass *__sharedMyClass = nil;
+
++ (MyClass *)singleton
+{
+    static dispatch_once_t once = 0;
+    dispatch_once(&amp;once, ^{__sharedMyClass = [[self alloc] init];});
+    return __sharedMyClass;
+}
+
+// 仅可用于测试！
+- (void)destroyAndRecreateSingleton
+{
+    __sharedMyClass = [[self alloc] init];
+}
+</code></pre>
+              
+            </div>
+          </div>
+          <div id="post-footer" class="post-footer main-content-wrap">
+            
+              
+                
+                
+                  <div class="post-footer-tags">
+                    <span class="text-color-light text-small"></span><br/>
+                    
+  <a class="tag tag--primary tag--small" href="http://ytlvy.com/tags/arc/">ARC</a>
+
+                  </div>
+                
+              
+            
+            
+  <div class="post-actions-wrap">
+      <nav >
+        <ul class="post-actions post-action-nav">
+          
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="http://ytlvy.com/posts/2015-07-28/2015-07-28-swift-exception-handle/" data-tooltip="Swift Exception Handle">
+              
+                  <i class="fa fa-angle-left"></i>
+                  <span class="hide-xs hide-sm text-small icon-ml"></span>
+                </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="http://ytlvy.com/posts/2015-07-28/2015-07-28-ios-nstimer-overflow/" data-tooltip="iOS NSTimer Overflow">
+              
+                  <span class="hide-xs hide-sm text-small icon-mr"></span>
+                  <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+          
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
+      
+        <li class="post-action hide-lg hide-md hide-sm">
+          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+            <i class="fa fa-share-alt"></i>
+          </a>
+        </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://ytlvy.com/posts/2015-07-28/2015-07-28-ios-arc-practices/">
+              <i class="fa fa-facebook-official"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http://ytlvy.com/posts/2015-07-28/2015-07-28-ios-arc-practices/">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=http://ytlvy.com/posts/2015-07-28/2015-07-28-ios-arc-practices/">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        
+      
+      
+        <li class="post-action">
+          <a class="post-action-btn btn btn--default" href="#disqus_thread">
+            <i class="fa fa-comment-o"></i>
+          </a>
+        </li>
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#">
+        
+          <i class="fa fa-list"></i>
+        </a>
+      </li>
+    </ul>
+  </div>
+
+
+            
+              
+                <div id="disqus_thread">
+  <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+              
+            
+          </div>
+        </article>
+        <footer id="footer" class="main-content-wrap">
+  <span class="copyrights">
+    &copy; 2017 肖杰. 
+  </span>
+</footer>
+
+      </div>
+      <div id="bottom-bar" class="post-bottom-bar" data-behavior="1">
+        
+  <div class="post-actions-wrap">
+      <nav >
+        <ul class="post-actions post-action-nav">
+          
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="http://ytlvy.com/posts/2015-07-28/2015-07-28-swift-exception-handle/" data-tooltip="Swift Exception Handle">
+              
+                  <i class="fa fa-angle-left"></i>
+                  <span class="hide-xs hide-sm text-small icon-ml"></span>
+                </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="http://ytlvy.com/posts/2015-07-28/2015-07-28-ios-nstimer-overflow/" data-tooltip="iOS NSTimer Overflow">
+              
+                  <span class="hide-xs hide-sm text-small icon-mr"></span>
+                  <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+          
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
+      
+        <li class="post-action hide-lg hide-md hide-sm">
+          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+            <i class="fa fa-share-alt"></i>
+          </a>
+        </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://ytlvy.com/posts/2015-07-28/2015-07-28-ios-arc-practices/">
+              <i class="fa fa-facebook-official"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http://ytlvy.com/posts/2015-07-28/2015-07-28-ios-arc-practices/">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=http://ytlvy.com/posts/2015-07-28/2015-07-28-ios-arc-practices/">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        
+      
+      
+        <li class="post-action">
+          <a class="post-action-btn btn btn--default" href="#disqus_thread">
+            <i class="fa fa-comment-o"></i>
+          </a>
+        </li>
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#">
+        
+          <i class="fa fa-list"></i>
+        </a>
+      </li>
+    </ul>
+  </div>
+
+
+      </div>
+      <div id="share-options-bar" class="share-options-bar" data-behavior="1">
+  <i id="btn-close-shareoptions" class="fa fa-close"></i>
+  <ul class="share-options">
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Fytlvy.com%2Fposts%2F2015-07-28%2F2015-07-28-ios-arc-practices%2F">
+          <i class="fa fa-facebook-official"></i><span>%!(EXTRA string=Facebook)</span>
+        </a>
+      </li>
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=http%3A%2F%2Fytlvy.com%2Fposts%2F2015-07-28%2F2015-07-28-ios-arc-practices%2F">
+          <i class="fa fa-twitter"></i><span>%!(EXTRA string=Twitter)</span>
+        </a>
+      </li>
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=http%3A%2F%2Fytlvy.com%2Fposts%2F2015-07-28%2F2015-07-28-ios-arc-practices%2F">
+          <i class="fa fa-google-plus"></i><span>%!(EXTRA string=Google&#43;)</span>
+        </a>
+      </li>
+    
+  </ul>
+</div>
+<div id="share-options-mask" class="share-options-mask"></div>
+    </div>
+    
+    <div id="about">
+  <div id="about-card">
+    <div id="about-btn-close">
+      <i class="fa fa-remove"></i>
+    </div>
+    
+      <img id="about-card-picture" src="//www.gravatar.com/avatar/8d5387e20303e26c6147cfe67990995e?s=110" alt="" />
+    
+    <h4 id="about-card-name">肖杰</h4>
+    
+      <div id="about-card-bio">一个瑜伽|篮球|羽毛球爱好者</div>
+    
+    
+      <div id="about-card-job">
+        <i class="fa fa-briefcase"></i>
+        <br/>
+        搬砖工
+      </div>
+    
+    
+      <div id="about-card-location">
+        <i class="fa fa-map-marker"></i>
+        <br/>
+        Beijing
+      </div>
+    
+  </div>
+</div>
+
+    <div id="algolia-search-modal" class="modal-container">
+  <div class="modal">
+    <div class="modal-header">
+      <span class="close-button"><i class="fa fa-close"></i></span>
+      <a href="https://algolia.com" target="_blank" rel="noopener" class="searchby-algolia text-color-light link-unstyled">
+        <span class="searchby-algolia-text text-color-light text-small">by</span>
+        <img class="searchby-algolia-logo" src="https://www.algolia.com/static_assets/images/press/downloads/algolia-light.svg">
+      </a>
+      <i class="search-icon fa fa-search"></i>
+      <form id="algolia-search-form">
+        <input type="text" id="algolia-search-input" name="search"
+          class="form-control input--large search-input" placeholder="" />
+      </form>
+    </div>
+    <div class="modal-body">
+      <div class="no-result text-color-light text-center"></div>
+      <div class="results">
+        
+        
+      </div>
+    </div>
+    <div class="modal-footer">
+      <p class="results-count text-medium"
+         data-message-zero=""
+         data-message-one=""
+         data-message-other="">
+         0 posts found
+      </p>
+    </div>
+  </div>
+</div>
+    
+  
+    
+    <div id="cover" style="background-image:url('http://ytlvy.com/images/cover.jpg');"></div>
+  
+
+
+    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js" integrity="sha256-/BfiIkHlHoVihZdc6TFuj7MmJ0TWcWsMXkeDFwhi0zw=" crossorigin="anonymous"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.7/js/jquery.fancybox.min.js" integrity="sha256-GEAnjcTqVP+vBp3SSc8bEDQqvWAZMiHyUSIorrWwH50=" crossorigin="anonymous"></script>
+
+
+<script src="http://ytlvy.com/js/script-qi9wbxp2ya2j6p7wx1i6tgavftewndznf4v0hy2gvivk1rxgc3lm7njqb6bz.min.js"></script>
+
+
+
+<script>
+$(document).ready(function() {
+  hljs.configure({ classPrefix: '', useBR: false });
+  $('pre.code-highlight > code, pre > code').each(function(i, block) {
+    if (!$(this).hasClass('codeblock')) {
+      $(this).addClass('codeblock');
+    }
+    hljs.highlightBlock(block);
+  });
+});
+</script>
+
+
+  
+    
+      <script>
+        var disqus_config = function () {
+          this.page.url = 'http:\/\/ytlvy.com\/posts\/2015-07-28\/2015-07-28-ios-arc-practices\/';
+          
+            this.page.identifier = '\/posts\/2015-07-28\/2015-07-28-ios-arc-practices\/'
+          
+        };
+        (function() {
+          
+          
+          if (window.location.hostname == "localhost") {
+            return;
+          }
+          var d = document, s = d.createElement('script');
+          var disqus_shortname = 'hugo-tranquilpeak-theme';
+          s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+
+          s.setAttribute('data-timestamp', +new Date());
+          (d.head || d.body).appendChild(s);
+        })();
+      </script>
+    
+  
+
+
+
+    
+  </body>
+</html>
+

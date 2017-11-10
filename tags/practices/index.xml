@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Practices on My New Hugo Site</title>
+    <link>http://ytlvy.com/tags/practices/</link>
+    <description>Recent content in Practices on My New Hugo Site</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Wed, 05 Aug 2015 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="http://ytlvy.com/tags/practices/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>iOS Best Practices</title>
+      <link>http://ytlvy.com/posts/2015-08-05/2015-08-05-ios-best-practices/</link>
+      <pubDate>Wed, 05 Aug 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-08-05/2015-08-05-ios-best-practices/</guid>
+      <description>&lt;h1 id=&#34;ios-best-practices&#34;&gt;iOS Best Practices&lt;/h1&gt;
+
+&lt;p&gt;这里总结一下iOS最佳实践，主要参考Futurice developers的文章&lt;a href=&#34;https://github.com/futurice/ios-good-practices&#34;&gt;iOS Good Practices&lt;/a&gt;，同时加上了一些自己的理解&lt;/p&gt;
+
+&lt;p&gt;##目录
+* &lt;a href=&#34;#setup_project&#34;&gt;初始化项目&lt;/a&gt;
+* &lt;a href=&#34;#iOS_architecture&#34;&gt;iOS架构&lt;/a&gt;
+* &lt;a href=&#34;#api_design&#34;&gt;API设计&lt;/a&gt;
+* &lt;a href=&#34;#high_quality_code&#34;&gt;高质量代码&lt;/a&gt;
+* &lt;a href=&#34;#code_style&#34;&gt;编码规范&lt;/a&gt;
+* &lt;a href=&#34;#iOS_open_source_lib&#34;&gt;iOS开源库&lt;/a&gt;
+* &lt;a href=&#34;#iOS_basic_skills&#34;&gt;iOS基本技能&lt;/a&gt;
+* &lt;a href=&#34;#build_automation&#34;&gt;自动化构建&lt;/a&gt;
+* &lt;a href=&#34;#optimiaze_app&#34;&gt;优化App&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;b id=&#34;setup_project&#34;&gt;&lt;/b&gt;
+##初始化项目
+###UI采用Interface Builder还是手写代码
+当开始一个iOS项目时，一个常见的问题就是编写所有的views是采用手写代码的方式还是使用Interface Builder的Storyboard或XIB文件。两种方式都可以实现相同UI效果，但几点需要考虑：&lt;/p&gt;
+
+&lt;p&gt;####为什么使用代码？
+* 当多人协作开发时，由于Storyboard复杂的XML结构，它更容易发生版本冲突，这比手写代码的方式更难合并代码。
+* 手写代码更容易地结构化和重用views，因此使你的代码库保持&lt;a href=&#34;http://en.wikipedia.org/wiki/Don%27t_repeat_yourself&#34;&gt;DRY&lt;/a&gt;。
+* 所有的信息都在同一个地方。在Interface Builder中，你必须通过点击所有inspectors才能找到你想要的东西。&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

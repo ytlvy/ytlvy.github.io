@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Extensions on My New Hugo Site</title>
+    <link>http://ytlvy.com/tags/extensions/</link>
+    <description>Recent content in Extensions on My New Hugo Site</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sat, 08 Aug 2015 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="http://ytlvy.com/tags/extensions/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Swift Extensions Nuances</title>
+      <link>http://ytlvy.com/posts/2015-08-08/2015-08-08-swift-extensions-nuances/</link>
+      <pubDate>Sat, 08 Aug 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-08-08/2015-08-08-swift-extensions-nuances/</guid>
+      <description>&lt;h2 id=&#34;swift扩展的三个微妙细节&#34;&gt;Swift扩展的三个微妙细节&lt;/h2&gt;
+
+&lt;blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;原文链接 : &lt;a href=&#34;http://www.andrewcbancroft.com/2015/04/22/3-nuances-of-swift-extensions/&#34;&gt;3 Nuances of Swift Extensions&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;原文作者 : &lt;a href=&#34;http://www.andrewcbancroft.com/&#34;&gt;Andrew Bancroft&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;译文出自 : &lt;a href=&#34;www.devtf.cn&#34;&gt;开发技术前线 www.devtf.cn&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;译者 : &lt;a href=&#34;https://github.com/samw00/&#34;&gt;samw00&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;校对者:&lt;br /&gt;&lt;/li&gt;
+&lt;li&gt;状态 :  校对中&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;每当我初次翻看某文档时，我都走马观花似的快速阅过，还一边点着头一边喃喃自语说：“好！懂了，就这么回事！”，可是过后当我真正要运用到这些我以为已经理解了的知识点时，却发现实际情况和我想的往往不一样，每当这时我就懵了，心想：“哇哦&amp;hellip;怎么回事？这和我想的完全不一样啊！文档里有说这事吗？”。&lt;/p&gt;
+
+&lt;p&gt;最近的几次讨论促使我扪心自问是否真正的理解了Swift中的扩展。我阅读过关于扩展的文档，并且我“认为”我自己对这块内容已经是理解的相当透彻了。可是这几次讨论，加上自己私下通过敲代码的验证，让我发现了我原先不曾注意到几个微妙的细节。&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;更新&lt;/strong&gt;：这篇文章刚一发表，Swift社区就出手襄助并帮助我弄明白了我最根本的纠结点在哪。为此，我写了另一篇文章“&lt;a href=&#34;http://www.andrewcbancroft.com/2015/04/24/clarifying-swift-access-control-hint-swift-isnt-c-sharp/&#34;&gt;阐明Swift访问控制&lt;/a&gt;”进一步说明我之前的误解。为了避免犯我曾今犯过的错误，我建议大家去读一读。&lt;/p&gt;
+
+&lt;h2 id=&#34;三个关于扩展的微妙细节&#34;&gt;三个关于扩展的微妙细节&lt;/h2&gt;
+
+&lt;p&gt;对下面列出的三个细节的思考严重挑战了我之前对Swift扩展的理解：&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;Swift扩展对它所扩展类型的&lt;strong&gt;visibility&lt;/strong&gt;。比如，扩展能访问被&lt;code&gt;private&lt;/code&gt;所修饰的内容吗?&lt;/li&gt;
+&lt;li&gt;定义扩展的位置是否对扩展的&lt;strong&gt;visibility&lt;/strong&gt;有影响。比如我这有一个类型我想写个扩展，把扩展写在同一个源文件里和把扩展写在另一个文件里有什么区别吗？&lt;/li&gt;
+&lt;li&gt;扩展里“成员”的默认访问修饰符以及是否给他们添加修饰对这个扩展作为一个类型的公共接口的影响。&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;在我开始之前，假设我有一个公共结构体&lt;code&gt;Person&lt;/code&gt;。这个结构体有一些私有属性，&lt;code&gt;name&lt;/code&gt;，&lt;code&gt;gender&lt;/code&gt;，和&lt;code&gt;age&lt;/code&gt;。用一个枚举把&lt;code&gt;Gender&lt;/code&gt;封装了一下。这个结构体看起来如下：&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

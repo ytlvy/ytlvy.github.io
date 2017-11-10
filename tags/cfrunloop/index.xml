@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Cfrunloop on My New Hugo Site</title>
+    <link>http://ytlvy.com/tags/cfrunloop/</link>
+    <description>Recent content in Cfrunloop on My New Hugo Site</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Tue, 30 Jun 2015 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="http://ytlvy.com/tags/cfrunloop/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>CFRunLoop examples</title>
+      <link>http://ytlvy.com/posts/2015-06-30/2015-06-30-cfrunloop-examples/</link>
+      <pubDate>Tue, 30 Jun 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-06-30/2015-06-30-cfrunloop-examples/</guid>
+      <description>&lt;h3 id=&#34;第一个&#34;&gt;第一个&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code&gt;#include &amp;lt;CoreFoundation/CoreFoundation.h&amp;gt;  
+  
+static void  
+_perform(void *info __unused)  
+{  
+    printf(&amp;quot;hello\n&amp;quot;);  
+}  
+  
+static void  
+_timer(CFRunLoopTimerRef timer __unused, void *info)  
+{  
+    CFRunLoopSourceSignal(info);  
+}  
+  
+int  
+main()  
+{  
+    CFRunLoopSourceRef source;  
+    CFRunLoopSourceContext source_context;  
+    CFRunLoopTimerRef timer;  
+    CFRunLoopTimerContext timer_context;  
+  
+    bzero(&amp;amp;source_context, sizeof(source_context));  
+    source_context.perform = _perform;  
+    source = CFRunLoopSourceCreate(NULL, 0, &amp;amp;source_context);  
+    CFRunLoopAddSource(CFRunLoopGetCurrent(), source, kCFRunLoopCommonModes);  
+  
+    bzero(&amp;amp;timer_context, sizeof(timer_context));  
+    timer_context.info = source;  
+    timer = CFRunLoopTimerCreate(NULL, CFAbsoluteTimeGetCurrent(), 1, 0, 0, 
+    _timer, &amp;amp;timer_context);  
+    CFRunLoopAddTimer(CFRunLoopGetCurrent(), timer, kCFRunLoopCommonModes);  
+  
+    CFRunLoopRun();  
+  
+    return 0;  
+}  
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

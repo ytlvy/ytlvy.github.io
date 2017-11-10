@@ -1,0 +1,855 @@
+
+
+  
+
+
+  
+
+
+
+
+  
+
+
+  
+
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="Hugo 0.30.2 with theme Tranquilpeak 0.4.2-BETA">
+    <title>jump out of OOP -- Inherit</title>
+    <meta name="author" content="肖杰">
+    <meta name="keywords" content="">
+
+    <link rel="icon" href="http://ytlvy.com/favicon.png">
+    
+
+    
+    <meta name="description" content="reference
+
+跳出面向对象思想(一) 继承
+
+简述
+
+这一系列文章中谈谈面向对象思想的几个部分，并且给出对应的解决方案，这些解决方案有些是用面向过程的思路解决的，有些也还是停留在面向对象中。到最后我会给大家一个比较，然后给出结论。
+
+上下文规范
+
+在进一步地讨论这些概念之前，我需要跟大家达成一个表达上的共识，我会采用下面的语法来表达对象相关的信息
+
+所有的大写字母都是类或对象，小写字母表示属性或方法。
+
+FOO:{ isLoading, _data, render(), _switch() }   这表示一个FOO对象，isLoading、_data是它的属性，render()、_switch()是它的方法，加下划线表示私有。
+
+A -&gt; B                                          这表示从A派生出了B，A是父类。
+
+A -&gt; B:{ [a, b, c(), d()], e, f() }             []里面是父类的东西，e、f()是派生类的东西
+
+B:{ [ A ], e, f() }                             省略了对父类的描述，用类名A代替，其他同上
+
+B:{ [ A ], e, f(), @c() }                       省略了对父类的描述，函数前加@表示重载了父类的方法。
+
+B:{ [ A,D ], e, f() }                           多继承，B继承了A和D
+
+B&lt;protocol&gt;                                     符合某个protocol接口的对象。
+
+&lt;protocol&gt;:{foo(), bar}                         protocol这个接口中包含foo()这个方法，bar这个属性。
+
+foo(A, int)                                     foo这个函数，接收A类和int类型作为参数。
+
+
+">
+    <meta property="og:description" content="reference
+
+跳出面向对象思想(一) 继承
+
+简述
+
+这一系列文章中谈谈面向对象思想的几个部分，并且给出对应的解决方案，这些解决方案有些是用面向过程的思路解决的，有些也还是停留在面向对象中。到最后我会给大家一个比较，然后给出结论。
+
+上下文规范
+
+在进一步地讨论这些概念之前，我需要跟大家达成一个表达上的共识，我会采用下面的语法来表达对象相关的信息
+
+所有的大写字母都是类或对象，小写字母表示属性或方法。
+
+FOO:{ isLoading, _data, render(), _switch() }   这表示一个FOO对象，isLoading、_data是它的属性，render()、_switch()是它的方法，加下划线表示私有。
+
+A -&gt; B                                          这表示从A派生出了B，A是父类。
+
+A -&gt; B:{ [a, b, c(), d()], e, f() }             []里面是父类的东西，e、f()是派生类的东西
+
+B:{ [ A ], e, f() }                             省略了对父类的描述，用类名A代替，其他同上
+
+B:{ [ A ], e, f(), @c() }                       省略了对父类的描述，函数前加@表示重载了父类的方法。
+
+B:{ [ A,D ], e, f() }                           多继承，B继承了A和D
+
+B&lt;protocol&gt;                                     符合某个protocol接口的对象。
+
+&lt;protocol&gt;:{foo(), bar}                         protocol这个接口中包含foo()这个方法，bar这个属性。
+
+foo(A, int)                                     foo这个函数，接收A类和int类型作为参数。
+
+
+">
+    <meta property="og:type" content="blog">
+    <meta property="og:title" content="jump out of OOP -- Inherit">
+    <meta property="og:url" content="/posts/2015-08-04/2015-08-04-jump-out-of-oop-inherit/">
+    <meta property="og:site_name" content="My New Hugo Site">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="My New Hugo Site">
+    <meta name="twitter:description" content="reference
+
+跳出面向对象思想(一) 继承
+
+简述
+
+这一系列文章中谈谈面向对象思想的几个部分，并且给出对应的解决方案，这些解决方案有些是用面向过程的思路解决的，有些也还是停留在面向对象中。到最后我会给大家一个比较，然后给出结论。
+
+上下文规范
+
+在进一步地讨论这些概念之前，我需要跟大家达成一个表达上的共识，我会采用下面的语法来表达对象相关的信息
+
+所有的大写字母都是类或对象，小写字母表示属性或方法。
+
+FOO:{ isLoading, _data, render(), _switch() }   这表示一个FOO对象，isLoading、_data是它的属性，render()、_switch()是它的方法，加下划线表示私有。
+
+A -&gt; B                                          这表示从A派生出了B，A是父类。
+
+A -&gt; B:{ [a, b, c(), d()], e, f() }             []里面是父类的东西，e、f()是派生类的东西
+
+B:{ [ A ], e, f() }                             省略了对父类的描述，用类名A代替，其他同上
+
+B:{ [ A ], e, f(), @c() }                       省略了对父类的描述，函数前加@表示重载了父类的方法。
+
+B:{ [ A,D ], e, f() }                           多继承，B继承了A和D
+
+B&lt;protocol&gt;                                     符合某个protocol接口的对象。
+
+&lt;protocol&gt;:{foo(), bar}                         protocol这个接口中包含foo()这个方法，bar这个属性。
+
+foo(A, int)                                     foo这个函数，接收A类和int类型作为参数。
+
+
+">
+    
+    
+
+    
+    
+
+    
+      <meta property="og:image" content="//www.gravatar.com/avatar/8d5387e20303e26c6147cfe67990995e?s=640">
+    
+
+    
+    
+    
+
+    
+
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/jquery.fancybox.min.css" integrity="sha256-vuXZ9LGmmwtjqFX1F+EKin1ThZMub58gKULUyf0qECk=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/helpers/jquery.fancybox-thumbs.min.css" integrity="sha256-SEa4XYAHihTcEP1f5gARTB2K26Uk8PsndQYHQC1f4jU=" crossorigin="anonymous" />
+    
+    
+    <link rel="stylesheet" href="http://ytlvy.com/css/style-jsjn0006wyhpyzivf6yceb31gvpjatbcs3qzjvlumobfnugccvobqwxnnaj8.min.css" />
+    
+    
+
+    
+      
+    
+    
+  </head>
+
+  <body>
+    <div id="blog">
+      <header id="header" data-behavior="1">
+  <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+  <div class="header-title">
+    <a class="header-title-link" href="http://ytlvy.com/">My New Hugo Site</a>
+  </div>
+  
+    
+      <a class="header-right-picture "
+         href="http://ytlvy.com/#about">
+    
+    
+    
+      
+        <img class="header-picture" src="//www.gravatar.com/avatar/8d5387e20303e26c6147cfe67990995e?s=90" alt="" />
+      
+    
+    </a>
+  
+</header>
+
+      <nav id="sidebar" data-behavior="1">
+  <div class="sidebar-container">
+    
+      <div class="sidebar-profile">
+        <a href="http://ytlvy.com/#about">
+          <img class="sidebar-profile-picture" src="//www.gravatar.com/avatar/8d5387e20303e26c6147cfe67990995e?s=110" alt="" />
+        </a>
+        <h4 class="sidebar-profile-name">肖杰</h4>
+        
+          <h5 class="sidebar-profile-bio">一个瑜伽|篮球|羽毛球爱好者</h5>
+        
+      </div>
+    
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="http://ytlvy.com/">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-home"></i>
+      
+      <span class="sidebar-button-desc">Home</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="http://ytlvy.com/categories">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-bookmark"></i>
+      
+      <span class="sidebar-button-desc">Categories</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="http://ytlvy.com/tags">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+      
+      <span class="sidebar-button-desc">Tags</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="http://ytlvy.com/archives">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
+      
+      <span class="sidebar-button-desc">Archives</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="http://ytlvy.com/#about">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-question"></i>
+      
+      <span class="sidebar-button-desc">About</span>
+    </a>
+  </li>
+
+
+    </ul>
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://github.com/ytlvy" target="_blank" rel="noopener">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-github"></i>
+      
+      <span class="sidebar-button-desc">GitHub</span>
+    </a>
+  </li>
+
+
+    </ul>
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="http://ytlvy.com/index.xml">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-rss"></i>
+      
+      <span class="sidebar-button-desc">RSS</span>
+    </a>
+  </li>
+
+
+    </ul>
+  </div>
+</nav>
+
+      
+
+      <div id="main" data-behavior="1"
+        class="
+               hasCoverMetaIn
+               ">
+        <article class="post" itemscope itemType="http://schema.org/BlogPosting">
+          
+          
+            <div class="post-header main-content-wrap text-left">
+  
+    <h1 class="post-title" itemprop="headline">
+      jump out of OOP -- Inherit
+    </h1>
+  
+  
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2015-08-04T00:00:00Z">
+        
+   4, 2015
+
+      </time>
+    
+    
+  
+  
+    <span></span>
+    
+      <a class="category-link" href="http://ytlvy.com/categories/framework">Framework</a>
+    
+  
+
+  </div>
+
+</div>
+          
+          <div class="post-content markdown" itemprop="articleBody">
+            <div class="main-content-wrap">
+              <p><a href="http://casatwy.com/tiao-chu-mian-xiang-dui-xiang-si-xiang-yi-ji-cheng.html">reference</a></p>
+
+<h2 id="跳出面向对象思想-一-继承">跳出面向对象思想(一) 继承</h2>
+
+<h3 id="简述">简述</h3>
+
+<p>这一系列文章中谈谈面向对象思想的几个部分，并且给出对应的解决方案，这些解决方案有些是用面向过程的思路解决的，有些也还是停留在面向对象中。到最后我会给大家一个比较，然后给出结论。</p>
+
+<h4 id="上下文规范">上下文规范</h4>
+
+<p>在进一步地讨论这些概念之前，我需要跟大家达成一个表达上的共识，我会采用下面的语法来表达对象相关的信息</p>
+
+<pre><code>所有的大写字母都是类或对象，小写字母表示属性或方法。
+
+FOO:{ isLoading, _data, render(), _switch() }   这表示一个FOO对象，isLoading、_data是它的属性，render()、_switch()是它的方法，加下划线表示私有。
+
+A -&gt; B                                          这表示从A派生出了B，A是父类。
+
+A -&gt; B:{ [a, b, c(), d()], e, f() }             []里面是父类的东西，e、f()是派生类的东西
+
+B:{ [ A ], e, f() }                             省略了对父类的描述，用类名A代替，其他同上
+
+B:{ [ A ], e, f(), @c() }                       省略了对父类的描述，函数前加@表示重载了父类的方法。
+
+B:{ [ A,D ], e, f() }                           多继承，B继承了A和D
+
+B&lt;protocol&gt;                                     符合某个protocol接口的对象。
+
+&lt;protocol&gt;:{foo(), bar}                         protocol这个接口中包含foo()这个方法，bar这个属性。
+
+foo(A, int)                                     foo这个函数，接收A类和int类型作为参数。
+</code></pre>
+
+<p></p>
+
+<h3 id="来-我们谈谈对象">来，我们谈谈对象</h3>
+
+<p>面向对象思想三大支柱：继承、封装、多态。这篇文章说的是继承。当然面向对象和面向过程都会有好有坏，但是做决定的时候，更多地还是去权衡值得不值得放弃。关于这样的立场问题，我都会给出非常明确的倾向，不会跟你们打太极。
+如果说这个也好那个也好，那还发表毛个观点，那叫没有观点。</p>
+
+<h3 id="继承">继承</h3>
+
+<p>继承从代码复用的角度来说，特别好用，也特别容易被滥用和被错用。不恰当地使用继承导致的最大的一个缺陷特征就是高耦合。
+在这里我要补充一点，耦合是一个特征，虽然大部分情况是缺陷的特征，但是当耦合成为需求的时候，耦合就不是缺陷了。耦合成为需求的例子在后面会提到。
+我们来看下面这个场景：</p>
+
+<p>有一天，产品经理Yuki说:</p>
+
+<blockquote>
+<p>我们不光首页要有一个搜索框，在进去的这个页面，也要有一个搜索框，只不过这个搜索框要多一些功能，它是可以即时给用户搜索提示的。</p>
+</blockquote>
+
+<p>Casa接到这个任务，他研究了一下代码，说:OK，没问题~
+Casa知道代码里已经有了一个现成的搜索框，Casa立刻从HOME_SEARCH_BAR派生出PAGE_SEARCH_BAR
+嗯，目前事情进展到这里还不错：</p>
+
+<pre><code>HOME_SEARCH_BAR:{textField, search(), init()}
+PAGE_SEARCH_BAR:{ [ HOME_SEARCH_BAR ], overlay, prompt() }
+</code></pre>
+
+<hr />
+
+<p>过了几天，产品经理Yuki要求:</p>
+
+<blockquote>
+<p>用户收藏的东西太多了，我们的app需要有一个本地搜索的功能。</p>
+</blockquote>
+
+<p>Casa轻松通过方法覆盖摆平了这事儿:</p>
+
+<pre><code>HOME_SEARCH_BAR:{textField, search()}
+PAGE_SEARCH_BAR:{ [ HOME_SEARCH_BAR ], overlay, prompt() }
+LOCAL_SEARCH_BAR:{ [ HOME_SEARCH_BAR ], @search() }
+</code></pre>
+
+<hr />
+
+<p>app上线一段时间之后，UED不知哪根筋搭错了，决定要修改搜索框的UI，UED跟Casa说:</p>
+
+<blockquote>
+<p>把HOME_SEARCH_BAR的样式改成这样吧，里面PAGE_SEARCH_BAR还是老样子就OK。</p>
+</blockquote>
+
+<p>Casa表示这个看似简单的修改其实很蛋碎，<code>HOME_SEARCH_BAR</code>的样式一改，<code>PAGE_SEARCH_BAR</code>和<code>LOCAL_SEARCH_BAR</code>都会改变，怎么办呢？ 与其每个手工修一遍，Casa不得已只能给<code>HOME_SEARCH_BAR</code>添加了一个函数：<code>initWithStyle()</code></p>
+
+<pre><code>    HOME_SEARCH_BAR:{ textField, search(), init(), initWithStyle() }
+    PAGE_SEARCH_BAR:{ [ HOME_SEARCH_BAR ], overlay, prompt() }
+    LOCAL_SEARCH_BAR:{ [ HOME_SEARCH_BAR ], @search() }
+</code></pre>
+
+<p>于是代码里面就出现了各种init()和initWithStyle()混用的情况。</p>
+
+<blockquote>
+<p>无所谓了，先把需求应付过去再说。</p>
+</blockquote>
+
+<p>Casa这么想。</p>
+
+<hr />
+
+<p>有一天，另外一个team的leader来对Casa抱怨:</p>
+
+<blockquote>
+<p>搞什么玩意儿？为毛我要把LOCAL_SEARCH_BAR独立出来还特么连带着把那么多文件都弄出来？我就只是想要个本地搜索的功能而已！！</p>
+</blockquote>
+
+<p>这是因为<code>LOCAL_SEARCH_BA</code>R依赖于它的父类<code>HOME_SEARCH_BAR</code>,然而<code>HOME_SEARCH_BAR</code>本身也带着API相关的对象，同时还有数据解析的对象。 也就是说，要想把<code>LOCAL_SEARCH_BAR</code>移植给另外一个TEAM，拔出萝卜带出泥，差不多整个Networking框架都要移植过去。 嗯，Casa又要为了解耦开始一个不眠之夜了～</p>
+
+<hr />
+
+<p>以上是典型的错误使用继承的案例，虽然继承是代码复用的一种方案，但是使用继承仍然是需要好好甄别代码复用的方式的，不是所有场景的代码复用都适用于继承。</p>
+
+<blockquote>
+<p>继承是紧耦合的一种模式，主要的体现就在于牵一发动全身。</p>
+</blockquote>
+
+<ul>
+<li>第一种类型的问题是改了一处，到处都要改，但解决方案还算方便，多添加一个特定的函数(initWithStyle())就好了。只是代码里面难看一点。</li>
+<li>第二种类型的问题是代码复用的时候，要跟着把父类以及父类所有的相关依赖也复制过去，高耦合在复用的时候造成了冗余。</li>
+</ul>
+
+<hr />
+
+<p>对于这样的问题，业界其实早就给出了解决方案：用组合替代继承。将Textfield和search模块拆开，然后通过定义好的接口进行交互，一般来说可以选择Delegate模式来交互。</p>
+
+<p>解决方案：</p>
+
+<pre><code>   &lt;search_protocol&gt;:{search()}
+
+   SEARCH_LOGIC&lt;search_protocol&gt;
+
+   SEARCH_BAR:{textField, SEARCH_LOGIC&lt;search_protocol&gt;}
+
+   HOME_SEARCH_BAR:{SearchBar1, SearchLogic1}
+   PAGE_SEARCH_BAR:{SearchBar2, SearchLogic1}
+   LOCAL_SEARCH_BAR:{SearchBar2, SearchLogic2}
+</code></pre>
+
+<p>这样一来，搜索框和搜索逻辑分别形成了两个不同的组件，分别在<code>HOME_SEARCH_BAR</code>, <code>PAGE_SEARCH_BAR</code>, <code>LOCAL_SEARCH_BAR</code>中以不同的形态组合而成。 <code>textField</code>和<code>SEARCH_LOGIC&lt;search_protocol&gt;</code>之间通过delegate的模式进行数据交互。 这样就解决了上面提到的两种类型的问题。 大部分我们通过代码复用来选择继承的情况，其实都是变成组合比较好。 因此我在团队中一直在推动使用组合来代替继承的方案。 那么什么时候继承才有用呢？</p>
+
+<p>纠结了一下，貌似实在是没什么地方非要用继承不可的。但事实上使用继承，我们得要分清楚层次，使用继承其实是如何给一类对象划分层次的问题。在正确的继承方式中，父类应当扮演的是底层的角色，子类是上层的业务。举两个例子：</p>
+
+<pre><code>Object -&gt; Model
+Object -&gt; View
+Object -&gt; Controller
+
+ApiManager -&gt; DetailManager
+ApiManager -&gt; ListManager
+ApiManager -&gt; CityManager
+</code></pre>
+
+<hr />
+
+<p>这里是有非常明确的层次关系的，我在这里也顺便提一下使用继承的3大要点：</p>
+
+<blockquote>
+<p>父类只是给子类提供服务，并不涉及子类的业务逻辑</p>
+</blockquote>
+
+<pre><code>Object并不影响Model, View, Controller的执行逻辑和业务  
+    Object为子类提供基础服务，例如内存计数等
+
+    ApiManager并不影响其他的Manager  
+    ApiManager只是给派生的Manager提供服务而已,ApiManager做的只会是份内的是，对于子类做的事情不参与。
+</code></pre>
+
+<blockquote>
+<p>层级关系明显，功能划分清晰，父类和子类各做各的。</p>
+</blockquote>
+
+<pre><code>    Object并不参与MVC的管理中，那些都只是各自派生类自己要处理的事情
+
+    DetailManager, ListManager, CityManager都只是处理各自业务的对象  
+    ApiManager并不应该涉足对应的业务。
+</code></pre>
+
+<blockquote>
+<p>父类的所有变化，都需要在子类中体现，也就是说此时耦合已经成为需求</p>
+</blockquote>
+
+<pre><code>    Object对类的描述，对内存引用的计数方式等，都是普遍影响派生类的。  
+    ApiManager中对于网络请求的发起，网络状态的判断，是所有派生类都需要的。  
+    此时，牵一发动全身就已经成为了需求，是适用继承的
+</code></pre>
+
+<hr />
+
+<p>此时我们回过头来看为什么<code>HOME_SEARCH_BAR</code>, <code>PAGE_SEARCH_BAR</code>, <code>LOCAL_SEARCH_BAR</code>采用继承的方案是不恰当的：</p>
+
+<p>1) 他们的父类是HOME_SEARCH_BAR，父类不只提供了服务，也在一定程度上影响了子类的业务逻辑。派生出的子类也是为了要做搜索，虽然搜索的逻辑不同，但是互相涉及到搜索这一块业务了。</p>
+
+<p>2) 子类做搜索，父类也做搜索，虽然处理逻辑不同，但是这是同一个业务，与父类在业务上的联系密切。在层级关系上，HOME_SEARCH_BAR和其派生出的LOCAL_SEARCH_BAR, PAGE_SEARCH_BAR其实是并列关系，并不是上下层级关系。</p>
+
+<p>3) 由于这里所谓的父类和子类其实是并列关系而不是父子关系，且并没有需要耦合的需求，相反，每个派生子类其实都不希望跟父类有耦合，此时耦合不是需求，是缺陷。</p>
+
+<hr />
+
+<h3 id="总结">总结</h3>
+
+<p>可见，代码复用也是分类别的，如果当初只是出于代码复用的目的而不区分类别和场景，就采用继承是不恰当的。我们应当考虑以上3点要素看是否符合，才能决定是否使用继承。就目前大多数的开发任务来看，继承出现的场景不多，主要还是代码复用的场景比较多，然而通过组合去进行代码复用显得要比继承麻烦一些，因为组合要求你有更强的抽象能力，继承则比较符合直觉。然而从未来可能产生的需求变化和维护成本来看，使用组合其实是很值得的。另外，<code>当你发现你的继承超过2层的时候，你就要好好考虑是否这个继承的方案</code>了，第三层继承正是滥用的开端。确定有必要之后，再进行更多层次的继承。</p>
+
+<p>所以我的态度是：<code>万不得已不要用继承，优先考虑组合</code></p>
+              
+            </div>
+          </div>
+          <div id="post-footer" class="post-footer main-content-wrap">
+            
+              
+                
+                
+                  <div class="post-footer-tags">
+                    <span class="text-color-light text-small"></span><br/>
+                    
+  <a class="tag tag--primary tag--small" href="http://ytlvy.com/tags/framework/">Framework</a>
+
+                  </div>
+                
+              
+            
+            
+  <div class="post-actions-wrap">
+      <nav >
+        <ul class="post-actions post-action-nav">
+          
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="http://ytlvy.com/posts/2015-08-04/2015-08-04-ios-gpuimage-simple-use/" data-tooltip="ios GPUImage simple use">
+              
+                  <i class="fa fa-angle-left"></i>
+                  <span class="hide-xs hide-sm text-small icon-ml"></span>
+                </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="http://ytlvy.com/posts/2015-08-04/2015-08-04-jump-out-of-oop-package/" data-tooltip="jump out of OOP -- Package">
+              
+                  <span class="hide-xs hide-sm text-small icon-mr"></span>
+                  <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+          
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
+      
+        <li class="post-action hide-lg hide-md hide-sm">
+          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+            <i class="fa fa-share-alt"></i>
+          </a>
+        </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://ytlvy.com/posts/2015-08-04/2015-08-04-jump-out-of-oop-inherit/">
+              <i class="fa fa-facebook-official"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http://ytlvy.com/posts/2015-08-04/2015-08-04-jump-out-of-oop-inherit/">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=http://ytlvy.com/posts/2015-08-04/2015-08-04-jump-out-of-oop-inherit/">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        
+      
+      
+        <li class="post-action">
+          <a class="post-action-btn btn btn--default" href="#disqus_thread">
+            <i class="fa fa-comment-o"></i>
+          </a>
+        </li>
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#">
+        
+          <i class="fa fa-list"></i>
+        </a>
+      </li>
+    </ul>
+  </div>
+
+
+            
+              
+                <div id="disqus_thread">
+  <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+              
+            
+          </div>
+        </article>
+        <footer id="footer" class="main-content-wrap">
+  <span class="copyrights">
+    &copy; 2017 肖杰. 
+  </span>
+</footer>
+
+      </div>
+      <div id="bottom-bar" class="post-bottom-bar" data-behavior="1">
+        
+  <div class="post-actions-wrap">
+      <nav >
+        <ul class="post-actions post-action-nav">
+          
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="http://ytlvy.com/posts/2015-08-04/2015-08-04-ios-gpuimage-simple-use/" data-tooltip="ios GPUImage simple use">
+              
+                  <i class="fa fa-angle-left"></i>
+                  <span class="hide-xs hide-sm text-small icon-ml"></span>
+                </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="http://ytlvy.com/posts/2015-08-04/2015-08-04-jump-out-of-oop-package/" data-tooltip="jump out of OOP -- Package">
+              
+                  <span class="hide-xs hide-sm text-small icon-mr"></span>
+                  <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+          
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
+      
+        <li class="post-action hide-lg hide-md hide-sm">
+          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+            <i class="fa fa-share-alt"></i>
+          </a>
+        </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://ytlvy.com/posts/2015-08-04/2015-08-04-jump-out-of-oop-inherit/">
+              <i class="fa fa-facebook-official"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http://ytlvy.com/posts/2015-08-04/2015-08-04-jump-out-of-oop-inherit/">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=http://ytlvy.com/posts/2015-08-04/2015-08-04-jump-out-of-oop-inherit/">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        
+      
+      
+        <li class="post-action">
+          <a class="post-action-btn btn btn--default" href="#disqus_thread">
+            <i class="fa fa-comment-o"></i>
+          </a>
+        </li>
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#">
+        
+          <i class="fa fa-list"></i>
+        </a>
+      </li>
+    </ul>
+  </div>
+
+
+      </div>
+      <div id="share-options-bar" class="share-options-bar" data-behavior="1">
+  <i id="btn-close-shareoptions" class="fa fa-close"></i>
+  <ul class="share-options">
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Fytlvy.com%2Fposts%2F2015-08-04%2F2015-08-04-jump-out-of-oop-inherit%2F">
+          <i class="fa fa-facebook-official"></i><span>%!(EXTRA string=Facebook)</span>
+        </a>
+      </li>
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=http%3A%2F%2Fytlvy.com%2Fposts%2F2015-08-04%2F2015-08-04-jump-out-of-oop-inherit%2F">
+          <i class="fa fa-twitter"></i><span>%!(EXTRA string=Twitter)</span>
+        </a>
+      </li>
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=http%3A%2F%2Fytlvy.com%2Fposts%2F2015-08-04%2F2015-08-04-jump-out-of-oop-inherit%2F">
+          <i class="fa fa-google-plus"></i><span>%!(EXTRA string=Google&#43;)</span>
+        </a>
+      </li>
+    
+  </ul>
+</div>
+<div id="share-options-mask" class="share-options-mask"></div>
+    </div>
+    
+    <div id="about">
+  <div id="about-card">
+    <div id="about-btn-close">
+      <i class="fa fa-remove"></i>
+    </div>
+    
+      <img id="about-card-picture" src="//www.gravatar.com/avatar/8d5387e20303e26c6147cfe67990995e?s=110" alt="" />
+    
+    <h4 id="about-card-name">肖杰</h4>
+    
+      <div id="about-card-bio">一个瑜伽|篮球|羽毛球爱好者</div>
+    
+    
+      <div id="about-card-job">
+        <i class="fa fa-briefcase"></i>
+        <br/>
+        搬砖工
+      </div>
+    
+    
+      <div id="about-card-location">
+        <i class="fa fa-map-marker"></i>
+        <br/>
+        Beijing
+      </div>
+    
+  </div>
+</div>
+
+    <div id="algolia-search-modal" class="modal-container">
+  <div class="modal">
+    <div class="modal-header">
+      <span class="close-button"><i class="fa fa-close"></i></span>
+      <a href="https://algolia.com" target="_blank" rel="noopener" class="searchby-algolia text-color-light link-unstyled">
+        <span class="searchby-algolia-text text-color-light text-small">by</span>
+        <img class="searchby-algolia-logo" src="https://www.algolia.com/static_assets/images/press/downloads/algolia-light.svg">
+      </a>
+      <i class="search-icon fa fa-search"></i>
+      <form id="algolia-search-form">
+        <input type="text" id="algolia-search-input" name="search"
+          class="form-control input--large search-input" placeholder="" />
+      </form>
+    </div>
+    <div class="modal-body">
+      <div class="no-result text-color-light text-center"></div>
+      <div class="results">
+        
+        
+      </div>
+    </div>
+    <div class="modal-footer">
+      <p class="results-count text-medium"
+         data-message-zero=""
+         data-message-one=""
+         data-message-other="">
+         0 posts found
+      </p>
+    </div>
+  </div>
+</div>
+    
+  
+    
+    <div id="cover" style="background-image:url('http://ytlvy.com/images/cover.jpg');"></div>
+  
+
+
+    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js" integrity="sha256-/BfiIkHlHoVihZdc6TFuj7MmJ0TWcWsMXkeDFwhi0zw=" crossorigin="anonymous"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.7/js/jquery.fancybox.min.js" integrity="sha256-GEAnjcTqVP+vBp3SSc8bEDQqvWAZMiHyUSIorrWwH50=" crossorigin="anonymous"></script>
+
+
+<script src="http://ytlvy.com/js/script-qi9wbxp2ya2j6p7wx1i6tgavftewndznf4v0hy2gvivk1rxgc3lm7njqb6bz.min.js"></script>
+
+
+
+<script>
+$(document).ready(function() {
+  hljs.configure({ classPrefix: '', useBR: false });
+  $('pre.code-highlight > code, pre > code').each(function(i, block) {
+    if (!$(this).hasClass('codeblock')) {
+      $(this).addClass('codeblock');
+    }
+    hljs.highlightBlock(block);
+  });
+});
+</script>
+
+
+  
+    
+      <script>
+        var disqus_config = function () {
+          this.page.url = 'http:\/\/ytlvy.com\/posts\/2015-08-04\/2015-08-04-jump-out-of-oop-inherit\/';
+          
+            this.page.identifier = '\/posts\/2015-08-04\/2015-08-04-jump-out-of-oop-inherit\/'
+          
+        };
+        (function() {
+          
+          
+          if (window.location.hostname == "localhost") {
+            return;
+          }
+          var d = document, s = d.createElement('script');
+          var disqus_shortname = 'hugo-tranquilpeak-theme';
+          s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+
+          s.setAttribute('data-timestamp', +new Date());
+          (d.head || d.body).appendChild(s);
+        })();
+      </script>
+    
+  
+
+
+
+    
+  </body>
+</html>
+

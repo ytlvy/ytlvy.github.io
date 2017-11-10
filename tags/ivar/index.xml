@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Ivar on My New Hugo Site</title>
+    <link>http://ytlvy.com/tags/ivar/</link>
+    <description>Recent content in Ivar on My New Hugo Site</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Mon, 13 Jul 2015 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="http://ytlvy.com/tags/ivar/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>iOS Runtime 成员变量与属性</title>
+      <link>http://ytlvy.com/posts/2015-07-13/2015-07-13-ios-runtime-%E6%88%90%E5%91%98%E5%8F%98%E9%87%8F%E4%B8%8E%E5%B1%9E%E6%80%A7/</link>
+      <pubDate>Mon, 13 Jul 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-07-13/2015-07-13-ios-runtime-%E6%88%90%E5%91%98%E5%8F%98%E9%87%8F%E4%B8%8E%E5%B1%9E%E6%80%A7/</guid>
+      <description>&lt;h3 id=&#34;习题内容&#34;&gt;习题内容&lt;/h3&gt;
+
+&lt;p&gt;下面代码会? Compile Error / Runtime Crash / NSLog…?&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;@interface Sark : NSObject
+@property (nonatomic, copy) NSString *name;
+@end
+
+@implementation Sark
+
+- (void)speak {
+    NSLog(@&amp;quot;my name is %@&amp;quot;, self.name);
+}
+
+@end
+
+@interface Test : NSObject
+@end
+
+@implementation Test
+
+- (instancetype)init {
+    self = [super init];
+    if (self) {
+        id cls = [Sark class];
+        void *obj = &amp;amp;cls;
+        [(__bridge id)obj speak];
+    }
+    return self;
+}
+
+@end
+
+int main(int argc, const char * argv[]) {
+    @autoreleasepool {
+        [[Test alloc] init];
+    }
+    return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;答案：代码正常输出，输出结果为：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;2014-11-07 14:08:25.698 Test[1097:57255] my name is &amp;lt;Test: 0x1001002d0&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Background on My New Hugo Site</title>
+    <link>http://ytlvy.com/tags/background/</link>
+    <description>Recent content in Background on My New Hugo Site</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sat, 08 Aug 2015 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="http://ytlvy.com/tags/background/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>iOS Background Modes Tutorial</title>
+      <link>http://ytlvy.com/posts/2015-08-08/2015-08-08-ios-background-modes-tutorial/</link>
+      <pubDate>Sat, 08 Aug 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-08-08/2015-08-08-ios-background-modes-tutorial/</guid>
+      <description>&lt;h1 id=&#34;ios后台模式开发指南&#34;&gt;iOS后台模式开发指南&lt;/h1&gt;
+
+&lt;hr /&gt;
+
+&lt;blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;原文链接 : &lt;a href=&#34;http://www.raywenderlich.com/92428/background-modes-ios-swift-tutorial&#34;&gt;Background Modes Tutorial: Getting Started&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;原文作者 : &lt;a href=&#34;http://www.raywenderlich.com/u/rayfix&#34;&gt; Ray Fix &lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;译者 : &lt;a href=&#34;https://github.com/MollyMmm&#34;&gt;MollyMmm&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;校对者:David Hu&lt;/li&gt;
+&lt;li&gt;状态 :  已完成&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;更新说明:这个教程被Ray Fix更新为关于iOS和Swift的.原著作者为&lt;a href=&#34;http://www.raywenderlich.com/29948/backgrounding-for-ios&#34;&gt;Gustavo Ambrozio&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;自从古老的iOS4以来,当用户点击home建的时候,你可以使你的APP们在内存中处于suspended(挂起)状态.即使APP仍停留在内存中,它的所有操作是被暂停的直到用户再次运行它.&lt;/p&gt;
+
+&lt;p&gt;当然这个规则中有例外情况.在特定的情况下,这个APP仍然可以在后台中执行某些操作.这个教程会教你在什么时候怎么去用最常用的一些后台操作.&lt;/p&gt;
+
+&lt;p&gt;每一次iOS的发布都会在后台操作和细节上的放宽限制，以此提升用户体验和延长电池寿命.对于在iOS中实现&amp;rdquo;真正&amp;rdquo;的多任务来说,后台模式不是一个神奇的解决办法.当用户切换到其他的APP应用时,大多数的APP应用仍然会完全的暂停运行.你的应用只被允许在很特殊的情况下才能在后台中继续运行.例如,这些包括播放音频,获取位置更新,或者从服务器获取最新内容的情况.&lt;/p&gt;
+
+&lt;p&gt;iOS7之前,APP应用在真正暂停之前会有连续10分钟的时间去完成它们当前的操作.随着NSURLSession的出现,有了一种更为优雅的方式去应对大量的网络切换.因此,对于可用的后台运行时间已经减少到只有几分钟,而且不再必须为连续的.&lt;/p&gt;
+
+&lt;p&gt;这样的后台模式可能不适合你.但如果合适,请继续阅读!&lt;/p&gt;
+
+&lt;p&gt;接下来的学习中,将会有几个几个后台模式提供给你.在本教程中你将建立一个关于简单标签应用的工程,来探索从连续播放视频到周期性的获取更新内容的四种常见模式.&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

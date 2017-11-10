@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Crash on My New Hugo Site</title>
+    <link>http://ytlvy.com/tags/crash/</link>
+    <description>Recent content in Crash on My New Hugo Site</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Tue, 21 Jul 2015 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="http://ytlvy.com/tags/crash/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>iOS wild pointer crash</title>
+      <link>http://ytlvy.com/posts/2015-07-21/2015-07-21-ios-wild-pointer-crash/</link>
+      <pubDate>Tue, 21 Jul 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-07-21/2015-07-21-ios-wild-pointer-crash/</guid>
+      <description>转自
+先提高野指针Crash率 写c、c++代码的同学应该都清楚，crash最多的原因通常有两种，一种是多线程，一种是野指针。这两种crash都带随机性，而且这两种crash有相当一部分都很难区分，甚至大量的crash只有系统栈，如果不能根据日志重现，几乎是无解，让人非常蛋疼。
+本文主要讨论的方向是objc的野指针。objc的野指针最常见的一种栈是objc_msgSend，从Bugly上报的Crash数据来看，objc_msgSend的量占了五分之一，这其中大多数是objc野指针。当然也有相当多的objc野指针不是这种表现，所以野指针的crash体量很惊人
+为什么Obj-C野指针的Crash那么多？ 我们有这么多自动化和人工测试流程，而且还有几轮的灰度过程，其实很多crash场景都应该已经覆盖到了，但随机性意味着，测试的时候它没有问题，等用户用了才有问题，这种情况该怎么办？！
+我觉得关键在于它的随机性，随机性问题我初略地分为两类：
+第一类是跑不进出错的逻辑，执行不到出错的代码，这种可以提高测试场景覆盖度来解决。
+第二类是跑进了有问题的逻辑，但是野指针指向的地址并不一定会导致crash，这好像要看人品了？ 一说到人品就头疼啊有木有，由于上辈子做了太多善事，人品太好每次自测的时候根本不crash有木有！
+先来分析分析 野指针是指指向一个已删除的对象或未申请访问受限内存区域的指针。本文说的objc野指针，说的是objc对象释放之后指针未置空，导致的野指针（objc里面一般不会出现为初始化对象的常识性错误）。
+既然是访问已经释放的对象为什么不是必现crash呢？ 因为dealloc执行后只是告诉系统，这片内存我不用了，而系统并没有就让这片内存不能访问。
+现实大概是下面几种可能的情况：
+ 对象释放后内存没被改动过，原来的内存保存完好，可能不crash或者出现逻辑错误（随机crash）。 对象释放后内存没被改动过，但是它自己析构的时候已经删掉某些必要的东西，可能不crash、crash在访问依赖的对象比如类成员上、出现逻辑错误（随机crash）。 对象释放后内存被改动过，写上了不可访问的数据，直接就出错了很可能crash在objc_msgSend上面（必现crash，常见）。 对象释放后内存被改动过，写上了可以访问的数据，可能不crash、出现逻辑错误、间接访问到不可访问的数据（随机crash）。 对象释放后内存被改动过，写上了可以访问的数据，但是再次访问的时候执行的代码把别的数据写坏了，遇到这种crash只能哭了（随机crash，难度大，概率低）！！ 对象释放后再次release（几乎是必现crash，但也有例外，很常见）。  参考下面的这张图： 看看下面的代码，明显有问题，但是大部分时候是不会crash的。
+UIView* testObj=[[UIView alloc] init]; [testObj release]; [testObj setNeedsLayout];  让随机变成不随机 从上面列的情况来看，出现随机Crash的情况有很多种！这是得多蛋疼呢！或许最好的办法让他们全都立马crash，然后把野指针都找出来！ 仔细看看上面的关键路径只有出现被随机填入的数据是不可访问的时候才会必现crash。
+这个地方我们可以做一下手脚，把这一随机的过程变成不随机的过程。对象释放后在内存上填上不可访问的数据，其实这种技术其实一直都有，xcode的Enable Scribble就是这个作用。 下面我们就拿刚刚的代码试一下。
+scheme=&amp;gt;run=&amp;gt;diagnostics=&amp;gt;Enable Scribble
+果然，必现了，0x5555561！！
+但是有个问题：这货不能放在测试同学那边用！因为总不能让测试同学装了xcode来测试吧？
+于是我们自己动手实现一个，这个过程中我们要解决几个问题：
+ 怎么在内存释放后填上不可访问的数据？内存释放很可能不在我们的代码中。为此我们需要hook对象释放的接口，内存释放之后马上执行我们的破坏工作。 我们要重写对象释放的接口，重写哪个呢？NSObject的dealloc、runtime的 object_dispose，c的free应该都是可以，但是各有优点，我选择的是覆盖面最广的free，free是c的函数，重写了它之后还可以顺带解决一部分c的野指针问题。 怎么重写？重写c的接口场景的有两种： a. 替换系统动态库 b.hook . 替换动态库太麻烦，还不知道行不行得通；hook我们就找现成的fishhook，github里面找的，但现成的代码需要防止代码冲突。 填充的不可访问的数据的长度怎么确定？获取内存长度的接口不在标准库中，好在在Mac和iOS中可以用malloc_size就可以。 填什么？和xcode一样，填0x55  上hook后的free代码：
+void safe_free(void* p){ size_t memSiziee=malloc_size(p); memset(p, 0x55, memSiziee); orig_free(p); return; }  测试一下，出现了和Enable Scribble一样的crash！ 重复造了这个xcode的轮子之后，以后编包给测试，终于在某些情况下不需要那么拼人品了。但是这仅仅覆盖了众多野指针中的一部分，还有大量的疑问等着继续解答。比如：</description>
+    </item>
+    
+    <item>
+      <title>iOS Crash文件的解析</title>
+      <link>http://ytlvy.com/posts/2015-07-15/2015-07-15-ios-crash%E6%96%87%E4%BB%B6%E7%9A%84%E8%A7%A3%E6%9E%90/</link>
+      <pubDate>Wed, 15 Jul 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-07-15/2015-07-15-ios-crash%E6%96%87%E4%BB%B6%E7%9A%84%E8%A7%A3%E6%9E%90/</guid>
+      <description>&lt;p&gt;-&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;http://www.cnblogs.com/smileEvday/p/Crash1.html&#34;&gt;转自&lt;/a&gt;&lt;/p&gt;
+
+&lt;h1 id=&#34;ios-crash文件的解析&#34;&gt;iOS Crash文件的解析&lt;/h1&gt;
+
+&lt;p&gt;开发程序的过程中不管我们已经如何小心，总是会在不经意间遇到程序闪退。脑补一下当你在一群人面前自信的拿着你的App做功能预演的时候，流畅的操作被无情地Crash打断。联想起老罗在发布Smartisan OS的时候说了，他准备了10个手机，如果一台有问题，就换一台，如果10台后挂了他就不做手机了。好了不闲扯了，今天就跟大家一起聊聊iOSCrash文件的组成以及常用的分析工具。&lt;/p&gt;
+
+&lt;p&gt;　　有一个WWDC 2010的视频推荐大家抽空看看，视频名称&lt;a href=&#34;https://developer.apple.com/videos/wwdc/2010/?id=317&#34;&gt;&amp;ldquo;Understanding Crash Reports on iPhone OS&amp;rdquo;&lt;/a&gt;，该视频详细讲解了Crash文件的结构。当然如果你没时间看的话，不妨阅读以下这篇文章。&lt;/p&gt;
+
+&lt;h2 id=&#34;crash文件结构&#34;&gt;Crash文件结构&lt;/h2&gt;
+
+&lt;p&gt;当程序运行Crash的时候，系统会把运行的最后时刻的运行信息记录下来，存储到一个文件中，也就是我们所说的Crash文件。iOS的Crash日志通常由以下6各部分组成。 &lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>
