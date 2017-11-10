@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Memory on My New Hugo Site</title>
+    <link>http://ytlvy.com/categories/memory/</link>
+    <description>Recent content in Memory on My New Hugo Site</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Tue, 04 Aug 2015 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="http://ytlvy.com/categories/memory/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>C programe memory management</title>
+      <link>http://ytlvy.com/posts/2015-08-04/2015-08-04-c-programe-memory-management/</link>
+      <pubDate>Tue, 04 Aug 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-08-04/2015-08-04-c-programe-memory-management/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;http://casatwy.com/ccheng-xu-de-nei-cun-guan-li.html&#34;&gt;reference&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;c程序的内存管理&#34;&gt;C程序的内存管理&lt;/h2&gt;
+
+&lt;h3 id=&#34;简述&#34;&gt;简述&lt;/h3&gt;
+
+&lt;p&gt;自从自动内存管理嵌入到各种各样的语言之后，我们就很少会去关注这方面的事情了，这些功能的设计者和实现者们为此付出的努力值得我们称赞，期间也涌现了多种不同的内存管理方案。目前大部分语言的主流内存管理方案是Garbage Collector。苹果推出的Auto Reference Count也因为基于编译器自动添加手工计数的代码而带来了更好的性能提升。我在这里总结了一些从上古时代到如今在C程序下进行内存管理的技术。同时，也为你更深入地了解其他语言中内存管理模块的原理提供了知识背景。&lt;/p&gt;
+
+&lt;h3 id=&#34;管理固定大小的内存&#34;&gt;管理固定大小的内存&lt;/h3&gt;
+
+&lt;h4 id=&#34;栈内存&#34;&gt;栈内存&lt;/h4&gt;
+
+&lt;p&gt;栈内存应该是最容易管理的了，只要理解&lt;code&gt;生存域&lt;/code&gt;就能理解占内存的管理方式。生存域就是这样：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;int main ()
+    {
+        int array[] = {1,2,3,4,5};
+                              ------------------|
+        if ( i &amp;gt; 0 ) {                          |
+            ...                                 |
+            ...                                 |
+        }                                       |
+        foo(array);                             |
+                                                |
+        {                                       |
+            int k = 9;        ---               |
+            array[1] = k;       |-&amp;gt;k的生存域     |-&amp;gt;array的生存域
+            ...               ---               |
+        }                                       |
+    }                                           |
+                                                |
+    void foo(int * const number) {              |
+        int j = 0;                              |
+                              ---               |
+        ...                     |               |
+        number[2] = j;          |-&amp;gt;j的生存域     |
+        ...                     |               |
+                              -------------------
+    }
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

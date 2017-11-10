@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Argument on My New Hugo Site</title>
+    <link>http://ytlvy.com/tags/argument/</link>
+    <description>Recent content in Argument on My New Hugo Site</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Tue, 04 Aug 2015 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="http://ytlvy.com/tags/argument/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Variable Argument Lists</title>
+      <link>http://ytlvy.com/posts/2015-08-04/2015-08-04-variable-argument-lists/</link>
+      <pubDate>Tue, 04 Aug 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-08-04/2015-08-04-variable-argument-lists/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;http://gracelancy.com/blog/2014/05/05/variable-argument-lists/&#34;&gt;转自&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;variable-argument-lists&#34;&gt;Variable Argument Lists&lt;/h2&gt;
+
+&lt;h3 id=&#34;variable-argument-lists-使用方法&#34;&gt;Variable argument lists 使用方法&lt;/h3&gt;
+
+&lt;p&gt;可变参数函数（&lt;code&gt;Variadic Function&lt;/code&gt;），即是指一个可以接受可变数量的参数的函数。在C语言中，对该特性的支持，即是通过可变参数列表（Variable Argument list）来实现的，其定义在stdarg.h头文件。(若使用C++则在cstdarg头文件)。&lt;/p&gt;
+
+&lt;p&gt;以如下C代码为例说明，该函数接受可变数量的整数作为参数，求和：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;int addemUp (int firstNum, ...) {
+  // 1. 参数后面添加省略号...
+    va_list args;  // 2. 创建一个va_list类型的变量
+    int sum = firstNum;
+    int number;
+    va_start(args, firstNum); // 3. 初始化va_list，此时va_list指向firstNum之后的第一个参数
+    while (1) {
+        number = va_arg(args, int); // 4. 获取当前指向的参数的值，并移动到下一个参数
+        sum += number;
+        if (number == 0) {
+          // 用0表示结束
+            break;
+        }
+    }
+    va_end(args); // 5. 清理
+    return  sum;
+}
+
+// 调用
+sum = addemUp(1,2,3,4,5,0);
+// sum = 15
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;ol&gt;
+&lt;li&gt;要创建一个可变参数函数，需要把一个省略号（…)放在函数的参数列表后面。&lt;/li&gt;
+&lt;li&gt;接着需要声明一个一个&lt;code&gt;va_list&lt;/code&gt;类型的变量，这个&lt;code&gt;va_list&lt;/code&gt;类型的变量类似于一个指向参数的指针。&lt;/li&gt;
+&lt;li&gt;接着我们调用&lt;code&gt;va_start()&lt;/code&gt;并传入函数的最后一个声明的参数的变量名，来使得&lt;code&gt;va_list&lt;/code&gt;变量指向第一个附加的参数。&lt;/li&gt;
+&lt;li&gt;接着我们调用&lt;code&gt;va_arg()&lt;/code&gt;并传入我们期待的参数类型，程序就会返回与该类型匹配数量的字节（即参数的值），并且移动va_list指向下一个参数。之后不断的调用&lt;code&gt;va_arg()&lt;/code&gt;，获得更多的参数的值，直到完成整个参数处理的过程。&lt;/li&gt;
+&lt;li&gt;最后调用&lt;code&gt;va_end()&lt;/code&gt;来进行清理。&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h3 id=&#34;variable-argument-lists-的内部机制&#34;&gt;variable argument lists 的内部机制&lt;/h3&gt;
+
+&lt;p&gt;如我们之前所说，当我们调用 &lt;code&gt;va_start()&lt;/code&gt; 并将 &lt;code&gt;va_list&lt;/code&gt; 和函数最后定义的参数传入时，实际上是将 &lt;code&gt;va_list&lt;/code&gt; 内在的一个指针指向函数调用栈 （&lt;code&gt;call stack&lt;/code&gt;）中参数所在的区域的一端，每一次我们调用&lt;code&gt;va_arg()&lt;/code&gt;，其都会根据提供的类型，返回当前指针所指向的地址开始对应的字节数的数据，即参数的值，并移动指针相应字节数的距离。我们传给&lt;code&gt;va_arg()&lt;/code&gt;的类型，即是其用来判定需要取得得数据的大小，以及指针需要移动的距离。如图描述了这个过程：&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://gracelancy.com/assets/post/val0.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;事实上，这是一个很危险的事情，你总是需要提供正确的类型来让va_arg()正确执行，而且va_arg()并不知道何时停止，你需要提供一个标记或一个参数的总数来停止va_arg()继续执行。若你提供了不正确的类型，或者没有在该停止的时候停止，你将会获得不可预测的值，并且很有可能导致程序崩溃。&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

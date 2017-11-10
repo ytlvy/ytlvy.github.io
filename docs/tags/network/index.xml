@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Network on My New Hugo Site</title>
+    <link>http://ytlvy.com/tags/network/</link>
+    <description>Recent content in Network on My New Hugo Site</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Tue, 04 Aug 2015 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="http://ytlvy.com/tags/network/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>iOS NSURLProtocal</title>
+      <link>http://ytlvy.com/posts/2015-08-04/2015-08-04-ios-nsurlprotocal/</link>
+      <pubDate>Tue, 04 Aug 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-08-04/2015-08-04-ios-nsurlprotocal/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;http://xiangwangfeng.com/2014/11/29/NSURLProtocol%E5%92%8CNSRunLoop%E7%9A%84%E9%82%A3%E4%BA%9B%E5%9D%91/&#34;&gt;转自&lt;/a&gt;
+最近用AFNetworking替换掉了工程里的ASIHttpRequest，结果陆续碰到很多问题：&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;如何统一地添加全局的HTTP头(不仅仅是UA而已)&lt;/li&gt;
+&lt;li&gt;如何优雅地进行流量统计&lt;/li&gt;
+&lt;li&gt;对特定的地址进行CDN加速(URL到IP的替换)&lt;/li&gt;
+&lt;li&gt;怎么实现HTTP的同步请求&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;前三个需求对于ASIHttpReqeust来说都不是问题，只需要在几个统一的点进行修改即可。而使用AFNetworking后就没有那么容易了：一方面AFNetworking中生成NSURLRequest的点比较多，并没有一个统一的路径。其次工程中会有部分直接使用NSURLConnecion的场景，无法统一。经cyzju提醒发现了NSURLProtocol这个大杀器，可惜对应的文档过于简略，唯一比较详细的介绍就只有RW的这篇教程而已，掉了很多坑，值得记上一笔。&lt;/p&gt;
+
+&lt;h2 id=&#34;nsurlprotocol&#34;&gt;NSURLProtocol&lt;/h2&gt;
+
+&lt;h3 id=&#34;概念&#34;&gt;概念&lt;/h3&gt;
+
+&lt;p&gt;NSURLProtocol也是苹果众多黑魔法中的一种，使用它可以轻松地重定义整个URL Loading System。当你注册自定义NSURLProtocol后，就有机会对所有的请求进行统一的处理，基于这一点它可以让你
+- 自定义请求和响应
+- 提供自定义的全局缓存支持
+- 重定向网络请求
+- 提供HTTP Mocking (方便前期测试)
+- 其他一些全局的网络请求修改需求&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

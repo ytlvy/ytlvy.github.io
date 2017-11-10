@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Pixel on My New Hugo Site</title>
+    <link>http://ytlvy.com/tags/pixel/</link>
+    <description>Recent content in Pixel on My New Hugo Site</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Wed, 15 Jul 2015 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="http://ytlvy.com/tags/pixel/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>iOS 绘制1像素的线</title>
+      <link>http://ytlvy.com/posts/2015-07-15/2015-07-15-ios-%E7%BB%98%E5%88%B61%E5%83%8F%E7%B4%A0%E7%9A%84%E7%BA%BF/</link>
+      <pubDate>Wed, 15 Jul 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-07-15/2015-07-15-ios-%E7%BB%98%E5%88%B61%E5%83%8F%E7%B4%A0%E7%9A%84%E7%BA%BF/</guid>
+      <description>iOS 绘制1像素的线 Point Vs Pixel iOS中当我们使用Quartz，UIKit，CoreAnimation等框架时，所有的坐标系统采用Point来衡量。系统在实际渲染到设置时会帮助我们处理Point到Pixel的转换。 这样做的好处隔离变化，即我们在布局的事后不需要关注当前设备是否为Retina，直接按照一套坐标系统来布局即可。
+实际使用中我们需要牢记下面这一点:
+One point does not necessarily correspond to one physical pixel.  1 Point的线在非Retina屏幕则是一个像素，在Retina屏幕上则可能是2个或者3个，取决于系统设备的DPI。
+iOS系统中，UIScreen，UIView，UIImage，CALayer类都提供相关属性来获取scale factor。 原生的绘制技术天然的帮我们处理了scale factor，例如在drawRect:方法中，UIKit自动的根据当前运行的设备设置了正切的scale factor。所以我们在drawRect: 方法中绘制的任何内容都会被自动缩放到设备的物理屏幕上。
+基于以上信息可以看出，我们大部分情况下都不需要去关注pixel，然而存在部分情况需要考虑像素的转化。
+例如画1个像素的分割线  看到这个问题你的第一想法可能是，直接根据当前屏幕的缩放因子计算出1 像素线对应的Point，然后设置线宽即可。 代码如下:
+1.0f / [UIScreen mainScreen].scale  表面上看着一切正常了，但是通过实际的设备测试你会发现渲染出来的线宽并不是1个像素。
+ Why?
+ 为了获得良好的视觉效果，绘图系统通常都会采用一个叫&amp;rdquo;antialiasing(反锯齿)&amp;ldquo;的技术，iOS也不例外。 显示屏幕有很多小的显示单元组成，可以接单的理解为一个单元就代表一个像素。如果要画一条黑线，条线刚好落在了一列或者一行显示显示单元之内，将会渲染出标准的一个像素的黑线。 但如果线落在了两个行或列的中间时，那么会得到一条&amp;rdquo;失真&amp;rdquo;的线，其实是两个像素宽的灰线。
+如下图所示:  Positions defined by whole-numbered points fall at the midpoint between pixels. For example, if you draw a one-pixel-wide vertical line from (1.0, 1.</description>
+    </item>
+    
+  </channel>
+</rss>

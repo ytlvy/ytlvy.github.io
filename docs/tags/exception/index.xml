@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Exception on My New Hugo Site</title>
+    <link>http://ytlvy.com/tags/exception/</link>
+    <description>Recent content in Exception on My New Hugo Site</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Tue, 28 Jul 2015 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="http://ytlvy.com/tags/exception/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Swift Exception Handle</title>
+      <link>http://ytlvy.com/posts/2015-07-28/2015-07-28-swift-exception-handle/</link>
+      <pubDate>Tue, 28 Jul 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-07-28/2015-07-28-swift-exception-handle/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;http://blog.callmewhy.com/2015/04/20/error-handling-in-swift/&#34;&gt;转自&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;swift-中的异常处理&#34;&gt;Swift 中的异常处理&lt;/h2&gt;
+
+&lt;h3 id=&#34;问题&#34;&gt;问题&lt;/h3&gt;
+
+&lt;p&gt;在开发过程中，异常处理算是比较常见的问题了。&lt;/p&gt;
+
+&lt;p&gt;举一个比较常见的例子：用户修改注册的邮箱，大概分为以下几个步骤：&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;接收到一个用户的请求：我要修改邮箱地址&lt;/li&gt;
+&lt;li&gt;验证一下请求是否合法，将请求进行格式转化&lt;/li&gt;
+&lt;li&gt;更新以前的邮箱地址记录&lt;/li&gt;
+&lt;li&gt;给新的邮箱地址发送验证邮件&lt;/li&gt;
+&lt;li&gt;将结果返回给用户&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;上面的步骤如果一切顺利，那代码肯定干净利落，但是人生不如意十有八九，上面的步骤很容易出现问题：&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;用户把邮箱地址填成了家庭地址&lt;/li&gt;
+&lt;li&gt;用户是个黑客，没登录就发送了更新请求&lt;/li&gt;
+&lt;li&gt;发送验证邮件的时候服务器爆炸了，发送邮件失败&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;各种异常都会导致这次操作的失败。&lt;/p&gt;
+
+&lt;h3 id=&#34;方案一&#34;&gt;方案一&lt;/h3&gt;
+
+&lt;p&gt;在传统的处理方案里，一般是遇到异常就往上抛：
+&lt;img src=&#34;http://segmentfault.com/img/bVlsK9&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;这种方案想必大家都不陌生，比如下面这段代码：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;NSError *err = nil;
+CGFloat result = [MathTool divide:2.5 by:3.0 error:&amp;amp;err];
+
+if (err) {
+    NSLog(@&amp;quot;%@&amp;quot;, err)
+} else {
+    [MathTool doSomethingWithResult:result]
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

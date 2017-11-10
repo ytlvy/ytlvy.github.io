@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Super on My New Hugo Site</title>
+    <link>http://ytlvy.com/tags/super/</link>
+    <description>Recent content in Super on My New Hugo Site</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Mon, 13 Jul 2015 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="http://ytlvy.com/tags/super/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>iOS Runtime Self &amp; Super</title>
+      <link>http://ytlvy.com/posts/2015-07-13/2015-07-13-ios-runtime-self-super/</link>
+      <pubDate>Mon, 13 Jul 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-07-13/2015-07-13-ios-runtime-self-super/</guid>
+      <description>&lt;h2 id=&#34;self-super&#34;&gt;Self &amp;amp;&amp;amp; Super&lt;/h2&gt;
+
+&lt;h3 id=&#34;what-is-super&#34;&gt;What is Super?&lt;/h3&gt;
+
+&lt;p&gt;&lt;code&gt;Super&lt;/code&gt; 是和 &lt;code&gt;Self&lt;/code&gt; 一样的关键字, 不同的是, 它不能用作函数的参数, 只能接收消息.当接收消息的时候, 它会向父类搜索方法的定义. 如果在向上的类链中没有任何定义, 则程序会 crash.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;- (instancetype)initWithValue1:(id)value1 value2:(id)value2
+{
+    self = [super initWithValue1:value1];
+
+    if (self) {
+        _value2 = value2;
+    }
+
+    return self;
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;messaging-super&#34;&gt;messaging &lt;code&gt;super&lt;/code&gt;&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code&gt;struct objc_super {
+    __unsafe_unretained id receiver;
+    __unsafe_unretained Class super_class;
+};
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code&gt;- (void)methodWithArgument:(id)arg
+{
+    [super otherMethodWithArgument:arg];
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code&gt;- (void)methodWithArgument:(id)arg
+{
+    struct objc_super super = {.receiver = self, .super_class = 0xC0FFEE};
+
+    objc_msgSendSuper(&amp;amp;super, @selector(otherMethodWithArgument:), arg);
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;code&gt;objc_msgSendSuper&lt;/code&gt; 将从父类的定义开始查找方法的实现. &lt;code&gt;super_class&lt;/code&gt;是在 runtime 时, 动态生成的.
+&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

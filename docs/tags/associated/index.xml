@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Associated on My New Hugo Site</title>
+    <link>http://ytlvy.com/tags/associated/</link>
+    <description>Recent content in Associated on My New Hugo Site</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Mon, 13 Jul 2015 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="http://ytlvy.com/tags/associated/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>iOS Associated Objects</title>
+      <link>http://ytlvy.com/posts/2015-07-13/2015-07-13-ios-associated-objects/</link>
+      <pubDate>Mon, 13 Jul 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-07-13/2015-07-13-ios-associated-objects/</guid>
+      <description>&lt;h2 id=&#34;ios-associated-objects&#34;&gt;iOS Associated Objects&lt;/h2&gt;
+
+&lt;p&gt;关注以下三个问题:
+1. 关联对象被存储在什么地方，是不是存放在被关联对象本身的内存中？
+2. 关联对象的五种关联策略有什么区别，有什么坑？
+3. 关联对象的生命周期是怎样的，什么时候被释放，什么时候被移除？&lt;/p&gt;
+
+&lt;h3 id=&#34;使用场景&#34;&gt;使用场景:&lt;/h3&gt;
+
+&lt;p&gt;按照 Mattt Thompson 大神的文章 Associated Objects 中的说法，&lt;a href=&#34;http://nshipster.com/associated-objects/&#34;&gt;Associated Objects&lt;/a&gt; 主要有以下三个使用场景&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;为现有的类添加私有变量以帮助实现细节；&lt;/li&gt;
+&lt;li&gt;为现有的类添加公有属性；&lt;/li&gt;
+&lt;li&gt;为 KVO 创建一个关联的观察者。&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;从本质上看，第 1 、2 个场景其实是一个意思，唯一的区别就在于新添加的这个属性是公有的还是私有的而已。就目前来说，我在实际工作中使用得最多的是第 2 个场景，而第 3 个场景我还没有使用过
+&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

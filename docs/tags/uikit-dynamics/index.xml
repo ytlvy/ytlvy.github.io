@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Uikit Dynamics on My New Hugo Site</title>
+    <link>http://ytlvy.com/tags/uikit-dynamics/</link>
+    <description>Recent content in Uikit Dynamics on My New Hugo Site</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sat, 08 Aug 2015 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="http://ytlvy.com/tags/uikit-dynamics/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Swift UIKit Dynamics - Tossing Views</title>
+      <link>http://ytlvy.com/posts/2015-08-08/2015-08-08-swift-uikit-dynamics-tossing-views/</link>
+      <pubDate>Sat, 08 Aug 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-08-08/2015-08-08-swift-uikit-dynamics-tossing-views/</guid>
+      <description>&lt;h2 id=&#34;uikit-dynamics-和-swift-教程-抛掷视图-tossing-views&#34;&gt;UIKit Dynamics 和 Swift 教程：抛掷视图 (Tossing Views)&lt;/h2&gt;
+
+&lt;blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;原文链接 : &lt;a href=&#34;http://www.raywenderlich.com/94719/uikit-dynamics-swift-tutorial-tossing-views&#34;&gt;UIKit Dynamics and Swift Tutorial:Tossing Views&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;原文作者 : &lt;a href=&#34;http://www.raywenderlich.com&#34;&gt;Ray Wenderlich&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;译文出自 : &lt;a href=&#34;http://www.devtf.cn&#34;&gt;开发技术前线 www.devtf.cn&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;译者 : &lt;a href=&#34;https://github.com/samw00&#34;&gt;samw00&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;校对者: &lt;a href=&#34;https://github.com/mrchenchao&#34;&gt;mrchenchao&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;状态 : 完成&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;在这篇UIKit Dynamics教程中，你将学会如何通过添加手势，用一种很自然的方式将视图抛掷出屏幕的显示区域。如下图所示：&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://cdn1.raywenderlich.com/wp-content/uploads/2014/07/UIKitDynamics3.gif&#34; alt=&#34;效果预览图&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;你可能已经在&lt;a href=&#34;https://itunes.apple.com/us/app/tweetbot-3-for-twitter-iphone/id722294701&#34;&gt;Tweetbot&lt;/a&gt;这个流行的app里看到这一个技巧被大量的运用。&lt;/p&gt;
+
+&lt;p&gt;这篇教程特别适合中级水平的开发人员，因为内容包括如何实现一些特别棒的特效，比如用原生的UIKit框架实现旋转(rotation)和飞离(fly-away)等动画效果。&lt;/p&gt;
+
+&lt;p&gt;如果你刚刚接触UIKit dynamics, 也别紧张 － 因为这篇教程会一步一步引导你如何去做。&lt;/p&gt;
+
+&lt;p&gt;废话不多说，让我们直切主题吧！&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Swift UIKit Dynamics Tutorial: Getting Started</title>
+      <link>http://ytlvy.com/posts/2015-08-08/2015-08-08-swift-uikit-dynamics-tutorial-getting-started/</link>
+      <pubDate>Sat, 08 Aug 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-08-08/2015-08-08-swift-uikit-dynamics-tutorial-getting-started/</guid>
+      <description>&lt;h2 id=&#34;uikit-dynamics-教程-起步&#34;&gt;UIKit Dynamics 教程: 起步&lt;/h2&gt;
+
+&lt;blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;原文链接 : &lt;a href=&#34;http://www.raywenderlich.com/76147/uikit-dynamics-tutorial-swift&#34;&gt;UIKit Dynamics Tutorial: Getting Started&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;原文作者: &lt;a href=&#34;http://www.raywenderlich.com/u/frosty&#34;&gt;James Frost&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;译文出自: &lt;a href=&#34;http://www.devtf.cn/&#34;&gt;开发技术前线http://www.devtf.cn/&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;译者 : &lt;a href=&#34;https://github.com/Lollypo&#34;&gt;Lollypo&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;校对者: &lt;a href=&#34;https://github.com/mrchenhao&#34;&gt;Harries Chen&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;状态 :  完成&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;&lt;strong&gt;更新备注&lt;/strong&gt;:本教程是由&lt;a href=&#34;http://www.raywenderlich.com/u/ColinEberhardt&#34;&gt;Colin Eberhardt&lt;/a&gt;编写的&lt;a href=&#34;http://www.raywenderlich.com/?page_id=48020&#34;&gt; iOS 7 by Tutorials&lt;/a&gt;其中某章节的精简版本.由James Frost更新到iOS8并用Swift重写,在Xcode 6 beta 7版本上测试通过。&lt;/p&gt;
+
+&lt;p&gt;iOS的设计目标鼓励你去创建数字界面模拟触摸，手势，改变方向等，就好像它们真实的物理对象而远非像素的集合。最终给予用户更深层级的交互而不是肤浅的拟真设计。&lt;/p&gt;
+
+&lt;p&gt;这听起来感觉挺难的，因为让数字界面看起来是真实的远比让它感觉是真实的简单。不过好在你有一些漂亮的新工具:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;UIKit Dynamics&lt;/strong&gt; 是集成到UIKit中的物理引擎。这允许你创建一个感觉像是真实的界面，通过添加一些行为，例如重力，锚连接 (弹簧)以及力. 你可以定义你希望你的界面需要的物理特征, Dynamics会帮你关心其他的细枝末节。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Motion Effects&lt;/strong&gt; 允许你创建类似于iOS 7 主屏幕中酷酷的视差效果. 基本上你可以利用手机加速器提供的数据来创建界面来模拟手机方向发生改变的反应。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;当一起使用的时候，由 Dynamics 与 Motion形成用户体验的工具，让你的界面给用户生活带来非同一般的体验。当观察到他们的操作是通过一种自然、动态的方式，你的用户将会与你的app进行更深层次的连接。&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;注意&lt;/strong&gt;: 由于本教程编写的时候iOS 8 还处于测试中，因此&lt;a href=&#34;http://www.raywenderlich.com/?p=74138&#34;&gt;没有提供iOS8的截图&lt;/a&gt;. 所有的截图都是iOS7环境下的,不过看起来与iOS 8相差不大.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

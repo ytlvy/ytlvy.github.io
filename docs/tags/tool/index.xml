@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Tool on My New Hugo Site</title>
+    <link>http://ytlvy.com/tags/tool/</link>
+    <description>Recent content in Tool on My New Hugo Site</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sat, 04 Jul 2015 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="http://ytlvy.com/tags/tool/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>IOS 进阶工具篇</title>
+      <link>http://ytlvy.com/posts/2015-07-04/2015-07-04-ios-%E8%BF%9B%E9%98%B6%E5%B7%A5%E5%85%B7%E7%AF%87/</link>
+      <pubDate>Sat, 04 Jul 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-07-04/2015-07-04-ios-%E8%BF%9B%E9%98%B6%E5%B7%A5%E5%85%B7%E7%AF%87/</guid>
+      <description>&lt;pre&gt;&lt;code&gt;第一部分：iOS 开发工具
+第2章使用CocoaPods 做依赖管理
+2.1 CocoaPods 简介
+2.2 CocoaPods 的安装和使用
+2.2.1 CocoaPods 的安装
+2.2.2 使用CocoaPods 的镜像索引
+2.2.3 使用CocoaPods
+2.2.4 查找第三方库
+2.3 注意事项
+2.3.1 关于.gitignore
+2.3.2 为自己的项目创建podspec 文件
+2.3.3 使用私有的pods
+2.3.4 不更新podspec
+2.3.5 生成第三方库的帮助文档
+2.3.6 原理
+第3章网络封包分析工具Charles
+3.1 Charles 简介
+3.2 Charles 的安装和使用
+3.2.1 安装Charles
+3.2.2 安装SSL 证书
+3.2.3 将Charles 设置成系统代理
+3.2.4 Charles 主界面介绍
+3.2.5 过滤网络请求
+3.3 使用Charles 协助iOS 开发
+3.3.1 截取iPhone 上的网络封包
+3.3.2 模拟慢速网络
+3.4 高级功能
+3.4.1 截取SSL 信息
+3.4.2 修改网络请求内容
+3.4.3 修改服务器返回内容
+3.5 Map 功能
+3.6 Rewrite 功能
+3.7 Breakpoints 功能
+3.8 总结
+3.9 参考链接
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

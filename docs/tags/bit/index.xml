@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Bit on My New Hugo Site</title>
+    <link>http://ytlvy.com/tags/bit/</link>
+    <description>Recent content in Bit on My New Hugo Site</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Tue, 04 Aug 2015 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="http://ytlvy.com/tags/bit/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>iOS bit computing</title>
+      <link>http://ytlvy.com/posts/2015-08-04/2015-08-04-ios-bit-computing/</link>
+      <pubDate>Tue, 04 Aug 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-08-04/2015-08-04-ios-bit-computing/</guid>
+      <description>&lt;h2 id=&#34;ios-位与位运算&#34;&gt;iOS 位与位运算&lt;/h2&gt;
+
+&lt;h3 id=&#34;介绍&#34;&gt;介绍&lt;/h3&gt;
+
+&lt;p&gt;位操作是程序设计中对位模式或二进制数的一元和二元操作. 在许多古老的微处理器上, 位运算比加减运算略快, 通常位运算比乘除法运算要快很多. 在现代架构中, 情况并非如此:位运算的运算速度通常与加法运算相同(仍然快于乘法运算).（摘自wikipedia）
+OC作为c的扩展和超集，位运算自然使用的是c的操作符。c提供了6个位操作符，$，|，^，~，&amp;lt;&amp;lt;，&amp;gt;&amp;gt;。本文不打算做位运算的基础教学，只介绍一些开发中能用到的场景。&lt;/p&gt;
+
+&lt;h3 id=&#34;提高运算速度&#34;&gt;提高运算速度&lt;/h3&gt;
+
+&lt;p&gt;如前一段所说，位运算的运算速度是通常与加法速度相当，但是快于乘法运算的。故而如果我们的程序对性能有要求，我们可以使用位运算来提高运算速度。比如：&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;乘以2：n &amp;lt;&amp;lt; 1;&lt;/li&gt;
+&lt;li&gt;除以2：n &amp;gt;&amp;gt; 1;&lt;/li&gt;
+&lt;li&gt;乘以2的m次方：n &amp;lt;&amp;lt; m;&lt;/li&gt;
+&lt;li&gt;除以2的m次方：n &amp;gt;&amp;gt; m;&lt;/li&gt;
+&lt;li&gt;判断奇偶：(n &amp;amp; 1) == 1;&lt;/li&gt;
+&lt;li&gt;求平均数：(a + b) &amp;gt;&amp;gt; 1;&lt;/li&gt;
+&lt;li&gt;……&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;基于乘除法的位运算提速还有很多，这里不一一列举。需要注意的是，你应当只在遇到性能瓶颈的时候，并且瓶颈的确是计算的时候才这么做。因为使用位运算并不利于程序的可读性和可维护性。（科学计算除外）&lt;/p&gt;
+
+&lt;h3 id=&#34;压缩空间&#34;&gt;压缩空间&lt;/h3&gt;
+
+&lt;p&gt;以前接触过ACM的筒子们应该对状态压缩不陌生，状态压缩的目的在于把一个大数据用有限的内存空间来进行表示。比如 Programming Pearls 里面的一个经典示例：如何对最多有一千万条不重复的7位整数（电话号码）进行排序？且可使用的内存空间有大约1MB多。&lt;/p&gt;
+
+&lt;p&gt;显而易见的常规做法既是做一个基于磁盘操作的外排序。然而如果转换一下思路，充分的使用内存中的每一个位，加上不存在重复的电话号码，以及不存在0和1开头的电话号码。我们只需要使用1000万个位（大约1.2mb），就能以集合的方式在内存里标记下所有的数据，从而轻松的实现位排序。此种方法大幅度的减少了IO时间，从而获得巨大的性能提升。&lt;/p&gt;
+
+&lt;p&gt;ACM里面有大量的如果使用位来压缩空间的示例，状态压缩的动态规划等，此处不做展开，只告诉读者，充分的使用内存的每一个位，经常能带来意想不到的收获。但需要注意的是，状态的压缩和提取，都需要一定的计算量，有时一味的追求状态压缩，反而会降低效率。&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

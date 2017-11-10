@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Future on My New Hugo Site</title>
+    <link>http://ytlvy.com/tags/future/</link>
+    <description>Recent content in Future on My New Hugo Site</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sat, 08 Aug 2015 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="http://ytlvy.com/tags/future/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Swift Back to the Future</title>
+      <link>http://ytlvy.com/posts/2015-08-08/2015-08-08-swift-back-to-the-future/</link>
+      <pubDate>Sat, 08 Aug 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-08-08/2015-08-08-swift-back-to-the-future/</guid>
+      <description>&lt;h1 id=&#34;swift的异步机制-future&#34;&gt;Swift的异步机制-Future&lt;/h1&gt;
+
+&lt;hr /&gt;
+
+&lt;blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;原文链接 : &lt;a href=&#34;https://realm.io/news/swift-summit-javier-soto-futures/&#34;&gt;Back to the Future&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;原文作者 : &lt;a href=&#34;https://twitter.com/Javi&#34;&gt;Javier Soto&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;http://www.devtf.cn&#34;&gt;译文出自 :  开发技术前线 www.devtf.cn&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;译者 : &lt;a href=&#34;http://shidanqing.net&#34;&gt;sdq&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;我们在使用Objective-C写异步代码时常常会出现许多问题。它没有很好的错误处理机制，当你发现你需要在你的异步函数中创建新的异步函数它也没有一个很好的可伸缩实现。在这次演讲中，Javier Soto将演示实现一个能够简化异步API的Swift Future类型。并且创建一个Resule类型,我们可以在这个类型上调用map和andThen等操作。对于Swift来说，Futures的未来可能很会基于信号和eactiveCocoa 3。&lt;/p&gt;
+
+&lt;p&gt;你可以在&lt;a href=&#34;https://github.com/JaviSoto/Talks#swift-summit-2015-back-to-the-futures&#34;&gt;这里&lt;/a&gt;看到这次演讲中的代码。&lt;/p&gt;
+
+&lt;h2 id=&#34;更优雅地使用swift&#34;&gt;更优雅地使用Swift&lt;/h2&gt;
+
+&lt;p&gt;谢谢各位，很高兴和大家一起来聊一聊Swift，感谢组织者把我们聚集在一起并让我在这里演讲。我的名字叫Javi，是来自Twitter的iOS工程师。&lt;/p&gt;
+
+&lt;p&gt;相比于Objective-C，我们在Swift里可以把很多事做得更好。我们已经在之前的演讲中看了不少例子，我想紧接着着他们，和大家谈论一下一种我想引入Swift的设计模式。这种设计模式会使我们的代码更为优雅。&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

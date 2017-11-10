@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Lock on My New Hugo Site</title>
+    <link>http://ytlvy.com/tags/lock/</link>
+    <description>Recent content in Lock on My New Hugo Site</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Tue, 30 Jun 2015 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="http://ytlvy.com/tags/lock/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>OSSpinLock</title>
+      <link>http://ytlvy.com/posts/2015-06-30/2015-06-30-osspinlock/</link>
+      <pubDate>Tue, 30 Jun 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-06-30/2015-06-30-osspinlock/</guid>
+      <description>&lt;h2 id=&#34;osspinlock&#34;&gt;OSSpinLock&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code&gt;#import &amp;lt;Foundation/Foundation.h&amp;gt;
+#import &amp;lt;objc/runtime.h&amp;gt;
+#import &amp;lt;objc/message.h&amp;gt;
+#import &amp;lt;libkern/OSAtomic.h&amp;gt;
+#import &amp;lt;pthread.h&amp;gt;
+
+#define ITERATIONS (1024*1024*32)
+
+static unsigned long long disp=0, land=0;
+
+int main(){
+    double then, now;
+    unsigned int i, count;
+    pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
+    OSSpinLock spinlock = OS_SPINLOCK_INIT;
+
+    NSAutoreleasePool *pool = [NSAutoreleasePool new];
+
+    NSLock *lock = [NSLock new];
+    then = CFAbsoluteTimeGetCurrent();
+    for(i=0; i&amp;lt;ITERATIONS; ++i)
+    {
+        [lock lock];
+        [lock unlock];
+    }
+    now = CFAbsoluteTimeGetCurrent();
+    printf(&amp;quot;NSLock: %f sec\n&amp;quot;, now-then);    
+
+    then = CFAbsoluteTimeGetCurrent();
+    IMP lockLock = [lock methodForSelector:@selector(lock)];
+    IMP unlockLock = [lock methodForSelector:@selector(unlock)];
+    
+    for(i=0; i&amp;lt;ITERATIONS; ++i) {
+        lockLock(lock,@selector(lock));
+        unlockLock(lock,@selector(unlock));
+    }
+    now = CFAbsoluteTimeGetCurrent();
+    printf(&amp;quot;NSLock+IMP Cache: %f sec\n&amp;quot;, now-then);    
+
+    then = CFAbsoluteTimeGetCurrent();
+    for(i=0;i&amp;lt;ITERATIONS;++i) {
+        pthread_mutex_lock(&amp;amp;mutex);
+        pthread_mutex_unlock(&amp;amp;mutex);
+    }
+    now = CFAbsoluteTimeGetCurrent();
+    printf(&amp;quot;pthread_mutex: %f sec\n&amp;quot;, now-then);
+
+    then = CFAbsoluteTimeGetCurrent();
+    for(i=0; i&amp;lt;ITERATIONS; ++i) {
+        OSSpinLockLock(&amp;amp;spinlock);
+        OSSpinLockUnlock(&amp;amp;spinlock);
+    }
+    now = CFAbsoluteTimeGetCurrent();
+    printf(&amp;quot;OSSpinlock: %f sec\n&amp;quot;, now-then);
+
+    id obj = [NSObject new];
+
+    then = CFAbsoluteTimeGetCurrent();
+    for(i=0; i&amp;lt;ITERATIONS; ++i){
+        @synchronized(obj) { }
+    }
+    now = CFAbsoluteTimeGetCurrent();
+    printf(&amp;quot;@synchronized: %f sec\n&amp;quot;, now-then);
+
+    [pool release];
+    return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

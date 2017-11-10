@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Bug on My New Hugo Site</title>
+    <link>http://ytlvy.com/tags/bug/</link>
+    <description>Recent content in Bug on My New Hugo Site</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Tue, 11 Aug 2015 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="http://ytlvy.com/tags/bug/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>iOS Crash Bugs</title>
+      <link>http://ytlvy.com/posts/2015-08-11/2015-08-11-ios-crash-bugs/</link>
+      <pubDate>Tue, 11 Aug 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-08-11/2015-08-11-ios-crash-bugs/</guid>
+      <description>&lt;h2 id=&#34;crash-bug&#34;&gt;Crash Bug&lt;/h2&gt;
+
+&lt;p&gt;1) ios7 下没有 &lt;code&gt;ContainString&lt;/code&gt; API&lt;/p&gt;
+
+&lt;p&gt;2) NSDictionary &amp;amp; NSArray nil insert&lt;/p&gt;
+
+&lt;p&gt;3) 数组越界 NSArray &lt;code&gt;out of bounds&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;4) &lt;code&gt;substringwithrange&lt;/code&gt; out of bounds&lt;/p&gt;
+
+&lt;p&gt;5) &lt;code&gt;GPUImageView presentBufferForDisplay&lt;/code&gt; &amp;ndash; 内存泄露 或者 app 进入后台&lt;/p&gt;
+
+&lt;p&gt;6) &lt;code&gt;locationOfTouch: inView:&lt;/code&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;if (gestureRecognizer)numberOfTouches &amp;gt; 0){
+
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

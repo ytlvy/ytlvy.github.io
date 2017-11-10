@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Sqlite on My New Hugo Site</title>
+    <link>http://ytlvy.com/categories/sqlite/</link>
+    <description>Recent content in Sqlite on My New Hugo Site</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Tue, 28 Jul 2015 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="http://ytlvy.com/categories/sqlite/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>sqlite insert replace</title>
+      <link>http://ytlvy.com/posts/2015-07-28/2015-07-28-sqlite-insert-replace/</link>
+      <pubDate>Tue, 28 Jul 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-07-28/2015-07-28-sqlite-insert-replace/</guid>
+      <description>Sqlite insert &amp;amp;&amp;amp; replace Assuming 3 columns in the table.. ID, NAME, ROLE
+BAD: This will insert or replace all columns with new values for ID=1: INSERT OR REPLACE INTO Employee (id, name, role) VALUES (1, &#39;John Foo&#39;, &#39;CEO&#39;);  BAD: This will insert or replace 2 of the columns&amp;hellip; the NAME column will be set to NULL or the default value: INSERT OR REPLACE INTO Employee (id, role) VALUES (1, &#39;code monkey&#39;);  GOOD: This will update 2 of the columns.</description>
+    </item>
+    
+  </channel>
+</rss>

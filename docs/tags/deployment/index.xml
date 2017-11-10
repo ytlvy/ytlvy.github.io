@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Deployment on My New Hugo Site</title>
+    <link>http://ytlvy.com/tags/deployment/</link>
+    <description>Recent content in Deployment on My New Hugo Site</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sat, 08 Aug 2015 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="http://ytlvy.com/tags/deployment/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>iOS Continuous Integration &amp; Deployment</title>
+      <link>http://ytlvy.com/posts/2015-08-08/2015-08-08-ios-continuous-integration-deployment/</link>
+      <pubDate>Sat, 08 Aug 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-08-08/2015-08-08-ios-continuous-integration-deployment/</guid>
+      <description>&lt;h2 id=&#34;ios项目的持续集成与管理&#34;&gt;iOS项目的持续集成与管理&lt;/h2&gt;
+
+&lt;blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;原文链接 : &lt;a href=&#34;https://medium.com/ribot-labs/continuous-integration-deployment-for-ios-projects-7358b72ca2e9&#34;&gt;Continuous Integration &amp;amp; Deployment for iOS Projects&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;原文作者 : &lt;a href=&#34;https://medium.com/@matto1990&#34;&gt;Matt Oakes&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;http://www.devtf.cn&#34;&gt;译文出自 :  开发技术前线 www.devtf.cn&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;译者 : &lt;a href=&#34;https://github.com/samlaudev&#34;&gt;Sam Lau&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;校对者: &lt;a href=&#34;https://github.com/bboyfeiyu&#34;&gt;Mr.Simple&lt;/a&gt;&lt;br /&gt;&lt;/li&gt;
+&lt;li&gt;状态 :  校正完&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;当实现新功能时，如果忽略可维护性而引入&lt;a href=&#34;http://en.wikipedia.org/wiki/Technical_debt&#34;&gt;技术债务&lt;/a&gt;，那将会需要延迟解决它或导致增加维护成本。&lt;/p&gt;
+
+&lt;p&gt;最近我们已经思考通过哪些方式来提高代码的质量：&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;当代码的质量下降时，通过设置一些工具来马上提醒开发者&lt;/li&gt;
+&lt;li&gt;文档化一些编码规范和思考在过去的几个项目中如何避免维护性差的问题&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;strong&gt;我将会简单地概括我们需要设置什么才能自动监控代码质量.&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;#基础
+我们选择一个持续集成工具&lt;a href=&#34;https://jenkins-ci.org/&#34;&gt;Jenkins&lt;/a&gt;，让它运行在一台放在我们工作室的Mac Mini。其实我不怎么喜欢Jenkins，但到目前为止，它是最稳定和最适合的工具来完成这些工作。&lt;/p&gt;
+
+&lt;p&gt;我们已经通过&lt;a href=&#34;https://brew.sh/&#34;&gt;Homebrew&lt;/a&gt;和&lt;a href=&#34;https://github.com/sstephenson/rbenv&#34;&gt;rbenv&lt;/a&gt;来分别安装Jenkins和Ruby，而rbenv能够为我们提供一个最新和稳定的&lt;a href=&#34;https://rubygems.org/&#34;&gt;Ruby Gems&lt;/a&gt;环境。有个Homebrew和Ruby Gems两个包管理工具之后，我们就几乎能够安装所有我们需要的工具，但很少会破坏与原有OS X系统更新提供的Ruby。&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

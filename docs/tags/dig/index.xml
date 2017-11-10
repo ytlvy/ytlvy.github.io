@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Dig on My New Hugo Site</title>
+    <link>http://ytlvy.com/tags/dig/</link>
+    <description>Recent content in Dig on My New Hugo Site</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Fri, 17 Jul 2015 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="http://ytlvy.com/tags/dig/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>iOS category dig</title>
+      <link>http://ytlvy.com/posts/2015-07-17/2015-07-17-ios-category-dig/</link>
+      <pubDate>Fri, 17 Jul 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-07-17/2015-07-17-ios-category-dig/</guid>
+      <description>转自
+objc category的秘密 category的真面目 objc所有类和对象都是c结构体，category当然也一样，下面是runtime中category的结构：
+struct _category_t { const char *name; // 1 struct _class_t *cls; // 2 const struct _method_list_t *instance_methods; // 3 const struct _method_list_t *class_methods; // 4 const struct _protocol_list_t *protocols; // 5 const struct _prop_list_t *properties; // 6 };   name 注意，并不是category小括号里写的名字，而是类的名字 cls 要扩展的类对象，编译期间这个值是不会有的，在app被runtime加载时才会根据name对应到类对象 instance_methods这个category所有的-方法 class_methods这个category所有的+方法 protocols这个category实现的protocol，比较不常用在category里面实现协议，但是确实支持的 properties这个category所有的property，这也是category里面可以定义属性的原因，不过这个property不会@synthesize实例变量，一般有需求添加实例变量属性时会采用objc_setAssociatedObject和objc_getAssociatedObject方法绑定方法绑定，不过这种方法生成的与一个普通的实例变量完全是两码事。  编译器，你对category干了什么？ 举个栗子看，定义下面一个类和它的category，实现忽略，保存为sark.h和sark.m
+@interface Sark : NSObject - (void)speak; @end @interface Sark (GayExtention) - (void)burst; @end  请出clang的重写命令：</description>
+    </item>
+    
+    <item>
+      <title>iOS kvo dig</title>
+      <link>http://ytlvy.com/posts/2015-07-17/2015-07-17-ios-kvo-dig/</link>
+      <pubDate>Fri, 17 Jul 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-07-17/2015-07-17-ios-kvo-dig/</guid>
+      <description>转自
+objc kvo简单探索 KVO(Key Value Observing)，是观察者模式在Foundation中的实现
+KVO的原理 简而言之就是：
+ 当一个object有观察者时，动态创建这个object的类的子类 对于每个被观察的property，重写其set方法 在重写的set方法中调用- willChangeValueForKey:和- didChangeValueForKey:通知观察者 当一个property没有观察者时，删除重写的方法 当没有observer观察任何一个property时，删除动态创建的子类  空说无凭，简单验证下。
+@interface Sark : NSObject @property (nonatomic, copy) NSString *name; @end @implementation Sark @end Sark *sark = [Sark new]; // breakpoint 1 [sark addObserver:self forKeyPath:@&amp;quot;name&amp;quot; options:NSKeyValueObservingOptionNew context:nil]; // breakpoint 2 sark.name = @&amp;quot;萨萨萨&amp;quot;; [sark removeObserver:self forKeyPath:@&amp;quot;name&amp;quot;]; // breakpoint 3  断住后分别使用- class和object_getClass()打出sark对象的Class和真实的Class
+// breakpoint 1 (lldb) po sark.class Sark (lldb) po object_getClass(sark) Sark // breakpoint 2 (lldb) po sark.</description>
+    </item>
+    
+    <item>
+      <title>ios arc dig</title>
+      <link>http://ytlvy.com/posts/2015-07-17/2015-07-17-ios-arc-dig/</link>
+      <pubDate>Fri, 17 Jul 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-07-17/2015-07-17-ios-arc-dig/</guid>
+      <description>转自
+objc arc的简单探索 ARC or not？ Automatic Reference Counting是objc发展以来相当重要的一个进步
+ 对于开发者，任何能降低开发难度，简化代码的功能，我们都应该去了解和使用。 我们应该利用一切“偷懒”的机会，将软件开发的复杂度分解并控制在一个个小的范围内，使得对于分解后的每一个小的任务，都能被新手掌握和维护。
+ 基于简化开发的思想来看，ARC绝对是一个没理由拒绝的技术进步。 ARC随着iOS5问世，到现在iOS8都快出了，你还在手动写retain，release么？除了固守思想外，对ARC的恐惧大都来自对它的未知。
+比如我在公司尝试说服team使用ARC时被质疑的几个问题：
+ ARC和Java的GC一样，会导致一部分性能损耗？ 首先，ARC和GC是两码事，ARC是编译时编译器“帮你”插入了原本需要自己手写的内存管理代码，而非像GC一样运行时的垃圾回收系统
+ ARC内存不知道什么时候释放，导致不可控的内存涨落？ 了解ARC的原理后，就知道，ARC下编译器插入的内存管理的代码是经过优化的，对于使用完的内存，多运行一行代码都不会浪费，可以这么说，手写的内存管理必须达到很严谨的水平才可能达到ARC自动生成的一样完整且没有疏漏
+ ARC下面自己不管理内存，很不爽，很没有安全感 这纯粹是习惯的问题了，开发者的目标是用最简化的手段完成一个最可靠的程序，进步需要改变的。好在编译选项中提供了-fobjc-arc和-fno-objc-arc来保证整个的变革的继续下去，就像社会主义中国里的港澳
+  ARC的约定 使用ARC之后一个费解的地方是，一个方法生成的对象，没有任何附加标示，ARC怎么知道生成的对象是不是autorelease的呢？
+@interface Sark : NSObject + (instancetype)sarkWithMark:(NSString *)mark; // 1 - (instancetype)initWithMark:(NSString *)mark; // 2 @end  这是非ARC时常用的手段，1生成autorelease对象，2生成普通对象，而现在ARC不能调用autorelease，使用时怎么能知道呢？
+{ // ... Sark *sark1 = [Sark sarkWithMark:@&amp;quot;萨萨萨&amp;quot;]; Sark *sark2 = [[Sark alloc] initWithMark:@&amp;quot;萨萨萨&amp;quot;]; }  使用约定，NS定义了下面三个编译属性
+#define NS_RETURNS_RETAINED __attribute__((ns_returns_retained)) #define NS_RETURNS_NOT_RETAINED __attribute__((ns_returns_not_retained)) #define NS_RETURNS_INNER_POINTER __attribute__((objc_returns_inner_pointer))  这三个属性是Clang自己使用的标示，除非特殊情况不要自己使用，但是这些对理解ARC是很有帮助的。 这里还要介绍一个概念，Method family</description>
+    </item>
+    
+    <item>
+      <title>ios attribute cleanup</title>
+      <link>http://ytlvy.com/posts/2015-07-17/2015-07-17-ios-attribute-cleanup/</link>
+      <pubDate>Fri, 17 Jul 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-07-17/2015-07-17-ios-attribute-cleanup/</guid>
+      <description>转自
+黑魔法attribute((cleanup)) 编译器属性attribute用于向编译器描述特殊的标识、检查或优化，几个常用的用法看mattt大神的文章就好。今天发现一个名为cleanup的黑魔法属性，简单介绍下。
+基本用法 __attribute__((cleanup(...)))，用于修饰一个变量，在它的作用域结束时可以自动执行一个指定的方法，如：
+// 指定一个cleanup方法，注意入参是所修饰变量的地址，类型要一样 // 对于指向objc对象的指针(id *)，如果不强制声明__strong默认是__autoreleasing，造成类型不匹配 static void stringCleanUp(__strong NSString **string) { NSLog(@&amp;quot;%@&amp;quot;, *string); } // 在某个方法中： { __strong NSString *string __attribute__((cleanup(stringCleanUp))) = @&amp;quot;sunnyxx&amp;quot;; } // 当运行到这个作用域结束时，自动调用stringCleanUp  所谓作用域结束，包括大括号结束、return、goto、break、exception等各种情况。 当然，可以修饰的变量不止NSString，自定义Class或基本类型都是可以的：
+// 自定义的Class static void sarkCleanUp(__strong Sark **sark) { NSLog(@&amp;quot;%@&amp;quot;, *sark); } __strong Sark *sark __attribute__((cleanup(sarkCleanUp))) = [Sark new]; // 基本类型 static void intCleanUp(NSInteger *integer) { NSLog(@&amp;quot;%d&amp;quot;, *integer); } NSInteger integer __attribute__((cleanup(intCleanUp))) = 1;  假如一个作用域内有若干个cleanup的变量，他们的调用顺序是先入后出的栈式顺序； 而且，cleanup是先于这个对象的dealloc调用的。</description>
+    </item>
+    
+    <item>
+      <title>objc@interface的设计哲学与设计技巧</title>
+      <link>http://ytlvy.com/posts/2015-07-17/2015-07-17-ios-interface-dig/</link>
+      <pubDate>Fri, 17 Jul 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-07-17/2015-07-17-ios-interface-dig/</guid>
+      <description>转自
+objc@interface的设计哲学与设计技巧 我是前言 学习objc时，尤其是先学过其他编程语言再来看objc时，总会对objc的类声明的关键字interface感到有点奇怪，在其它面向对象的语言中通常由class关键字来表示，而interface在java中表示的却大约相当于objc的protocol，这个关键字的区别究竟代表了objc语言的设计者怎样的思想呢，在objc类设计中需要注意哪些问题呢？接下来对这个问题进行一些思考和探究.
+interface? 先来段Wiki:
+ In object-oriented programming, a protocol or interface is a common means for unrelated objects to communicate with each other. These are definitions of methods and values which the objects agree upon in order to cooperate.
+ 接口约定了对象间交互的属性和方法，使得对象间无需了解对方就可以协作。 说的洋气点就是解耦嘛，细心点也能发现Wiki中interface和protocol表示了相近的语义。 引用我和项目组架构师讨论有关interface的问题时他的说法:
+ interface就是一个object定义的可以被外界影响的方式
+ 说着他指了下旁边桌子上放着的一把伞，说，这把伞我可以打开它，打开这个动作就是它的一个interface，桌子旁边还放着一个盒子，虽然它和伞都放在这张桌子上，但是它们之间永远不会互相影响，所以：
+ interface只存在于能互相影响的两者间
+ @interface生成了class？ 学习objc时最早接触的就是怎么写一个类了，从.h中写@interface声明类，再从.m中写@implementation实现方法，所以，objc中写一个@interface就相当于c++中写一个class。但这是真的么？
+写个小test验证一下： 有两个类，Sark和Dark，Sark类只有.m文件，其中只写@implementation；Dark类只有.h头文件，其中只写@interface，然后如下测试代码：
+Class sarkClass = NSClassFromString(@&amp;quot;Sark&amp;quot;); Class darkClass = NSClassFromString(@&amp;quot;Dark&amp;quot;);  NSClassFromString方法调用了runtime方法，根据类名将加载进runtime的这个类找出来，没有这个类就回返回空(Nil)。 结果是sarkClass存在，而darkClass为空，说明什么？是否说明其实@implementation才是真正的Class？ 进一步，不止能取到这个没有@interface的类，还可以正常调用方法（因为万能的runtime）</description>
+    </item>
+    
+  </channel>
+</rss>

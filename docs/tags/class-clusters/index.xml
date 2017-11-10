@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Class Clusters on My New Hugo Site</title>
+    <link>http://ytlvy.com/tags/class-clusters/</link>
+    <description>Recent content in Class Clusters on My New Hugo Site</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Fri, 17 Jul 2015 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="http://ytlvy.com/tags/class-clusters/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>iOS Class Clusters</title>
+      <link>http://ytlvy.com/posts/2015-07-17/2015-07-17-ios-class-clusters/</link>
+      <pubDate>Fri, 17 Jul 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-07-17/2015-07-17-ios-class-clusters/</guid>
+      <description>转自
+从NSArray看类簇 Class Clusters Class Clusters（类簇）是抽象工厂模式在iOS下的一种实现，众多常用类，如NSString，NSArray，NSDictionary，NSNumber都运作在这一模式下，它是接口简单性和扩展性的权衡体现，在我们完全不知情的情况下，偷偷隐藏了很多具体的实现类，只暴露出简单的接口。
+NSArray的类簇 虽然官方文档中拿NSNumber说事儿，但Foundation并没有像图中描述的那样为每个number都弄一个子类，于是研究下NSArray类簇的实现方式。
+__NSPlacehodlerArray 熟悉这个模式的同学很可能看过下面的测试代码，将原有的alloc+init拆开写：
+id obj1 = [NSArray alloc]; // __NSPlacehodlerArray * id obj2 = [NSMutableArray alloc]; // __NSPlacehodlerArray * id obj3 = [obj1 init]; // __NSArrayI * id obj4 = [obj2 init]; // __NSArrayM *  发现+ alloc后并非生成了我们期望的类实例，而是一个__NSPlacehodlerArray的中间对象，后面的- init或- initWithXXXXX消息都是发送给这个中间对象，再由它做工厂，生成真的对象。这里的__NSArrayI和__NSArrayM分别对应Immutable和Mutable（后面的I和M的意思）
+于是顺着思路猜实现，__NSPlacehodlerArray必定用某种方式存储了它是由谁alloc出来的这个信息，才能在init的时候知道要创建的是可变数组还是不可变数组
+于是乎很开心的去看了下*obj1的内存布局：
+下面是32位模拟器中的内存布局（64位太长不好看就临时改32位了- -），第一个箭头是*obj1，第二个是*obj2
+我们知道，对象的前4字节（32位下）为isa指针，指向类对象地址，上图所示的0x0051E768就是__NSPlacehodlerArray类对象地址，可以从lldb下po这个地址来验证。
+那么问题来了，这个中间对象并没有储存任何信息诶（除了isa外就都是0了），那它init的时候咋知道该创建什么呢？ 经过研究发现，Foundation用了一个很贱的比较静态实例地址方式来实现，伪代码如下：
+static __NSPlacehodlerArray *GetPlaceholderForNSArray() { static __NSPlacehodlerArray *instanceForNSArray; if (!instanceForNSArray) { instanceForNSArray = [[__NSPlacehodlerArray alloc] init]; } return instanceForNSArray; } static __NSPlacehodlerArray *GetPlaceholderForNSMutableArray() { static __NSPlacehodlerArray *instanceForNSMutableArray; if (!</description>
+    </item>
+    
+  </channel>
+</rss>

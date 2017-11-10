@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Nsblockoperation on My New Hugo Site</title>
+    <link>http://ytlvy.com/tags/nsblockoperation/</link>
+    <description>Recent content in Nsblockoperation on My New Hugo Site</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Tue, 30 Jun 2015 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="http://ytlvy.com/tags/nsblockoperation/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Cancel a NSBlockOperation</title>
+      <link>http://ytlvy.com/posts/2015-06-30/2015-06-30-cancel-a-nsblockoperation/</link>
+      <pubDate>Tue, 30 Jun 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-06-30/2015-06-30-cancel-a-nsblockoperation/</guid>
+      <description> make NSBlockOperation cancelable NSBlockOperation *operation = [[NSBlockOperation alloc] init]; __weak NSBlockOperation *weakOperation = operation; [operation addExecutionBlock:^{ while( ! [weakOperation isCancelled]){ //do something... } }];  </description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,275 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Swift on My New Hugo Site</title>
+    <link>http://ytlvy.com/tags/swift/</link>
+    <description>Recent content in Swift on My New Hugo Site</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sat, 08 Aug 2015 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="http://ytlvy.com/tags/swift/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>How To Implement A Circular Image Loader Animation with CAShapeLayer</title>
+      <link>http://ytlvy.com/posts/2015-08-08/2015-08-08-how-to-implement-a-circular-image-loader-animation-with-cashapelayer/</link>
+      <pubDate>Sat, 08 Aug 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-08-08/2015-08-08-how-to-implement-a-circular-image-loader-animation-with-cashapelayer/</guid>
+      <description>&lt;h2 id=&#34;使用cashapelayer来实现圆形图片加载动画&#34;&gt;使用CAShapeLayer来实现圆形图片加载动画&lt;/h2&gt;
+
+&lt;blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;原文链接 : &lt;a href=&#34;http://www.raywenderlich.com/94302/implement-circular-image-loader-animation-cashapelayer&#34;&gt;How To Implement A Circular Image Loader Animation with CAShapeLayer&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;原文作者 : &lt;a href=&#34;http://www.raywenderlich.com/u/rounak&#34;&gt;Rounak Jain&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;译文出自 : &lt;a href=&#34;http://www.devtf.cn&#34;&gt;开发技术前线 www.devtf.cn&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;译者 : &lt;a href=&#34;https://github.com/samlaudev&#34;&gt;Sam Lau&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;校对者: &lt;a href=&#34;https://github.com/Lollypo&#34;&gt;Lollypo&lt;/a&gt;&lt;br /&gt;&lt;/li&gt;
+&lt;li&gt;状态 :  校正完&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;几个星期之前，Michael Villar在Motion试验中创建一个非常有趣的加载动画。&lt;/p&gt;
+
+&lt;p&gt;下面的GIF图片展示这个加载动画，它将一个圆形进度指示器和圆形渐现动画结合。这个组合的效果有趣，独一无二和有点迷人。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://cdn3.raywenderlich.com/wp-content/uploads/2015/02/Circle.gif&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;这个教程将会教你如何使用Swift和Core Animatoin来重新创建这个效果。让我们开始吧！&lt;/p&gt;
+
+&lt;p&gt;#基础&lt;/p&gt;
+
+&lt;p&gt;首先下载这个教程的&lt;a href=&#34;http://cdn1.raywenderlich.com/wp-content/uploads/2015/02/ImageLoaderIndicator-Starter.zip&#34;&gt;启动项目&lt;/a&gt;，然后编译和运行。过一会之后，你应该看到一个简单的image显示：&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://cdn2.raywenderlich.com/wp-content/uploads/2015/02/StarterProject.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;这个启动项目已经预先在恰当的位置将views和加载逻辑编写好了。花一分钟来浏览来快速了解这个项目；那里有一个&lt;strong&gt;ViewController&lt;/strong&gt;，&lt;strong&gt;ViewController&lt;/strong&gt;里有一个命名为&lt;strong&gt;CustomImageView&lt;/strong&gt;的&lt;strong&gt;UIImageView&lt;/strong&gt;子类, 还有一个&lt;strong&gt;SDWebImage&lt;/strong&gt;的方法被调用来加载image。&lt;/p&gt;
+
+&lt;p&gt;你可能注意到当你第一次运行这个app的时候，当image下载时这个app似乎会暂停几秒，然后image会显示在屏幕。当然，此刻没有圆形进度指示器 - 你将会在这个教程中创建它！&lt;/p&gt;
+
+&lt;p&gt;你会在两个步骤中创建这个动画：&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;圆形进度&lt;/strong&gt;。首先，你会画一个圆形进度指示器，然后根据下载进度来更新它。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;扩展圆形图片&lt;/strong&gt;。第二，你会通过扩展的圆形窗口来揭示下载图片。&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;紧跟着下面步骤来逐步实现！&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Swift Access Sub-Controllers from a UINavigationController</title>
+      <link>http://ytlvy.com/posts/2015-08-08/2015-08-08-swift-access-sub-controllers-from-a-uinavigationcontroller/</link>
+      <pubDate>Sat, 08 Aug 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-08-08/2015-08-08-swift-access-sub-controllers-from-a-uinavigationcontroller/</guid>
+      <description>&lt;h1 id=&#34;在swift开发中通过uinavigationcontroller来访问sub-controllers&#34;&gt;在Swift开发中通过UINavigationController来访问Sub-Controllers&lt;/h1&gt;
+
+&lt;blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;原文链接 : &lt;a href=&#34;http://www.andrewcbancroft.com/2015/06/02/access-sub-controllers-from-a-uinavigationcontroller-in-swift/&#34;&gt;Access Sub-Controllers from a UINavigationController in Swift&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;原文作者 : &lt;a href=&#34;http://www.andrewcbancroft.com&#34;&gt;Andrew Bancroft&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;译文出自 : &lt;a href=&#34;http://www.devtf.cn&#34;&gt;开发技术前线 www.devtf.cn&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;译者 : &lt;a href=&#34;http://www.andrewcbancroft.com/2015/06/02/access-sub-controllers-from-a-uinavigationcontroller-in-swift/&#34;&gt;samw00&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;校对者: &lt;a href=&#34;https://github.com/mrchenhao&#34;&gt;mrchenhao&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;状态 : 完成&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;通过&lt;code&gt;AppDelegate&lt;/code&gt;或者通过&lt;code&gt;prepareForSegue(_:sender:)&lt;/code&gt;来访问&lt;code&gt;UINavigationController&lt;/code&gt;的第一个子元素的访问顺序总是让我有点纳闷。这篇博文中有几段代码可以帮助你和我迅速的弄清楚如何在我们的Swift应用程序开发中和navigation controllers打交道。&lt;/p&gt;
+
+&lt;p&gt;##AppDelegate&lt;/p&gt;
+
+&lt;p&gt;每一个iOS应用在其启动加载完成后都会显示一个根视图控制器。假设我们要搭建一个以导航控制器(navigation controller)为主的一个app&amp;hellip;,也就是说我们这个app的第一（根）视图控制器是一个UINavigationController。在我们的Storyboard中，我们创建了一个简单的场景，给一个视图控制器添加了些UI控件和一些属性，然后我们将这个视图控制器嵌入在一个导航控制器中。&lt;/p&gt;
+
+&lt;p&gt;但是如果我想在app启动之后再去设置视图控制器中的某些个属性呢？我们要如何才能做到这点呢？&lt;/p&gt;
+
+&lt;p&gt;我一直把我在Storyboard中添加UI要素的第一个场景(first scene)视为“第一视图控制器”。但是，对iOS来说，导航控制器才是实际意义上的第一（根）视图控制器。&lt;/p&gt;
+
+&lt;p&gt;当一个app把导航控制器视为其第一（根）视图器时，我们就需要在视图层级结构中“挖”的更深一点才能访问到我们之前所以为的“第一视图控制器“。&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>iOS What’s New in Swift 2</title>
+      <link>http://ytlvy.com/posts/2015-08-08/2015-08-08-ios-whats-new-in-swift-2/</link>
+      <pubDate>Sat, 08 Aug 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-08-08/2015-08-08-ios-whats-new-in-swift-2/</guid>
+      <description>&lt;h2 id=&#34;swift-2-有哪些新特性&#34;&gt;Swift 2 有哪些新特性&lt;/h2&gt;
+
+&lt;blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;原文链接 : &lt;a href=&#34;http://www.raywenderlich.com/108522/whats-new-in-swift-2&#34;&gt;What’s New in Swift 2&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;原文作者 : &lt;a href=&#34;http://www.raywenderlich.com/u/gregheo&#34;&gt;Greg Heo&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;译文出自 : &lt;a href=&#34;http://www.devtf.cn&#34;&gt;开发技术前线 www.devtf.cn&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;译者 : &lt;a href=&#34;https://github.com/samlaudev&#34;&gt;Sam Lau&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;校对者: &lt;a href=&#34;https://github.com/bboyfeiyu&#34;&gt;Mr.Simple&lt;/a&gt;&lt;br /&gt;&lt;/li&gt;
+&lt;li&gt;状态 :  校正完&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;在WWDC我们发现Swift团队没有浪费时间在无谓的地方，而是致力于改善Swift 2。&lt;/p&gt;
+
+&lt;p&gt;我们将会为你编写和录制很多关于Swift 2的教程，但在此期间我想强调Swift最令人兴奋的改变，为你可以在秋天迁移到Swift 2做准备。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://cdn2.raywenderlich.com/wp-content/uploads/2015/06/swift-new.jpg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;#错误处理&lt;/p&gt;
+
+&lt;p&gt;正如Ray在&lt;a href=&#34;http://www.raywenderlich.com/108379/wwdc-2015-initial-impressions&#34;&gt;WWDC 2015 Initial Impressions&lt;/a&gt;文章中提及，错误处理已经在Swift 2改进了。我们已经迁移到新的系统就像异常处理，而不是&lt;strong&gt;NSError&lt;/strong&gt;对象和双指针。&lt;/p&gt;
+
+&lt;p&gt;你可能对以下代码比较熟悉：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;if drinkWithError(nil) {
+  print(&amp;quot;Could not drink beer! :[&amp;quot;)
+  return
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;一般在Cocoa，你传入一个&lt;strong&gt;NSError&lt;/strong&gt;对象的引用(一个&lt;strong&gt;inout&lt;/strong&gt;参数在Swift)，然后方法会赋值给错误变量。但问题是你可以传入一个nil到这里来完全忽略这个错误；或者，你可以传入&lt;strong&gt;NSError&lt;/strong&gt;但从不检查它。&lt;/p&gt;
+
+&lt;p&gt;Swift 2 为错误检查添加额外保护层。你可以使用&lt;strong&gt;throws&lt;/strong&gt;关键字来指定那个函数和方法能够抛出一个错误。然后当你调用某样东西时，可以用&lt;strong&gt;do&lt;/strong&gt;, &lt;strong&gt;try&lt;/strong&gt;和&lt;strong&gt;catch&lt;/strong&gt;多个关键字来捕捉和处理错误。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;// 1
+enum DrinkError: ErrorType {
+  case NoBeerRemainingError
+}
+ 
+// 2
+func drinkWithError() throws {
+  if beer.isAvailable() {
+    // party!
+  } else {
+    // 3
+    throw DrinkError.NoBeerRemainingError
+  }
+}
+ 
+func tryToDrink() {
+  // 4
+  do {
+    try drinkWithError()
+  } catch {
+    print(&amp;quot;Could not drink beer! :[&amp;quot;)
+    return
+  }
+}
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;这里有几样东西需要强调的：&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;为了创建一个错误可以抛出，只是创建一个继承&lt;strong&gt;ErrorType&lt;/strong&gt;的&lt;strong&gt;enum&lt;/strong&gt;。&lt;/li&gt;
+&lt;li&gt;你需要使用&lt;strong&gt;throws&lt;/strong&gt;关键字来标志任何函数可以抛出一个错误。&lt;/li&gt;
+&lt;li&gt;这里抛出一个错误，它将会在section 4中被捕捉。&lt;/li&gt;
+&lt;li&gt;你在一个&lt;strong&gt;do&lt;/strong&gt;块中包含任何可以抛出一个错误的代码，而不是其他语言类似的&lt;strong&gt;try&lt;/strong&gt;块中。然后，你添加一个&lt;strong&gt;try&lt;/strong&gt;关键字到函数被调用的前面，而且这个函数能够抛出一个错误。&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;新语法是非常简洁和易读。任何API当前使用&lt;strong&gt;NSError&lt;/strong&gt;以后都会使用这种错误处理方式。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://cdn4.raywenderlich.com/wp-content/uploads/2015/06/throw-all-the-things-415x320.jpg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Chun notes</title>
+      <link>http://ytlvy.com/posts/2015-07-28/2015-07-28-chun-notes/</link>
+      <pubDate>Tue, 28 Jul 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-07-28/2015-07-28-chun-notes/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;http://blog.callmewhy.com/2015/05/25/note-about-chun/&#34;&gt;转自&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;chun-阅读笔记-如何做一个图片缓存库&#34;&gt;Chun 阅读笔记 - 如何做一个图片缓存库&lt;/h2&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://github.com/yechunjun/Chun&#34;&gt;Chun&lt;/a&gt; 是 &lt;a href=&#34;http://chun.tips/&#34;&gt;叶纯俊&lt;/a&gt; 在 Github 上开源的一个图片缓存库，基于 Swift 编写。学习 Swift 有一段时间了，记录一些阅读源码的一些收获。&lt;/p&gt;
+
+&lt;h3 id=&#34;代码组织&#34;&gt;代码组织&lt;/h3&gt;
+
+&lt;p&gt;Swift 中通过 &lt;code&gt;extension&lt;/code&gt; 组织代码会让整个类更加清晰可读，尤其是对于 &lt;code&gt;UITableViewDataSource&lt;/code&gt; 和 &lt;code&gt;UITableViewDelegate&lt;/code&gt; 这种情况。在 Chun 这个项目中的 Demo 文件就是这样的：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;class ViewController: UIViewController {
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        ...
+    }
+}
+
+extension ViewController: UITableViewDataSource, UITableViewDelegate {
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -&amp;gt; Int {
+        ...
+    }
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -&amp;gt; UITableViewCell {
+        ...
+    }
+    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -&amp;gt; CGFloat {
+        ...
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Swift Exception Handle</title>
+      <link>http://ytlvy.com/posts/2015-07-28/2015-07-28-swift-exception-handle/</link>
+      <pubDate>Tue, 28 Jul 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-07-28/2015-07-28-swift-exception-handle/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;http://blog.callmewhy.com/2015/04/20/error-handling-in-swift/&#34;&gt;转自&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;swift-中的异常处理&#34;&gt;Swift 中的异常处理&lt;/h2&gt;
+
+&lt;h3 id=&#34;问题&#34;&gt;问题&lt;/h3&gt;
+
+&lt;p&gt;在开发过程中，异常处理算是比较常见的问题了。&lt;/p&gt;
+
+&lt;p&gt;举一个比较常见的例子：用户修改注册的邮箱，大概分为以下几个步骤：&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;接收到一个用户的请求：我要修改邮箱地址&lt;/li&gt;
+&lt;li&gt;验证一下请求是否合法，将请求进行格式转化&lt;/li&gt;
+&lt;li&gt;更新以前的邮箱地址记录&lt;/li&gt;
+&lt;li&gt;给新的邮箱地址发送验证邮件&lt;/li&gt;
+&lt;li&gt;将结果返回给用户&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;上面的步骤如果一切顺利，那代码肯定干净利落，但是人生不如意十有八九，上面的步骤很容易出现问题：&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;用户把邮箱地址填成了家庭地址&lt;/li&gt;
+&lt;li&gt;用户是个黑客，没登录就发送了更新请求&lt;/li&gt;
+&lt;li&gt;发送验证邮件的时候服务器爆炸了，发送邮件失败&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;各种异常都会导致这次操作的失败。&lt;/p&gt;
+
+&lt;h3 id=&#34;方案一&#34;&gt;方案一&lt;/h3&gt;
+
+&lt;p&gt;在传统的处理方案里，一般是遇到异常就往上抛：
+&lt;img src=&#34;http://segmentfault.com/img/bVlsK9&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;这种方案想必大家都不陌生，比如下面这段代码：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;NSError *err = nil;
+CGFloat result = [MathTool divide:2.5 by:3.0 error:&amp;amp;err];
+
+if (err) {
+    NSLog(@&amp;quot;%@&amp;quot;, err)
+} else {
+    [MathTool doSomethingWithResult:result]
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

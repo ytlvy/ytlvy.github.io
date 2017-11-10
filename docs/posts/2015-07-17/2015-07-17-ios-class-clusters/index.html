@@ -1,0 +1,694 @@
+
+
+  
+
+
+  
+
+
+
+
+  
+
+
+  
+
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="Hugo 0.30.2 with theme Tranquilpeak 0.4.2-BETA">
+    <title>iOS Class Clusters</title>
+    <meta name="author" content="肖杰">
+    <meta name="keywords" content="">
+
+    <link rel="icon" href="http://ytlvy.com/favicon.png">
+    
+
+    
+    <meta name="description" content="转自
+从NSArray看类簇 Class Clusters Class Clusters（类簇）是抽象工厂模式在iOS下的一种实现，众多常用类，如NSString，NSArray，NSDictionary，NSNumber都运作在这一模式下，它是接口简单性和扩展性的权衡体现，在我们完全不知情的情况下，偷偷隐藏了很多具体的实现类，只暴露出简单的接口。
+NSArray的类簇 虽然官方文档中拿NSNumber说事儿，但Foundation并没有像图中描述的那样为每个number都弄一个子类，于是研究下NSArray类簇的实现方式。
+__NSPlacehodlerArray 熟悉这个模式的同学很可能看过下面的测试代码，将原有的alloc&#43;init拆开写：
+id obj1 = [NSArray alloc]; // __NSPlacehodlerArray * id obj2 = [NSMutableArray alloc]; // __NSPlacehodlerArray * id obj3 = [obj1 init]; // __NSArrayI * id obj4 = [obj2 init]; // __NSArrayM *  发现&#43; alloc后并非生成了我们期望的类实例，而是一个__NSPlacehodlerArray的中间对象，后面的- init或- initWithXXXXX消息都是发送给这个中间对象，再由它做工厂，生成真的对象。这里的__NSArrayI和__NSArrayM分别对应Immutable和Mutable（后面的I和M的意思）
+于是顺着思路猜实现，__NSPlacehodlerArray必定用某种方式存储了它是由谁alloc出来的这个信息，才能在init的时候知道要创建的是可变数组还是不可变数组
+于是乎很开心的去看了下*obj1的内存布局：
+下面是32位模拟器中的内存布局（64位太长不好看就临时改32位了- -），第一个箭头是*obj1，第二个是*obj2
+我们知道，对象的前4字节（32位下）为isa指针，指向类对象地址，上图所示的0x0051E768就是__NSPlacehodlerArray类对象地址，可以从lldb下po这个地址来验证。
+那么问题来了，这个中间对象并没有储存任何信息诶（除了isa外就都是0了），那它init的时候咋知道该创建什么呢？ 经过研究发现，Foundation用了一个很贱的比较静态实例地址方式来实现，伪代码如下：
+static __NSPlacehodlerArray *GetPlaceholderForNSArray() { static __NSPlacehodlerArray *instanceForNSArray; if (!instanceForNSArray) { instanceForNSArray = [[__NSPlacehodlerArray alloc] init]; } return instanceForNSArray; } static __NSPlacehodlerArray *GetPlaceholderForNSMutableArray() { static __NSPlacehodlerArray *instanceForNSMutableArray; if (!">
+    <meta property="og:description" content="转自
+从NSArray看类簇 Class Clusters Class Clusters（类簇）是抽象工厂模式在iOS下的一种实现，众多常用类，如NSString，NSArray，NSDictionary，NSNumber都运作在这一模式下，它是接口简单性和扩展性的权衡体现，在我们完全不知情的情况下，偷偷隐藏了很多具体的实现类，只暴露出简单的接口。
+NSArray的类簇 虽然官方文档中拿NSNumber说事儿，但Foundation并没有像图中描述的那样为每个number都弄一个子类，于是研究下NSArray类簇的实现方式。
+__NSPlacehodlerArray 熟悉这个模式的同学很可能看过下面的测试代码，将原有的alloc&#43;init拆开写：
+id obj1 = [NSArray alloc]; // __NSPlacehodlerArray * id obj2 = [NSMutableArray alloc]; // __NSPlacehodlerArray * id obj3 = [obj1 init]; // __NSArrayI * id obj4 = [obj2 init]; // __NSArrayM *  发现&#43; alloc后并非生成了我们期望的类实例，而是一个__NSPlacehodlerArray的中间对象，后面的- init或- initWithXXXXX消息都是发送给这个中间对象，再由它做工厂，生成真的对象。这里的__NSArrayI和__NSArrayM分别对应Immutable和Mutable（后面的I和M的意思）
+于是顺着思路猜实现，__NSPlacehodlerArray必定用某种方式存储了它是由谁alloc出来的这个信息，才能在init的时候知道要创建的是可变数组还是不可变数组
+于是乎很开心的去看了下*obj1的内存布局：
+下面是32位模拟器中的内存布局（64位太长不好看就临时改32位了- -），第一个箭头是*obj1，第二个是*obj2
+我们知道，对象的前4字节（32位下）为isa指针，指向类对象地址，上图所示的0x0051E768就是__NSPlacehodlerArray类对象地址，可以从lldb下po这个地址来验证。
+那么问题来了，这个中间对象并没有储存任何信息诶（除了isa外就都是0了），那它init的时候咋知道该创建什么呢？ 经过研究发现，Foundation用了一个很贱的比较静态实例地址方式来实现，伪代码如下：
+static __NSPlacehodlerArray *GetPlaceholderForNSArray() { static __NSPlacehodlerArray *instanceForNSArray; if (!instanceForNSArray) { instanceForNSArray = [[__NSPlacehodlerArray alloc] init]; } return instanceForNSArray; } static __NSPlacehodlerArray *GetPlaceholderForNSMutableArray() { static __NSPlacehodlerArray *instanceForNSMutableArray; if (!">
+    <meta property="og:type" content="blog">
+    <meta property="og:title" content="iOS Class Clusters">
+    <meta property="og:url" content="/posts/2015-07-17/2015-07-17-ios-class-clusters/">
+    <meta property="og:site_name" content="My New Hugo Site">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="My New Hugo Site">
+    <meta name="twitter:description" content="转自
+从NSArray看类簇 Class Clusters Class Clusters（类簇）是抽象工厂模式在iOS下的一种实现，众多常用类，如NSString，NSArray，NSDictionary，NSNumber都运作在这一模式下，它是接口简单性和扩展性的权衡体现，在我们完全不知情的情况下，偷偷隐藏了很多具体的实现类，只暴露出简单的接口。
+NSArray的类簇 虽然官方文档中拿NSNumber说事儿，但Foundation并没有像图中描述的那样为每个number都弄一个子类，于是研究下NSArray类簇的实现方式。
+__NSPlacehodlerArray 熟悉这个模式的同学很可能看过下面的测试代码，将原有的alloc&#43;init拆开写：
+id obj1 = [NSArray alloc]; // __NSPlacehodlerArray * id obj2 = [NSMutableArray alloc]; // __NSPlacehodlerArray * id obj3 = [obj1 init]; // __NSArrayI * id obj4 = [obj2 init]; // __NSArrayM *  发现&#43; alloc后并非生成了我们期望的类实例，而是一个__NSPlacehodlerArray的中间对象，后面的- init或- initWithXXXXX消息都是发送给这个中间对象，再由它做工厂，生成真的对象。这里的__NSArrayI和__NSArrayM分别对应Immutable和Mutable（后面的I和M的意思）
+于是顺着思路猜实现，__NSPlacehodlerArray必定用某种方式存储了它是由谁alloc出来的这个信息，才能在init的时候知道要创建的是可变数组还是不可变数组
+于是乎很开心的去看了下*obj1的内存布局：
+下面是32位模拟器中的内存布局（64位太长不好看就临时改32位了- -），第一个箭头是*obj1，第二个是*obj2
+我们知道，对象的前4字节（32位下）为isa指针，指向类对象地址，上图所示的0x0051E768就是__NSPlacehodlerArray类对象地址，可以从lldb下po这个地址来验证。
+那么问题来了，这个中间对象并没有储存任何信息诶（除了isa外就都是0了），那它init的时候咋知道该创建什么呢？ 经过研究发现，Foundation用了一个很贱的比较静态实例地址方式来实现，伪代码如下：
+static __NSPlacehodlerArray *GetPlaceholderForNSArray() { static __NSPlacehodlerArray *instanceForNSArray; if (!instanceForNSArray) { instanceForNSArray = [[__NSPlacehodlerArray alloc] init]; } return instanceForNSArray; } static __NSPlacehodlerArray *GetPlaceholderForNSMutableArray() { static __NSPlacehodlerArray *instanceForNSMutableArray; if (!">
+    
+    
+
+    
+    
+
+    
+      <meta property="og:image" content="//www.gravatar.com/avatar/8d5387e20303e26c6147cfe67990995e?s=640">
+    
+
+    
+    
+    
+
+    
+
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/jquery.fancybox.min.css" integrity="sha256-vuXZ9LGmmwtjqFX1F+EKin1ThZMub58gKULUyf0qECk=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/helpers/jquery.fancybox-thumbs.min.css" integrity="sha256-SEa4XYAHihTcEP1f5gARTB2K26Uk8PsndQYHQC1f4jU=" crossorigin="anonymous" />
+    
+    
+    <link rel="stylesheet" href="http://ytlvy.com/css/style-jsjn0006wyhpyzivf6yceb31gvpjatbcs3qzjvlumobfnugccvobqwxnnaj8.min.css" />
+    
+    
+
+    
+      
+    
+    
+  </head>
+
+  <body>
+    <div id="blog">
+      <header id="header" data-behavior="1">
+  <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+  <div class="header-title">
+    <a class="header-title-link" href="http://ytlvy.com/">My New Hugo Site</a>
+  </div>
+  
+    
+      <a class="header-right-picture "
+         href="http://ytlvy.com/#about">
+    
+    
+    
+      
+        <img class="header-picture" src="//www.gravatar.com/avatar/8d5387e20303e26c6147cfe67990995e?s=90" alt="" />
+      
+    
+    </a>
+  
+</header>
+
+      <nav id="sidebar" data-behavior="1">
+  <div class="sidebar-container">
+    
+      <div class="sidebar-profile">
+        <a href="http://ytlvy.com/#about">
+          <img class="sidebar-profile-picture" src="//www.gravatar.com/avatar/8d5387e20303e26c6147cfe67990995e?s=110" alt="" />
+        </a>
+        <h4 class="sidebar-profile-name">肖杰</h4>
+        
+          <h5 class="sidebar-profile-bio">一个瑜伽|篮球|羽毛球爱好者</h5>
+        
+      </div>
+    
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="http://ytlvy.com/">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-home"></i>
+      
+      <span class="sidebar-button-desc">Home</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="http://ytlvy.com/categories">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-bookmark"></i>
+      
+      <span class="sidebar-button-desc">Categories</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="http://ytlvy.com/tags">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+      
+      <span class="sidebar-button-desc">Tags</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="http://ytlvy.com/archives">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
+      
+      <span class="sidebar-button-desc">Archives</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="http://ytlvy.com/#about">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-question"></i>
+      
+      <span class="sidebar-button-desc">About</span>
+    </a>
+  </li>
+
+
+    </ul>
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://github.com/ytlvy" target="_blank" rel="noopener">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-github"></i>
+      
+      <span class="sidebar-button-desc">GitHub</span>
+    </a>
+  </li>
+
+
+    </ul>
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="http://ytlvy.com/index.xml">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-rss"></i>
+      
+      <span class="sidebar-button-desc">RSS</span>
+    </a>
+  </li>
+
+
+    </ul>
+  </div>
+</nav>
+
+      
+
+      <div id="main" data-behavior="1"
+        class="
+               hasCoverMetaIn
+               ">
+        <article class="post" itemscope itemType="http://schema.org/BlogPosting">
+          
+          
+            <div class="post-header main-content-wrap text-left">
+  
+    <h1 class="post-title" itemprop="headline">
+      iOS Class Clusters
+    </h1>
+  
+  
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2015-07-17T00:00:00Z">
+        
+   17, 2015
+
+      </time>
+    
+    
+  
+  
+    <span></span>
+    
+      <a class="category-link" href="http://ytlvy.com/categories/ios">IOS</a>
+    
+  
+
+  </div>
+
+</div>
+          
+          <div class="post-content markdown" itemprop="articleBody">
+            <div class="main-content-wrap">
+              
+
+<p><a href="http://blog.sunnyxx.com/2014/12/18/class-cluster/">转自</a></p>
+
+<h2 id="从nsarray看类簇">从NSArray看类簇</h2>
+
+<h3 id="class-clusters">Class Clusters</h3>
+
+<p>Class Clusters（类簇）是<code>抽象工厂</code>模式在iOS下的一种实现，众多常用类，如NSString，NSArray，NSDictionary，NSNumber都运作在这一模式下，它是接口简单性和扩展性的权衡体现，在我们完全不知情的情况下，偷偷隐藏了很多具体的实现类，只暴露出简单的接口。</p>
+
+<h3 id="nsarray的类簇">NSArray的类簇</h3>
+
+<p>虽然<a href="https://developer.apple.com/library/ios/documentation/general/conceptual/CocoaEncyclopedia/ClassClusters/ClassClusters.html">官方文档</a>中拿<code>NSNumber</code>说事儿，但Foundation并没有像图中描述的那样为每个number都弄一个子类，于是研究下NSArray类簇的实现方式。</p>
+
+<h4 id="nsplacehodlerarray">__NSPlacehodlerArray</h4>
+
+<p>熟悉这个模式的同学很可能看过下面的测试代码，将原有的alloc+init拆开写：</p>
+
+<pre><code>id obj1 = [NSArray alloc]; // __NSPlacehodlerArray *
+id obj2 = [NSMutableArray alloc];  // __NSPlacehodlerArray *
+id obj3 = [obj1 init];  // __NSArrayI *
+id obj4 = [obj2 init];  // __NSArrayM *
+</code></pre>
+
+<p>发现<code>+ alloc</code>后并非生成了我们期望的类实例，而是一个<code>__NSPlacehodlerArray</code>的中间对象，后面的<code>- init</code>或<code>- initWithXXXXX</code>消息都是发送给这个中间对象，再由它做工厂，生成真的对象。这里的<code>__NSArrayI</code>和<code>__NSArrayM</code>分别对应Immutable和Mutable（后面的I和M的意思）</p>
+
+<p>于是顺着思路猜实现，<code>__NSPlacehodlerArray</code>必定用某种方式存储了它是由谁alloc出来的这个信息，才能在init的时候知道要创建的是可变数组还是不可变数组</p>
+
+<p>于是乎很开心的去看了下*obj1的内存布局：</p>
+
+<p><img src="http://ww4.sinaimg.cn/large/51530583jw1em3doxs660j20l80j6go3.jpg" alt="" /></p>
+
+<p>下面是32位模拟器中的内存布局（64位太长不好看就临时改32位了- -），第一个箭头是<code>*obj1</code>，第二个是<code>*obj2</code></p>
+
+<p><img src="http://ww3.sinaimg.cn/mw690/51530583jw1em3dvmuuanj213006maf2.jpg" alt="" /></p>
+
+<p>我们知道，对象的前4字节（32位下）为isa指针，指向类对象地址，上图所示的<code>0x0051E768</code>就是<code>__NSPlacehodlerArray</code>类对象地址，可以从lldb下po这个地址来验证。</p>
+
+<p>那么问题来了，这个中间对象并没有储存任何信息诶（除了isa外就都是0了），那它init的时候咋知道该创建什么呢？
+经过研究发现，Foundation用了一个很贱的比较静态实例地址方式来实现，伪代码如下：</p>
+
+<pre><code>static __NSPlacehodlerArray *GetPlaceholderForNSArray() {
+    static __NSPlacehodlerArray *instanceForNSArray;
+    if (!instanceForNSArray) {
+        instanceForNSArray = [[__NSPlacehodlerArray alloc] init];
+    }
+    return instanceForNSArray;
+}
+
+static __NSPlacehodlerArray *GetPlaceholderForNSMutableArray() {
+    static __NSPlacehodlerArray *instanceForNSMutableArray;
+    if (!instanceForNSMutableArray) {
+        instanceForNSMutableArray = [[__NSPlacehodlerArray alloc] init];
+    }
+    return instanceForNSMutableArray;
+}
+// NSArray实现
++ (id)alloc
+{
+    if (self == [NSArray class]) {
+        return GetPlaceholderForNSArray()
+    }
+}
+// NSMutableArray实现
++ (id)alloc
+{
+    if (self == [NSMutableArray class]) {
+        return GetPlaceholderForNSMutableArray()
+    }
+}
+// __NSPlacehodlerArray实现
+- (id)init
+{
+    if (self == GetPlaceholderForNSArray()) {
+        self = [[__NSArrayI alloc] init];
+    }
+    else if (self == GetPlaceholderForNSMutableArray()) {
+        self = [[__NSArrayM alloc] init];
+    }
+    return self;
+}
+</code></pre>
+
+<p>Foundation不是开源的，所以上面的代码是猜测的，思路大概就是这样，可以这样验证下：</p>
+
+<pre><code>id obj1 = [NSArray alloc]; 
+id obj2 = [NSArray alloc];
+id obj3 = [NSMutableArray alloc];
+id obj4 = [NSMutableArray alloc];
+// 1和2地址相同，3和4地址相同，无论多少次都相同，且地址相差16位
+</code></pre>
+
+<h4 id="静态不可变空对象">静态不可变空对象</h4>
+
+<p>除此之外，Foundation对<code>不可变</code>版本的空数组也做了个小优化：</p>
+
+<pre><code>NSArray *arr1 = [[NSArray alloc] init];
+NSArray *arr2 = [[NSArray alloc] init];
+NSArray *arr3 = @[];
+NSArray *arr4 = @[];
+NSArray *arr5 = @[@1];
+</code></pre>
+
+<p>上边1-4号都指向了同一个对象，而arr5指向了另一个对象。</p>
+
+<p>若干个不可变的空数组间没有任何特异性，返回一个静态对象也理所应当。
+不仅是NSArray，Foundation中如<code>NSString</code>, <code>NSDictionary</code>, <code>NSSet</code>等区分可变和不可变版本的类，空实例都是静态对象（NSString的空实例对象是常量区的@&ldquo;&ldquo;）</p>
+
+<p>所以也给用这些方法来测试对象内存管理的同学提个醒，很容易意料之外的。</p>
+
+              
+            </div>
+          </div>
+          <div id="post-footer" class="post-footer main-content-wrap">
+            
+              
+                
+                
+                  <div class="post-footer-tags">
+                    <span class="text-color-light text-small"></span><br/>
+                    
+  <a class="tag tag--primary tag--small" href="http://ytlvy.com/tags/class-clusters/">Class Clusters</a>
+
+                  </div>
+                
+              
+            
+            
+  <div class="post-actions-wrap">
+      <nav >
+        <ul class="post-actions post-action-nav">
+          
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="http://ytlvy.com/posts/2015-07-17/2015-07-17-arc-dealloc-cxx-destruct/" data-tooltip="ARC dealloc cxx_destruct">
+              
+                  <i class="fa fa-angle-left"></i>
+                  <span class="hide-xs hide-sm text-small icon-ml"></span>
+                </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="http://ytlvy.com/posts/2015-07-17/2015-07-17-ios-super-init/" data-tooltip="iOS Super init">
+              
+                  <span class="hide-xs hide-sm text-small icon-mr"></span>
+                  <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+          
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
+      
+        <li class="post-action hide-lg hide-md hide-sm">
+          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+            <i class="fa fa-share-alt"></i>
+          </a>
+        </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://ytlvy.com/posts/2015-07-17/2015-07-17-ios-class-clusters/">
+              <i class="fa fa-facebook-official"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http://ytlvy.com/posts/2015-07-17/2015-07-17-ios-class-clusters/">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=http://ytlvy.com/posts/2015-07-17/2015-07-17-ios-class-clusters/">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        
+      
+      
+        <li class="post-action">
+          <a class="post-action-btn btn btn--default" href="#disqus_thread">
+            <i class="fa fa-comment-o"></i>
+          </a>
+        </li>
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#">
+        
+          <i class="fa fa-list"></i>
+        </a>
+      </li>
+    </ul>
+  </div>
+
+
+            
+              
+                <div id="disqus_thread">
+  <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+              
+            
+          </div>
+        </article>
+        <footer id="footer" class="main-content-wrap">
+  <span class="copyrights">
+    &copy; 2017 肖杰. 
+  </span>
+</footer>
+
+      </div>
+      <div id="bottom-bar" class="post-bottom-bar" data-behavior="1">
+        
+  <div class="post-actions-wrap">
+      <nav >
+        <ul class="post-actions post-action-nav">
+          
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="http://ytlvy.com/posts/2015-07-17/2015-07-17-arc-dealloc-cxx-destruct/" data-tooltip="ARC dealloc cxx_destruct">
+              
+                  <i class="fa fa-angle-left"></i>
+                  <span class="hide-xs hide-sm text-small icon-ml"></span>
+                </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="http://ytlvy.com/posts/2015-07-17/2015-07-17-ios-super-init/" data-tooltip="iOS Super init">
+              
+                  <span class="hide-xs hide-sm text-small icon-mr"></span>
+                  <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+          
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
+      
+        <li class="post-action hide-lg hide-md hide-sm">
+          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+            <i class="fa fa-share-alt"></i>
+          </a>
+        </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://ytlvy.com/posts/2015-07-17/2015-07-17-ios-class-clusters/">
+              <i class="fa fa-facebook-official"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http://ytlvy.com/posts/2015-07-17/2015-07-17-ios-class-clusters/">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=http://ytlvy.com/posts/2015-07-17/2015-07-17-ios-class-clusters/">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        
+      
+      
+        <li class="post-action">
+          <a class="post-action-btn btn btn--default" href="#disqus_thread">
+            <i class="fa fa-comment-o"></i>
+          </a>
+        </li>
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#">
+        
+          <i class="fa fa-list"></i>
+        </a>
+      </li>
+    </ul>
+  </div>
+
+
+      </div>
+      <div id="share-options-bar" class="share-options-bar" data-behavior="1">
+  <i id="btn-close-shareoptions" class="fa fa-close"></i>
+  <ul class="share-options">
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Fytlvy.com%2Fposts%2F2015-07-17%2F2015-07-17-ios-class-clusters%2F">
+          <i class="fa fa-facebook-official"></i><span>%!(EXTRA string=Facebook)</span>
+        </a>
+      </li>
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=http%3A%2F%2Fytlvy.com%2Fposts%2F2015-07-17%2F2015-07-17-ios-class-clusters%2F">
+          <i class="fa fa-twitter"></i><span>%!(EXTRA string=Twitter)</span>
+        </a>
+      </li>
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=http%3A%2F%2Fytlvy.com%2Fposts%2F2015-07-17%2F2015-07-17-ios-class-clusters%2F">
+          <i class="fa fa-google-plus"></i><span>%!(EXTRA string=Google&#43;)</span>
+        </a>
+      </li>
+    
+  </ul>
+</div>
+<div id="share-options-mask" class="share-options-mask"></div>
+    </div>
+    
+    <div id="about">
+  <div id="about-card">
+    <div id="about-btn-close">
+      <i class="fa fa-remove"></i>
+    </div>
+    
+      <img id="about-card-picture" src="//www.gravatar.com/avatar/8d5387e20303e26c6147cfe67990995e?s=110" alt="" />
+    
+    <h4 id="about-card-name">肖杰</h4>
+    
+      <div id="about-card-bio">一个瑜伽|篮球|羽毛球爱好者</div>
+    
+    
+      <div id="about-card-job">
+        <i class="fa fa-briefcase"></i>
+        <br/>
+        搬砖工
+      </div>
+    
+    
+      <div id="about-card-location">
+        <i class="fa fa-map-marker"></i>
+        <br/>
+        Beijing
+      </div>
+    
+  </div>
+</div>
+
+    <div id="algolia-search-modal" class="modal-container">
+  <div class="modal">
+    <div class="modal-header">
+      <span class="close-button"><i class="fa fa-close"></i></span>
+      <a href="https://algolia.com" target="_blank" rel="noopener" class="searchby-algolia text-color-light link-unstyled">
+        <span class="searchby-algolia-text text-color-light text-small">by</span>
+        <img class="searchby-algolia-logo" src="https://www.algolia.com/static_assets/images/press/downloads/algolia-light.svg">
+      </a>
+      <i class="search-icon fa fa-search"></i>
+      <form id="algolia-search-form">
+        <input type="text" id="algolia-search-input" name="search"
+          class="form-control input--large search-input" placeholder="" />
+      </form>
+    </div>
+    <div class="modal-body">
+      <div class="no-result text-color-light text-center"></div>
+      <div class="results">
+        
+        
+      </div>
+    </div>
+    <div class="modal-footer">
+      <p class="results-count text-medium"
+         data-message-zero=""
+         data-message-one=""
+         data-message-other="">
+         0 posts found
+      </p>
+    </div>
+  </div>
+</div>
+    
+  
+    
+    <div id="cover" style="background-image:url('http://ytlvy.com/images/cover.jpg');"></div>
+  
+
+
+    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js" integrity="sha256-/BfiIkHlHoVihZdc6TFuj7MmJ0TWcWsMXkeDFwhi0zw=" crossorigin="anonymous"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.7/js/jquery.fancybox.min.js" integrity="sha256-GEAnjcTqVP+vBp3SSc8bEDQqvWAZMiHyUSIorrWwH50=" crossorigin="anonymous"></script>
+
+
+<script src="http://ytlvy.com/js/script-qi9wbxp2ya2j6p7wx1i6tgavftewndznf4v0hy2gvivk1rxgc3lm7njqb6bz.min.js"></script>
+
+
+
+<script>
+$(document).ready(function() {
+  hljs.configure({ classPrefix: '', useBR: false });
+  $('pre.code-highlight > code, pre > code').each(function(i, block) {
+    if (!$(this).hasClass('codeblock')) {
+      $(this).addClass('codeblock');
+    }
+    hljs.highlightBlock(block);
+  });
+});
+</script>
+
+
+  
+    
+      <script>
+        var disqus_config = function () {
+          this.page.url = 'http:\/\/ytlvy.com\/posts\/2015-07-17\/2015-07-17-ios-class-clusters\/';
+          
+            this.page.identifier = '\/posts\/2015-07-17\/2015-07-17-ios-class-clusters\/'
+          
+        };
+        (function() {
+          
+          
+          if (window.location.hostname == "localhost") {
+            return;
+          }
+          var d = document, s = d.createElement('script');
+          var disqus_shortname = 'hugo-tranquilpeak-theme';
+          s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+
+          s.setAttribute('data-timestamp', +new Date());
+          (d.head || d.body).appendChild(s);
+        })();
+      </script>
+    
+  
+
+
+
+    
+  </body>
+</html>
+

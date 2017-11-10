@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Attribute on My New Hugo Site</title>
+    <link>http://ytlvy.com/tags/attribute/</link>
+    <description>Recent content in Attribute on My New Hugo Site</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Tue, 04 Aug 2015 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="http://ytlvy.com/tags/attribute/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>iOS attribute objc_designated_initializer</title>
+      <link>http://ytlvy.com/posts/2015-08-04/2015-08-04-ios-attribute-objc-designated-initializer/</link>
+      <pubDate>Tue, 04 Aug 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-08-04/2015-08-04-ios-attribute-objc-designated-initializer/</guid>
+      <description>reference
+attribute((objc_designated_initializer)) 指定初始化器（designated initializer）是 Objective-C 中的一个重要的概念，但是很可惜的是，很多开发者（不知道为什么）并没能正确遵守关于指定初始化器的一些惯例。
+之前，我们只能通过 code review 之类的方法来找出、修正这些问题；现在，clang 为我们提供了编译器级别的支持，能够找出不遵守管理的地方并给出警告，我们需要做的是标记出哪个初始化器是指定初始化器，例如：
+@interface FTBObject - (instancetype)init __attribute__((objc_designated_initializer)); @end  通过在接口定义中指定指定初始化器，不仅编译器能够给出相关的警告，而且需要继承该类的开发者也可以不参考文档就知道哪个初始化器是指定初始化器。
+目前，clang 可以提供一系列警告，例如非指定初始化器没有调用其他初始化器、指定初始化器没有调用父类的指定初始化器、指定初始化器调用了非指定初始化器、子类没有复写父类的指定初始化器等。 具体的例子可以看这个测试用例。
+不幸的是，目前系统库的接口还没有这个属性，也就是说只有继承自己的代码和标记了这个指令的第三方库中的类才有用。</description>
+    </item>
+    
+    <item>
+      <title>ios attribute cleanup</title>
+      <link>http://ytlvy.com/posts/2015-07-17/2015-07-17-ios-attribute-cleanup/</link>
+      <pubDate>Fri, 17 Jul 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-07-17/2015-07-17-ios-attribute-cleanup/</guid>
+      <description>转自
+黑魔法attribute((cleanup)) 编译器属性attribute用于向编译器描述特殊的标识、检查或优化，几个常用的用法看mattt大神的文章就好。今天发现一个名为cleanup的黑魔法属性，简单介绍下。
+基本用法 __attribute__((cleanup(...)))，用于修饰一个变量，在它的作用域结束时可以自动执行一个指定的方法，如：
+// 指定一个cleanup方法，注意入参是所修饰变量的地址，类型要一样 // 对于指向objc对象的指针(id *)，如果不强制声明__strong默认是__autoreleasing，造成类型不匹配 static void stringCleanUp(__strong NSString **string) { NSLog(@&amp;quot;%@&amp;quot;, *string); } // 在某个方法中： { __strong NSString *string __attribute__((cleanup(stringCleanUp))) = @&amp;quot;sunnyxx&amp;quot;; } // 当运行到这个作用域结束时，自动调用stringCleanUp  所谓作用域结束，包括大括号结束、return、goto、break、exception等各种情况。 当然，可以修饰的变量不止NSString，自定义Class或基本类型都是可以的：
+// 自定义的Class static void sarkCleanUp(__strong Sark **sark) { NSLog(@&amp;quot;%@&amp;quot;, *sark); } __strong Sark *sark __attribute__((cleanup(sarkCleanUp))) = [Sark new]; // 基本类型 static void intCleanUp(NSInteger *integer) { NSLog(@&amp;quot;%d&amp;quot;, *integer); } NSInteger integer __attribute__((cleanup(intCleanUp))) = 1;  假如一个作用域内有若干个cleanup的变量，他们的调用顺序是先入后出的栈式顺序； 而且，cleanup是先于这个对象的dealloc调用的。</description>
+    </item>
+    
+  </channel>
+</rss>

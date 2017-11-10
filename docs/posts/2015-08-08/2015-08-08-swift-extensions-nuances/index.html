@@ -1,0 +1,801 @@
+
+
+  
+
+
+  
+
+
+
+
+  
+
+
+  
+
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="Hugo 0.30.2 with theme Tranquilpeak 0.4.2-BETA">
+    <title>Swift Extensions Nuances</title>
+    <meta name="author" content="肖杰">
+    <meta name="keywords" content="">
+
+    <link rel="icon" href="http://ytlvy.com/favicon.png">
+    
+
+    
+    <meta name="description" content="Swift扩展的三个微妙细节
+
+
+
+原文链接 : 3 Nuances of Swift Extensions
+原文作者 : Andrew Bancroft
+译文出自 : 开发技术前线 www.devtf.cn
+译者 : samw00
+校对者:
+状态 :  校对中
+
+
+
+每当我初次翻看某文档时，我都走马观花似的快速阅过，还一边点着头一边喃喃自语说：“好！懂了，就这么回事！”，可是过后当我真正要运用到这些我以为已经理解了的知识点时，却发现实际情况和我想的往往不一样，每当这时我就懵了，心想：“哇哦&hellip;怎么回事？这和我想的完全不一样啊！文档里有说这事吗？”。
+
+最近的几次讨论促使我扪心自问是否真正的理解了Swift中的扩展。我阅读过关于扩展的文档，并且我“认为”我自己对这块内容已经是理解的相当透彻了。可是这几次讨论，加上自己私下通过敲代码的验证，让我发现了我原先不曾注意到几个微妙的细节。
+
+更新：这篇文章刚一发表，Swift社区就出手襄助并帮助我弄明白了我最根本的纠结点在哪。为此，我写了另一篇文章“阐明Swift访问控制”进一步说明我之前的误解。为了避免犯我曾今犯过的错误，我建议大家去读一读。
+
+三个关于扩展的微妙细节
+
+对下面列出的三个细节的思考严重挑战了我之前对Swift扩展的理解：
+
+
+Swift扩展对它所扩展类型的visibility。比如，扩展能访问被private所修饰的内容吗?
+定义扩展的位置是否对扩展的visibility有影响。比如我这有一个类型我想写个扩展，把扩展写在同一个源文件里和把扩展写在另一个文件里有什么区别吗？
+扩展里“成员”的默认访问修饰符以及是否给他们添加修饰对这个扩展作为一个类型的公共接口的影响。
+
+
+在我开始之前，假设我有一个公共结构体Person。这个结构体有一些私有属性，name，gender，和age。用一个枚举把Gender封装了一下。这个结构体看起来如下：
+
+">
+    <meta property="og:description" content="Swift扩展的三个微妙细节
+
+
+
+原文链接 : 3 Nuances of Swift Extensions
+原文作者 : Andrew Bancroft
+译文出自 : 开发技术前线 www.devtf.cn
+译者 : samw00
+校对者:
+状态 :  校对中
+
+
+
+每当我初次翻看某文档时，我都走马观花似的快速阅过，还一边点着头一边喃喃自语说：“好！懂了，就这么回事！”，可是过后当我真正要运用到这些我以为已经理解了的知识点时，却发现实际情况和我想的往往不一样，每当这时我就懵了，心想：“哇哦&hellip;怎么回事？这和我想的完全不一样啊！文档里有说这事吗？”。
+
+最近的几次讨论促使我扪心自问是否真正的理解了Swift中的扩展。我阅读过关于扩展的文档，并且我“认为”我自己对这块内容已经是理解的相当透彻了。可是这几次讨论，加上自己私下通过敲代码的验证，让我发现了我原先不曾注意到几个微妙的细节。
+
+更新：这篇文章刚一发表，Swift社区就出手襄助并帮助我弄明白了我最根本的纠结点在哪。为此，我写了另一篇文章“阐明Swift访问控制”进一步说明我之前的误解。为了避免犯我曾今犯过的错误，我建议大家去读一读。
+
+三个关于扩展的微妙细节
+
+对下面列出的三个细节的思考严重挑战了我之前对Swift扩展的理解：
+
+
+Swift扩展对它所扩展类型的visibility。比如，扩展能访问被private所修饰的内容吗?
+定义扩展的位置是否对扩展的visibility有影响。比如我这有一个类型我想写个扩展，把扩展写在同一个源文件里和把扩展写在另一个文件里有什么区别吗？
+扩展里“成员”的默认访问修饰符以及是否给他们添加修饰对这个扩展作为一个类型的公共接口的影响。
+
+
+在我开始之前，假设我有一个公共结构体Person。这个结构体有一些私有属性，name，gender，和age。用一个枚举把Gender封装了一下。这个结构体看起来如下：
+
+">
+    <meta property="og:type" content="blog">
+    <meta property="og:title" content="Swift Extensions Nuances">
+    <meta property="og:url" content="/posts/2015-08-08/2015-08-08-swift-extensions-nuances/">
+    <meta property="og:site_name" content="My New Hugo Site">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="My New Hugo Site">
+    <meta name="twitter:description" content="Swift扩展的三个微妙细节
+
+
+
+原文链接 : 3 Nuances of Swift Extensions
+原文作者 : Andrew Bancroft
+译文出自 : 开发技术前线 www.devtf.cn
+译者 : samw00
+校对者:
+状态 :  校对中
+
+
+
+每当我初次翻看某文档时，我都走马观花似的快速阅过，还一边点着头一边喃喃自语说：“好！懂了，就这么回事！”，可是过后当我真正要运用到这些我以为已经理解了的知识点时，却发现实际情况和我想的往往不一样，每当这时我就懵了，心想：“哇哦&hellip;怎么回事？这和我想的完全不一样啊！文档里有说这事吗？”。
+
+最近的几次讨论促使我扪心自问是否真正的理解了Swift中的扩展。我阅读过关于扩展的文档，并且我“认为”我自己对这块内容已经是理解的相当透彻了。可是这几次讨论，加上自己私下通过敲代码的验证，让我发现了我原先不曾注意到几个微妙的细节。
+
+更新：这篇文章刚一发表，Swift社区就出手襄助并帮助我弄明白了我最根本的纠结点在哪。为此，我写了另一篇文章“阐明Swift访问控制”进一步说明我之前的误解。为了避免犯我曾今犯过的错误，我建议大家去读一读。
+
+三个关于扩展的微妙细节
+
+对下面列出的三个细节的思考严重挑战了我之前对Swift扩展的理解：
+
+
+Swift扩展对它所扩展类型的visibility。比如，扩展能访问被private所修饰的内容吗?
+定义扩展的位置是否对扩展的visibility有影响。比如我这有一个类型我想写个扩展，把扩展写在同一个源文件里和把扩展写在另一个文件里有什么区别吗？
+扩展里“成员”的默认访问修饰符以及是否给他们添加修饰对这个扩展作为一个类型的公共接口的影响。
+
+
+在我开始之前，假设我有一个公共结构体Person。这个结构体有一些私有属性，name，gender，和age。用一个枚举把Gender封装了一下。这个结构体看起来如下：
+
+">
+    
+    
+
+    
+    
+
+    
+      <meta property="og:image" content="//www.gravatar.com/avatar/8d5387e20303e26c6147cfe67990995e?s=640">
+    
+
+    
+    
+    
+
+    
+
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/jquery.fancybox.min.css" integrity="sha256-vuXZ9LGmmwtjqFX1F+EKin1ThZMub58gKULUyf0qECk=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/helpers/jquery.fancybox-thumbs.min.css" integrity="sha256-SEa4XYAHihTcEP1f5gARTB2K26Uk8PsndQYHQC1f4jU=" crossorigin="anonymous" />
+    
+    
+    <link rel="stylesheet" href="http://ytlvy.com/css/style-jsjn0006wyhpyzivf6yceb31gvpjatbcs3qzjvlumobfnugccvobqwxnnaj8.min.css" />
+    
+    
+
+    
+      
+    
+    
+  </head>
+
+  <body>
+    <div id="blog">
+      <header id="header" data-behavior="1">
+  <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+  <div class="header-title">
+    <a class="header-title-link" href="http://ytlvy.com/">My New Hugo Site</a>
+  </div>
+  
+    
+      <a class="header-right-picture "
+         href="http://ytlvy.com/#about">
+    
+    
+    
+      
+        <img class="header-picture" src="//www.gravatar.com/avatar/8d5387e20303e26c6147cfe67990995e?s=90" alt="" />
+      
+    
+    </a>
+  
+</header>
+
+      <nav id="sidebar" data-behavior="1">
+  <div class="sidebar-container">
+    
+      <div class="sidebar-profile">
+        <a href="http://ytlvy.com/#about">
+          <img class="sidebar-profile-picture" src="//www.gravatar.com/avatar/8d5387e20303e26c6147cfe67990995e?s=110" alt="" />
+        </a>
+        <h4 class="sidebar-profile-name">肖杰</h4>
+        
+          <h5 class="sidebar-profile-bio">一个瑜伽|篮球|羽毛球爱好者</h5>
+        
+      </div>
+    
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="http://ytlvy.com/">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-home"></i>
+      
+      <span class="sidebar-button-desc">Home</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="http://ytlvy.com/categories">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-bookmark"></i>
+      
+      <span class="sidebar-button-desc">Categories</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="http://ytlvy.com/tags">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+      
+      <span class="sidebar-button-desc">Tags</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="http://ytlvy.com/archives">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
+      
+      <span class="sidebar-button-desc">Archives</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="http://ytlvy.com/#about">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-question"></i>
+      
+      <span class="sidebar-button-desc">About</span>
+    </a>
+  </li>
+
+
+    </ul>
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://github.com/ytlvy" target="_blank" rel="noopener">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-github"></i>
+      
+      <span class="sidebar-button-desc">GitHub</span>
+    </a>
+  </li>
+
+
+    </ul>
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="http://ytlvy.com/index.xml">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-rss"></i>
+      
+      <span class="sidebar-button-desc">RSS</span>
+    </a>
+  </li>
+
+
+    </ul>
+  </div>
+</nav>
+
+      
+
+      <div id="main" data-behavior="1"
+        class="
+               hasCoverMetaIn
+               ">
+        <article class="post" itemscope itemType="http://schema.org/BlogPosting">
+          
+          
+            <div class="post-header main-content-wrap text-left">
+  
+    <h1 class="post-title" itemprop="headline">
+      Swift Extensions Nuances
+    </h1>
+  
+  
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2015-08-08T00:00:00Z">
+        
+   8, 2015
+
+      </time>
+    
+    
+  
+  
+    <span></span>
+    
+      <a class="category-link" href="http://ytlvy.com/categories/swift">Swift</a>
+    
+  
+
+  </div>
+
+</div>
+          
+          <div class="post-content markdown" itemprop="articleBody">
+            <div class="main-content-wrap">
+              <h2 id="swift扩展的三个微妙细节">Swift扩展的三个微妙细节</h2>
+
+<blockquote>
+<ul>
+<li>原文链接 : <a href="http://www.andrewcbancroft.com/2015/04/22/3-nuances-of-swift-extensions/">3 Nuances of Swift Extensions</a></li>
+<li>原文作者 : <a href="http://www.andrewcbancroft.com/">Andrew Bancroft</a></li>
+<li>译文出自 : <a href="www.devtf.cn">开发技术前线 www.devtf.cn</a></li>
+<li>译者 : <a href="https://github.com/samw00/">samw00</a></li>
+<li>校对者:<br /></li>
+<li>状态 :  校对中</li>
+</ul>
+</blockquote>
+
+<p>每当我初次翻看某文档时，我都走马观花似的快速阅过，还一边点着头一边喃喃自语说：“好！懂了，就这么回事！”，可是过后当我真正要运用到这些我以为已经理解了的知识点时，却发现实际情况和我想的往往不一样，每当这时我就懵了，心想：“哇哦&hellip;怎么回事？这和我想的完全不一样啊！文档里有说这事吗？”。</p>
+
+<p>最近的几次讨论促使我扪心自问是否真正的理解了Swift中的扩展。我阅读过关于扩展的文档，并且我“认为”我自己对这块内容已经是理解的相当透彻了。可是这几次讨论，加上自己私下通过敲代码的验证，让我发现了我原先不曾注意到几个微妙的细节。</p>
+
+<p><strong>更新</strong>：这篇文章刚一发表，Swift社区就出手襄助并帮助我弄明白了我最根本的纠结点在哪。为此，我写了另一篇文章“<a href="http://www.andrewcbancroft.com/2015/04/24/clarifying-swift-access-control-hint-swift-isnt-c-sharp/">阐明Swift访问控制</a>”进一步说明我之前的误解。为了避免犯我曾今犯过的错误，我建议大家去读一读。</p>
+
+<h2 id="三个关于扩展的微妙细节">三个关于扩展的微妙细节</h2>
+
+<p>对下面列出的三个细节的思考严重挑战了我之前对Swift扩展的理解：</p>
+
+<ol>
+<li>Swift扩展对它所扩展类型的<strong>visibility</strong>。比如，扩展能访问被<code>private</code>所修饰的内容吗?</li>
+<li>定义扩展的位置是否对扩展的<strong>visibility</strong>有影响。比如我这有一个类型我想写个扩展，把扩展写在同一个源文件里和把扩展写在另一个文件里有什么区别吗？</li>
+<li>扩展里“成员”的默认访问修饰符以及是否给他们添加修饰对这个扩展作为一个类型的公共接口的影响。</li>
+</ol>
+
+<p>在我开始之前，假设我有一个公共结构体<code>Person</code>。这个结构体有一些私有属性，<code>name</code>，<code>gender</code>，和<code>age</code>。用一个枚举把<code>Gender</code>封装了一下。这个结构体看起来如下：</p>
+
+<p></p>
+
+<pre><code>public struct Person {
+    private var name: String
+    private var gender: Gender
+    private var age: Int
+
+    public init(name: String, gender: Gender, age: Int) {
+        self.name = name
+        self.gender = gender
+        self.age = age
+    }
+
+    public func howOldArdYou() -&gt; String {
+        return formattedAge()
+    }
+
+    // 私有方法，用于下面分析扩展的`visibility`...
+    private func formattedAge() -&gt; String {
+        switch self.gender {
+        case .Male:
+            return &quot;I'm \(self.age).&quot;
+        case .Female:
+            return &quot;Not telling.&quot;
+        }
+    }
+
+    public enum Gender {
+        case Male
+        case Female
+    }
+}
+</code></pre>
+
+<p>现在，就让我们给<code>Person</code>写个扩展，通过实践来弄清楚刚刚提到的三个小细节&hellip;</p>
+
+<p>##扩展对类型的访问能力
+当我提出第一个细节时，关于扩展对被扩展类型的访问能力时，我问了一个问题：“扩展能访问到被<code>private</code>修饰的内容吗?”。答案一开始出乎我的预料：能&hellip;扩展能访问到。</p>
+
+<p>然而，这里就要考虑到第二个细节所涉及的问题，那就是：在<strong>哪里</strong>定义这个扩展是绝对有影响的。</p>
+
+<p>###定义在同一个文件里
+如果扩展和类型是在写同一个源文件里，则扩展<strong>能</strong>访问到在类型中被<code>priavte</code>所修饰的内容。</p>
+
+<p>举个栗子，在Person.swift里定义一个<code>Person</code>的扩展就会允许这个扩展访问被<code>private</code>修饰的变量和方法</p>
+
+<pre><code>extension Person {
+    func getAge() -&gt; Int {
+        return age // 尽管age是 --private--， 但编译成功
+    }
+
+    func getFormattedAge() -&gt; String {
+        return formattedAge() // 尽管 formattedAge是 --private--，但编译成功
+    }
+}
+</code></pre>
+
+<p>“这谁知道？！什么？？为啥？”，我当时就没想明白&hellip;</p>
+
+<p>至于为什么把扩展写在同一个源文件里头会这样，我自己的推理是其实可以在写类型的时候，就把扩展的implementation当作类型的一部分给写了，这样的最终效果是一样的。</p>
+
+<p>我在我要“扩展”的类型的<strong>源文件</strong>里，所以无论是我把要新添加的功能当作这个类型的扩展写下来，或是就在这个类型里面定义我原本打算写在扩展里的功能是没有区别的，都是一样的效果。</p>
+
+<p>所以，站在编译器的角度来看，编译器可能会说：“好吧，我看到这里写了一个扩展，但是真没这个必要，因为扩展和类型都在同一个源文件里&hellip;，所以开发者完全可以把扩展里的这些代码直接写在类型里面&hellip;，所以他／她能够访问到被<code>private</code>修饰的代码段。”</p>
+
+<p><strong>更新:</strong>我上面的写的推理恰恰说明了我压根就没搞明白Swift访问控制机制。所以我建议大家读一读我后来写的“<a href="http://www.andrewcbancroft.com/2015/04/24/clarifying-swift-access-control-hint-swift-isnt-c-sharp/">阐明Swfit控制机制</a>”这篇文章，里面有更多的细节。</p>
+
+<p>###定义在不同文件里
+把扩展写在另一个文件里，则扩展无法访问类型中那些被<code>private</code>修饰的内容了。</p>
+
+<p>按照上文我自己推理的逻辑来反过来想，定义在不同文件中就访问不了私有属性对我来说也是说的通的。</p>
+
+<p>大多数情况下，你都会给那些你<strong>没有</strong>源代码的类型扩展，在这种情况下，扩展就只能访问那些被<code>public</code>修饰的内容了。
+<img src="http://www.andrewcbancroft.com/wp-content/uploads/2015/04/PersonExtensions_swift.png" alt="pic1" /></p>
+
+<p>##默认情况下的扩展访问控制
+对最后一个细节的验证也让我更深的体会。<a href="https://developer.apple.com/library/ios/documentation/Swift/Conceptual/Swift_Programming_Language/AccessControl.html#//apple_ref/doc/uid/TP40014097-CH41-ID25">苹果官方文档</a>说了，但是直到我动手验证了一番，我才算领会到了默认访问控制修饰符给扩展所造成的微妙的影响。</p>
+
+<p>###没有明确声明访问修饰赋时的默认访问
+简单的说，当你声明一个扩展但没有特别明确指明访问修饰符时（默认情况下），这个扩展的默认访问等级取决于被扩展的那个类型的访问等级。
+* 如果类型是<code>public</code>或者是<code>internal</code>，那么扩展的implementation的“成员”就默认为<code>internal</code>。这里让我没想到是，除非你特别声明，那么给<code>public</code>类型的扩展的成员变量在默认情况下也是<code>internal</code>。
+* 如果类型是<code>private</code>，那么默认情况下扩展的implementation中的“成员”也是<code>private</code></p>
+
+<p>下面就是在我们不明确的声明添加什么访问修饰的前提下，来看扩展会是一个什么反应（为了能访问私有属性变量和方法，我在Person.swift里定义了这个扩展）：</p>
+
+<pre><code>public struct Person {
+    // ...
+
+    // ...
+}
+
+extension Person {
+    func getAge() -&gt; Int {
+        return age
+    }
+
+    func getFormattedAge() -&gt; String {
+        return formattedAge()
+    }
+}
+</code></pre>
+
+<p>像上面这段代码用默认的访问修饰符时就会允许在同一个模块中的实例访问扩展里的API。但是，如果被扩展的类型的实例是在另一个模块（比如在测试模块）,则无法访问扩展中任何新增的公共API。
+####同一模块
+<img src="http://www.andrewcbancroft.com/wp-content/uploads/2015/04/SameModule.png" alt="pic2" />
+####不同模块（测试）
+<img src="http://www.andrewcbancroft.com/wp-content/uploads/2015/04/DifferentModule.png" alt="pic3" />
+因为某些原因，我一直都以为如果给一个是<code>public</code>的类型添加扩展，那么扩展里的成员也理应是<code>public</code>。我不知道为什么我会这么想，但是幸好我的验证把这点捋清楚了。</p>
+
+<p>###正常声明扩展，但给扩展的implementation添加public修饰
+给扩展的implementation的成员添加了<code>public</code>访问控制修饰，那么不管是在同一模块还是不同模块（test target）都能访问这些成员。</p>
+
+<p>只要成员被<code>public</code>修饰，那么在同一个源文件里声明扩展还是在另一个文件里声明扩展已经无所谓了&hellip;但是，正如前文所讲，只有在同一个源文件中声明的扩展才能够访问那些被<code>private</code>修饰的类型成员变量。
+####在不同（左）和同一个（右）源文件中声明的扩展
+<img src="http://www.andrewcbancroft.com/wp-content/uploads/2015/04/public_extension_members.png" alt="pic4" />
+####在不同模块中也能访问公共的扩展成员变量
+<img src="http://www.andrewcbancroft.com/wp-content/uploads/2015/04/public_member_visibility.png" alt="pic5" />
+这里请注意，在我写<code>extension Person {...}</code>时，我没有给这个扩展添加任何的修饰，我只是给这个扩展的成员添加了<code>public</code>。即便如此，新添加的方法仍然可以在不同的模块中被访问到。</p>
+
+<p>也就是说，没有必要写<code>public extension Person {...}</code>。因为<code>Person</code>已经是<code>public</code>了，所以基于<code>Person</code>的扩展也就很自然的延用了类型本身的访问等级。</p>
+
+<p>##总结
+对我来说，这篇文章所提到的三个关于Swift扩展的细节已足以让我敲敲代码去验证一番了。我希望这里所作的分析能够为那些尝试理解Swfit扩展的朋友扫清一些障碍。</p>
+              
+            </div>
+          </div>
+          <div id="post-footer" class="post-footer main-content-wrap">
+            
+              
+                
+                
+                  <div class="post-footer-tags">
+                    <span class="text-color-light text-small"></span><br/>
+                    
+  <a class="tag tag--primary tag--small" href="http://ytlvy.com/tags/extensions/">Extensions</a>
+
+                  </div>
+                
+              
+            
+            
+  <div class="post-actions-wrap">
+      <nav >
+        <ul class="post-actions post-action-nav">
+          
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="http://ytlvy.com/posts/2015-08-08/2015-08-08-swift-eventkit-requesting-permission/" data-tooltip="Swift EventKit - Requesting Permission">
+              
+                  <i class="fa fa-angle-left"></i>
+                  <span class="hide-xs hide-sm text-small icon-ml"></span>
+                </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="http://ytlvy.com/posts/2015-08-08/2015-08-08-swift-increasing-performance-by-reducing-dynamic-dispatch/" data-tooltip="Swift Increasing Performance by Reducing Dynamic Dispatch">
+              
+                  <span class="hide-xs hide-sm text-small icon-mr"></span>
+                  <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+          
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
+      
+        <li class="post-action hide-lg hide-md hide-sm">
+          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+            <i class="fa fa-share-alt"></i>
+          </a>
+        </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://ytlvy.com/posts/2015-08-08/2015-08-08-swift-extensions-nuances/">
+              <i class="fa fa-facebook-official"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http://ytlvy.com/posts/2015-08-08/2015-08-08-swift-extensions-nuances/">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=http://ytlvy.com/posts/2015-08-08/2015-08-08-swift-extensions-nuances/">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        
+      
+      
+        <li class="post-action">
+          <a class="post-action-btn btn btn--default" href="#disqus_thread">
+            <i class="fa fa-comment-o"></i>
+          </a>
+        </li>
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#">
+        
+          <i class="fa fa-list"></i>
+        </a>
+      </li>
+    </ul>
+  </div>
+
+
+            
+              
+                <div id="disqus_thread">
+  <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+              
+            
+          </div>
+        </article>
+        <footer id="footer" class="main-content-wrap">
+  <span class="copyrights">
+    &copy; 2017 肖杰. 
+  </span>
+</footer>
+
+      </div>
+      <div id="bottom-bar" class="post-bottom-bar" data-behavior="1">
+        
+  <div class="post-actions-wrap">
+      <nav >
+        <ul class="post-actions post-action-nav">
+          
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="http://ytlvy.com/posts/2015-08-08/2015-08-08-swift-eventkit-requesting-permission/" data-tooltip="Swift EventKit - Requesting Permission">
+              
+                  <i class="fa fa-angle-left"></i>
+                  <span class="hide-xs hide-sm text-small icon-ml"></span>
+                </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="http://ytlvy.com/posts/2015-08-08/2015-08-08-swift-increasing-performance-by-reducing-dynamic-dispatch/" data-tooltip="Swift Increasing Performance by Reducing Dynamic Dispatch">
+              
+                  <span class="hide-xs hide-sm text-small icon-mr"></span>
+                  <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+          
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
+      
+        <li class="post-action hide-lg hide-md hide-sm">
+          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+            <i class="fa fa-share-alt"></i>
+          </a>
+        </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://ytlvy.com/posts/2015-08-08/2015-08-08-swift-extensions-nuances/">
+              <i class="fa fa-facebook-official"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http://ytlvy.com/posts/2015-08-08/2015-08-08-swift-extensions-nuances/">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=http://ytlvy.com/posts/2015-08-08/2015-08-08-swift-extensions-nuances/">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        
+      
+      
+        <li class="post-action">
+          <a class="post-action-btn btn btn--default" href="#disqus_thread">
+            <i class="fa fa-comment-o"></i>
+          </a>
+        </li>
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#">
+        
+          <i class="fa fa-list"></i>
+        </a>
+      </li>
+    </ul>
+  </div>
+
+
+      </div>
+      <div id="share-options-bar" class="share-options-bar" data-behavior="1">
+  <i id="btn-close-shareoptions" class="fa fa-close"></i>
+  <ul class="share-options">
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Fytlvy.com%2Fposts%2F2015-08-08%2F2015-08-08-swift-extensions-nuances%2F">
+          <i class="fa fa-facebook-official"></i><span>%!(EXTRA string=Facebook)</span>
+        </a>
+      </li>
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=http%3A%2F%2Fytlvy.com%2Fposts%2F2015-08-08%2F2015-08-08-swift-extensions-nuances%2F">
+          <i class="fa fa-twitter"></i><span>%!(EXTRA string=Twitter)</span>
+        </a>
+      </li>
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=http%3A%2F%2Fytlvy.com%2Fposts%2F2015-08-08%2F2015-08-08-swift-extensions-nuances%2F">
+          <i class="fa fa-google-plus"></i><span>%!(EXTRA string=Google&#43;)</span>
+        </a>
+      </li>
+    
+  </ul>
+</div>
+<div id="share-options-mask" class="share-options-mask"></div>
+    </div>
+    
+    <div id="about">
+  <div id="about-card">
+    <div id="about-btn-close">
+      <i class="fa fa-remove"></i>
+    </div>
+    
+      <img id="about-card-picture" src="//www.gravatar.com/avatar/8d5387e20303e26c6147cfe67990995e?s=110" alt="" />
+    
+    <h4 id="about-card-name">肖杰</h4>
+    
+      <div id="about-card-bio">一个瑜伽|篮球|羽毛球爱好者</div>
+    
+    
+      <div id="about-card-job">
+        <i class="fa fa-briefcase"></i>
+        <br/>
+        搬砖工
+      </div>
+    
+    
+      <div id="about-card-location">
+        <i class="fa fa-map-marker"></i>
+        <br/>
+        Beijing
+      </div>
+    
+  </div>
+</div>
+
+    <div id="algolia-search-modal" class="modal-container">
+  <div class="modal">
+    <div class="modal-header">
+      <span class="close-button"><i class="fa fa-close"></i></span>
+      <a href="https://algolia.com" target="_blank" rel="noopener" class="searchby-algolia text-color-light link-unstyled">
+        <span class="searchby-algolia-text text-color-light text-small">by</span>
+        <img class="searchby-algolia-logo" src="https://www.algolia.com/static_assets/images/press/downloads/algolia-light.svg">
+      </a>
+      <i class="search-icon fa fa-search"></i>
+      <form id="algolia-search-form">
+        <input type="text" id="algolia-search-input" name="search"
+          class="form-control input--large search-input" placeholder="" />
+      </form>
+    </div>
+    <div class="modal-body">
+      <div class="no-result text-color-light text-center"></div>
+      <div class="results">
+        
+        
+      </div>
+    </div>
+    <div class="modal-footer">
+      <p class="results-count text-medium"
+         data-message-zero=""
+         data-message-one=""
+         data-message-other="">
+         0 posts found
+      </p>
+    </div>
+  </div>
+</div>
+    
+  
+    
+    <div id="cover" style="background-image:url('http://ytlvy.com/images/cover.jpg');"></div>
+  
+
+
+    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js" integrity="sha256-/BfiIkHlHoVihZdc6TFuj7MmJ0TWcWsMXkeDFwhi0zw=" crossorigin="anonymous"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.7/js/jquery.fancybox.min.js" integrity="sha256-GEAnjcTqVP+vBp3SSc8bEDQqvWAZMiHyUSIorrWwH50=" crossorigin="anonymous"></script>
+
+
+<script src="http://ytlvy.com/js/script-qi9wbxp2ya2j6p7wx1i6tgavftewndznf4v0hy2gvivk1rxgc3lm7njqb6bz.min.js"></script>
+
+
+
+<script>
+$(document).ready(function() {
+  hljs.configure({ classPrefix: '', useBR: false });
+  $('pre.code-highlight > code, pre > code').each(function(i, block) {
+    if (!$(this).hasClass('codeblock')) {
+      $(this).addClass('codeblock');
+    }
+    hljs.highlightBlock(block);
+  });
+});
+</script>
+
+
+  
+    
+      <script>
+        var disqus_config = function () {
+          this.page.url = 'http:\/\/ytlvy.com\/posts\/2015-08-08\/2015-08-08-swift-extensions-nuances\/';
+          
+            this.page.identifier = '\/posts\/2015-08-08\/2015-08-08-swift-extensions-nuances\/'
+          
+        };
+        (function() {
+          
+          
+          if (window.location.hostname == "localhost") {
+            return;
+          }
+          var d = document, s = d.createElement('script');
+          var disqus_shortname = 'hugo-tranquilpeak-theme';
+          s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+
+          s.setAttribute('data-timestamp', +new Date());
+          (d.head || d.body).appendChild(s);
+        })();
+      </script>
+    
+  
+
+
+
+    
+  </body>
+</html>
+

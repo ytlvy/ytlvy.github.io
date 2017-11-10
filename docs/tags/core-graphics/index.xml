@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Core Graphics on My New Hugo Site</title>
+    <link>http://ytlvy.com/tags/core-graphics/</link>
+    <description>Recent content in Core Graphics on My New Hugo Site</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sat, 08 Aug 2015 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="http://ytlvy.com/tags/core-graphics/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Swift Core Graphics Tutorial Part 1: Getting Started</title>
+      <link>http://ytlvy.com/posts/2015-08-08/2015-08-08-swift-core-graphics-tutorial-part-1-getting-started/</link>
+      <pubDate>Sat, 08 Aug 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-08-08/2015-08-08-swift-core-graphics-tutorial-part-1-getting-started/</guid>
+      <description>&lt;h2 id=&#34;core-graphics教程第一部分-swift-起步&#34;&gt;Core Graphics教程第一部分(Swift) - 起步&lt;/h2&gt;
+
+&lt;blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;原文链接 : &lt;a href=&#34;http://www.raywenderlich.com/90690/modern-core-graphics-with-swift-part-1&#34;&gt;Core Graphics Tutorial Part 1: Getting Started&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;原文作者 : &lt;a href=&#34;http://www.raywenderlich.com/u/caroline&#34;&gt;Caroline Begbie &lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;译文出自 :  &lt;a href=&#34;www.devtf.cn&#34;&gt;开发技术前线&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;译者 : &lt;a href=&#34;https://github.com/sdq/&#34;&gt;sdq&lt;/a&gt;  &lt;a href=&#34;https://github.com/StormXX/&#34;&gt;StormXX&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;校对者:  &lt;a href=&#34;https://github.com/StormXX/&#34;&gt;StormXX&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;想象一下&amp;hellip;当你完成了你的应用，它能够很好地运行，但是界面还缺少个人的风格。这时，你可以选择用PS画出一系列尺寸的图片，并希望Apple不会再推出一个&lt;strong&gt;@4x&lt;/strong&gt;的retina显示尺寸&amp;hellip;&lt;/p&gt;
+
+&lt;p&gt;或者，你可以领先一步，采用Core Graphics进行绘图，保证一个图片可以适应各种尺寸的屏幕。&lt;/p&gt;
+
+&lt;p&gt;Core Graphics是苹果的一个矢量图绘制框架 - 它是一个大型且给力的API、有很多需要去学习。不过别慌，这个系列的文章会带你由简入深地学习Core Graphics，最后你将可以在你的应用中创作令人惊叹的图片。&lt;/p&gt;
+
+&lt;p&gt;这是一个全新的系列，采用最新的方式来学习Core Graphics。这个系列完全和Xcode6与Swift保持同步，并且包含了一些很酷的新特性，比如&lt;strong&gt;@IBDesignable&lt;/strong&gt;和&lt;strong&gt;@IBInspectable&lt;/strong&gt;，这让学习Core Graphics变得更有趣也更容易。&lt;/p&gt;
+
+&lt;p&gt;拿起可乐，让我们开始吧！&lt;/p&gt;
+
+&lt;h2 id=&#34;介绍flo-一款记录喝水杯数的app&#34;&gt;介绍Flo - 一款记录喝水杯数的App&lt;/h2&gt;
+
+&lt;p&gt;你将会完成一个追踪你喝水习惯的app。&lt;/p&gt;
+
+&lt;p&gt;Flo可以让你很轻松地追踪到你喝了多少水。人们说一天喝8杯水才是健康的，但是往往喝了几杯水之后我们就忘了记录了。这就是Flo使用的时候了，每当你喝完一杯水以后，你就可以在Flo上点击计数，Flo会为你记录喝水情况。你也可以在Flo上查看到过去7天的喝水状况。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://cdn4.raywenderlich.com/wp-content/uploads/2014/12/1-CompletedApp.gif&#34; alt=&#34;demo&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;在这个系列的第一部分，你将会通过UIKit的画图方法创建三个控件。
+第二部分中，你将会深入了解Core Graphics的内容并且学习绘图。
+最后第三部分，你将会制作一个样式背景，并且获得自制的Core Graphics奖牌 ：）&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Swift Core Graphics Tutorial Part 2: Gradients and Contexts</title>
+      <link>http://ytlvy.com/posts/2015-08-08/2015-08-08-swift-core-graphics-tutorial-part-2-gradients-and-contexts/</link>
+      <pubDate>Sat, 08 Aug 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-08-08/2015-08-08-swift-core-graphics-tutorial-part-2-gradients-and-contexts/</guid>
+      <description>&lt;h2 id=&#34;core-graphics教程第二部分-swift-gradients-与-context&#34;&gt;Core Graphics教程第二部分(Swift) - Gradients 与 Context&lt;/h2&gt;
+
+&lt;blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;原文链接 : &lt;a href=&#34;http://www.raywenderlich.com/90693/modern-core-graphics-with-swift-part-2&#34;&gt;Core Graphics Tutorial Part 2: Gradients and Contexts&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;原文作者 : &lt;a href=&#34;http://www.raywenderlich.com/u/caroline&#34;&gt;caroline&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;译文出自 :  &lt;a href=&#34;http://www.devtf.cn&#34;&gt;开发技术前线&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;译者 : &lt;a href=&#34;https://github.com/mrchenhao&#34;&gt;HarriesChen&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;校对者: &lt;a href=&#34;https://github.com/mrchenhao&#34;&gt;HarriesChen&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://cdn3.raywenderlich.com/wp-content/uploads/2014/12/FinalApp-192x320.png&#34; alt=&#34;FinalApp&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;更新时间  04/15/2015&lt;/em&gt; 为Xcode 6.3 和 Swift1.2更新&lt;/p&gt;
+
+&lt;p&gt;欢迎回到我们的Swift核心绘图教程系列！&lt;/p&gt;
+
+&lt;p&gt;在&lt;a href=&#34;http://www.raywenderlich.com/?p=90690&#34;&gt;第一部分&lt;/a&gt;中,你学习到了使用storyboard绘制线条和矩形.&lt;/p&gt;
+
+&lt;p&gt;在第二部部分中，你将深入核心绘图，使用CGContext实现渐变效果&lt;/p&gt;
+
+&lt;h2 id=&#34;核心绘图&#34;&gt;核心绘图&lt;/h2&gt;
+
+&lt;p&gt;你现在已经从简单的UIKit深入到核心绘图。&lt;/p&gt;
+
+&lt;p&gt;下图是各个框架的关系图：&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;http://cdn2.raywenderlich.com/wp-content/uploads/2014/12/2-Architecture.png&#34;&gt;&lt;img src=&#34;http://cdn3.raywenderlich.com/wp-content/uploads/2014/12/2-Architecture-433x320.png&#34; alt=&#34;2-Architecture&#34; /&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;UIKit是在最顶层，使用最友好的框架。你使用过UIBezierPath的就是在UIKit层中对Core Graphics层中CGPath的封装。&lt;/p&gt;
+
+&lt;p&gt;你可以看到 Core Graphics 的对象和方法都是CG开头的，非常容易辨认。&lt;/p&gt;
+
+&lt;p&gt;另外CG方法都是C方法，在调用的时候不需要明确的指定参数名，和一般Swift调用方法不一样。&lt;/p&gt;
+
+&lt;h2 id=&#34;从graph-view开始&#34;&gt;从Graph View开始&lt;/h2&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Swift Core Graphics Tutorial Part 3: Patterns and Playgrounds</title>
+      <link>http://ytlvy.com/posts/2015-08-08/2015-08-08-swift-core-graphics-tutorial-part-3-patterns-and-playgrounds/</link>
+      <pubDate>Sat, 08 Aug 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-08-08/2015-08-08-swift-core-graphics-tutorial-part-3-patterns-and-playgrounds/</guid>
+      <description>&lt;h2 id=&#34;core-graphics-教程第三部分-swift-patterns-和-playgrounds&#34;&gt;Core Graphics 教程第三部分(Swift) - Patterns 和 Playgrounds&lt;/h2&gt;
+
+&lt;blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;原文链接：&lt;a href=&#34;http://www.raywenderlich.com/90695/modern-core-graphics-with-swift-part-3&#34;&gt;Core Graphics Tutorial Part 3: Patterns and Playgrounds&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;原文作者：&lt;a href=&#34;http://www.raywenderlich.com/u/caroline&#34;&gt; Caroline Begbie &lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;译文出自：&lt;a href=&#34;www.devtf.cn&#34;&gt;开发者前线&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;译者：&lt;a href=&#34;https://github.com/MrLoong&#34;&gt;MrLoong&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;校对者：&lt;a href=&#34;https://github.com/samw00&#34;&gt;samw00&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;欢迎回到Core Graphics 教学系列的第三也是最后一部分！Flo，你的water drinking tracking app将使用Core Graphics 进行最终的改进。&lt;/p&gt;
+
+&lt;p&gt;在&lt;a href=&#34;http://www.raywenderlich.com/90690/modern-core-graphics-with-swift-part-1&#34;&gt;第一部分&lt;/a&gt;，你通过UIKit画了三个自定义形状的控件,&lt;a href=&#34;http://www.raywenderlich.com/90693/modern-core-graphics-with-swift-part-2&#34;&gt;在第二部分&lt;/a&gt;你创建了一个视图用来显示用户在过去一周的喝水量，并且研究了transforming the context transformation matrix (CTM)&lt;/p&gt;
+
+&lt;p&gt;在这第三也是最后一部分，你将使&lt;strong&gt;Flo&lt;/strong&gt;升级到它的最终形态，特别的是你将：&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;创建一个重复的背景图案&lt;/li&gt;
+&lt;li&gt;为成功每天喝掉8杯水的用户从头到尾画一枚奖章&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;如果你还没有这个项目的源代码，从本系列的第二部分下载&lt;a href=&#34;http://cdn1.raywenderlich.com/wp-content/uploads/2015/02/Flo-Part2-6.3.zip&#34;&gt;&lt;strong&gt;Flo工程&lt;/strong&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://cdn3.raywenderlich.com/wp-content/uploads/2014/12/FinalApp-192x320.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

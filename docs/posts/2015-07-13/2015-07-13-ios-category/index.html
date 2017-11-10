@@ -1,0 +1,1175 @@
+
+
+  
+
+
+  
+
+
+
+
+  
+
+
+  
+
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="Hugo 0.30.2 with theme Tranquilpeak 0.4.2-BETA">
+    <title>iOS Category</title>
+    <meta name="author" content="肖杰">
+    <meta name="keywords" content="">
+
+    <link rel="icon" href="http://ytlvy.com/favicon.png">
+    
+
+    
+    <meta name="description" content="category
+
+category 简介
+
+
+为已存在的类, 添加方法
+将类的实现, 分别存放在不同的文件中. 好处: a) 减少单体文件体积 b)按照功能划分 c)协作开发 d)按需加载
+声明私有方法
+模拟多继承
+把framework的私有方法公开
+
+
+extension
+
+
+extension 很像匿名的category. 差异: a)extension在编译器决议, 是类声明的一部分.b)用来隐藏私有属性或方法.c)只有在有类源码的前提下,才能添加extension
+
+category 在运行期决议的. category无法添加实例变量, (通过association来模拟添加)
+
+
+">
+    <meta property="og:description" content="category
+
+category 简介
+
+
+为已存在的类, 添加方法
+将类的实现, 分别存放在不同的文件中. 好处: a) 减少单体文件体积 b)按照功能划分 c)协作开发 d)按需加载
+声明私有方法
+模拟多继承
+把framework的私有方法公开
+
+
+extension
+
+
+extension 很像匿名的category. 差异: a)extension在编译器决议, 是类声明的一部分.b)用来隐藏私有属性或方法.c)只有在有类源码的前提下,才能添加extension
+
+category 在运行期决议的. category无法添加实例变量, (通过association来模拟添加)
+
+
+">
+    <meta property="og:type" content="blog">
+    <meta property="og:title" content="iOS Category">
+    <meta property="og:url" content="/posts/2015-07-13/2015-07-13-ios-category/">
+    <meta property="og:site_name" content="My New Hugo Site">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="My New Hugo Site">
+    <meta name="twitter:description" content="category
+
+category 简介
+
+
+为已存在的类, 添加方法
+将类的实现, 分别存放在不同的文件中. 好处: a) 减少单体文件体积 b)按照功能划分 c)协作开发 d)按需加载
+声明私有方法
+模拟多继承
+把framework的私有方法公开
+
+
+extension
+
+
+extension 很像匿名的category. 差异: a)extension在编译器决议, 是类声明的一部分.b)用来隐藏私有属性或方法.c)只有在有类源码的前提下,才能添加extension
+
+category 在运行期决议的. category无法添加实例变量, (通过association来模拟添加)
+
+
+">
+    
+    
+
+    
+    
+
+    
+      <meta property="og:image" content="//www.gravatar.com/avatar/8d5387e20303e26c6147cfe67990995e?s=640">
+    
+
+    
+    
+    
+
+    
+
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/jquery.fancybox.min.css" integrity="sha256-vuXZ9LGmmwtjqFX1F+EKin1ThZMub58gKULUyf0qECk=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/helpers/jquery.fancybox-thumbs.min.css" integrity="sha256-SEa4XYAHihTcEP1f5gARTB2K26Uk8PsndQYHQC1f4jU=" crossorigin="anonymous" />
+    
+    
+    <link rel="stylesheet" href="http://ytlvy.com/css/style-jsjn0006wyhpyzivf6yceb31gvpjatbcs3qzjvlumobfnugccvobqwxnnaj8.min.css" />
+    
+    
+
+    
+      
+    
+    
+  </head>
+
+  <body>
+    <div id="blog">
+      <header id="header" data-behavior="1">
+  <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+  <div class="header-title">
+    <a class="header-title-link" href="http://ytlvy.com/">My New Hugo Site</a>
+  </div>
+  
+    
+      <a class="header-right-picture "
+         href="http://ytlvy.com/#about">
+    
+    
+    
+      
+        <img class="header-picture" src="//www.gravatar.com/avatar/8d5387e20303e26c6147cfe67990995e?s=90" alt="" />
+      
+    
+    </a>
+  
+</header>
+
+      <nav id="sidebar" data-behavior="1">
+  <div class="sidebar-container">
+    
+      <div class="sidebar-profile">
+        <a href="http://ytlvy.com/#about">
+          <img class="sidebar-profile-picture" src="//www.gravatar.com/avatar/8d5387e20303e26c6147cfe67990995e?s=110" alt="" />
+        </a>
+        <h4 class="sidebar-profile-name">肖杰</h4>
+        
+          <h5 class="sidebar-profile-bio">一个瑜伽|篮球|羽毛球爱好者</h5>
+        
+      </div>
+    
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="http://ytlvy.com/">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-home"></i>
+      
+      <span class="sidebar-button-desc">Home</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="http://ytlvy.com/categories">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-bookmark"></i>
+      
+      <span class="sidebar-button-desc">Categories</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="http://ytlvy.com/tags">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+      
+      <span class="sidebar-button-desc">Tags</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="http://ytlvy.com/archives">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
+      
+      <span class="sidebar-button-desc">Archives</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="http://ytlvy.com/#about">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-question"></i>
+      
+      <span class="sidebar-button-desc">About</span>
+    </a>
+  </li>
+
+
+    </ul>
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://github.com/ytlvy" target="_blank" rel="noopener">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-github"></i>
+      
+      <span class="sidebar-button-desc">GitHub</span>
+    </a>
+  </li>
+
+
+    </ul>
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="http://ytlvy.com/index.xml">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-rss"></i>
+      
+      <span class="sidebar-button-desc">RSS</span>
+    </a>
+  </li>
+
+
+    </ul>
+  </div>
+</nav>
+
+      
+
+      <div id="main" data-behavior="1"
+        class="
+               hasCoverMetaIn
+               ">
+        <article class="post" itemscope itemType="http://schema.org/BlogPosting">
+          
+          
+            <div class="post-header main-content-wrap text-left">
+  
+    <h1 class="post-title" itemprop="headline">
+      iOS Category
+    </h1>
+  
+  
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2015-07-13T00:00:00Z">
+        
+   13, 2015
+
+      </time>
+    
+    
+  
+  
+    <span></span>
+    
+      <a class="category-link" href="http://ytlvy.com/categories/ios">IOS</a>
+    
+  
+
+  </div>
+
+</div>
+          
+          <div class="post-content markdown" itemprop="articleBody">
+            <div class="main-content-wrap">
+              <h2 id="category">category</h2>
+
+<h3 id="category-简介">category 简介</h3>
+
+<ul>
+<li>为已存在的类, 添加方法</li>
+<li>将类的实现, 分别存放在不同的文件中. 好处: a) 减少单体文件体积 b)按照功能划分 c)协作开发 d)按需加载</li>
+<li>声明私有方法</li>
+<li>模拟多继承</li>
+<li>把framework的私有方法公开</li>
+</ul>
+
+<h3 id="extension">extension</h3>
+
+<blockquote>
+<p>extension 很像匿名的category. 差异: a)extension在编译器决议, 是类声明的一部分.b)用来隐藏私有属性或方法.c)只有在有类源码的前提下,才能添加extension</p>
+
+<p>category 在运行期决议的. category无法添加实例变量, (通过association来模拟添加)</p>
+</blockquote>
+
+<p></p>
+
+<h3 id="category-声明">category 声明</h3>
+
+<p>objc-runtime-new.h文件中</p>
+
+<pre><code>typedef struct category_t {
+    const char *name;    //类的名字
+    classref_t cls;      //类
+    struct method_list_t *instanceMethods;
+    struct method_list_t *classMethods;
+    struct protocol_list_t *protocols;
+    struct property_list_t *instanceProperties;
+} category_t;
+
+</code></pre>
+
+<p>MyClass.h：</p>
+
+<pre><code>#import &lt;Foundation/Foundation.h&gt;
+
+@interface MyClass : NSObject
+
+- (void)printName;
+
+@end
+
+@interface MyClass(MyAddition)
+
+@property(nonatomic, copy) NSString *name;
+
+- (void)printName;
+
+@end
+
+</code></pre>
+
+<p>MyClass.m：</p>
+
+<pre><code>#import &quot;MyClass.h&quot;
+
+@implementation MyClass
+
+- (void)printName
+{
+    NSLog(@&quot;%@&quot;,@&quot;MyClass&quot;);
+}
+
+@end
+
+@implementation MyClass(MyAddition)
+
+- (void)printName
+{
+    NSLog(@&quot;%@&quot;,@&quot;MyAddition&quot;);
+}
+
+@end
+</code></pre>
+
+<pre><code>clang -rewrite-objc MyClass.m
+</code></pre>
+
+<pre><code>/*_method_list_t*/
+static struct {
+    unsigned int entsize;  // sizeof(struct _objc_method)
+    unsigned int method_count;
+    struct _objc_method method_list[1];
+} _OBJC_$_CATEGORY_INSTANCE_METHODS_MyClass_$_MyAddition 
+= {
+    sizeof(_objc_method),
+    1,
+    {
+        {(struct objc_selector *)&quot;printName&quot;, 
+        &quot;v16@0:8&quot;, 
+        (void *)_I_MyClass_MyAddition_printName}
+    }
+};
+
+/*_prop_list_t*/ 
+static struct {
+    unsigned int entsize;  // sizeof(struct _prop_t)
+    unsigned int count_of_properties;
+    struct _prop_t prop_list[1];
+} _OBJC_$_PROP_LIST_MyClass_$_MyAddition 
+= {
+    sizeof(_prop_t),
+    1,
+    {{&quot;name&quot;,&quot;T@\&quot;NSString\&quot;,C,N&quot;}}
+};
+
+extern &quot;C&quot; __declspec(dllexport) struct _class_t OBJC_CLASS_$_MyClass;
+
+static struct _category_t _OBJC_$_CATEGORY_MyClass_$_MyAddition  =
+{
+    &quot;MyClass&quot;,
+    0, // &amp;OBJC_CLASS_$_MyClass,
+    (const struct _method_list_t *)&amp;_OBJC_$_CATEGORY_INSTANCE_METHODS_MyClass_$_MyAddition,
+    0,
+    0,
+    (const struct _prop_list_t *)&amp;_OBJC_$_PROP_LIST_MyClass_$_MyAddition,
+};
+static void OBJC_CATEGORY_SETUP_$_MyClass_$_MyAddition(void ) {
+    _OBJC_$_CATEGORY_MyClass_$_MyAddition.cls = &amp;OBJC_CLASS_$_MyClass;
+}
+
+static void *OBJC_CATEGORY_SETUP[] = {
+    (void *)&amp;OBJC_CATEGORY_SETUP_$_MyClass_$_MyAddition,
+};
+static struct _class_t *L_OBJC_LABEL_CLASS_$ [1] = {
+    &amp;OBJC_CLASS_$_MyClass,
+};
+static struct _class_t *_OBJC_LABEL_NONLAZY_CLASS_$[] = {
+    &amp;OBJC_CLASS_$_MyClass,
+};
+static struct _category_t *L_OBJC_LABEL_CATEGORY_$ [1] = {
+    &amp;_OBJC_$_CATEGORY_MyClass_$_MyAddition,
+};
+
+</code></pre>
+
+<ol>
+<li>首先编译器生成了实例方法列表OBJC$CATEGORY_INSTANCE_METHODS_MyClass$MyAddition和属性列表_OBJC$PROP_LIST_MyClass$MyAddition，两者的命名都遵循了公共前缀+类名+category名字的命名方式，而且实例方法列表里面填充的正是我们在MyAddition这个category里面写的方法printName，而属性列表里面填充的也正是我们在MyAddition里添加的name属性。还有一个需要注意到的事实就是category的名字用来给各种列表以及后面的category结构体本身命名，而且有static来修饰，所以在同一个编译单元里我们的category名不能重复，否则会出现编译错误。</li>
+<li>其次，编译器生成了category本身_OBJC$CATEGORY_MyClass$MyAddition，并用前面生成的列表来初始化category本身。</li>
+<li>最后，编译器在DATA段下的objc_catlist section里保存了一个大小为1的category_t的数组L_OBJC_LABEL<em>CATEGORY$（当然，如果有多个category，会生成对应长度的数组^</em>^），用于运行期category的加载。</li>
+</ol>
+
+<h3 id="category如何加载">category如何加载</h3>
+
+<p>对于OC运行时，入口方法如下（在objc-os.mm文件中）：</p>
+
+<pre><code>void _objc_init(void)
+{
+    static bool initialized = false;
+    if (initialized) return;
+    initialized = true;
+
+    // fixme defer initialization until an objc-using image is found?
+    environ_init();
+    tls_init();
+    lock_init();
+    exception_init();
+
+    // Register for unmap first, in case some +load unmaps something
+    _dyld_register_func_for_remove_image(&amp;unmap_image);
+    dyld_register_image_state_change_handler(dyld_image_state_bound,
+                                             1/*batch*/, &amp;map_images);
+    dyld_register_image_state_change_handler(dyld_image_state_dependents_initialized, 0/*not batch*/, &amp;load_images);
+}
+</code></pre>
+
+<p>category被附加到类上面是在map_images的时候发生的，在new-ABI的标准下，_objc_init里面的调用的map_images最终会调用objc-runtime-new.mm里面的_read_images方法，而在_read_images方法的结尾，有以下的代码片段：</p>
+
+<pre><code>/ Discover categories. 
+    for (EACH_HEADER) {
+        category_t **catlist =
+            _getObjc2CategoryList(hi, &amp;count);
+        for (i = 0; i &lt; count; i++) {
+            category_t *cat = catlist[i];
+            class_t *cls = remapClass(cat-&gt;cls);
+
+            if (!cls) {
+                // Category's target class is missing (probably weak-linked).
+                // Disavow any knowledge of this category.
+                catlist[i] = NULL;
+                if (PrintConnecting) {
+                    _objc_inform(&quot;CLASS: IGNORING category \?\?\?(%s) %p with &quot;
+                                 &quot;missing weak-linked target class&quot;,
+                                 cat-&gt;name, cat);
+                }
+                continue;
+            }
+
+            // Process this category. 
+            // First, register the category with its target class. 
+            // Then, rebuild the class's method lists (etc) if 
+            // the class is realized. 
+            BOOL classExists = NO;
+            if (cat-&gt;instanceMethods ||  cat-&gt;protocols 
+                ||  cat-&gt;instanceProperties)
+            {
+                addUnattachedCategoryForClass(cat, cls, hi);
+                if (isRealized(cls)) {
+                    remethodizeClass(cls);
+                    classExists = YES;
+                }
+                if (PrintConnecting) {
+                    _objc_inform(&quot;CLASS: found category -%s(%s) %s&quot;,
+                                 getName(cls), cat-&gt;name,
+                                 classExists ? &quot;on existing class&quot; : &quot;&quot;);
+                }
+            }
+
+            if (cat-&gt;classMethods  ||  cat-&gt;protocols 
+                /* ||  cat-&gt;classProperties */)
+            {
+                addUnattachedCategoryForClass(cat, cls-&gt;isa, hi);
+                if (isRealized(cls-&gt;isa)) {
+                    remethodizeClass(cls-&gt;isa);
+                }
+                if (PrintConnecting) {
+                    _objc_inform(&quot;CLASS: found category +%s(%s)&quot;,
+                                 getName(cls), cat-&gt;name);
+                }
+            }
+        }
+    }
+</code></pre>
+
+<p>首先，我们拿到的catlist就是上节中讲到的编译器为我们准备的category_t数组，关于是如何加载catlist本身的，我们暂且不表，这和category本身的关系也不大，有兴趣的同学可以去研究以下Apple的二进制格式和load机制。
+略去PrintConnecting这个用于log的东西，这段代码很容易理解</p>
+
+<ol>
+<li>把category的实例方法、协议以及属性添加到类上</li>
+<li>把category的类方法和协议添加到类的metaclass上</li>
+</ol>
+
+<p>值得注意的是，在代码中有一小段注释  <code>|| cat-&gt;classProperties</code>，看来苹果有过给类添加属性的计划啊。
+ok，我们接着往里看，category的各种列表是怎么最终添加到类上的，就拿实例方法列表来说吧：
+在上述的代码片段里，addUnattachedCategoryForClass只是把类和category做一个关联映射，而remethodizeClass才是真正去处理添加事宜的功臣。</p>
+
+<pre><code>static void remethodizeClass(class_t *cls)
+{
+    category_list *cats;
+    BOOL isMeta;
+
+    rwlock_assert_writing(&amp;runtimeLock);
+
+    isMeta = isMetaClass(cls);
+
+    // Re-methodizing: check for more categories
+    if ((cats = unattachedCategoriesForClass(cls))) {
+        chained_property_list *newproperties;
+        const protocol_list_t **newprotos;
+
+        if (PrintConnecting) {
+            _objc_inform(&quot;CLASS: attaching categories to class '%s' %s&quot;,
+                         getName(cls), isMeta ? &quot;(meta)&quot; : &quot;&quot;);
+        }
+
+        // Update methods, properties, protocols
+
+        BOOL vtableAffected = NO;
+        attachCategoryMethods(cls, cats, &amp;vtableAffected);
+
+        newproperties = buildPropertyList(NULL, cats, isMeta);
+        if (newproperties) {
+            newproperties-&gt;next = cls-&gt;data()-&gt;properties;
+            cls-&gt;data()-&gt;properties = newproperties;
+        }
+
+        newprotos = buildProtocolList(cats, NULL, cls-&gt;data()-&gt;protocols);
+        if (cls-&gt;data()-&gt;protocols  &amp;&amp;  cls-&gt;data()-&gt;protocols != newprotos) {
+            _free_internal(cls-&gt;data()-&gt;protocols);
+        }
+        cls-&gt;data()-&gt;protocols = newprotos;
+
+        _free_internal(cats);
+
+        // Update method caches and vtables
+        flushCaches(cls);
+        if (vtableAffected) flushVtables(cls);
+    }
+}
+</code></pre>
+
+<p>而对于添加类的实例方法而言，又会去调用attachCategoryMethods这个方法，我们去看下attachCategoryMethods：</p>
+
+<pre><code>static void 
+attachCategoryMethods(class_t *cls, category_list *cats,
+                      BOOL *inoutVtablesAffected)
+{
+    if (!cats) return;
+    if (PrintReplacedMethods) printReplacements(cls, cats);
+
+    BOOL isMeta = isMetaClass(cls);
+    method_list_t **mlists = (method_list_t **)
+        _malloc_internal(cats-&gt;count * sizeof(*mlists));
+
+    // Count backwards through cats to get newest categories first
+    int mcount = 0;
+    int i = cats-&gt;count;
+    BOOL fromBundle = NO;
+    while (i--) {
+        method_list_t *mlist = cat_method_list(cats-&gt;list[i].cat, isMeta);
+        if (mlist) {
+            mlists[mcount++] = mlist;
+            fromBundle |= cats-&gt;list[i].fromBundle;
+        }
+    }
+
+    attachMethodLists(cls, mlists, mcount, NO, fromBundle, inoutVtablesAffected);
+
+    _free_internal(mlists);
+
+}
+</code></pre>
+
+<p>attachCategoryMethods做的工作相对比较简单，它只是把所有category的实例方法列表拼成了一个大的实例方法列表，然后转交给了attachMethodLists方法（我发誓，这是本节我们看的最后一段代码了^_^），这个方法有点长，我们只看一小段：</p>
+
+<pre><code>for (uint32_t m = 0;
+             (scanForCustomRR || scanForCustomAWZ)  &amp;&amp;  m &lt; mlist-&gt;count;
+             m++)
+    {
+        SEL sel = method_list_nth(mlist, m)-&gt;name;
+        if (scanForCustomRR  &amp;&amp;  isRRSelector(sel)) {
+            cls-&gt;setHasCustomRR();
+            scanForCustomRR = false;
+        } else if (scanForCustomAWZ  &amp;&amp;  isAWZSelector(sel)) {
+            cls-&gt;setHasCustomAWZ();
+            scanForCustomAWZ = false;
+        }
+    }
+
+    // Fill method list array
+    newLists[newCount++] = mlist;
+.
+.
+.
+
+// Copy old methods to the method list array
+for (i = 0; i &lt; oldCount; i++) {
+    newLists[newCount++] = oldLists[i];
+}
+</code></pre>
+
+<p>需要注意的有两点：
+1)、category的方法没有“完全替换掉”原来类已经有的方法，也就是说如果category和原来类都有methodA，那么category附加完成之后，类的方法列表里会有两个methodA
+2)、category的方法被放到了新方法列表的前面，而原来类的方法被放到了新方法列表的后面，这也就是我们平常所说的category的方法会“覆盖”掉原来类的同名方法，这是因为运行时在查找方法的时候是顺着方法列表的顺序查找的，它只要一找到对应名字的方法，就会罢休^_^，殊不知后面可能还有一样名字的方法。</p>
+
+<h3 id="旁枝末叶-category和-load方法">旁枝末叶-category和+load方法</h3>
+
+<p>我们知道，在类和category中都可以有+load方法，那么有两个问题：
+1)、在类的+load方法调用的时候，我们可以调用category中声明的方法么？
+2)、这么些个+load方法，调用顺序是咋样的呢？
+鉴于上述几节我们看的代码太多了，对于这两个问题我们先来看一点直观的</p>
+
+<p>我们的代码里有MyClass和MyClass的两个category （Category1和Category2），MyClass和两个category都添加了+load方法，并且Category1和Category2都写了MyClass的printName方法。
+在Xcode中点击Edit Scheme，添加如下两个环境变量（可以在执行load方法以及加载category的时候打印log信息，更多的环境变量选项可参见objc-private.h）:</p>
+
+<pre><code>OBJC_PRINT_LOAD_METHODS
+OBJC_PRINT_REPLACED_METHODS
+</code></pre>
+
+<p>运行项目，我们会看到控制台打印很多东西出来，我们只找到我们想要的信息，顺序如下：</p>
+
+<pre><code>objc[1187]: REPLACED: -[MyClass printName] by category Category1
+objc[1187]: REPLACED: -[MyClass printName] by category Category2
+.
+.
+.
+objc[1187]: LOAD: class 'MyClass' scheduled for +load
+objc[1187]: LOAD: category 'MyClass(Category1)' scheduled for +load
+objc[1187]: LOAD: category 'MyClass(Category2)' scheduled for +load
+objc[1187]: LOAD: +[MyClass load]
+.
+.
+.
+objc[1187]: LOAD: +[MyClass(Category1) load]
+.
+.
+.
+objc[1187]: LOAD: +[MyClass(Category2) load]
+</code></pre>
+
+<p>所以，对于上面两个问题，答案是很明显的：
+1)、可以调用，因为附加category到类的工作会先于+load方法的执行
+2)、+load的执行顺序是先类，后category，而category的+load执行顺序是根据编译顺序决定的。
+虽然对于+load的执行顺序是这样，但是对于“覆盖”掉的方法，则会先找到最后一个编译的category里的对应方法。</p>
+
+<h3 id="category和方法覆盖">category和方法覆盖</h3>
+
+<p>怎么调用到原来类中被category覆盖掉的方法？</p>
+
+<pre><code>Class currentClass = [MyClass class];
+MyClass *my = [[MyClass alloc] init];
+
+if (currentClass) {
+    unsigned int methodCount;
+    Method *methodList = class_copyMethodList(currentClass, &amp;methodCount);
+    IMP lastImp = NULL;
+    SEL lastSel = NULL;
+    for (NSInteger i = 0; i &lt; methodCount; i++) {
+        Method method = methodList[i];
+        NSString *methodName = [NSString stringWithCString:sel_getName(method_getName(method)) 
+                                        encoding:NSUTF8StringEncoding];
+        if ([@&quot;printName&quot; isEqualToString:methodName]) {
+            lastImp = method_getImplementation(method);
+            lastSel = method_getName(method);
+        }
+    }
+    typedef void (*fn)(id,SEL);
+
+    if (lastImp != NULL) {
+        fn f = (fn)lastImp;
+        f(my,lastSel);
+    }
+    free(methodList);
+}
+</code></pre>
+
+<h3 id="category和关联对象">category和关联对象</h3>
+
+<p>我们知道在category里面是无法为category添加实例变量的。但是我们很多时候需要在category中添加和对象关联的值，这个时候可以求助关联对象来实现</p>
+
+<p>MyClass+Category1.h:</p>
+
+<pre><code>#import &quot;MyClass.h&quot;
+
+@interface MyClass (Category1)
+
+@property(nonatomic,copy) NSString *name;
+
+@end
+</code></pre>
+
+<p>MyClass+Category1.m:</p>
+
+<pre><code>#import &quot;MyClass+Category1.h&quot;
+#import &lt;objc/runtime.h&gt;
+
+@implementation MyClass (Category1)
+
++ (void)load
+{
+    NSLog(@&quot;%@&quot;,@&quot;load in Category1&quot;);
+}
+
+- (void)setName:(NSString *)name
+{
+    objc_setAssociatedObject(self,
+                             &quot;name&quot;,
+                             name,
+                             OBJC_ASSOCIATION_COPY);
+}
+
+- (NSString*)name
+{
+    NSString *nameObject = objc_getAssociatedObject(self, &quot;name&quot;);
+    return nameObject;
+}
+
+@end
+</code></pre>
+
+<p>但是关联对象又是存在什么地方呢？ 如何存储？ 对象销毁时候如何处理关联对象呢？
+我们去翻一下runtime的源码，在objc-references.mm文件中有个方法_object_set_associative_reference：</p>
+
+<pre><code>void _object_set_associative_reference(id object, void *key, id value, uintptr_t policy) {
+    // retain the new value (if any) outside the lock.
+    ObjcAssociation old_association(0, nil);
+    id new_value = value ? acquireValue(value, policy) : nil;
+    {
+        AssociationsManager manager;
+        AssociationsHashMap &amp;associations(manager.associations());
+        disguised_ptr_t disguised_object = DISGUISE(object);
+        if (new_value) {
+            // break any existing association.
+            AssociationsHashMap::iterator i = associations.find(disguised_object);
+            if (i != associations.end()) {
+                // secondary table exists
+                ObjectAssociationMap *refs = i-&gt;second;
+                ObjectAssociationMap::iterator j = refs-&gt;find(key);
+                if (j != refs-&gt;end()) {
+                    old_association = j-&gt;second;
+                    j-&gt;second = ObjcAssociation(policy, new_value);
+                } else {
+                    (*refs)[key] = ObjcAssociation(policy, new_value);
+                }
+            } else {
+                // create the new association (first time).
+                ObjectAssociationMap *refs = new ObjectAssociationMap;
+                associations[disguised_object] = refs;
+                (*refs)[key] = ObjcAssociation(policy, new_value);
+                _class_setInstancesHaveAssociatedObjects(_object_getClass(object));
+            }
+        } else {
+            // setting the association to nil breaks the association.
+            AssociationsHashMap::iterator i = associations.find(disguised_object);
+            if (i !=  associations.end()) {
+                ObjectAssociationMap *refs = i-&gt;second;
+                ObjectAssociationMap::iterator j = refs-&gt;find(key);
+                if (j != refs-&gt;end()) {
+                    old_association = j-&gt;second;
+                    refs-&gt;erase(j);
+                }
+            }
+        }
+    }
+    // release the old value (outside of the lock).
+    if (old_association.hasValue()) ReleaseValue()(old_association);
+}
+</code></pre>
+
+<p>我们可以看到所有的关联对象都由AssociationsManager管理，而AssociationsManager定义如下：</p>
+
+<pre><code>class AssociationsManager {
+    static OSSpinLock _lock;
+    static AssociationsHashMap *_map;               // associative references:  object pointer -&gt; PtrPtrHashMap.
+public:
+    AssociationsManager()   { OSSpinLockLock(&amp;_lock); }
+    ~AssociationsManager()  { OSSpinLockUnlock(&amp;_lock); }
+
+    AssociationsHashMap &amp;associations() {
+        if (_map == NULL)
+            _map = new AssociationsHashMap();
+        return *_map;
+    }
+};
+</code></pre>
+
+<p>AssociationsManager里面是由一个静态AssociationsHashMap来存储所有的关联对象的。这相当于把所有对象的关联对象都存在一个全局map里面。而map的的key是这个对象的指针地址（任意两个不同对象的指针地址一定是不同的），而这个map的value又是另外一个AssociationsHashMap，里面保存了关联对象的kv对。
+而在对象的销毁逻辑里面，见objc-runtime-new.mm:</p>
+
+<pre><code>void *objc_destructInstance(id obj) 
+{
+    if (obj) {
+        Class isa_gen = _object_getClass(obj);
+        class_t *isa = newcls(isa_gen);
+
+        // Read all of the flags at once for performance.
+        bool cxx = hasCxxStructors(isa);
+        bool assoc = !UseGC &amp;&amp; _class_instancesHaveAssociatedObjects(isa_gen);
+
+        // This order is important.
+        if (cxx) object_cxxDestruct(obj);
+        if (assoc) _object_remove_assocations(obj);
+
+        if (!UseGC) objc_clear_deallocating(obj);
+    }
+
+    return obj;
+}
+</code></pre>
+
+<p>嗯，runtime的销毁对象函数objc_destructInstance里面会判断这个对象有没有关联对象，如果有，会调用_object_remove_assocations做关联对象的清理工作。</p>
+
+<p>后记
+正如侯捷先生所讲-“源码面前，了无秘密”，Apple的Cocoa Touch框架虽然并不开源，但是Objective-C的runtime和Core Foundation却是完全开放源码的(在<a href="http://www.opensource.apple.com/tarballs/可以下载到全部的开源代码)。">http://www.opensource.apple.com/tarballs/可以下载到全部的开源代码)。</a></p>
+              
+            </div>
+          </div>
+          <div id="post-footer" class="post-footer main-content-wrap">
+            
+              
+                
+                
+                  <div class="post-footer-tags">
+                    <span class="text-color-light text-small"></span><br/>
+                    
+  <a class="tag tag--primary tag--small" href="http://ytlvy.com/tags/ios/">IOS</a>
+
+  <a class="tag tag--primary tag--small" href="http://ytlvy.com/tags/category/">Category</a>
+
+                  </div>
+                
+              
+            
+            
+  <div class="post-actions-wrap">
+      <nav >
+        <ul class="post-actions post-action-nav">
+          
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="http://ytlvy.com/posts/2015-07-13/2015-07-13-ios-associated-objects/" data-tooltip="iOS Associated Objects">
+              
+                  <i class="fa fa-angle-left"></i>
+                  <span class="hide-xs hide-sm text-small icon-ml"></span>
+                </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="http://ytlvy.com/posts/2015-07-13/2015-07-13-ios-event-delivery-the-responder-chain/" data-tooltip="iOS Event Delivery/ The Responder Chain">
+              
+                  <span class="hide-xs hide-sm text-small icon-mr"></span>
+                  <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+          
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
+      
+        <li class="post-action hide-lg hide-md hide-sm">
+          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+            <i class="fa fa-share-alt"></i>
+          </a>
+        </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://ytlvy.com/posts/2015-07-13/2015-07-13-ios-category/">
+              <i class="fa fa-facebook-official"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http://ytlvy.com/posts/2015-07-13/2015-07-13-ios-category/">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=http://ytlvy.com/posts/2015-07-13/2015-07-13-ios-category/">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        
+      
+      
+        <li class="post-action">
+          <a class="post-action-btn btn btn--default" href="#disqus_thread">
+            <i class="fa fa-comment-o"></i>
+          </a>
+        </li>
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#">
+        
+          <i class="fa fa-list"></i>
+        </a>
+      </li>
+    </ul>
+  </div>
+
+
+            
+              
+                <div id="disqus_thread">
+  <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+              
+            
+          </div>
+        </article>
+        <footer id="footer" class="main-content-wrap">
+  <span class="copyrights">
+    &copy; 2017 肖杰. 
+  </span>
+</footer>
+
+      </div>
+      <div id="bottom-bar" class="post-bottom-bar" data-behavior="1">
+        
+  <div class="post-actions-wrap">
+      <nav >
+        <ul class="post-actions post-action-nav">
+          
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="http://ytlvy.com/posts/2015-07-13/2015-07-13-ios-associated-objects/" data-tooltip="iOS Associated Objects">
+              
+                  <i class="fa fa-angle-left"></i>
+                  <span class="hide-xs hide-sm text-small icon-ml"></span>
+                </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="http://ytlvy.com/posts/2015-07-13/2015-07-13-ios-event-delivery-the-responder-chain/" data-tooltip="iOS Event Delivery/ The Responder Chain">
+              
+                  <span class="hide-xs hide-sm text-small icon-mr"></span>
+                  <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+          
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
+      
+        <li class="post-action hide-lg hide-md hide-sm">
+          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+            <i class="fa fa-share-alt"></i>
+          </a>
+        </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://ytlvy.com/posts/2015-07-13/2015-07-13-ios-category/">
+              <i class="fa fa-facebook-official"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http://ytlvy.com/posts/2015-07-13/2015-07-13-ios-category/">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=http://ytlvy.com/posts/2015-07-13/2015-07-13-ios-category/">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        
+      
+      
+        <li class="post-action">
+          <a class="post-action-btn btn btn--default" href="#disqus_thread">
+            <i class="fa fa-comment-o"></i>
+          </a>
+        </li>
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#">
+        
+          <i class="fa fa-list"></i>
+        </a>
+      </li>
+    </ul>
+  </div>
+
+
+      </div>
+      <div id="share-options-bar" class="share-options-bar" data-behavior="1">
+  <i id="btn-close-shareoptions" class="fa fa-close"></i>
+  <ul class="share-options">
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Fytlvy.com%2Fposts%2F2015-07-13%2F2015-07-13-ios-category%2F">
+          <i class="fa fa-facebook-official"></i><span>%!(EXTRA string=Facebook)</span>
+        </a>
+      </li>
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=http%3A%2F%2Fytlvy.com%2Fposts%2F2015-07-13%2F2015-07-13-ios-category%2F">
+          <i class="fa fa-twitter"></i><span>%!(EXTRA string=Twitter)</span>
+        </a>
+      </li>
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=http%3A%2F%2Fytlvy.com%2Fposts%2F2015-07-13%2F2015-07-13-ios-category%2F">
+          <i class="fa fa-google-plus"></i><span>%!(EXTRA string=Google&#43;)</span>
+        </a>
+      </li>
+    
+  </ul>
+</div>
+<div id="share-options-mask" class="share-options-mask"></div>
+    </div>
+    
+    <div id="about">
+  <div id="about-card">
+    <div id="about-btn-close">
+      <i class="fa fa-remove"></i>
+    </div>
+    
+      <img id="about-card-picture" src="//www.gravatar.com/avatar/8d5387e20303e26c6147cfe67990995e?s=110" alt="" />
+    
+    <h4 id="about-card-name">肖杰</h4>
+    
+      <div id="about-card-bio">一个瑜伽|篮球|羽毛球爱好者</div>
+    
+    
+      <div id="about-card-job">
+        <i class="fa fa-briefcase"></i>
+        <br/>
+        搬砖工
+      </div>
+    
+    
+      <div id="about-card-location">
+        <i class="fa fa-map-marker"></i>
+        <br/>
+        Beijing
+      </div>
+    
+  </div>
+</div>
+
+    <div id="algolia-search-modal" class="modal-container">
+  <div class="modal">
+    <div class="modal-header">
+      <span class="close-button"><i class="fa fa-close"></i></span>
+      <a href="https://algolia.com" target="_blank" rel="noopener" class="searchby-algolia text-color-light link-unstyled">
+        <span class="searchby-algolia-text text-color-light text-small">by</span>
+        <img class="searchby-algolia-logo" src="https://www.algolia.com/static_assets/images/press/downloads/algolia-light.svg">
+      </a>
+      <i class="search-icon fa fa-search"></i>
+      <form id="algolia-search-form">
+        <input type="text" id="algolia-search-input" name="search"
+          class="form-control input--large search-input" placeholder="" />
+      </form>
+    </div>
+    <div class="modal-body">
+      <div class="no-result text-color-light text-center"></div>
+      <div class="results">
+        
+        
+      </div>
+    </div>
+    <div class="modal-footer">
+      <p class="results-count text-medium"
+         data-message-zero=""
+         data-message-one=""
+         data-message-other="">
+         0 posts found
+      </p>
+    </div>
+  </div>
+</div>
+    
+  
+    
+    <div id="cover" style="background-image:url('http://ytlvy.com/images/cover.jpg');"></div>
+  
+
+
+    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js" integrity="sha256-/BfiIkHlHoVihZdc6TFuj7MmJ0TWcWsMXkeDFwhi0zw=" crossorigin="anonymous"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.7/js/jquery.fancybox.min.js" integrity="sha256-GEAnjcTqVP+vBp3SSc8bEDQqvWAZMiHyUSIorrWwH50=" crossorigin="anonymous"></script>
+
+
+<script src="http://ytlvy.com/js/script-qi9wbxp2ya2j6p7wx1i6tgavftewndznf4v0hy2gvivk1rxgc3lm7njqb6bz.min.js"></script>
+
+
+
+<script>
+$(document).ready(function() {
+  hljs.configure({ classPrefix: '', useBR: false });
+  $('pre.code-highlight > code, pre > code').each(function(i, block) {
+    if (!$(this).hasClass('codeblock')) {
+      $(this).addClass('codeblock');
+    }
+    hljs.highlightBlock(block);
+  });
+});
+</script>
+
+
+  
+    
+      <script>
+        var disqus_config = function () {
+          this.page.url = 'http:\/\/ytlvy.com\/posts\/2015-07-13\/2015-07-13-ios-category\/';
+          
+            this.page.identifier = '\/posts\/2015-07-13\/2015-07-13-ios-category\/'
+          
+        };
+        (function() {
+          
+          
+          if (window.location.hostname == "localhost") {
+            return;
+          }
+          var d = document, s = d.createElement('script');
+          var disqus_shortname = 'hugo-tranquilpeak-theme';
+          s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+
+          s.setAttribute('data-timestamp', +new Date());
+          (d.head || d.body).appendChild(s);
+        })();
+      </script>
+    
+  
+
+
+
+    
+  </body>
+</html>
+

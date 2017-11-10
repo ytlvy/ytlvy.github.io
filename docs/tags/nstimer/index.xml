@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Nstimer on My New Hugo Site</title>
+    <link>http://ytlvy.com/tags/nstimer/</link>
+    <description>Recent content in Nstimer on My New Hugo Site</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Tue, 28 Jul 2015 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="http://ytlvy.com/tags/nstimer/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>iOS NSTimer Overflow</title>
+      <link>http://ytlvy.com/posts/2015-07-28/2015-07-28-ios-nstimer-overflow/</link>
+      <pubDate>Tue, 28 Jul 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-07-28/2015-07-28-ios-nstimer-overflow/</guid>
+      <description>&lt;h2 id=&#34;nstimer&#34;&gt;NSTimer&lt;/h2&gt;
+
+&lt;h3 id=&#34;fire&#34;&gt;fire&lt;/h3&gt;
+
+&lt;p&gt;我们先用 NSTimer 来做个简单的计时器，每隔5秒钟在控制台输出 Fire 。比较想当然的做法是这样的：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;@interface DetailViewController ()
+@property (nonatomic, weak) NSTimer *timer;
+@end
+
+@implementation DetailViewController
+- (IBAction)fireButtonPressed:(id)sender {
+    _timer = [NSTimer scheduledTimerWithTimeInterval:3.0f
+                                              target:self
+                                            selector:@selector(timerFire:)
+                                            userInfo:nil
+                                             repeats:YES];
+    [_timer fire];
+}
+
+-(void)timerFire:(id)userinfo {
+    NSLog(@&amp;quot;Fire&amp;quot;);
+}
+@end
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;运行之后确实在控制台每隔3秒钟输出一次 &lt;code&gt;Fire&lt;/code&gt; ，然而当我们从这个界面跳转到其他界面的时候却发现：控制台还在源源不断的输出着 Fire 。看来 Timer 并没有停止。&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

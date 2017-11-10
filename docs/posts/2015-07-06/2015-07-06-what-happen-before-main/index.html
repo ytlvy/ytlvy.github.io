@@ -1,0 +1,738 @@
+
+
+  
+
+
+  
+
+
+
+
+  
+
+
+  
+
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="Hugo 0.30.2 with theme Tranquilpeak 0.4.2-BETA">
+    <title>what happen before main</title>
+    <meta name="author" content="肖杰">
+    <meta name="keywords" content="">
+
+    <link rel="icon" href="http://ytlvy.com/favicon.png">
+    
+
+    
+    <meta name="description" content="转自
+
+iOS程序main函数之前发生了什么
+
+前言
+
+一个iOS app的main()函数位于main.m中，这是我们熟知的程序入口。但对objc了解更多之后发现，程序在进入我们的main函数前已经执行了很多代码，比如熟知的&#43; load方法等。本文将跟随程序执行顺序，刨根问底，从dyld到runtime，看看main函数之前都发生了什么。
+
+从dyld开始
+
+动态链接库
+
+iOS中用到的所有系统framework都是动态链接的，类比成插头和插排，静态链接的代码在编译后的静态链接过程就将插头和插排一个个插好，运行时直接执行二进制文件；而动态链接需要在程序启动时去完成“插插销”的过程，所以在我们写的代码执行前，动态连接器需要完成准备工作。">
+    <meta property="og:description" content="转自
+
+iOS程序main函数之前发生了什么
+
+前言
+
+一个iOS app的main()函数位于main.m中，这是我们熟知的程序入口。但对objc了解更多之后发现，程序在进入我们的main函数前已经执行了很多代码，比如熟知的&#43; load方法等。本文将跟随程序执行顺序，刨根问底，从dyld到runtime，看看main函数之前都发生了什么。
+
+从dyld开始
+
+动态链接库
+
+iOS中用到的所有系统framework都是动态链接的，类比成插头和插排，静态链接的代码在编译后的静态链接过程就将插头和插排一个个插好，运行时直接执行二进制文件；而动态链接需要在程序启动时去完成“插插销”的过程，所以在我们写的代码执行前，动态连接器需要完成准备工作。">
+    <meta property="og:type" content="blog">
+    <meta property="og:title" content="what happen before main">
+    <meta property="og:url" content="/posts/2015-07-06/2015-07-06-what-happen-before-main/">
+    <meta property="og:site_name" content="My New Hugo Site">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="My New Hugo Site">
+    <meta name="twitter:description" content="转自
+
+iOS程序main函数之前发生了什么
+
+前言
+
+一个iOS app的main()函数位于main.m中，这是我们熟知的程序入口。但对objc了解更多之后发现，程序在进入我们的main函数前已经执行了很多代码，比如熟知的&#43; load方法等。本文将跟随程序执行顺序，刨根问底，从dyld到runtime，看看main函数之前都发生了什么。
+
+从dyld开始
+
+动态链接库
+
+iOS中用到的所有系统framework都是动态链接的，类比成插头和插排，静态链接的代码在编译后的静态链接过程就将插头和插排一个个插好，运行时直接执行二进制文件；而动态链接需要在程序启动时去完成“插插销”的过程，所以在我们写的代码执行前，动态连接器需要完成准备工作。">
+    
+    
+
+    
+    
+
+    
+      <meta property="og:image" content="//www.gravatar.com/avatar/8d5387e20303e26c6147cfe67990995e?s=640">
+    
+
+    
+    
+    
+
+    
+
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/jquery.fancybox.min.css" integrity="sha256-vuXZ9LGmmwtjqFX1F+EKin1ThZMub58gKULUyf0qECk=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/helpers/jquery.fancybox-thumbs.min.css" integrity="sha256-SEa4XYAHihTcEP1f5gARTB2K26Uk8PsndQYHQC1f4jU=" crossorigin="anonymous" />
+    
+    
+    <link rel="stylesheet" href="http://ytlvy.com/css/style-jsjn0006wyhpyzivf6yceb31gvpjatbcs3qzjvlumobfnugccvobqwxnnaj8.min.css" />
+    
+    
+
+    
+      
+    
+    
+  </head>
+
+  <body>
+    <div id="blog">
+      <header id="header" data-behavior="1">
+  <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+  <div class="header-title">
+    <a class="header-title-link" href="http://ytlvy.com/">My New Hugo Site</a>
+  </div>
+  
+    
+      <a class="header-right-picture "
+         href="http://ytlvy.com/#about">
+    
+    
+    
+      
+        <img class="header-picture" src="//www.gravatar.com/avatar/8d5387e20303e26c6147cfe67990995e?s=90" alt="" />
+      
+    
+    </a>
+  
+</header>
+
+      <nav id="sidebar" data-behavior="1">
+  <div class="sidebar-container">
+    
+      <div class="sidebar-profile">
+        <a href="http://ytlvy.com/#about">
+          <img class="sidebar-profile-picture" src="//www.gravatar.com/avatar/8d5387e20303e26c6147cfe67990995e?s=110" alt="" />
+        </a>
+        <h4 class="sidebar-profile-name">肖杰</h4>
+        
+          <h5 class="sidebar-profile-bio">一个瑜伽|篮球|羽毛球爱好者</h5>
+        
+      </div>
+    
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="http://ytlvy.com/">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-home"></i>
+      
+      <span class="sidebar-button-desc">Home</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="http://ytlvy.com/categories">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-bookmark"></i>
+      
+      <span class="sidebar-button-desc">Categories</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="http://ytlvy.com/tags">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+      
+      <span class="sidebar-button-desc">Tags</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="http://ytlvy.com/archives">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
+      
+      <span class="sidebar-button-desc">Archives</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="http://ytlvy.com/#about">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-question"></i>
+      
+      <span class="sidebar-button-desc">About</span>
+    </a>
+  </li>
+
+
+    </ul>
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://github.com/ytlvy" target="_blank" rel="noopener">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-github"></i>
+      
+      <span class="sidebar-button-desc">GitHub</span>
+    </a>
+  </li>
+
+
+    </ul>
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="http://ytlvy.com/index.xml">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-rss"></i>
+      
+      <span class="sidebar-button-desc">RSS</span>
+    </a>
+  </li>
+
+
+    </ul>
+  </div>
+</nav>
+
+      
+
+      <div id="main" data-behavior="1"
+        class="
+               hasCoverMetaIn
+               ">
+        <article class="post" itemscope itemType="http://schema.org/BlogPosting">
+          
+          
+            <div class="post-header main-content-wrap text-left">
+  
+    <h1 class="post-title" itemprop="headline">
+      what happen before main
+    </h1>
+  
+  
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2015-07-06T00:00:00Z">
+        
+   6, 2015
+
+      </time>
+    
+    
+  
+  
+    <span></span>
+    
+      <a class="category-link" href="http://ytlvy.com/categories/ios">IOS</a>
+    
+  
+
+  </div>
+
+</div>
+          
+          <div class="post-content markdown" itemprop="articleBody">
+            <div class="main-content-wrap">
+              <p><a href="http://blog.sunnyxx.com/2014/08/30/objc-pre-main/">转自</a></p>
+
+<h2 id="ios程序main函数之前发生了什么">iOS程序main函数之前发生了什么</h2>
+
+<h3 id="前言">前言</h3>
+
+<p>一个iOS app的<code>main()</code>函数位于<code>main.m</code>中，这是我们熟知的程序入口。但对objc了解更多之后发现，程序在进入我们的main函数前已经执行了很多代码，比如熟知的<code>+ load</code>方法等。本文将跟随程序执行顺序，刨根问底，从<code>dyld</code>到<code>runtime</code>，看看main函数之前都发生了什么。</p>
+
+<h3 id="从dyld开始">从dyld开始</h3>
+
+<h4 id="动态链接库">动态链接库</h4>
+
+<p>iOS中用到的所有系统<code>framework</code>都是动态链接的，类比成插头和插排，静态链接的代码在编译后的静态链接过程就将插头和插排一个个插好，运行时直接执行二进制文件；而动态链接需要在程序启动时去完成“插插销”的过程，所以在我们写的代码执行前，动态连接器需要完成准备工作。</p>
+
+<p>这个是在xcode中看到的Link列表：
+<img src="http://ww4.sinaimg.cn/mw600/51530583jw1ejx4ul5susj20wg0803zh.jpg" alt="" />
+
+这些<code>framework</code>将会在动态链接过程中被加载，另外还有隐含<code>link</code>的<code>framework</code>，可以测试出来：先找到可执行文件，我这里叫TestMain的工程，模拟器路径下找到<code>TestMain.app</code>，可执行文件默认同名，再通过<code>otool</code>命令：</p>
+
+<pre><code>$ otool -L TestMain
+</code></pre>
+
+<p>-L参数打印出所有link的framework</p>
+
+<pre><code>TestMain:
+    /System/Library/Frameworks/CoreGraphics.framework/CoreGraphics 
+    /System/Library/Frameworks/UIKit.framework/UIKit
+    /System/Library/Frameworks/Foundation.framework/Foundation
+    /System/Library/Frameworks/CoreFoundation.framework/CoreFoundation 
+    /usr/lib/libobjc.A.dylib 
+    /usr/lib/libSystem.dylib
+</code></pre>
+
+<p>除了多了的<code>CoreGraphics</code>（被<code>UIKit</code>依赖）外，有两个默认添加的<code>lib</code>。<code>libobjc</code>即<code>objc</code>和<code>runtime</code>，<code>libSystem</code>中包含了很多系统级别<code>lib</code>，列几个熟知的：<code>libdispatch(GCD)</code>，<code>libsystem_c(C语言库)</code>，<code>libsystem_blocks(Block)</code>，<code>libcommonCrypto</code>(常用的md5函数)等等。这些lib都是dylib格式（如windows中的dll），系统使用动态链接有几点好处：</p>
+
+<ul>
+<li>代码共用：很多程序都动态链接了这些lib，但它们在内存和磁盘中中只有一份</li>
+<li>易于维护：由于被依赖的lib是程序执行时才link的，所以这些lib很容易做更新，比如<code>libSystem.dylib</code>是<code>libSystem.B.dylib</code>的替身，哪天想升级直接换成<code>libSystem.C.dylib</code>然后再替换替身就行了</li>
+<li>减少可执行文件体积：相比静态链接，可执行文件的体积要小很多</li>
+</ul>
+
+<h3 id="dyld">dyld</h3>
+
+<p><code>dyld</code> - <code>the dynamic link editor</code> apple的动态链接器，系统<code>kernel</code>做好启动程序的初始准备后，交给dyld负责，援引并翻译<a href="https://www.mikeash.com/pyblog/friday-qa-2012-11-09-dyld-dynamic-linking-on-os-x.html">《mikeask这篇blog》</a>对dyld作用顺序的概括</p>
+
+<ol>
+<li>从kernel留下的原始调用栈引导和启动自己</li>
+<li>将程序依赖的动态链接库递归加载进内存，当然这里有<code>缓存机制</code></li>
+<li>non-lazy符号立即link到可执行文件，lazy的存表里</li>
+<li>Runs static initializers for the executable</li>
+<li>找到可执行文件的main函数，准备参数并调用</li>
+<li>程序执行中负责绑定lazy符号、提供runtime dynamic loading services、提供调试器接口</li>
+<li>程序main函数return后执行static terminator</li>
+<li>某些场景下main函数结束后调libSystem的_exit函数</li>
+</ol>
+
+<p>得益于dyld是开源的，<img src="https://github.com/opensource-apple/dyld" alt="github地址" />，我们可以从源码一探究竟。</p>
+
+<p>一切源于<code>dyldStartup.s</code>这个文件，其中用汇编实现了名为<code>__dyld_start</code>的方法，汇编太生涩，它主要干了两件事：</p>
+
+<ol>
+<li>调用dyldbootstrap::start()方法（省去参数）</li>
+<li>上个方法返回了main函数地址，填入参数并调用main函数</li>
+</ol>
+
+<p>这个步骤随手就能验证出来，设置一个符号断点断在_objc_init：
+<img src="http://ww1.sinaimg.cn/mw600/51530583jw1ejxgn8un3cj20oo09675i.jpg" alt="" /></p>
+
+<p>这个函数是<code>runtime</code>的初始化函数，后面会提到。程序运行在很早的时候断住，这时候看调用栈：</p>
+
+<p><img src="http://ww3.sinaimg.cn/mw600/51530583jw1ejxgwiptytj20jw0f0q5r.jpg" alt="" /></p>
+
+<p>看到了栈底的<code>dyldbootstrap::start()</code>方法，继而调用了<code>dyld::_main()</code>方法，其中完成了刚才说的递归加载动态库过程，由于<code>libSystem</code>默认引入，栈中出现了<code>libSystem_initializer</code>的初始化方法。</p>
+
+<h3 id="imageloader">ImageLoader</h3>
+
+<p>当然这个<code>image</code>不是图片的意思，它大概表示一个二进制文件（可执行文件或so文件），里面是被编译过的符号、代码等，所以<code>ImageLoader</code>作用是将这些文件加载进内存，且每一个文件对应一个I<code>mageLoader</code>实例来负责加载。
+两步走：</p>
+
+<ol>
+<li>在程序运行时它先将动态链接的image递归加载 （也就是上面测试栈中一串的递归调用的时刻）</li>
+<li>再从可执行文件image递归加载所有符号</li>
+</ol>
+
+<p>当然所有这些都发生在我们真正的main函数执行前。</p>
+
+<hr />
+
+<h3 id="runtime与-load">runtime与+load</h3>
+
+<p>刚才讲到<code>libSystem</code>是若干个系统<code>lib</code>的集合，所以它只是一个容器<code>lib</code>而已，而且它也是开源的，里面实质上就一个文件，<code>init.c</code>，细节不说了，由<code>libSystem_initializer</code>逐步调用到了<code>_objc_init</code>，这里就是objc和runtime的初始化入口。</p>
+
+<p>除了runtime环境的初始化外，_objc_init中绑定了新image被加载后的callback：</p>
+
+<pre><code>dyld_register_image_state_change_handler(dyld_image_state_bound,
+                                             1/*batch*/, &amp;map_images);
+dyld_register_image_state_change_handler(dyld_image_state_dependents_initialized, 0/*not batch*/, &amp;load_images);
+
+</code></pre>
+
+<p>可见dyld担当了<code>runtime</code>和<code>ImageLoader</code>中间的协调者，当新<code>image</code>加载进来后交由<code>runtime</code>大厨去解析这个二进制文件的符号表和代码。继续上面的断点法，断住神秘的+load函数：
+<img src="http://ww1.sinaimg.cn/mw690/51530583jw1ejyjgvetq1j20jk0bc0uf.jpg" alt="" /></p>
+
+<p>清楚的看到整个调用栈和顺序：
+1. dyld开始将程序二进制文件初始化
+2. 交由ImageLoader读取image，其中包含了我们的类、方法等各种符号
+3. 由于runtime向dyld绑定了回调，当image加载到内存后，dyld会通知runtime进行处理
+4. runtime接手后调用map_images做解析和处理，接下来load_images中调用call_load_methods方法，遍历所有加载进来的Class，按继承层级依次调用Class的load方法和其Category的load方法</p>
+
+<p>至此，可执行文件中和动态库所有的符号（Class，Protocol，Selector，IMP，…）都已经按格式成功加载到内存中，被runtime所管理，再这之后，runtime的那些方法（动态添加Class、方法混合等等才能生效）</p>
+
+<h4 id="关于load方法的几个qa">关于load方法的几个QA</h4>
+
+<p>Q: 重载自己Class的load方法时需不需要调父类？
+A: runtime负责按继承顺序递归调用，所以我们不能调super</p>
+
+<p>Q: 在自己Class的load方法时能不能替换系统framework（比如UIKit）中的某个类的方法实现
+A: 可以，因为动态链接过程中，所有依赖库的类是先于自己的类加载的</p>
+
+<p>Q: 重载load时需要手动添加@autoreleasepool么？
+A: 不需要，在runtime调用load方法前后是加了objc_autoreleasePoolPush()和objc_autoreleasePoolPop()的。</p>
+
+<p>Q: 想让一个类的load方法被调用是否需要在某个地方import这个文件
+A: 不需要，只要这个类的符号被编译到最后的可执行文件中，load方法就会被调用（Reveal SDK就是利用这一点，只要引入到工程中就能工作）</p>
+
+<hr />
+
+<h2 id="简单总结">简单总结</h2>
+
+<p>整个事件由dyld主导，完成运行环境的初始化后，配合ImageLoader将二进制文件按格式加载到内存， 动态链接依赖库，并由runtime负责加载成objc定义的结构，所有初始化工作结束后，dyld调用真正的main函数。</p>
+
+<p>值得说明的是，这个过程远比写出来的要复杂，这里只提到了runtime这个分支，还有像GCD、XPC等重头的系统库初始化分支没有提及（当然，有缓存机制在，它们也不会玩命初始化），总结起来就是main函数执行之前，系统做了茫茫多的加载和初始化工作，但都被很好的隐藏了，我们无需关心。</p>
+
+<h3 id="孤独的main函数">孤独的main函数</h3>
+
+<p>当这一切都结束时，dyld会清理现场，将调用栈回归，只剩下：
+<img src="http://ww3.sinaimg.cn/mw690/51530583jw1ejykutdlvsj20fc02smx9.jpg" alt="" /></p>
+
+<p>孤独的main函数，看上去是程序的开始，确是一段精彩的终结</p>
+
+<h3 id="references">References</h3>
+
+<p><a href="https://www.mikeash.com/pyblog/friday-qa-2012-11-09-dyld-dynamic-linking-on-os-x.html">https://www.mikeash.com/pyblog/friday-qa-2012-11-09-dyld-dynamic-linking-on-os-x.html</a>
+<a href="http://newosxbook.com/articles/DYLD.html">http://newosxbook.com/articles/DYLD.html</a>
+<a href="http://docstore.mik.ua/orelly/unix3/mac/ch05_02.htm">http://docstore.mik.ua/orelly/unix3/mac/ch05_02.htm</a>
+<a href="https://developer.apple.com/library/mac/documentation/Darwin/Reference/ManPages/man1/dyld.1.html">https://developer.apple.com/library/mac/documentation/Darwin/Reference/ManPages/man1/dyld.1.html</a></p>
+              
+            </div>
+          </div>
+          <div id="post-footer" class="post-footer main-content-wrap">
+            
+              
+                
+                
+                  <div class="post-footer-tags">
+                    <span class="text-color-light text-small"></span><br/>
+                    
+  <a class="tag tag--primary tag--small" href="http://ytlvy.com/tags/ios/">IOS</a>
+
+  <a class="tag tag--primary tag--small" href="http://ytlvy.com/tags/dyld/">dyld</a>
+
+                  </div>
+                
+              
+            
+            
+  <div class="post-actions-wrap">
+      <nav >
+        <ul class="post-actions post-action-nav">
+          
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="http://ytlvy.com/posts/2015-07-06/2015-07-06-progress-memory-map/" data-tooltip="progress memory map">
+              
+                  <i class="fa fa-angle-left"></i>
+                  <span class="hide-xs hide-sm text-small icon-ml"></span>
+                </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="http://ytlvy.com/posts/2015-07-04/2015-07-04-ios-%E8%BF%9B%E9%98%B6%E5%B7%A5%E5%85%B7%E7%AF%87/" data-tooltip="IOS 进阶工具篇">
+              
+                  <span class="hide-xs hide-sm text-small icon-mr"></span>
+                  <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+          
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
+      
+        <li class="post-action hide-lg hide-md hide-sm">
+          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+            <i class="fa fa-share-alt"></i>
+          </a>
+        </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://ytlvy.com/posts/2015-07-06/2015-07-06-what-happen-before-main/">
+              <i class="fa fa-facebook-official"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http://ytlvy.com/posts/2015-07-06/2015-07-06-what-happen-before-main/">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=http://ytlvy.com/posts/2015-07-06/2015-07-06-what-happen-before-main/">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        
+      
+      
+        <li class="post-action">
+          <a class="post-action-btn btn btn--default" href="#disqus_thread">
+            <i class="fa fa-comment-o"></i>
+          </a>
+        </li>
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#">
+        
+          <i class="fa fa-list"></i>
+        </a>
+      </li>
+    </ul>
+  </div>
+
+
+            
+              
+                <div id="disqus_thread">
+  <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+              
+            
+          </div>
+        </article>
+        <footer id="footer" class="main-content-wrap">
+  <span class="copyrights">
+    &copy; 2017 肖杰. 
+  </span>
+</footer>
+
+      </div>
+      <div id="bottom-bar" class="post-bottom-bar" data-behavior="1">
+        
+  <div class="post-actions-wrap">
+      <nav >
+        <ul class="post-actions post-action-nav">
+          
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="http://ytlvy.com/posts/2015-07-06/2015-07-06-progress-memory-map/" data-tooltip="progress memory map">
+              
+                  <i class="fa fa-angle-left"></i>
+                  <span class="hide-xs hide-sm text-small icon-ml"></span>
+                </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="http://ytlvy.com/posts/2015-07-04/2015-07-04-ios-%E8%BF%9B%E9%98%B6%E5%B7%A5%E5%85%B7%E7%AF%87/" data-tooltip="IOS 进阶工具篇">
+              
+                  <span class="hide-xs hide-sm text-small icon-mr"></span>
+                  <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+          
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
+      
+        <li class="post-action hide-lg hide-md hide-sm">
+          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+            <i class="fa fa-share-alt"></i>
+          </a>
+        </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://ytlvy.com/posts/2015-07-06/2015-07-06-what-happen-before-main/">
+              <i class="fa fa-facebook-official"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http://ytlvy.com/posts/2015-07-06/2015-07-06-what-happen-before-main/">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=http://ytlvy.com/posts/2015-07-06/2015-07-06-what-happen-before-main/">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        
+      
+      
+        <li class="post-action">
+          <a class="post-action-btn btn btn--default" href="#disqus_thread">
+            <i class="fa fa-comment-o"></i>
+          </a>
+        </li>
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#">
+        
+          <i class="fa fa-list"></i>
+        </a>
+      </li>
+    </ul>
+  </div>
+
+
+      </div>
+      <div id="share-options-bar" class="share-options-bar" data-behavior="1">
+  <i id="btn-close-shareoptions" class="fa fa-close"></i>
+  <ul class="share-options">
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Fytlvy.com%2Fposts%2F2015-07-06%2F2015-07-06-what-happen-before-main%2F">
+          <i class="fa fa-facebook-official"></i><span>%!(EXTRA string=Facebook)</span>
+        </a>
+      </li>
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=http%3A%2F%2Fytlvy.com%2Fposts%2F2015-07-06%2F2015-07-06-what-happen-before-main%2F">
+          <i class="fa fa-twitter"></i><span>%!(EXTRA string=Twitter)</span>
+        </a>
+      </li>
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=http%3A%2F%2Fytlvy.com%2Fposts%2F2015-07-06%2F2015-07-06-what-happen-before-main%2F">
+          <i class="fa fa-google-plus"></i><span>%!(EXTRA string=Google&#43;)</span>
+        </a>
+      </li>
+    
+  </ul>
+</div>
+<div id="share-options-mask" class="share-options-mask"></div>
+    </div>
+    
+    <div id="about">
+  <div id="about-card">
+    <div id="about-btn-close">
+      <i class="fa fa-remove"></i>
+    </div>
+    
+      <img id="about-card-picture" src="//www.gravatar.com/avatar/8d5387e20303e26c6147cfe67990995e?s=110" alt="" />
+    
+    <h4 id="about-card-name">肖杰</h4>
+    
+      <div id="about-card-bio">一个瑜伽|篮球|羽毛球爱好者</div>
+    
+    
+      <div id="about-card-job">
+        <i class="fa fa-briefcase"></i>
+        <br/>
+        搬砖工
+      </div>
+    
+    
+      <div id="about-card-location">
+        <i class="fa fa-map-marker"></i>
+        <br/>
+        Beijing
+      </div>
+    
+  </div>
+</div>
+
+    <div id="algolia-search-modal" class="modal-container">
+  <div class="modal">
+    <div class="modal-header">
+      <span class="close-button"><i class="fa fa-close"></i></span>
+      <a href="https://algolia.com" target="_blank" rel="noopener" class="searchby-algolia text-color-light link-unstyled">
+        <span class="searchby-algolia-text text-color-light text-small">by</span>
+        <img class="searchby-algolia-logo" src="https://www.algolia.com/static_assets/images/press/downloads/algolia-light.svg">
+      </a>
+      <i class="search-icon fa fa-search"></i>
+      <form id="algolia-search-form">
+        <input type="text" id="algolia-search-input" name="search"
+          class="form-control input--large search-input" placeholder="" />
+      </form>
+    </div>
+    <div class="modal-body">
+      <div class="no-result text-color-light text-center"></div>
+      <div class="results">
+        
+        
+      </div>
+    </div>
+    <div class="modal-footer">
+      <p class="results-count text-medium"
+         data-message-zero=""
+         data-message-one=""
+         data-message-other="">
+         0 posts found
+      </p>
+    </div>
+  </div>
+</div>
+    
+  
+    
+    <div id="cover" style="background-image:url('http://ytlvy.com/images/cover.jpg');"></div>
+  
+
+
+    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js" integrity="sha256-/BfiIkHlHoVihZdc6TFuj7MmJ0TWcWsMXkeDFwhi0zw=" crossorigin="anonymous"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.7/js/jquery.fancybox.min.js" integrity="sha256-GEAnjcTqVP+vBp3SSc8bEDQqvWAZMiHyUSIorrWwH50=" crossorigin="anonymous"></script>
+
+
+<script src="http://ytlvy.com/js/script-qi9wbxp2ya2j6p7wx1i6tgavftewndznf4v0hy2gvivk1rxgc3lm7njqb6bz.min.js"></script>
+
+
+
+<script>
+$(document).ready(function() {
+  hljs.configure({ classPrefix: '', useBR: false });
+  $('pre.code-highlight > code, pre > code').each(function(i, block) {
+    if (!$(this).hasClass('codeblock')) {
+      $(this).addClass('codeblock');
+    }
+    hljs.highlightBlock(block);
+  });
+});
+</script>
+
+
+  
+    
+      <script>
+        var disqus_config = function () {
+          this.page.url = 'http:\/\/ytlvy.com\/posts\/2015-07-06\/2015-07-06-what-happen-before-main\/';
+          
+            this.page.identifier = '\/posts\/2015-07-06\/2015-07-06-what-happen-before-main\/'
+          
+        };
+        (function() {
+          
+          
+          if (window.location.hostname == "localhost") {
+            return;
+          }
+          var d = document, s = d.createElement('script');
+          var disqus_shortname = 'hugo-tranquilpeak-theme';
+          s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+
+          s.setAttribute('data-timestamp', +new Date());
+          (d.head || d.body).appendChild(s);
+        })();
+      </script>
+    
+  
+
+
+
+    
+  </body>
+</html>
+

@@ -1,0 +1,279 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>C on My New Hugo Site</title>
+    <link>http://ytlvy.com/tags/c/</link>
+    <description>Recent content in C on My New Hugo Site</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sat, 22 Aug 2015 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="http://ytlvy.com/tags/c/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>C programming -- Array &amp; String</title>
+      <link>http://ytlvy.com/posts/2015-08-22/2015-08-22-c-programming-array-string/</link>
+      <pubDate>Sat, 22 Aug 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-08-22/2015-08-22-c-programming-array-string/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;http://www.cnblogs.com/kenshincui/p/3843505.html&#34;&gt;reference&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;c语言之数组和字符串&#34;&gt;C语言之数组和字符串&lt;/h2&gt;
+
+&lt;h3 id=&#34;概览&#34;&gt;概览&lt;/h3&gt;
+
+&lt;p&gt;数组在C语言中有着特殊的地位，它有很多特性，例如它的存储是连续的，数组的名称就是数组的地址等。而在C语言中是没有String类型的，那么如果要表示一个字符串，就必须使用字符数组。今天主要就介绍如下三个方面：&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;一维数组&lt;/li&gt;
+&lt;li&gt;多维数组&lt;/li&gt;
+&lt;li&gt;字符串&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;一维数组&#34;&gt;一维数组&lt;/h3&gt;
+
+&lt;p&gt;一维数组操作比较简单，但是需要注意，数组长度必须是固定的，长度不能使用变量进行初始化；如果声明的同时进行赋值则数组长度可以省略，编译器会自动计算数组长度；同时数组不能先声明再一次性赋值（当然可以对每个元素一一赋值）。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;#include &amp;lt;stdio.h&amp;gt;
+
+int main(){
+    int len = 2;
+    //int a[len] = { 1, 2};//错误,不能使变量
+    int a[2];//正确
+    a[0] = 1;
+    a[1] = 2;
+    //a[2] = 3;//超过数组长度，但是编译器并不会检查，运行报错
+    int b[&#39;a&#39;] = {1,2,3};//&#39;a&#39;=97，所以可以作为数组长度，但是后面的元素没有初始化，其值默认为0
+    for (int i = 0; i &amp;lt; 97; ++i){
+        printf(&amp;quot;b[%d]=%d\n&amp;quot;,i,b[i]);
+    }
+    int c[2 * 3];//2*3是固定值可以作为数组长度
+    int d[] = { 1, 2, 3 };//如果初始化的同时赋值则数组长度可以省略，当前个数为3
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>C programming -- Precompile</title>
+      <link>http://ytlvy.com/posts/2015-08-22/2015-08-22-c-programming-precompile/</link>
+      <pubDate>Sat, 22 Aug 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-08-22/2015-08-22-c-programming-precompile/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;http://www.cnblogs.com/kenshincui/p/3854242.html&#34;&gt;reference&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;c语言之预处理&#34;&gt;C语言之预处理&lt;/h2&gt;
+
+&lt;h3 id=&#34;概述&#34;&gt;概述&lt;/h3&gt;
+
+&lt;p&gt;大家都知道一个C程序的运行包括编译和链接两个阶段，其实在编译之前预处理器首先要进行预处理操作，将处理完产生的一个新的源文件进行编译。由于预处理指令是在编译之前就进行了，因此很多时候它要比在程序运行时进行操作效率高。在C语言中包括三类预处理指令，今天将一一介绍：&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;宏定义&lt;/li&gt;
+&lt;li&gt;条件编译&lt;/li&gt;
+&lt;li&gt;文件包含&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;宏定义&#34;&gt;宏定义&lt;/h3&gt;
+
+&lt;p&gt;对于程序中经常用到的一些常量或者简短的函数我们通常使用宏定义来处理，这样做的好处是对于程序中所有的配置我们可以统一在宏定义中进行管理，而且由于宏定义是在程序编译之前进行替换相比定义成全局变量或函数效率更高。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;//
+//  main.c
+//  Pretreatment
+//
+//  Created by Kenshin Cui on 14-6-28.
+//  Copyright (c) 2014年 Kenshin Cui. All rights reserved.
+//
+
+#include &amp;lt;stdio.h&amp;gt;
+#define PI 3.14 //宏定义一般大写
+#define R 10
+#define S 2*PI*R //在另一个宏里面引用了上面的宏
+
+int main(int argc, const char * argv[]) {
+    float r=10.5;
+    double area=PI*r*r;
+    printf(&amp;quot;area=%.2f\n&amp;quot;,area);
+    
+    double a=S;
+    printf(&amp;quot;a=%.2f\n&amp;quot;,a);
+    printf(&amp;quot;PI=3.14\n&amp;quot;);//注意输出结果不是3.14=3.14而是PI=3.14，字符串中的PI并不会被替换
+#undef PI //强制终止宏定义，否则它的范围一直到文件结束
+    int PI=3.1415926;
+    double area2=PI*r*r;
+    printf(&amp;quot;area2=%.2f\n&amp;quot;,area2);
+    
+    
+    return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;宏定义实际的操作就是在预处理时进行对应替换，这个阶段不管语法是否正确，而且对于字符串中出现的宏名不会进行替换。宏定义的功能事实上是非常强大的，除了简单的常量替换还可以传入参数：&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>C programming -- Struct</title>
+      <link>http://ytlvy.com/posts/2015-08-22/2015-08-22-c-programming-struct/</link>
+      <pubDate>Sat, 22 Aug 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-08-22/2015-08-22-c-programming-struct/</guid>
+      <description>&lt;p&gt;@charset &amp;ldquo;UTF-8&amp;rdquo;;
+/**
+ *
+ * @authors Your Name (you@example.org)
+ * @date    2015-08-16 11:06:45
+ * @version $Id$
+ * Copyright &amp;copy; 2015年 Guo yanjie. All rights reserved.
+ */&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;http://www.cnblogs.com/kenshincui/p/3856543.html&#34;&gt;reference&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;c语言之构造类型&#34;&gt;C语言之构造类型&lt;/h2&gt;
+
+&lt;h3 id=&#34;概述&#34;&gt;概述&lt;/h3&gt;
+
+&lt;p&gt;在第一节中我们就提到C语言的构造类型，分为：数组、结构体、枚举、共用体，当然前面数组的内容已经说了很多了，这一节将会重点说一下其他三种类型。&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;结构体&lt;/li&gt;
+&lt;li&gt;枚举&lt;/li&gt;
+&lt;li&gt;共用体&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;结构体&#34;&gt;结构体&lt;/h3&gt;
+
+&lt;p&gt;数组中存储的是一系列相同的数据类型，那么如果想让一个变量存储不同的数据类型就要使用结构体，结构体定义类似于C++、C#、Java等高级语言中类的定义，但事实上它们又有着很大的区别。结构体是一种类型，并非一个变量，只是这种类型可以由其他C语言基本类型共同组成。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;//
+//  main.c
+//  ConstructedType
+//
+//  Created by Kenshin Cui on 14-7-18.
+//  Copyright (c) 2014年 Kenshin Cui. All rights reserved.
+//
+
+#include &amp;lt;stdio.h&amp;gt;
+
+//结构体类型Date
+struct Date{
+    int year;
+    int month;
+    int day;
+};
+
+struct Person{
+    char *name;
+    int age;
+    struct Date birthday;//一个结构体中使用了另一个结构体类型，结构体类型变量声明前必须加上struct关键字
+    float height;
+};
+
+int main(int argc, const char * argv[]) {
+    struct Person p={&amp;quot;Kenshin&amp;quot;,28,{1986,8,8},1.72};
+    //定义结构体变量并初始化,不允许先定义再直接初始化，例如：struct Person p;p={&amp;quot;Kenshin&amp;quot;,28,{1986,8,8},1.72};是错误的，但是可以分别赋值，例如p.name=&amp;quot;Kenshin&amp;quot;
+    
+    printf(&amp;quot;name=%s,age=%d,birthday=%d-%d-%d,height=%.2f\n&amp;quot;,p.name,p.age,p.birthday.year,p.birthday.month,p.birthday.day,p.height); 
+    //结果：name=Kenshin,age=28,birthday=1986-8-8,height=1.72，结构体的引用是通过&amp;quot;结构体变量.成员名称&amp;quot;(注意和结构体指针访问结构体成员变量区分，结构体指针使用p-&amp;gt;a的形式访问)
+    
+    printf(&amp;quot;len(Date)=%lu,len(Person)=%lu\n&amp;quot;,sizeof(struct Date),sizeof(struct Person)); 
+    //结果：len(Date)=12,len(Person)=32
+    
+    return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>C programming -- memory &amp; scope</title>
+      <link>http://ytlvy.com/posts/2015-08-22/2015-08-22-c-programming-memory-scope/</link>
+      <pubDate>Sat, 22 Aug 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-08-22/2015-08-22-c-programming-memory-scope/</guid>
+      <description>&lt;p&gt;@charset &amp;ldquo;UTF-8&amp;rdquo;;
+/**
+ *
+ * @authors yanjie Guo (ytlvy2008@gmail.com)
+ * @date    2015-08-15 16:02:00
+ * @version $Id$
+ * Copyright &amp;copy; 2015年 Guo yanjie. All rights reserved.
+ *
+ */&lt;/p&gt;
+
+&lt;h2 id=&#34;概述&#34;&gt;概述&lt;/h2&gt;
+
+&lt;p&gt;基本上每种语言都要讨论这个话题，C语言也不例外，因为只有你完全了解每个变量或函数存储方式、作用范围和销毁时间才可能正确的使用这门语言。今天将着重介绍C语言中变量作用范围、存储方式、生命周期、作用域和可访问性。&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;变量作用范围&lt;/li&gt;
+&lt;li&gt;存储方式&lt;/li&gt;
+&lt;li&gt;可访问性&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;变量作用范围&#34;&gt;变量作用范围&lt;/h3&gt;
+
+&lt;p&gt;在C语言中变量从作用范围包括全局变量和局部变量。全局变量在定义之后所有的函数中均可以使用，只要前面的代码修改了，那么后面的代码中再使用就是修改后的值；局部变量的作用范围一般在一个函数内部（通常在一对大括号{}内），外面的程序无法访问它，它却可以访问外面的变量。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;//
+//  main.c
+//  ScopeAndLifeCycle
+//
+//  Created by Kenshin Cui on 14-7-12.
+//  Copyright (c) 2014年 Kenshin Cui. All rights reserved.
+//
+
+#include &amp;lt;stdio.h&amp;gt;
+
+int a=1;
+void changeValue(){
+    a=2;
+    printf(&amp;quot;a=%d\n&amp;quot;,a);
+}
+int main(int argc, const char * argv[]) {
+    int b=1;
+    changeValue(); //结果：a=2
+    printf(&amp;quot;a=%d,b=%d\n&amp;quot;,a,b); //结果：a=2,b=1 ，因为changeValue修改了这个全局变量
+    return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>C programming -- pointer</title>
+      <link>http://ytlvy.com/posts/2015-08-22/2015-08-22-c-programming-pointer/</link>
+      <pubDate>Sat, 22 Aug 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-08-22/2015-08-22-c-programming-pointer/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;http://www.cnblogs.com/kenshincui/p/3848442.html&#34;&gt;reference&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;c语言之指针&#34;&gt;C语言之指针&lt;/h2&gt;
+
+&lt;h3 id=&#34;概览&#34;&gt;概览&lt;/h3&gt;
+
+&lt;p&gt;指针是C语言的精髓，但是很多初学者往往对于指针的概念并不深刻，以至于学完之后随着时间的推移越来越模糊，感觉指针难以掌握，本文通过简单的例子试图将指针解释清楚，今天的重点有几个方面：&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;什么是指针&lt;/li&gt;
+&lt;li&gt;数组和指针&lt;/li&gt;
+&lt;li&gt;函数指针&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;什么是指针&#34;&gt;什么是指针&lt;/h3&gt;
+
+&lt;p&gt;存放变量地址的变量我们称之为“指针变量”,简单的说变量p中存储的是变量a的地址,那么p就可以称为是指针变量,或者说p指向a。当我们访问a变量的时候其实是程序先根据a取得a对应的地址，再到这个地址对应的存储空间中拿到a的值，这种方式我们称之为“直接引用”；而当我们通过p取得a的时候首先要先根据p转换成p对应的存储地址，再根据这个地址到其对应的存储空间中拿到存储内容，它的内容其实就是a的地址，然后根据这个地址到对应的存储空间中取得对应的内容，这个内容就是a的值，这种通过p找到a对应地址再取值的方式成为“间接引用”。这里以表格形式列出a和p的存储以帮助大家理解上面说的内容：&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://images.cnitblog.com/blog/62046/201407/161307139741921.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Base on My New Hugo Site</title>
+    <link>http://ytlvy.com/tags/base/</link>
+    <description>Recent content in Base on My New Hugo Site</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sat, 22 Aug 2015 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="http://ytlvy.com/tags/base/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Big-endian &amp;&amp; Little-endian</title>
+      <link>http://ytlvy.com/posts/2015-08-22/2015-08-22-big-endian-little-endian/</link>
+      <pubDate>Sat, 22 Aug 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-08-22/2015-08-22-big-endian-little-endian/</guid>
+      <description>&lt;h2 id=&#34;大端序与小端序&#34;&gt;大端序与小端序&lt;/h2&gt;
+
+&lt;h3 id=&#34;何为大端序-小端序&#34;&gt;何为大端序，小端序？&lt;/h3&gt;
+
+&lt;p&gt;简单点说，就是字节的存储顺序，如果数据都是单字节的，那怎么存储无所谓了，但是对于多字节数据，比如int，double等，就要考虑存储的顺序了。注意字节序是硬件层面的东西，对于软件来说通常是透明的。再说白一点，字节序通常只和你使用的处理器架构有关，而和编程语言无关，比如常见的Intel x86系列就是小端序。&lt;/p&gt;
+
+&lt;h4 id=&#34;big-endian-大端序&#34;&gt;Big-endian（大端序）&lt;/h4&gt;
+
+&lt;p&gt;数据的高位字节存放在地址的低端 低位字节存放在地址高端&lt;/p&gt;
+
+&lt;h4 id=&#34;little-endian-小端序&#34;&gt;Little-endian（小端序）&lt;/h4&gt;
+
+&lt;p&gt;数据的高位字节存放在地址的高端 低位字节存放在地址低端&lt;/p&gt;
+
+&lt;h4 id=&#34;字节的高位与低位&#34;&gt;字节的高位与低位&lt;/h4&gt;
+
+&lt;p&gt;举个例子，int a = 0x12345678 ; 那么左边12就是高位字节，右边的78就是低位字节，从左到右，由高到低，（注意，高低乃相对而言，比如56相对于78是高字节，相对于34是低字节）&lt;/p&gt;
+
+&lt;p&gt;地址的高端与低端
+0x00000001
+0x00000002
+0x00000003
+0x00000004
+从上倒下，由低到高，地址值小的为低端，地址值大的为高端。&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

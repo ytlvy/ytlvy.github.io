@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Init on My New Hugo Site</title>
+    <link>http://ytlvy.com/tags/init/</link>
+    <description>Recent content in Init on My New Hugo Site</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Fri, 17 Jul 2015 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="http://ytlvy.com/tags/init/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>iOS Super init</title>
+      <link>http://ytlvy.com/posts/2015-07-17/2015-07-17-ios-super-init/</link>
+      <pubDate>Fri, 17 Jul 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-07-17/2015-07-17-ios-super-init/</guid>
+      <description>转自
+What does it mean when you assign [super init] to self? self = [super init]; 是 Objctive-C 语法中很奇怪的一句.
+Converting a method invocation 首先需要了解self参数, 编译器是如何处理的.当你输入下面代码时
+MyClass *myObject = [[MyClass alloc] initWithString:@&amp;quot;someString&amp;quot;];  编译器会转换为大致如下的代码:
+class myClass = objc_getClass(&amp;quot;MyClass&amp;quot;); SEL allocSelector = @selector(alloc); MyClass *myObject1 = objc_msgSend(myClass, allocSelector); SEL initSelector = @selector(initWithString:); MyClass *myObject2 = objc_msgSend(myObject1, initSelector, @&amp;quot;someString&amp;quot;);  So what is &amp;ldquo;self&amp;rdquo;? 每个方法都有两个隐藏参数: self and _cmd.
+例如:
+- (id)initWithString:(NSString *)aString;  会转换为:</description>
+    </item>
+    
+  </channel>
+</rss>

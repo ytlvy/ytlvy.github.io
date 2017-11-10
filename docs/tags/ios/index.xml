@@ -1,0 +1,1035 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Ios on My New Hugo Site</title>
+    <link>http://ytlvy.com/tags/ios/</link>
+    <description>Recent content in Ios on My New Hugo Site</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Tue, 04 Aug 2015 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="http://ytlvy.com/tags/ios/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>dSYM parse tool</title>
+      <link>http://ytlvy.com/posts/2015-08-04/2015-08-04-dsym-parse-tool/</link>
+      <pubDate>Tue, 04 Aug 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-08-04/2015-08-04-dsym-parse-tool/</guid>
+      <description>&lt;h2 id=&#34;dsym-文件&#34;&gt;dSYM 文件&lt;/h2&gt;
+
+&lt;h3 id=&#34;什么是-dsym-文件&#34;&gt;什么是 dSYM 文件&lt;/h3&gt;
+
+&lt;p&gt;Xcode编译项目后，我们会看到一个同名的 &lt;code&gt;dSYM&lt;/code&gt; &lt;code&gt;文件，dSYM&lt;/code&gt; 是保存 16 进制函数地址映射信息的中转文件，我们调试的 symbols 都会包含在这个文件中，并且每次编译项目的时候都会生成一个新的 dSYM 文件，位于 &lt;code&gt;/Users/&amp;lt;用户名&amp;gt;/Library/Developer/Xcode/Archives&lt;/code&gt; 目录下，对于每一个发布版本我们都很有必要保存对应的 &lt;code&gt;Archives&lt;/code&gt; 文件 ( AUTOMATICALLY SAVE THE DSYM FILES 这篇文章介绍了通过脚本每次编译后都自动保存 dSYM 文件)。&lt;/p&gt;
+
+&lt;h3 id=&#34;dsym-文件有什么作用&#34;&gt;dSYM 文件有什么作用&lt;/h3&gt;
+
+&lt;p&gt;当我们软件 release 模式打包或上线后，不会像我们在 Xcode 中那样直观的看到用崩溃的错误，这个时候我们就需要分析 crash report 文件了，iOS 设备中会有日志文件保存我们每个应用出错的函数内存地址，通过 Xcode 的 Organizer 可以将 iOS 设备中的 DeviceLog 导出成 crash 文件，这个时候我们就可以通过出错的函数地址去查询 dSYM 文件中程序对应的函数名和文件名。大前提是我们需要有软件版本对应的 dSYM 文件，这也是为什么我们很有必要保存每个发布版本的 Archives 文件了。&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>iOS Crash文件的解析</title>
+      <link>http://ytlvy.com/posts/2015-07-15/2015-07-15-ios-crash%E6%96%87%E4%BB%B6%E7%9A%84%E8%A7%A3%E6%9E%90/</link>
+      <pubDate>Wed, 15 Jul 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-07-15/2015-07-15-ios-crash%E6%96%87%E4%BB%B6%E7%9A%84%E8%A7%A3%E6%9E%90/</guid>
+      <description>&lt;p&gt;-&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;http://www.cnblogs.com/smileEvday/p/Crash1.html&#34;&gt;转自&lt;/a&gt;&lt;/p&gt;
+
+&lt;h1 id=&#34;ios-crash文件的解析&#34;&gt;iOS Crash文件的解析&lt;/h1&gt;
+
+&lt;p&gt;开发程序的过程中不管我们已经如何小心，总是会在不经意间遇到程序闪退。脑补一下当你在一群人面前自信的拿着你的App做功能预演的时候，流畅的操作被无情地Crash打断。联想起老罗在发布Smartisan OS的时候说了，他准备了10个手机，如果一台有问题，就换一台，如果10台后挂了他就不做手机了。好了不闲扯了，今天就跟大家一起聊聊iOSCrash文件的组成以及常用的分析工具。&lt;/p&gt;
+
+&lt;p&gt;　　有一个WWDC 2010的视频推荐大家抽空看看，视频名称&lt;a href=&#34;https://developer.apple.com/videos/wwdc/2010/?id=317&#34;&gt;&amp;ldquo;Understanding Crash Reports on iPhone OS&amp;rdquo;&lt;/a&gt;，该视频详细讲解了Crash文件的结构。当然如果你没时间看的话，不妨阅读以下这篇文章。&lt;/p&gt;
+
+&lt;h2 id=&#34;crash文件结构&#34;&gt;Crash文件结构&lt;/h2&gt;
+
+&lt;p&gt;当程序运行Crash的时候，系统会把运行的最后时刻的运行信息记录下来，存储到一个文件中，也就是我们所说的Crash文件。iOS的Crash日志通常由以下6各部分组成。 &lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>iOS 内存警告</title>
+      <link>http://ytlvy.com/posts/2015-07-15/2015-07-15-ios-%E5%86%85%E5%AD%98%E8%AD%A6%E5%91%8A/</link>
+      <pubDate>Wed, 15 Jul 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-07-15/2015-07-15-ios-%E5%86%85%E5%AD%98%E8%AD%A6%E5%91%8A/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;http://www.cnblogs.com/smileEvday/archive/2012/03/07/MemoryWarning.html&#34;&gt;转自&lt;/a&gt;&lt;/p&gt;
+
+&lt;h1 id=&#34;内存警告&#34;&gt;内存警告&lt;/h1&gt;
+
+&lt;p&gt;系统有四种内存警告&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;typedef enum {
+　   OSMemoryNotificationLevelAny      = -1,
+　   OSMemoryNotificationLevelNormal   =  0,
+　   OSMemoryNotificationLevelWarning  =  1,
+　   OSMemoryNotificationLevelUrgent   =  2,
+　   OSMemoryNotificationLevelCritical =  3
+} OSMemoryNotificationLevel;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;　　通常我们在程序中接收到最多的就是Memory warning level 1，这个时候就证明系统内存紧张了，我们的程序必须做出相应，释放不必要的内存。通常如果我们处理得当的话，内存警告就会到此停止，恢复正常状态。如果我们在接收到&lt;code&gt;memory warning level 1&lt;/code&gt;以后坐视不理的话，系统可能还会再尝试通知几次&lt;code&gt;level 1&lt;/code&gt;，如果还是不去处理的话，系统将会发出更高一级的内存警告&lt;code&gt;level 2&lt;/code&gt;，通常的结果就是我们的App被强制退出，系统收回内存。当然系统在发出level 2的警告时，也会取尝试做一些清理内存的事，例如关闭不必要的后台程序等。很显然我们不该寄希望于系统自己清理，这就好比你的胳膊被划破了，身体肯定会有自修复功能，但是如果伤口比较大的话，肯定还是需要人工处理一下的。&lt;/p&gt;
+
+&lt;p&gt;到目前位置我还没有见过level 3的警告，根据stack over flow上面讲的&amp;rdquo;当发生level 3警告时，系统内核将会接管，很有可能关掉IOS的主界面进程（SpringBorad），甚至会重启&amp;rdquo;，照这个意思来说我们程序里面接收不到，也实属正常，系统自己的东西都被干掉了，我们肯定早被kill了。  KennyTM写的原文地址： &lt;a href=&#34;http://stackoverflow.com/questions/2915247/iphone-os-memory-warnings-what-do-the-different-levels-mean&#34;&gt;http://stackoverflow.com/questions/2915247/iphone-os-memory-warnings-what-do-the-different-levels-mean&lt;/a&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>iOS 应用崩溃日志揭秘</title>
+      <link>http://ytlvy.com/posts/2015-07-15/2015-07-15-ios-%E5%BA%94%E7%94%A8%E5%B4%A9%E6%BA%83%E6%97%A5%E5%BF%97%E6%8F%AD%E7%A7%98/</link>
+      <pubDate>Wed, 15 Jul 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-07-15/2015-07-15-ios-%E5%BA%94%E7%94%A8%E5%B4%A9%E6%BA%83%E6%97%A5%E5%BF%97%E6%8F%AD%E7%A7%98/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;http://www.raywenderlich.com/23704/demystifying-ios-application-crash-logs&#34;&gt;翻译自&lt;/a&gt;&lt;/p&gt;
+
+&lt;h1 id=&#34;ios应用崩溃日志揭秘1&#34;&gt;iOS应用崩溃日志揭秘1&lt;/h1&gt;
+
+&lt;p&gt;作为一名应用开发者，你是否有过如下经历?&lt;/p&gt;
+
+&lt;p&gt;为确保你的应用正确无误，在将其提交到应用商店之前，你必定进行了大量的测试工作。它在你的设备上也运行得很好，但是，上了应用商店后，还是有用户抱怨会闪退 !&lt;/p&gt;
+
+&lt;p&gt;如果你跟我一样是个完美主义者，你肯定想将应用做到尽善尽美。于是你打开代码准备修复闪退的问题&amp;hellip;&amp;hellip;但是，从何处着手呢？ 这时iOS崩溃日志派上用场了。在大多数情况下，你能从中了解到关于闪退的详尽、有用的信息。&lt;/p&gt;
+
+&lt;p&gt;通过本教程，你将学习到一些常见的崩溃日志案例，以及如何从开发设备和iTunes Connect上获取崩溃日志文件。你还将学习到符号化（ symbolication）,从日志追踪到代码 。你还将学习调试一个在待定情况下会闪退的应用。&lt;/p&gt;
+
+&lt;p&gt;让我们开始动手吧!&lt;/p&gt;
+
+&lt;h2 id=&#34;什么是崩溃日志-从哪里能得它&#34;&gt;什么是崩溃日志，从哪里能得它?&lt;/h2&gt;
+
+&lt;p&gt;iOS设备上的应用闪退时，操作系统会生成一个崩溃报告，也叫崩溃日志，保存在设备上。 崩溃日志上有很多有用的信息，包括应用是什么情况下闪退的。通常，上面有每个正在执行线程的完整堆栈跟踪信息，所以你能从中了解到闪退发生时各线程都在做什么，并分辨出闪退发生在哪个线程上。&lt;/p&gt;
+
+&lt;p&gt;有几种方法可以从设备上获取崩溃日志。 设备与电脑上的iTunes Store同步后，会将崩溃日志保存在电脑上。根据电脑操作系统的不同，崩溃日志将保存在以下位置:&lt;/p&gt;
+
+&lt;p&gt;Mac OS X:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;~/Library/Logs/CrashReporter/MobileDevice/
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>iOS 绘制1像素的线</title>
+      <link>http://ytlvy.com/posts/2015-07-15/2015-07-15-ios-%E7%BB%98%E5%88%B61%E5%83%8F%E7%B4%A0%E7%9A%84%E7%BA%BF/</link>
+      <pubDate>Wed, 15 Jul 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-07-15/2015-07-15-ios-%E7%BB%98%E5%88%B61%E5%83%8F%E7%B4%A0%E7%9A%84%E7%BA%BF/</guid>
+      <description>iOS 绘制1像素的线 Point Vs Pixel iOS中当我们使用Quartz，UIKit，CoreAnimation等框架时，所有的坐标系统采用Point来衡量。系统在实际渲染到设置时会帮助我们处理Point到Pixel的转换。 这样做的好处隔离变化，即我们在布局的事后不需要关注当前设备是否为Retina，直接按照一套坐标系统来布局即可。
+实际使用中我们需要牢记下面这一点:
+One point does not necessarily correspond to one physical pixel.  1 Point的线在非Retina屏幕则是一个像素，在Retina屏幕上则可能是2个或者3个，取决于系统设备的DPI。
+iOS系统中，UIScreen，UIView，UIImage，CALayer类都提供相关属性来获取scale factor。 原生的绘制技术天然的帮我们处理了scale factor，例如在drawRect:方法中，UIKit自动的根据当前运行的设备设置了正切的scale factor。所以我们在drawRect: 方法中绘制的任何内容都会被自动缩放到设备的物理屏幕上。
+基于以上信息可以看出，我们大部分情况下都不需要去关注pixel，然而存在部分情况需要考虑像素的转化。
+例如画1个像素的分割线  看到这个问题你的第一想法可能是，直接根据当前屏幕的缩放因子计算出1 像素线对应的Point，然后设置线宽即可。 代码如下:
+1.0f / [UIScreen mainScreen].scale  表面上看着一切正常了，但是通过实际的设备测试你会发现渲染出来的线宽并不是1个像素。
+ Why?
+ 为了获得良好的视觉效果，绘图系统通常都会采用一个叫&amp;rdquo;antialiasing(反锯齿)&amp;ldquo;的技术，iOS也不例外。 显示屏幕有很多小的显示单元组成，可以接单的理解为一个单元就代表一个像素。如果要画一条黑线，条线刚好落在了一列或者一行显示显示单元之内，将会渲染出标准的一个像素的黑线。 但如果线落在了两个行或列的中间时，那么会得到一条&amp;rdquo;失真&amp;rdquo;的线，其实是两个像素宽的灰线。
+如下图所示:  Positions defined by whole-numbered points fall at the midpoint between pixels. For example, if you draw a one-pixel-wide vertical line from (1.0, 1.</description>
+    </item>
+    
+    <item>
+      <title>NSRunLoop深入理解</title>
+      <link>http://ytlvy.com/posts/2015-07-13/2015-07-13-nsrunloop%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3/</link>
+      <pubDate>Mon, 13 Jul 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-07-13/2015-07-13-nsrunloop%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;http://www.cocoachina.com/ios/20150601/11970.html&#34;&gt;转自&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;runloop&#34;&gt;RunLoop&lt;/h2&gt;
+
+&lt;p&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;RunLoop 是 iOS 和 OS X 开发中非常基础的一个概念，这篇文章将从 CFRunLoop 的源码入手，介绍 RunLoop 的概念以及底层实现原理。之后会介绍一下在 iOS 中，苹果是如何利用 RunLoop 实现自动释放池、延迟回调、触摸事件、屏幕刷新等功能的。&lt;/p&gt;
+
+&lt;h3 id=&#34;runloop-的概念&#34;&gt;RunLoop 的概念&lt;/h3&gt;
+
+&lt;p&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;一般来讲，一个线程一次只能执行一个任务，执行完成后线程就会退出。如果我们需要一个机制，让线程能随时处理事件但并不退出，通常的代码逻辑是这样的：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;function loop() {
+    initialize();
+    do {
+        var message = get_next_message();
+        process_message(message);
+    } while (message != quit);
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;这种模型通常被称作 Event Loop。 Event Loop 在很多系统和框架里都有实现，比如 Node.js 的事件处理，比如 Windows 程序的消息循环，再比如 OSX/iOS 里的 RunLoop。实现这种模型的关键点在于：如何管理事件/消息，如何让线程在没有处理消息时休眠以避免资源占用、在有消息到来时立刻被唤醒&lt;/p&gt;
+
+&lt;p&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;所以，RunLoop 实际上就是一个对象，这个对象管理了其需要处理的事件和消息，并提供了一个入口函数来执行上面 Event Loop 的逻辑。线程执行了这个函数后，就会一直处于这个函数内部 &amp;ldquo;接受消息-&amp;gt;等待-&amp;gt;处理&amp;rdquo; 的循环中，直到这个循环结束（比如传入 quit 的消息），函数返回。
+
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;OSX/iOS 系统中，提供了两个这样的对象：NSRunLoop 和 CFRunLoopRef。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>iOS Associated Objects</title>
+      <link>http://ytlvy.com/posts/2015-07-13/2015-07-13-ios-associated-objects/</link>
+      <pubDate>Mon, 13 Jul 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-07-13/2015-07-13-ios-associated-objects/</guid>
+      <description>&lt;h2 id=&#34;ios-associated-objects&#34;&gt;iOS Associated Objects&lt;/h2&gt;
+
+&lt;p&gt;关注以下三个问题:
+1. 关联对象被存储在什么地方，是不是存放在被关联对象本身的内存中？
+2. 关联对象的五种关联策略有什么区别，有什么坑？
+3. 关联对象的生命周期是怎样的，什么时候被释放，什么时候被移除？&lt;/p&gt;
+
+&lt;h3 id=&#34;使用场景&#34;&gt;使用场景:&lt;/h3&gt;
+
+&lt;p&gt;按照 Mattt Thompson 大神的文章 Associated Objects 中的说法，&lt;a href=&#34;http://nshipster.com/associated-objects/&#34;&gt;Associated Objects&lt;/a&gt; 主要有以下三个使用场景&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;为现有的类添加私有变量以帮助实现细节；&lt;/li&gt;
+&lt;li&gt;为现有的类添加公有属性；&lt;/li&gt;
+&lt;li&gt;为 KVO 创建一个关联的观察者。&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;从本质上看，第 1 、2 个场景其实是一个意思，唯一的区别就在于新添加的这个属性是公有的还是私有的而已。就目前来说，我在实际工作中使用得最多的是第 2 个场景，而第 3 个场景我还没有使用过
+&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>iOS Category</title>
+      <link>http://ytlvy.com/posts/2015-07-13/2015-07-13-ios-category/</link>
+      <pubDate>Mon, 13 Jul 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-07-13/2015-07-13-ios-category/</guid>
+      <description>&lt;h2 id=&#34;category&#34;&gt;category&lt;/h2&gt;
+
+&lt;h3 id=&#34;category-简介&#34;&gt;category 简介&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;为已存在的类, 添加方法&lt;/li&gt;
+&lt;li&gt;将类的实现, 分别存放在不同的文件中. 好处: a) 减少单体文件体积 b)按照功能划分 c)协作开发 d)按需加载&lt;/li&gt;
+&lt;li&gt;声明私有方法&lt;/li&gt;
+&lt;li&gt;模拟多继承&lt;/li&gt;
+&lt;li&gt;把framework的私有方法公开&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;extension&#34;&gt;extension&lt;/h3&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;extension 很像匿名的category. 差异: a)extension在编译器决议, 是类声明的一部分.b)用来隐藏私有属性或方法.c)只有在有类源码的前提下,才能添加extension&lt;/p&gt;
+
+&lt;p&gt;category 在运行期决议的. category无法添加实例变量, (通过association来模拟添加)&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>iOS Event Delivery/ The Responder Chain</title>
+      <link>http://ytlvy.com/posts/2015-07-13/2015-07-13-ios-event-delivery-the-responder-chain/</link>
+      <pubDate>Mon, 13 Jul 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-07-13/2015-07-13-ios-event-delivery-the-responder-chain/</guid>
+      <description>&lt;h2 id=&#34;event-delivery-the-responder-chain&#34;&gt;Event Delivery: The Responder Chain&lt;/h2&gt;
+
+&lt;p&gt;当你设计应用的时候, 应用需要动态响应事件. 例如: 点击事件, (可以在显示屏上的不同对象上多次触发), 你需要决定那个对象来响应此事件, 并且需要了解这个对象是如何接收事件的.&lt;/p&gt;
+
+&lt;p&gt;当用户触发一个事件时, UIKit 创建一个&lt;code&gt;event object&lt;/code&gt;, 此对象包含了需要处理的信息. 然后将此事件对象放入到当前 app 的事件队列中. 例如&lt;code&gt;touch&lt;/code&gt;事件, 这种事件对象就是一个包含了一组&lt;code&gt;touch&lt;/code&gt;的&lt;code&gt;UIEvent&lt;/code&gt; 对象. &lt;code&gt;motion&lt;/code&gt;事件, 此对象由你使用的&lt;code&gt;framework&lt;/code&gt;和你感兴趣的&lt;code&gt;motion&lt;/code&gt;类型来决定.&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Touch events. 当前 window 对象首先尝试将事件传送给 &lt;code&gt;touch&lt;/code&gt; 触发的视图.这个视图被称为&lt;code&gt;hit-test&lt;/code&gt; 视图. 寻找&lt;code&gt;hit-test&lt;/code&gt;视图的过程被称为&lt;code&gt;hit-testing&lt;/code&gt;, 将在下面描述.&lt;/li&gt;
+&lt;li&gt;Motion and remote control events. 对于这些事件, 当前 window 对象会将 &lt;code&gt;shaking-motion&lt;/code&gt; 或 &lt;code&gt;emote control event&lt;/code&gt; 发送给&lt;code&gt;first responder&lt;/code&gt;来响应.&lt;code&gt;first responder&lt;/code&gt;也将在下面描述.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;hit-testing-returns-the-view-where-a-touch-occurred&#34;&gt;Hit-Testing Returns the View Where a Touch Occurred&lt;/h3&gt;
+
+&lt;p&gt;iOS 通过&lt;code&gt;hit-testing&lt;/code&gt; 来寻找点击下方的视图. &lt;code&gt;Hit-Testing&lt;/code&gt; 会查找任何包含该&lt;code&gt;touch&lt;/code&gt;点坐标的视图对象, 规则为此坐标位于视图的&lt;code&gt;bounds&lt;/code&gt;中, 如果包含, 会继续递归检测此视图的所有子视图. 在视图树中包含该点击的最下层视图, 即是&lt;code&gt;hit-test&lt;/code&gt;视图. 当 iOS 决定了 &lt;code&gt;hit-test&lt;/code&gt; 视图后, 会将点击事件发送给此视图来处理.&lt;/p&gt;
+
+&lt;p&gt;说明如下, 假设用户点击了视图 E, iOS 查找&lt;code&gt;hit-test&lt;/code&gt; 视图的逻辑如下:
+1. 点击在视图 A 的范围内, 然后检测 子视图 B 和 C
+2.  点击不再视图 B 范围内, 但是在视图 C 范围内, 继续检测 子视图 D 和 E
+3.  点击不再视图 D 里, 但是在视图 E 中.
+
+视图 E 是最下层且包含 &lt;code&gt;touch&lt;/code&gt;的视图树, 所以就是&lt;code&gt;hit-test&lt;/code&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>iOS Runtime Message And Category</title>
+      <link>http://ytlvy.com/posts/2015-07-13/2015-07-13-ios-runtime-message-and-category/</link>
+      <pubDate>Mon, 13 Jul 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-07-13/2015-07-13-ios-runtime-message-and-category/</guid>
+      <description>&lt;h3 id=&#34;习题内容&#34;&gt;习题内容&lt;/h3&gt;
+
+&lt;p&gt;下面的代码会？Compile Error / Runtime Crash / NSLog…?&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;@interface NSObject (Sark)
++ (void)foo;
+@end
+
+@implementation NSObject (Sark)
+
+- (void)foo
+{
+    NSLog(@&amp;quot;IMP: -[NSObject(Sark) foo]&amp;quot;);
+}
+
+@end
+
+int main(int argc, const char * argv[]) {
+    @autoreleasepool {
+        [NSObject foo];
+        [[NSObject new] foo];
+    }
+    return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;答案：代码正常输出，输出结果如下：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;2014-11-06 13:11:46.694 Test[14872:1110786] IMP: -[NSObject(Sark) foo]
+2014-11-06 13:11:46.695 Test[14872:1110786] IMP: -[NSObject(Sark) foo]
+&lt;/code&gt;&lt;/pre&gt;</description>
+    </item>
+    
+    <item>
+      <title>iOS Runtime Object &amp; Class &amp; Meta Class</title>
+      <link>http://ytlvy.com/posts/2015-07-13/2015-07-13-ios-runtime-object-class-meta-class/</link>
+      <pubDate>Mon, 13 Jul 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-07-13/2015-07-13-ios-runtime-object-class-meta-class/</guid>
+      <description>&lt;h3 id=&#34;习题内容&#34;&gt;习题内容&lt;/h3&gt;
+
+&lt;p&gt;下面代码的运行结果是?&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;@interface Sark : NSObject
+@end
+
+@implementation Sark
+@end
+
+int main(int argc, const char * argv[]) {
+    @autoreleasepool {
+        BOOL res1 = [(id)[NSObject class] isKindOfClass:[NSObject class]];
+        BOOL res2 = [(id)[NSObject class] isMemberOfClass:[NSObject class]];
+
+        BOOL res3 = [(id)[Sark class] isKindOfClass:[Sark class]];
+        BOOL res4 = [(id)[Sark class] isMemberOfClass:[Sark class]];
+
+        NSLog(@&amp;quot;%d %d %d %d&amp;quot;, res1, res2, res3, res4);
+    }
+    return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;运行结果为：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;2014-11-05 14:45:08.474 Test[9412:721945] 1 0 0 0
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>iOS Runtime Self &amp; Super</title>
+      <link>http://ytlvy.com/posts/2015-07-13/2015-07-13-ios-runtime-self-super/</link>
+      <pubDate>Mon, 13 Jul 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-07-13/2015-07-13-ios-runtime-self-super/</guid>
+      <description>&lt;h2 id=&#34;self-super&#34;&gt;Self &amp;amp;&amp;amp; Super&lt;/h2&gt;
+
+&lt;h3 id=&#34;what-is-super&#34;&gt;What is Super?&lt;/h3&gt;
+
+&lt;p&gt;&lt;code&gt;Super&lt;/code&gt; 是和 &lt;code&gt;Self&lt;/code&gt; 一样的关键字, 不同的是, 它不能用作函数的参数, 只能接收消息.当接收消息的时候, 它会向父类搜索方法的定义. 如果在向上的类链中没有任何定义, 则程序会 crash.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;- (instancetype)initWithValue1:(id)value1 value2:(id)value2
+{
+    self = [super initWithValue1:value1];
+
+    if (self) {
+        _value2 = value2;
+    }
+
+    return self;
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;messaging-super&#34;&gt;messaging &lt;code&gt;super&lt;/code&gt;&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code&gt;struct objc_super {
+    __unsafe_unretained id receiver;
+    __unsafe_unretained Class super_class;
+};
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code&gt;- (void)methodWithArgument:(id)arg
+{
+    [super otherMethodWithArgument:arg];
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code&gt;- (void)methodWithArgument:(id)arg
+{
+    struct objc_super super = {.receiver = self, .super_class = 0xC0FFEE};
+
+    objc_msgSendSuper(&amp;amp;super, @selector(otherMethodWithArgument:), arg);
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;code&gt;objc_msgSendSuper&lt;/code&gt; 将从父类的定义开始查找方法的实现. &lt;code&gt;super_class&lt;/code&gt;是在 runtime 时, 动态生成的.
+&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>iOS Runtime 成员变量与属性</title>
+      <link>http://ytlvy.com/posts/2015-07-13/2015-07-13-ios-runtime-%E6%88%90%E5%91%98%E5%8F%98%E9%87%8F%E4%B8%8E%E5%B1%9E%E6%80%A7/</link>
+      <pubDate>Mon, 13 Jul 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-07-13/2015-07-13-ios-runtime-%E6%88%90%E5%91%98%E5%8F%98%E9%87%8F%E4%B8%8E%E5%B1%9E%E6%80%A7/</guid>
+      <description>&lt;h3 id=&#34;习题内容&#34;&gt;习题内容&lt;/h3&gt;
+
+&lt;p&gt;下面代码会? Compile Error / Runtime Crash / NSLog…?&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;@interface Sark : NSObject
+@property (nonatomic, copy) NSString *name;
+@end
+
+@implementation Sark
+
+- (void)speak {
+    NSLog(@&amp;quot;my name is %@&amp;quot;, self.name);
+}
+
+@end
+
+@interface Test : NSObject
+@end
+
+@implementation Test
+
+- (instancetype)init {
+    self = [super init];
+    if (self) {
+        id cls = [Sark class];
+        void *obj = &amp;amp;cls;
+        [(__bridge id)obj speak];
+    }
+    return self;
+}
+
+@end
+
+int main(int argc, const char * argv[]) {
+    @autoreleasepool {
+        [[Test alloc] init];
+    }
+    return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;答案：代码正常输出，输出结果为：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;2014-11-07 14:08:25.698 Test[1097:57255] my name is &amp;lt;Test: 0x1001002d0&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>iOS Runtime 运行时类与对象的编译处理</title>
+      <link>http://ytlvy.com/posts/2015-07-13/2015-07-13-ios-runtime-%E8%BF%90%E8%A1%8C%E6%97%B6%E7%B1%BB%E4%B8%8E%E5%AF%B9%E8%B1%A1%E7%9A%84%E7%BC%96%E8%AF%91%E5%A4%84%E7%90%86/</link>
+      <pubDate>Mon, 13 Jul 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-07-13/2015-07-13-ios-runtime-%E8%BF%90%E8%A1%8C%E6%97%B6%E7%B1%BB%E4%B8%8E%E5%AF%B9%E8%B1%A1%E7%9A%84%E7%BC%96%E8%AF%91%E5%A4%84%E7%90%86/</guid>
+      <description>&lt;h2 id=&#34;ios-runtime运行时类与对象的编译处理&#34;&gt;iOS Runtime运行时类与对象的编译处理&lt;/h2&gt;
+
+&lt;p&gt;Objective-C语言是一门动态语言，它将很多静态语言在编译和链接时期做的事放到了运行时来处理。这种动态语言的优势在于：我们写代码时更具灵活性，如我们可以把消息转发给我们想要的对象，或者随意交换一个方法的实现等。
+这种特性意味着&lt;code&gt;Objective-C&lt;/code&gt;不仅需要一个编译器，还需要一个运行时系统来执行编译的代码。对于Objective-C来说，这个运行时系统就像一个操作系统一样：它让所有的工作可以正常的运行。这个运行时系统即Objc Runtime。Objc Runtime其实是一个Runtime库，它基本上是用C和汇编写的，这个库使得C语言有了面向对象的能力。&lt;/p&gt;
+
+&lt;p&gt;Runtime库主要做下面几件事：
+1. 封装：在这个库中，对象可以用C语言中的结构体表示，而方法可以用C函数来实现，另外再加上了一些额外的特性。这些结构体和函数被runtime函数封装后，我们就可以在程序运行时创建，检查，修改类、对象和它们的方法了。
+2. 找出方法的最终执行代码：当程序执行[object doSomething]时，会向消息接收者(object)发送一条消息(doSomething)，runtime会根据消息接收者是否能响应该消息而做出不同的反应。这将在后面详细介绍。&lt;/p&gt;
+
+&lt;p&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;Objective-C runtime目前有两个版本：Modern runtime和Legacy runtime。Modern Runtime 覆盖了64位的Mac OS X Apps，还有 iOS Apps，Legacy Runtime 是早期用来给32位 Mac OS X Apps 用的，也就是可以不用管就是了。
+在这一系列文章中，我们将介绍runtime的基本工作原理，以及如何利用它让我们的程序变得更加灵活。在本文中，我们先来介绍一下类与对象，这是面向对象的基础，我们看看在Runtime中，类是如何实现的。
+&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>iOS property attribute</title>
+      <link>http://ytlvy.com/posts/2015-07-13/2015-07-13-ios-property-attribute/</link>
+      <pubDate>Mon, 13 Jul 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-07-13/2015-07-13-ios-property-attribute/</guid>
+      <description>&lt;h2 id=&#34;ios-property-ivar-local-variable&#34;&gt;iOS property &amp;amp;&amp;amp; ivar &amp;amp;&amp;amp; local variable&lt;/h2&gt;
+
+&lt;h3 id=&#34;default-attributes&#34;&gt;default attributes&lt;/h3&gt;
+
+&lt;ol&gt;
+&lt;li&gt;property: atomic assign readwrite&lt;/li&gt;
+&lt;li&gt;ivar &amp;amp;&amp;amp; local varibal: strong readwrite non-atomic&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;atomic 在实现中通过加入 lock 的方式来保证多线程安全, 但是这只是很简单的一种线程安全, 只局限于此属性的读写.实际应用场景中, 业务的原子性, 是需要自己来实现的.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h3 id=&#34;when-to-use-copy&#34;&gt;when to use copy&lt;/h3&gt;
+
+&lt;ol&gt;
+&lt;li&gt;NSStrings: 为了防止其他地方修改&lt;/li&gt;
+&lt;li&gt;block: 防止自动释放&lt;/li&gt;
+&lt;li&gt;可变数据类型, 当你想阻止其他拥有者变更数据时.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h3 id=&#34;尽量使用-copy-关键字&#34;&gt;尽量使用 copy 关键字&lt;/h3&gt;
+
+&lt;p&gt;任何实现了&lt;code&gt;NSCopying&lt;/code&gt;协议的类型, 都应该尽量采用&lt;code&gt;copy&lt;/code&gt;. 因为我们定义的属性,在使用时可能是用一个可变的子属性来赋值的, 例如&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;@interface Book : NSObject
+ 
+@property (strong, nonatomic) NSString *title;
+ 
+@end
+
+
+- (void)stringExample {
+ 
+    NSMutableString *bookTitle = [NSMutableString stringWithString:@&amp;quot;Best book ever&amp;quot;];
+ 
+    Book *book = [[Book alloc] init];
+    book.title = bookTitle;
+ 
+    [bookTitle setString:@&amp;quot;Worst book ever&amp;quot;];
+ 
+    NSLog(@&amp;quot;book title %@&amp;quot;, book.title);
+ 
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Autorelease</title>
+      <link>http://ytlvy.com/posts/2015-07-06/2015-07-06-autorelease/</link>
+      <pubDate>Mon, 06 Jul 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-07-06/2015-07-06-autorelease/</guid>
+      <description>&lt;p&gt;##Autorelease
+&lt;img src=&#34;http://blog.sunnyxx.com/tags/objc%E5%88%A8%E6%A0%B9%E9%97%AE%E5%BA%95/page/3/&#34; alt=&#34;转自&#34; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;autorelease对象什么时候释放&#34;&gt;Autorelease对象什么时候释放&lt;/h3&gt;
+
+&lt;p&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;在没有手加Autorelease Pool的情况下，Autorelease对象是在当前的runloop迭代结束时释放的，而它能够释放的原因是系统在每个runloop迭代中都加入了自动释放池Push和Pop&lt;/p&gt;
+
+&lt;p&gt;小实验&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;__weak id reference = nil;
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    NSString *str = [NSString stringWithFormat:@&amp;quot;sunnyxx&amp;quot;];
+    // str是一个autorelease对象，设置一个weak的引用来观察它
+    reference = str;
+}
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    NSLog(@&amp;quot;%@&amp;quot;, reference); // Console: sunnyxx
+}
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    NSLog(@&amp;quot;%@&amp;quot;, reference); // Console: (null)
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;由于这个vc在loadView之后便add到了window层级上，所以viewDidLoad和viewWillAppear是在同一个runloop调用的，因此在viewWillAppear中，这个autorelease的变量依然有值。
+&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Random</title>
+      <link>http://ytlvy.com/posts/2015-07-06/2015-07-06-random/</link>
+      <pubDate>Mon, 06 Jul 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-07-06/2015-07-06-random/</guid>
+      <description>&lt;h2 id=&#34;arc4random&#34;&gt;arc4random()&lt;/h2&gt;
+
+&lt;h3 id=&#34;random-int-between-0-and-n-1&#34;&gt;Random int between 0 and N - 1&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code&gt;NSUInteger r = arc4random_uniform(N);
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;random-int-between-1-and-n&#34;&gt;Random int between 1 and N&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code&gt;NSUInteger r = arc4random_uniform(N) + 1;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;random-double-between-0-and-1&#34;&gt;Random double between 0 and 1&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code&gt;srand48(time(0));
+double r = drand48();
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>progress memory map</title>
+      <link>http://ytlvy.com/posts/2015-07-06/2015-07-06-progress-memory-map/</link>
+      <pubDate>Mon, 06 Jul 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-07-06/2015-07-06-progress-memory-map/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;http://duartes.org/gustavo/blog/post/anatomy-of-a-program-in-memory/&#34;&gt;翻译子&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;程序在内存中分布&#34;&gt;程序在内存中分布&lt;/h2&gt;
+
+&lt;p&gt;内存管理是操作系统的核心. 对系统和编程人员来说这都是非常重要的.下面用 32位 系统举例.首先介绍程序如何在内存中分布.&lt;/p&gt;
+
+&lt;h3 id=&#34;虚拟地址空间&#34;&gt;虚拟地址空间&lt;/h3&gt;
+
+&lt;p&gt;在多任务操作系统中, 每个进程拥有自己独立的内存沙箱. 这个沙箱就是指的&lt;code&gt;虚拟地址空间&lt;/code&gt;(virtual address space), 在32位系统中, 就是一块4GB 大小的内存地址块. 这些虚拟地址和物理内存通过&lt;code&gt;page tables&lt;/code&gt;来完成映射, &lt;code&gt;page tables&lt;/code&gt;是由系统核心管理,进程可以进行访问. 一旦虚拟地址被启用, 会应用到所有的程序中, 包括系统核心. 因此虚拟地址的一部分, 需要被划分出来为系统核心保留使用.
+&lt;img src=&#34;http://static.duartes.org/img/blogPosts/kernelUserMemorySplit.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;这并不意味着核心会固定占用大量的物理内存, 而是说核心需要按照需要动态映射到足够的物理内存即可.核心空间在 &lt;code&gt;page tables&lt;/code&gt;中被标记为被&lt;code&gt;特权码(privilege code)&lt;/code&gt;独占, 因此如果用户程序尝试访问此空间, &lt;code&gt;页面错误&lt;/code&gt;会被出发并抛出. 在 linux 系统中, 核心空间是常驻内存的, 并且所有程序的核心空间是共享的, 总是映射到同一块物理内存. 核心代码和数据,总是可访问, 并随时准备处理&lt;code&gt;interrupts&lt;/code&gt; 或者 系统调用. 相对的用户程序空间块是每个程序独享的, 并在程序切换时, 而随之切换.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://static.duartes.org/img/blogPosts/virtualMemoryInProcessSwitch.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;上图中蓝色区域标示, 虚拟地址已经完成映射到实际地址, 白色区域代表还没有完成映射.上例中, 以内存消耗多著名的火狐使用了更多的虚拟地址. 在内存地址中不同的区块代表了不同的内存段: heap, stack, 等等.请注意这些内存段只是简单的内存地址范围, 与&lt;code&gt;Intel-style segments&lt;/code&gt;无关. 下面是linux 系统中标准段分布图:&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>what happen before main</title>
+      <link>http://ytlvy.com/posts/2015-07-06/2015-07-06-what-happen-before-main/</link>
+      <pubDate>Mon, 06 Jul 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-07-06/2015-07-06-what-happen-before-main/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;http://blog.sunnyxx.com/2014/08/30/objc-pre-main/&#34;&gt;转自&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;ios程序main函数之前发生了什么&#34;&gt;iOS程序main函数之前发生了什么&lt;/h2&gt;
+
+&lt;h3 id=&#34;前言&#34;&gt;前言&lt;/h3&gt;
+
+&lt;p&gt;一个iOS app的&lt;code&gt;main()&lt;/code&gt;函数位于&lt;code&gt;main.m&lt;/code&gt;中，这是我们熟知的程序入口。但对objc了解更多之后发现，程序在进入我们的main函数前已经执行了很多代码，比如熟知的&lt;code&gt;+ load&lt;/code&gt;方法等。本文将跟随程序执行顺序，刨根问底，从&lt;code&gt;dyld&lt;/code&gt;到&lt;code&gt;runtime&lt;/code&gt;，看看main函数之前都发生了什么。&lt;/p&gt;
+
+&lt;h3 id=&#34;从dyld开始&#34;&gt;从dyld开始&lt;/h3&gt;
+
+&lt;h4 id=&#34;动态链接库&#34;&gt;动态链接库&lt;/h4&gt;
+
+&lt;p&gt;iOS中用到的所有系统&lt;code&gt;framework&lt;/code&gt;都是动态链接的，类比成插头和插排，静态链接的代码在编译后的静态链接过程就将插头和插排一个个插好，运行时直接执行二进制文件；而动态链接需要在程序启动时去完成“插插销”的过程，所以在我们写的代码执行前，动态连接器需要完成准备工作。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>CFRunLoop examples</title>
+      <link>http://ytlvy.com/posts/2015-06-30/2015-06-30-cfrunloop-examples/</link>
+      <pubDate>Tue, 30 Jun 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-06-30/2015-06-30-cfrunloop-examples/</guid>
+      <description>&lt;h3 id=&#34;第一个&#34;&gt;第一个&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code&gt;#include &amp;lt;CoreFoundation/CoreFoundation.h&amp;gt;  
+  
+static void  
+_perform(void *info __unused)  
+{  
+    printf(&amp;quot;hello\n&amp;quot;);  
+}  
+  
+static void  
+_timer(CFRunLoopTimerRef timer __unused, void *info)  
+{  
+    CFRunLoopSourceSignal(info);  
+}  
+  
+int  
+main()  
+{  
+    CFRunLoopSourceRef source;  
+    CFRunLoopSourceContext source_context;  
+    CFRunLoopTimerRef timer;  
+    CFRunLoopTimerContext timer_context;  
+  
+    bzero(&amp;amp;source_context, sizeof(source_context));  
+    source_context.perform = _perform;  
+    source = CFRunLoopSourceCreate(NULL, 0, &amp;amp;source_context);  
+    CFRunLoopAddSource(CFRunLoopGetCurrent(), source, kCFRunLoopCommonModes);  
+  
+    bzero(&amp;amp;timer_context, sizeof(timer_context));  
+    timer_context.info = source;  
+    timer = CFRunLoopTimerCreate(NULL, CFAbsoluteTimeGetCurrent(), 1, 0, 0, 
+    _timer, &amp;amp;timer_context);  
+    CFRunLoopAddTimer(CFRunLoopGetCurrent(), timer, kCFRunLoopCommonModes);  
+  
+    CFRunLoopRun();  
+  
+    return 0;  
+}  
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Cancel a NSBlockOperation</title>
+      <link>http://ytlvy.com/posts/2015-06-30/2015-06-30-cancel-a-nsblockoperation/</link>
+      <pubDate>Tue, 30 Jun 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-06-30/2015-06-30-cancel-a-nsblockoperation/</guid>
+      <description> make NSBlockOperation cancelable NSBlockOperation *operation = [[NSBlockOperation alloc] init]; __weak NSBlockOperation *weakOperation = operation; [operation addExecutionBlock:^{ while( ! [weakOperation isCancelled]){ //do something... } }];  </description>
+    </item>
+    
+    <item>
+      <title>Dispatch Sources</title>
+      <link>http://ytlvy.com/posts/2015-06-30/2015-06-30-dispatch-sources/</link>
+      <pubDate>Tue, 30 Jun 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-06-30/2015-06-30-dispatch-sources/</guid>
+      <description>&lt;h2 id=&#34;dispatch-sources&#34;&gt;Dispatch Sources&lt;/h2&gt;
+
+&lt;p&gt;简单来说，是一种能够监控某种事件的对象。当事件发生的时候，此对象自动唤醒设置好的block，并在指定的queue中运行。&lt;/p&gt;
+
+&lt;h3 id=&#34;events-type&#34;&gt;events Type&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Mach port send right state changes.&lt;/li&gt;
+&lt;li&gt;Mach port receive right state changes.&lt;/li&gt;
+&lt;li&gt;External process state change.&lt;/li&gt;
+&lt;li&gt;File descriptor ready for read.&lt;/li&gt;
+&lt;li&gt;File descriptor ready for write.&lt;/li&gt;
+&lt;li&gt;Filesystem node event.&lt;/li&gt;
+&lt;li&gt;POSIX signal.&lt;/li&gt;
+&lt;li&gt;Custom timer.&lt;/li&gt;
+&lt;li&gt;Custom event.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;custom-events&#34;&gt;Custom Events&lt;/h3&gt;
+
+&lt;p&gt;通过&lt;code&gt;dispatch_source_merge_data&lt;/code&gt;来发送消息，此方法取名&lt;code&gt;merge&lt;/code&gt;的原因是，在事件回调执行前，GCD会自动合并累计的消息，直到对应的运行Queue有空闲，可以运行回调Block。所以，这是一种提高效率的方式，将多次消息合并成一个。
+自定义事件分为：&lt;code&gt;DISPATCH_SOURCE_TYPE_DATA_ADD&lt;/code&gt; 和 &lt;code&gt;DISPATCH_SOURCE_TYPE_DATA_OR&lt;/code&gt;, 每个event Source有一个&lt;code&gt;unsigned long data&lt;/code&gt;属性，用来合并&lt;code&gt;dispatch_source_merge_data&lt;/code&gt;的参数。&lt;code&gt;dispatch_source_get_data&lt;/code&gt;可以获取到当前的&lt;code&gt;data&lt;/code&gt;数据。&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>DispatchOnce</title>
+      <link>http://ytlvy.com/posts/2015-06-30/2015-06-30-dispatchonce/</link>
+      <pubDate>Tue, 30 Jun 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-06-30/2015-06-30-dispatchonce/</guid>
+      <description>&lt;p&gt;&lt;img src=&#34;http://ytlvy.com/images/DispatchOnce.jpg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;dispatch-once&#34;&gt;Dispatch_Once&lt;/h2&gt;
+
+&lt;p&gt;四种场景如上图
+1. 第一次执行，&lt;code&gt;block调用&lt;/code&gt;，调用结束后需要置标记变量
+2. 非第一次执行，而此时#1&lt;code&gt;block调用&lt;/code&gt;尚未完成(预执行拿到的 obj 为 nil, 此时需要废弃此次预执行)，线程需进入等待#1状态
+3. 非第一次执行，而此时#1&lt;code&gt;block调用&lt;/code&gt;已经完成(预执行拿到的 obj 已经初始化完毕)此时线程的预执行是正确的, 之后可能继续执行,也可能由于时间问题,废弃此次预执行进入等待
+4. 非第一次执行，而此时#1已经完成，线程预执行后, 直接跳过block而进行后续任务&lt;/p&gt;
+
+&lt;p&gt;Dispatch_Once 保证了当第一个线程在进行alloc 对象时，有其他线程发起, 会废弃此线程的预执行，进入等待。在第一个线程结束时，将正在等待的线程唤醒。而实现这一机制的方法是在生成对象和变更identifier之间加入一个大于预执行时间的等待来实现的。&lt;/p&gt;
+
+&lt;h3 id=&#34;dispatch-once实现用到的技术&#34;&gt;Dispatch_Once实现用到的技术&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;原子操作 &amp;ldquo;原子比较交换函数&amp;rdquo; __sync_bool_compare_and_swap&lt;/li&gt;
+&lt;li&gt;cpuid指令 实现大于预执行时间的延迟等待&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;dispatch_thread_semaphore 来实现线程之间的等待和唤醒
+&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Dispatch_semaphore</title>
+      <link>http://ytlvy.com/posts/2015-06-30/2015-06-30-dispatch-semaphore/</link>
+      <pubDate>Tue, 30 Jun 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-06-30/2015-06-30-dispatch-semaphore/</guid>
+      <description>&lt;p&gt;&lt;img src=&#34;http://ytlvy.com/images/DispatchSemaphore.jpg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;dispatch-semaphore&#34;&gt;Dispatch_semaphore&lt;/h2&gt;
+
+&lt;p&gt;&lt;code&gt;semaphore&lt;/code&gt; 通过&lt;code&gt;dispatch_semaphore_create&lt;/code&gt;创建一个信号量来实现多线程并发数控制, 此信号量为最高可进行的并发数. 通过&lt;code&gt;dispatch_semaphore_wait&lt;/code&gt;来消耗一个信号量,并进入其后的执行逻辑, 在逻辑执行完毕后,通过&lt;code&gt;dispatch_semaphore_signal&lt;/code&gt;来释放一个信号量, 并唤醒正在等待的线程. 如果&lt;code&gt;dispatch_semaphore_wait&lt;/code&gt;操作时,信号量为0则进入等待状态.&lt;/p&gt;
+
+&lt;h3 id=&#34;functions&#34;&gt;functions&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;dispatch_semaphore_create&lt;/li&gt;
+&lt;li&gt;dispatch_semaphore_wait (减少一个信号量)&lt;/li&gt;
+&lt;li&gt;dispatch_semaphore_signal (增加一个信号量)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;实例&#34;&gt;实例&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code&gt;- (void)test4{
+    int data = 3;
+    __block int mainData = 0;
+    __block int sum = 0;
+    __block dispatch_semaphore_t sem = dispatch_semaphore_create(2);
+    dispatch_queue_t ioQueue = dispatch_queue_create(&amp;quot;com.dreamingwish.imagegcd.io&amp;quot;, DISPATCH_QUEUE_SERIAL);
+    
+    dispatch_queue_t queue = dispatch_queue_create(&amp;quot;StudyBlocks&amp;quot;, DISPATCH_QUEUE_CONCURRENT);
+    dispatch_group_t group = dispatch_group_create();
+    
+    for (int i =0 ; i&amp;lt;100; i++) {
+        @autoreleasepool {
+            dispatch_semaphore_wait(sem, DISPATCH_TIME_FOREVER);  // -1 非零即通过
+            dispatch_group_async(group, ioQueue, ^{
+//                dispatch_semaphore_wait(sem, DISPATCH_TIME_FOREVER);
+                dispatch_group_async(group, queue, ^{
+                    sum += data;
+                    
+                    __block int nsum = sum;
+                    dispatch_group_async(group, ioQueue, ^{
+                        NSLog(@&amp;quot; &amp;gt;&amp;gt; Sum: %d&amp;quot;, nsum);
+                        
+                        dispatch_semaphore_signal(sem);  // +1
+                    });
+                    
+                });
+            });
+        }
+    }
+    dispatch_group_wait(group, DISPATCH_TIME_FOREVER);
+//    dispatch_semaphore_wait(sem, DISPATCH_TIME_FOREVER);
+    for (int j =0; j&amp;lt;5; j++) {
+        mainData++;
+        NSLog(@&amp;quot; &amp;gt;&amp;gt; MainData: %d&amp;quot;, mainData);
+    }
+//    dispatch_semaphore_signal(sem);
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>OSSpinLock</title>
+      <link>http://ytlvy.com/posts/2015-06-30/2015-06-30-osspinlock/</link>
+      <pubDate>Tue, 30 Jun 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-06-30/2015-06-30-osspinlock/</guid>
+      <description>&lt;h2 id=&#34;osspinlock&#34;&gt;OSSpinLock&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code&gt;#import &amp;lt;Foundation/Foundation.h&amp;gt;
+#import &amp;lt;objc/runtime.h&amp;gt;
+#import &amp;lt;objc/message.h&amp;gt;
+#import &amp;lt;libkern/OSAtomic.h&amp;gt;
+#import &amp;lt;pthread.h&amp;gt;
+
+#define ITERATIONS (1024*1024*32)
+
+static unsigned long long disp=0, land=0;
+
+int main(){
+    double then, now;
+    unsigned int i, count;
+    pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
+    OSSpinLock spinlock = OS_SPINLOCK_INIT;
+
+    NSAutoreleasePool *pool = [NSAutoreleasePool new];
+
+    NSLock *lock = [NSLock new];
+    then = CFAbsoluteTimeGetCurrent();
+    for(i=0; i&amp;lt;ITERATIONS; ++i)
+    {
+        [lock lock];
+        [lock unlock];
+    }
+    now = CFAbsoluteTimeGetCurrent();
+    printf(&amp;quot;NSLock: %f sec\n&amp;quot;, now-then);    
+
+    then = CFAbsoluteTimeGetCurrent();
+    IMP lockLock = [lock methodForSelector:@selector(lock)];
+    IMP unlockLock = [lock methodForSelector:@selector(unlock)];
+    
+    for(i=0; i&amp;lt;ITERATIONS; ++i) {
+        lockLock(lock,@selector(lock));
+        unlockLock(lock,@selector(unlock));
+    }
+    now = CFAbsoluteTimeGetCurrent();
+    printf(&amp;quot;NSLock+IMP Cache: %f sec\n&amp;quot;, now-then);    
+
+    then = CFAbsoluteTimeGetCurrent();
+    for(i=0;i&amp;lt;ITERATIONS;++i) {
+        pthread_mutex_lock(&amp;amp;mutex);
+        pthread_mutex_unlock(&amp;amp;mutex);
+    }
+    now = CFAbsoluteTimeGetCurrent();
+    printf(&amp;quot;pthread_mutex: %f sec\n&amp;quot;, now-then);
+
+    then = CFAbsoluteTimeGetCurrent();
+    for(i=0; i&amp;lt;ITERATIONS; ++i) {
+        OSSpinLockLock(&amp;amp;spinlock);
+        OSSpinLockUnlock(&amp;amp;spinlock);
+    }
+    now = CFAbsoluteTimeGetCurrent();
+    printf(&amp;quot;OSSpinlock: %f sec\n&amp;quot;, now-then);
+
+    id obj = [NSObject new];
+
+    then = CFAbsoluteTimeGetCurrent();
+    for(i=0; i&amp;lt;ITERATIONS; ++i){
+        @synchronized(obj) { }
+    }
+    now = CFAbsoluteTimeGetCurrent();
+    printf(&amp;quot;@synchronized: %f sec\n&amp;quot;, now-then);
+
+    [pool release];
+    return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>UITableView Cancel Request</title>
+      <link>http://ytlvy.com/posts/2015-06-30/2015-06-30-uitableview-cancel-request/</link>
+      <pubDate>Tue, 30 Jun 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-06-30/2015-06-30-uitableview-cancel-request/</guid>
+      <description>&lt;h3 id=&#34;仅加载可见cell的图片&#34;&gt;仅加载可见Cell的图片&lt;/h3&gt;
+
+&lt;p&gt;load images for just the visible rows in viewDidLoad and when the user stops scrolling&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;-(void)viewDidLoad{
+    for (NSIndexPath *indexPath in [self.tableView indexPathsForVisibleRows]) {
+        [self loadImageForCellAtPath:indexPath];
+    }
+}
+
+-(void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
+    for (NSIndexPath *indexPath in [self.tableView indexPathsForVisibleRows]) {
+        [self loadImageForCellAtPath:indexPath];
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Xcode Notes</title>
+      <link>http://ytlvy.com/posts/2015-06-22/2015-06-22-xcode-notes/</link>
+      <pubDate>Mon, 22 Jun 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-06-22/2015-06-22-xcode-notes/</guid>
+      <description>&lt;h3 id=&#34;快捷键&#34;&gt;快捷键&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code&gt;⌘（command）、⌥（option）、⇧（shift）、⇪（caps lock）、
+⌃（control）、↩（return）、⌅（enter）
+
+^ + 1                 corresponding Nib/Storyboard file
+^ + 2                 show the previous history
+^ + 6                 methods list
+
+^ + ⌘ + left         go back
+⌘ + Shift + O        jump to a particular filename method
+⌘ + L                go to line
+⌘ + Y                toggle all breakpoints
+⌘ + 0                toggle left panel
+⌘ + 1                show Project Nacigator
+
+^ + P                 移动光标到上一行
+^ + N                 移动光标到下一行
+^ + A                 移动光标到本行行首
+^ + E                 移动光标到本行行尾
+^ + D                 删除光标右边的字符
+^ + K                 删除空行/光标到行尾
+^ + L                 将插入点置于窗口正中
+
+⌘ + ⌥ + d           显示／隐藏 dock
+
+Fn + Delete           删除光标后的一个字符
+⌘ + Delete           删除光标至行首的内容
+
+⌘ + ⇧ + ;           调出拼写检查对话框。
+⌘ + ⌥ + =           xib update frame
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>ios block</title>
+      <link>http://ytlvy.com/posts/2015-06-15/2015-06-15-ios-block/</link>
+      <pubDate>Mon, 15 Jun 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-06-15/2015-06-15-ios-block/</guid>
+      <description>&lt;h2 id=&#34;block&#34;&gt;Block&lt;/h2&gt;
+
+&lt;p&gt;Converting Source Code&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;clang -rewrite-objc file_name_of_the_source_code
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;无变量&#34;&gt;无变量&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code&gt;//
+struct __block_impl {
+  void *isa;
+  int Flags;
+  int Reserved;
+  void *FuncPtr;
+};
+
+struct __main_block_impl_0 {
+  struct __block_impl impl;
+  struct __main_block_desc_0* Desc;
+  __main_block_impl_0(void *fp, struct __main_block_desc_0 *desc, int flags=0) {
+    impl.isa = &amp;amp;_NSConcreteStackBlock;
+    impl.Flags = flags;
+    impl.FuncPtr = fp;
+    Desc = desc;
+  }
+};
+static void __main_block_func_0(struct __main_block_impl_0 *__cself) {
+
+    printf(&amp;quot;Block\n&amp;quot;);
+  }
+
+static struct __main_block_desc_0 {
+  size_t reserved;
+  size_t Block_size;
+} __main_block_desc_0_DATA = { 0, sizeof(struct __main_block_impl_0)};
+
+int main(){
+  void (*blk)(void) = (void (*)())&amp;amp;__main_block_impl_0((void *)__main_block_func_0, &amp;amp;__main_block_desc_0_DATA);
+
+  ((void (*)(__block_impl *))((__block_impl *)blk)-&amp;gt;FuncPtr)((__block_impl *)blk);
+  return 0;
+
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>wget</title>
+      <link>http://ytlvy.com/posts/2015-06-11/2015-06-11-wget/</link>
+      <pubDate>Thu, 11 Jun 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-06-11/2015-06-11-wget/</guid>
+      <description>&lt;h2 id=&#34;wget&#34;&gt;wget&lt;/h2&gt;
+
+&lt;h3 id=&#34;用wget做站点镜像&#34;&gt;用wget做站点镜像&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code&gt;wget --mirror -p --convert-links -P [本地目录] [网站地址]
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code&gt;wget -r -np -nd http://appinn.com
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code&gt;wget -r -p -np -k http://dsec.pku.edu.cn/~usr_name/
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code&gt;wget -m http://www.tldp.org/LDP/abs/html/
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>冰之魔女</title>
+      <link>http://ytlvy.com/posts/2015-06-07/2015-06-07-ice-girl/</link>
+      <pubDate>Sun, 07 Jun 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-06-07/2015-06-07-ice-girl/</guid>
+      <description> 冰之魔女 </description>
+    </item>
+    
+  </channel>
+</rss>

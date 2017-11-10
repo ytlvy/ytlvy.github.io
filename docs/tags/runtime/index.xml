@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Runtime on My New Hugo Site</title>
+    <link>http://ytlvy.com/tags/runtime/</link>
+    <description>Recent content in Runtime on My New Hugo Site</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Mon, 13 Jul 2015 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="http://ytlvy.com/tags/runtime/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>iOS Runtime 运行时类与对象的编译处理</title>
+      <link>http://ytlvy.com/posts/2015-07-13/2015-07-13-ios-runtime-%E8%BF%90%E8%A1%8C%E6%97%B6%E7%B1%BB%E4%B8%8E%E5%AF%B9%E8%B1%A1%E7%9A%84%E7%BC%96%E8%AF%91%E5%A4%84%E7%90%86/</link>
+      <pubDate>Mon, 13 Jul 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-07-13/2015-07-13-ios-runtime-%E8%BF%90%E8%A1%8C%E6%97%B6%E7%B1%BB%E4%B8%8E%E5%AF%B9%E8%B1%A1%E7%9A%84%E7%BC%96%E8%AF%91%E5%A4%84%E7%90%86/</guid>
+      <description>&lt;h2 id=&#34;ios-runtime运行时类与对象的编译处理&#34;&gt;iOS Runtime运行时类与对象的编译处理&lt;/h2&gt;
+
+&lt;p&gt;Objective-C语言是一门动态语言，它将很多静态语言在编译和链接时期做的事放到了运行时来处理。这种动态语言的优势在于：我们写代码时更具灵活性，如我们可以把消息转发给我们想要的对象，或者随意交换一个方法的实现等。
+这种特性意味着&lt;code&gt;Objective-C&lt;/code&gt;不仅需要一个编译器，还需要一个运行时系统来执行编译的代码。对于Objective-C来说，这个运行时系统就像一个操作系统一样：它让所有的工作可以正常的运行。这个运行时系统即Objc Runtime。Objc Runtime其实是一个Runtime库，它基本上是用C和汇编写的，这个库使得C语言有了面向对象的能力。&lt;/p&gt;
+
+&lt;p&gt;Runtime库主要做下面几件事：
+1. 封装：在这个库中，对象可以用C语言中的结构体表示，而方法可以用C函数来实现，另外再加上了一些额外的特性。这些结构体和函数被runtime函数封装后，我们就可以在程序运行时创建，检查，修改类、对象和它们的方法了。
+2. 找出方法的最终执行代码：当程序执行[object doSomething]时，会向消息接收者(object)发送一条消息(doSomething)，runtime会根据消息接收者是否能响应该消息而做出不同的反应。这将在后面详细介绍。&lt;/p&gt;
+
+&lt;p&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;Objective-C runtime目前有两个版本：Modern runtime和Legacy runtime。Modern Runtime 覆盖了64位的Mac OS X Apps，还有 iOS Apps，Legacy Runtime 是早期用来给32位 Mac OS X Apps 用的，也就是可以不用管就是了。
+在这一系列文章中，我们将介绍runtime的基本工作原理，以及如何利用它让我们的程序变得更加灵活。在本文中，我们先来介绍一下类与对象，这是面向对象的基础，我们看看在Runtime中，类是如何实现的。
+&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>objc runtime method Cache</title>
+      <link>http://ytlvy.com/posts/2015-06-08/2015-06-08-objc-runtime-method-cache/</link>
+      <pubDate>Mon, 08 Jun 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-06-08/2015-06-08-objc-runtime-method-cache/</guid>
+      <description> method cache 更新机制 为了方便函数的查找, objc在运行时,引入了method cache机制,来快速定位函数.method cache的大小是动态更新的,在更新时, 将直接生成新容量的缓存, 并将旧的缓存放入到垃圾队列中,等待时机释放. 而时机的选择, 采用检测每个线程的program counter,来查看是否处于objc_msgSend.如果都不在,则释放.
+BOOL ThreadsInMsgSend(void) { for(thread in GetAllThreads()) { uintptr_t pc = thread.GetPC(); if(pc &amp;gt;= objc_msgSend_startAddress &amp;amp;&amp;amp; pc &amp;lt;= objc_msgSend_endAddress) { return YES; } } return NO; } bucket_t *oldCache = class-&amp;gt;cache; class-&amp;gt;cache = malloc(newSize); append(gOldCachesList, oldCache); if(!ThreadsInMsgSend()) { for(cache in gOldCachesList) { free(cache); } gOldCachesList.clear(); }  </description>
+    </item>
+    
+  </channel>
+</rss>

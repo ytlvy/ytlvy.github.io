@@ -1,0 +1,744 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Swift on My New Hugo Site</title>
+    <link>http://ytlvy.com/categories/swift/</link>
+    <description>Recent content in Swift on My New Hugo Site</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sat, 08 Aug 2015 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="http://ytlvy.com/categories/swift/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>How To Implement A Circular Image Loader Animation with CAShapeLayer</title>
+      <link>http://ytlvy.com/posts/2015-08-08/2015-08-08-how-to-implement-a-circular-image-loader-animation-with-cashapelayer/</link>
+      <pubDate>Sat, 08 Aug 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-08-08/2015-08-08-how-to-implement-a-circular-image-loader-animation-with-cashapelayer/</guid>
+      <description>&lt;h2 id=&#34;使用cashapelayer来实现圆形图片加载动画&#34;&gt;使用CAShapeLayer来实现圆形图片加载动画&lt;/h2&gt;
+
+&lt;blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;原文链接 : &lt;a href=&#34;http://www.raywenderlich.com/94302/implement-circular-image-loader-animation-cashapelayer&#34;&gt;How To Implement A Circular Image Loader Animation with CAShapeLayer&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;原文作者 : &lt;a href=&#34;http://www.raywenderlich.com/u/rounak&#34;&gt;Rounak Jain&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;译文出自 : &lt;a href=&#34;http://www.devtf.cn&#34;&gt;开发技术前线 www.devtf.cn&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;译者 : &lt;a href=&#34;https://github.com/samlaudev&#34;&gt;Sam Lau&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;校对者: &lt;a href=&#34;https://github.com/Lollypo&#34;&gt;Lollypo&lt;/a&gt;&lt;br /&gt;&lt;/li&gt;
+&lt;li&gt;状态 :  校正完&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;几个星期之前，Michael Villar在Motion试验中创建一个非常有趣的加载动画。&lt;/p&gt;
+
+&lt;p&gt;下面的GIF图片展示这个加载动画，它将一个圆形进度指示器和圆形渐现动画结合。这个组合的效果有趣，独一无二和有点迷人。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://cdn3.raywenderlich.com/wp-content/uploads/2015/02/Circle.gif&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;这个教程将会教你如何使用Swift和Core Animatoin来重新创建这个效果。让我们开始吧！&lt;/p&gt;
+
+&lt;p&gt;#基础&lt;/p&gt;
+
+&lt;p&gt;首先下载这个教程的&lt;a href=&#34;http://cdn1.raywenderlich.com/wp-content/uploads/2015/02/ImageLoaderIndicator-Starter.zip&#34;&gt;启动项目&lt;/a&gt;，然后编译和运行。过一会之后，你应该看到一个简单的image显示：&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://cdn2.raywenderlich.com/wp-content/uploads/2015/02/StarterProject.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;这个启动项目已经预先在恰当的位置将views和加载逻辑编写好了。花一分钟来浏览来快速了解这个项目；那里有一个&lt;strong&gt;ViewController&lt;/strong&gt;，&lt;strong&gt;ViewController&lt;/strong&gt;里有一个命名为&lt;strong&gt;CustomImageView&lt;/strong&gt;的&lt;strong&gt;UIImageView&lt;/strong&gt;子类, 还有一个&lt;strong&gt;SDWebImage&lt;/strong&gt;的方法被调用来加载image。&lt;/p&gt;
+
+&lt;p&gt;你可能注意到当你第一次运行这个app的时候，当image下载时这个app似乎会暂停几秒，然后image会显示在屏幕。当然，此刻没有圆形进度指示器 - 你将会在这个教程中创建它！&lt;/p&gt;
+
+&lt;p&gt;你会在两个步骤中创建这个动画：&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;圆形进度&lt;/strong&gt;。首先，你会画一个圆形进度指示器，然后根据下载进度来更新它。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;扩展圆形图片&lt;/strong&gt;。第二，你会通过扩展的圆形窗口来揭示下载图片。&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;紧跟着下面步骤来逐步实现！&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Swift Access Sub-Controllers from a UINavigationController</title>
+      <link>http://ytlvy.com/posts/2015-08-08/2015-08-08-swift-access-sub-controllers-from-a-uinavigationcontroller/</link>
+      <pubDate>Sat, 08 Aug 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-08-08/2015-08-08-swift-access-sub-controllers-from-a-uinavigationcontroller/</guid>
+      <description>&lt;h1 id=&#34;在swift开发中通过uinavigationcontroller来访问sub-controllers&#34;&gt;在Swift开发中通过UINavigationController来访问Sub-Controllers&lt;/h1&gt;
+
+&lt;blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;原文链接 : &lt;a href=&#34;http://www.andrewcbancroft.com/2015/06/02/access-sub-controllers-from-a-uinavigationcontroller-in-swift/&#34;&gt;Access Sub-Controllers from a UINavigationController in Swift&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;原文作者 : &lt;a href=&#34;http://www.andrewcbancroft.com&#34;&gt;Andrew Bancroft&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;译文出自 : &lt;a href=&#34;http://www.devtf.cn&#34;&gt;开发技术前线 www.devtf.cn&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;译者 : &lt;a href=&#34;http://www.andrewcbancroft.com/2015/06/02/access-sub-controllers-from-a-uinavigationcontroller-in-swift/&#34;&gt;samw00&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;校对者: &lt;a href=&#34;https://github.com/mrchenhao&#34;&gt;mrchenhao&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;状态 : 完成&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;通过&lt;code&gt;AppDelegate&lt;/code&gt;或者通过&lt;code&gt;prepareForSegue(_:sender:)&lt;/code&gt;来访问&lt;code&gt;UINavigationController&lt;/code&gt;的第一个子元素的访问顺序总是让我有点纳闷。这篇博文中有几段代码可以帮助你和我迅速的弄清楚如何在我们的Swift应用程序开发中和navigation controllers打交道。&lt;/p&gt;
+
+&lt;p&gt;##AppDelegate&lt;/p&gt;
+
+&lt;p&gt;每一个iOS应用在其启动加载完成后都会显示一个根视图控制器。假设我们要搭建一个以导航控制器(navigation controller)为主的一个app&amp;hellip;,也就是说我们这个app的第一（根）视图控制器是一个UINavigationController。在我们的Storyboard中，我们创建了一个简单的场景，给一个视图控制器添加了些UI控件和一些属性，然后我们将这个视图控制器嵌入在一个导航控制器中。&lt;/p&gt;
+
+&lt;p&gt;但是如果我想在app启动之后再去设置视图控制器中的某些个属性呢？我们要如何才能做到这点呢？&lt;/p&gt;
+
+&lt;p&gt;我一直把我在Storyboard中添加UI要素的第一个场景(first scene)视为“第一视图控制器”。但是，对iOS来说，导航控制器才是实际意义上的第一（根）视图控制器。&lt;/p&gt;
+
+&lt;p&gt;当一个app把导航控制器视为其第一（根）视图器时，我们就需要在视图层级结构中“挖”的更深一点才能访问到我们之前所以为的“第一视图控制器“。&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Swift Back to the Future</title>
+      <link>http://ytlvy.com/posts/2015-08-08/2015-08-08-swift-back-to-the-future/</link>
+      <pubDate>Sat, 08 Aug 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-08-08/2015-08-08-swift-back-to-the-future/</guid>
+      <description>&lt;h1 id=&#34;swift的异步机制-future&#34;&gt;Swift的异步机制-Future&lt;/h1&gt;
+
+&lt;hr /&gt;
+
+&lt;blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;原文链接 : &lt;a href=&#34;https://realm.io/news/swift-summit-javier-soto-futures/&#34;&gt;Back to the Future&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;原文作者 : &lt;a href=&#34;https://twitter.com/Javi&#34;&gt;Javier Soto&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;http://www.devtf.cn&#34;&gt;译文出自 :  开发技术前线 www.devtf.cn&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;译者 : &lt;a href=&#34;http://shidanqing.net&#34;&gt;sdq&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;我们在使用Objective-C写异步代码时常常会出现许多问题。它没有很好的错误处理机制，当你发现你需要在你的异步函数中创建新的异步函数它也没有一个很好的可伸缩实现。在这次演讲中，Javier Soto将演示实现一个能够简化异步API的Swift Future类型。并且创建一个Resule类型,我们可以在这个类型上调用map和andThen等操作。对于Swift来说，Futures的未来可能很会基于信号和eactiveCocoa 3。&lt;/p&gt;
+
+&lt;p&gt;你可以在&lt;a href=&#34;https://github.com/JaviSoto/Talks#swift-summit-2015-back-to-the-futures&#34;&gt;这里&lt;/a&gt;看到这次演讲中的代码。&lt;/p&gt;
+
+&lt;h2 id=&#34;更优雅地使用swift&#34;&gt;更优雅地使用Swift&lt;/h2&gt;
+
+&lt;p&gt;谢谢各位，很高兴和大家一起来聊一聊Swift，感谢组织者把我们聚集在一起并让我在这里演讲。我的名字叫Javi，是来自Twitter的iOS工程师。&lt;/p&gt;
+
+&lt;p&gt;相比于Objective-C，我们在Swift里可以把很多事做得更好。我们已经在之前的演讲中看了不少例子，我想紧接着着他们，和大家谈论一下一种我想引入Swift的设计模式。这种设计模式会使我们的代码更为优雅。&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Swift Core Graphics Tutorial Part 1: Getting Started</title>
+      <link>http://ytlvy.com/posts/2015-08-08/2015-08-08-swift-core-graphics-tutorial-part-1-getting-started/</link>
+      <pubDate>Sat, 08 Aug 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-08-08/2015-08-08-swift-core-graphics-tutorial-part-1-getting-started/</guid>
+      <description>&lt;h2 id=&#34;core-graphics教程第一部分-swift-起步&#34;&gt;Core Graphics教程第一部分(Swift) - 起步&lt;/h2&gt;
+
+&lt;blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;原文链接 : &lt;a href=&#34;http://www.raywenderlich.com/90690/modern-core-graphics-with-swift-part-1&#34;&gt;Core Graphics Tutorial Part 1: Getting Started&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;原文作者 : &lt;a href=&#34;http://www.raywenderlich.com/u/caroline&#34;&gt;Caroline Begbie &lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;译文出自 :  &lt;a href=&#34;www.devtf.cn&#34;&gt;开发技术前线&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;译者 : &lt;a href=&#34;https://github.com/sdq/&#34;&gt;sdq&lt;/a&gt;  &lt;a href=&#34;https://github.com/StormXX/&#34;&gt;StormXX&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;校对者:  &lt;a href=&#34;https://github.com/StormXX/&#34;&gt;StormXX&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;想象一下&amp;hellip;当你完成了你的应用，它能够很好地运行，但是界面还缺少个人的风格。这时，你可以选择用PS画出一系列尺寸的图片，并希望Apple不会再推出一个&lt;strong&gt;@4x&lt;/strong&gt;的retina显示尺寸&amp;hellip;&lt;/p&gt;
+
+&lt;p&gt;或者，你可以领先一步，采用Core Graphics进行绘图，保证一个图片可以适应各种尺寸的屏幕。&lt;/p&gt;
+
+&lt;p&gt;Core Graphics是苹果的一个矢量图绘制框架 - 它是一个大型且给力的API、有很多需要去学习。不过别慌，这个系列的文章会带你由简入深地学习Core Graphics，最后你将可以在你的应用中创作令人惊叹的图片。&lt;/p&gt;
+
+&lt;p&gt;这是一个全新的系列，采用最新的方式来学习Core Graphics。这个系列完全和Xcode6与Swift保持同步，并且包含了一些很酷的新特性，比如&lt;strong&gt;@IBDesignable&lt;/strong&gt;和&lt;strong&gt;@IBInspectable&lt;/strong&gt;，这让学习Core Graphics变得更有趣也更容易。&lt;/p&gt;
+
+&lt;p&gt;拿起可乐，让我们开始吧！&lt;/p&gt;
+
+&lt;h2 id=&#34;介绍flo-一款记录喝水杯数的app&#34;&gt;介绍Flo - 一款记录喝水杯数的App&lt;/h2&gt;
+
+&lt;p&gt;你将会完成一个追踪你喝水习惯的app。&lt;/p&gt;
+
+&lt;p&gt;Flo可以让你很轻松地追踪到你喝了多少水。人们说一天喝8杯水才是健康的，但是往往喝了几杯水之后我们就忘了记录了。这就是Flo使用的时候了，每当你喝完一杯水以后，你就可以在Flo上点击计数，Flo会为你记录喝水情况。你也可以在Flo上查看到过去7天的喝水状况。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://cdn4.raywenderlich.com/wp-content/uploads/2014/12/1-CompletedApp.gif&#34; alt=&#34;demo&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;在这个系列的第一部分，你将会通过UIKit的画图方法创建三个控件。
+第二部分中，你将会深入了解Core Graphics的内容并且学习绘图。
+最后第三部分，你将会制作一个样式背景，并且获得自制的Core Graphics奖牌 ：）&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Swift Core Graphics Tutorial Part 2: Gradients and Contexts</title>
+      <link>http://ytlvy.com/posts/2015-08-08/2015-08-08-swift-core-graphics-tutorial-part-2-gradients-and-contexts/</link>
+      <pubDate>Sat, 08 Aug 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-08-08/2015-08-08-swift-core-graphics-tutorial-part-2-gradients-and-contexts/</guid>
+      <description>&lt;h2 id=&#34;core-graphics教程第二部分-swift-gradients-与-context&#34;&gt;Core Graphics教程第二部分(Swift) - Gradients 与 Context&lt;/h2&gt;
+
+&lt;blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;原文链接 : &lt;a href=&#34;http://www.raywenderlich.com/90693/modern-core-graphics-with-swift-part-2&#34;&gt;Core Graphics Tutorial Part 2: Gradients and Contexts&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;原文作者 : &lt;a href=&#34;http://www.raywenderlich.com/u/caroline&#34;&gt;caroline&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;译文出自 :  &lt;a href=&#34;http://www.devtf.cn&#34;&gt;开发技术前线&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;译者 : &lt;a href=&#34;https://github.com/mrchenhao&#34;&gt;HarriesChen&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;校对者: &lt;a href=&#34;https://github.com/mrchenhao&#34;&gt;HarriesChen&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://cdn3.raywenderlich.com/wp-content/uploads/2014/12/FinalApp-192x320.png&#34; alt=&#34;FinalApp&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;更新时间  04/15/2015&lt;/em&gt; 为Xcode 6.3 和 Swift1.2更新&lt;/p&gt;
+
+&lt;p&gt;欢迎回到我们的Swift核心绘图教程系列！&lt;/p&gt;
+
+&lt;p&gt;在&lt;a href=&#34;http://www.raywenderlich.com/?p=90690&#34;&gt;第一部分&lt;/a&gt;中,你学习到了使用storyboard绘制线条和矩形.&lt;/p&gt;
+
+&lt;p&gt;在第二部部分中，你将深入核心绘图，使用CGContext实现渐变效果&lt;/p&gt;
+
+&lt;h2 id=&#34;核心绘图&#34;&gt;核心绘图&lt;/h2&gt;
+
+&lt;p&gt;你现在已经从简单的UIKit深入到核心绘图。&lt;/p&gt;
+
+&lt;p&gt;下图是各个框架的关系图：&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;http://cdn2.raywenderlich.com/wp-content/uploads/2014/12/2-Architecture.png&#34;&gt;&lt;img src=&#34;http://cdn3.raywenderlich.com/wp-content/uploads/2014/12/2-Architecture-433x320.png&#34; alt=&#34;2-Architecture&#34; /&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;UIKit是在最顶层，使用最友好的框架。你使用过UIBezierPath的就是在UIKit层中对Core Graphics层中CGPath的封装。&lt;/p&gt;
+
+&lt;p&gt;你可以看到 Core Graphics 的对象和方法都是CG开头的，非常容易辨认。&lt;/p&gt;
+
+&lt;p&gt;另外CG方法都是C方法，在调用的时候不需要明确的指定参数名，和一般Swift调用方法不一样。&lt;/p&gt;
+
+&lt;h2 id=&#34;从graph-view开始&#34;&gt;从Graph View开始&lt;/h2&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Swift Core Graphics Tutorial Part 3: Patterns and Playgrounds</title>
+      <link>http://ytlvy.com/posts/2015-08-08/2015-08-08-swift-core-graphics-tutorial-part-3-patterns-and-playgrounds/</link>
+      <pubDate>Sat, 08 Aug 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-08-08/2015-08-08-swift-core-graphics-tutorial-part-3-patterns-and-playgrounds/</guid>
+      <description>&lt;h2 id=&#34;core-graphics-教程第三部分-swift-patterns-和-playgrounds&#34;&gt;Core Graphics 教程第三部分(Swift) - Patterns 和 Playgrounds&lt;/h2&gt;
+
+&lt;blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;原文链接：&lt;a href=&#34;http://www.raywenderlich.com/90695/modern-core-graphics-with-swift-part-3&#34;&gt;Core Graphics Tutorial Part 3: Patterns and Playgrounds&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;原文作者：&lt;a href=&#34;http://www.raywenderlich.com/u/caroline&#34;&gt; Caroline Begbie &lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;译文出自：&lt;a href=&#34;www.devtf.cn&#34;&gt;开发者前线&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;译者：&lt;a href=&#34;https://github.com/MrLoong&#34;&gt;MrLoong&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;校对者：&lt;a href=&#34;https://github.com/samw00&#34;&gt;samw00&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;欢迎回到Core Graphics 教学系列的第三也是最后一部分！Flo，你的water drinking tracking app将使用Core Graphics 进行最终的改进。&lt;/p&gt;
+
+&lt;p&gt;在&lt;a href=&#34;http://www.raywenderlich.com/90690/modern-core-graphics-with-swift-part-1&#34;&gt;第一部分&lt;/a&gt;，你通过UIKit画了三个自定义形状的控件,&lt;a href=&#34;http://www.raywenderlich.com/90693/modern-core-graphics-with-swift-part-2&#34;&gt;在第二部分&lt;/a&gt;你创建了一个视图用来显示用户在过去一周的喝水量，并且研究了transforming the context transformation matrix (CTM)&lt;/p&gt;
+
+&lt;p&gt;在这第三也是最后一部分，你将使&lt;strong&gt;Flo&lt;/strong&gt;升级到它的最终形态，特别的是你将：&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;创建一个重复的背景图案&lt;/li&gt;
+&lt;li&gt;为成功每天喝掉8杯水的用户从头到尾画一枚奖章&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;如果你还没有这个项目的源代码，从本系列的第二部分下载&lt;a href=&#34;http://cdn1.raywenderlich.com/wp-content/uploads/2015/02/Flo-Part2-6.3.zip&#34;&gt;&lt;strong&gt;Flo工程&lt;/strong&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://cdn3.raywenderlich.com/wp-content/uploads/2014/12/FinalApp-192x320.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Swift EventKit - Requesting Permission</title>
+      <link>http://ytlvy.com/posts/2015-08-08/2015-08-08-swift-eventkit-requesting-permission/</link>
+      <pubDate>Sat, 08 Aug 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-08-08/2015-08-08-swift-eventkit-requesting-permission/</guid>
+      <description>&lt;h1 id=&#34;swift-eventkit的初学者指南-请求权限&#34;&gt;Swift  EventKit的初学者指南&amp;ndash;请求权限&lt;/h1&gt;
+
+&lt;hr /&gt;
+
+&lt;blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;原文链接 : &lt;a href=&#34;http://www.andrewcbancroft.com/2015/05/14/beginners-guide-to-eventkit-in-swift-requesting-permission/&#34;&gt;Beginner’s Guide to EventKit in Swift – Requesting Permission&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;原文作者 : &lt;a href=&#34;http://www.andrewcbancroft.com/&#34;&gt;Andrew&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;http://www.devtf.cn&#34;&gt;译文出自 :  开发技术前线 www.devtf.cn&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;译者 : &lt;a href=&#34;https://github.com/MollyMmm&#34;&gt;MollyMmm&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;校对者: &lt;a href=&#34;https://github.com/bboyfeiyu&#34;&gt;Mr.Simple&lt;/a&gt;&lt;br /&gt;&lt;/li&gt;
+&lt;li&gt;状态 : 校对完成&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;EventKit为获取和操作用户日历事件和提醒提供了一系列的类.在下面的教程中,我的目标是带领你走出利用EventKit建立一个应用程序的第.我的目标是带领你迈出利用EventKit建立一个应用程序的第一步.我将演示如何向用户的日历请求许可,我还将展示几个处理用户响应的例子(当他们授予访问权限,或者拒绝).
+#Example scenario
+#场景&lt;/p&gt;
+
+&lt;p&gt;让我们先提出一个基本方案，作为本教程的例子。&lt;/p&gt;
+
+&lt;p&gt;假设我们正在构建一个应用程序，现在，有一个单一的视图控制器。在得到用户授权允许的情况下，我们希望这个视图控制器显示日历列表。如果用户拒绝访问,我们将向用户展示一个消息,用来说明我们的应用程序在没有访问权限时不能运行,我们也将允许他们通过单击一个按钮能够在他们的设备的设置中设置授权访问.&lt;/p&gt;
+
+&lt;p&gt;我已经创建一个那样的应用程序作为例子&amp;ndash;跳到GitHub中查看并研究这个例子的代码.&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;资源&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://github.com/andrewcbancroft/EventTracker/tree/ask-for-permission&#34;&gt;Xcode工程示例&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;#Storyboard setup
+#故事面板设置&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Swift Extensions Nuances</title>
+      <link>http://ytlvy.com/posts/2015-08-08/2015-08-08-swift-extensions-nuances/</link>
+      <pubDate>Sat, 08 Aug 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-08-08/2015-08-08-swift-extensions-nuances/</guid>
+      <description>&lt;h2 id=&#34;swift扩展的三个微妙细节&#34;&gt;Swift扩展的三个微妙细节&lt;/h2&gt;
+
+&lt;blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;原文链接 : &lt;a href=&#34;http://www.andrewcbancroft.com/2015/04/22/3-nuances-of-swift-extensions/&#34;&gt;3 Nuances of Swift Extensions&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;原文作者 : &lt;a href=&#34;http://www.andrewcbancroft.com/&#34;&gt;Andrew Bancroft&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;译文出自 : &lt;a href=&#34;www.devtf.cn&#34;&gt;开发技术前线 www.devtf.cn&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;译者 : &lt;a href=&#34;https://github.com/samw00/&#34;&gt;samw00&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;校对者:&lt;br /&gt;&lt;/li&gt;
+&lt;li&gt;状态 :  校对中&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;每当我初次翻看某文档时，我都走马观花似的快速阅过，还一边点着头一边喃喃自语说：“好！懂了，就这么回事！”，可是过后当我真正要运用到这些我以为已经理解了的知识点时，却发现实际情况和我想的往往不一样，每当这时我就懵了，心想：“哇哦&amp;hellip;怎么回事？这和我想的完全不一样啊！文档里有说这事吗？”。&lt;/p&gt;
+
+&lt;p&gt;最近的几次讨论促使我扪心自问是否真正的理解了Swift中的扩展。我阅读过关于扩展的文档，并且我“认为”我自己对这块内容已经是理解的相当透彻了。可是这几次讨论，加上自己私下通过敲代码的验证，让我发现了我原先不曾注意到几个微妙的细节。&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;更新&lt;/strong&gt;：这篇文章刚一发表，Swift社区就出手襄助并帮助我弄明白了我最根本的纠结点在哪。为此，我写了另一篇文章“&lt;a href=&#34;http://www.andrewcbancroft.com/2015/04/24/clarifying-swift-access-control-hint-swift-isnt-c-sharp/&#34;&gt;阐明Swift访问控制&lt;/a&gt;”进一步说明我之前的误解。为了避免犯我曾今犯过的错误，我建议大家去读一读。&lt;/p&gt;
+
+&lt;h2 id=&#34;三个关于扩展的微妙细节&#34;&gt;三个关于扩展的微妙细节&lt;/h2&gt;
+
+&lt;p&gt;对下面列出的三个细节的思考严重挑战了我之前对Swift扩展的理解：&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;Swift扩展对它所扩展类型的&lt;strong&gt;visibility&lt;/strong&gt;。比如，扩展能访问被&lt;code&gt;private&lt;/code&gt;所修饰的内容吗?&lt;/li&gt;
+&lt;li&gt;定义扩展的位置是否对扩展的&lt;strong&gt;visibility&lt;/strong&gt;有影响。比如我这有一个类型我想写个扩展，把扩展写在同一个源文件里和把扩展写在另一个文件里有什么区别吗？&lt;/li&gt;
+&lt;li&gt;扩展里“成员”的默认访问修饰符以及是否给他们添加修饰对这个扩展作为一个类型的公共接口的影响。&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;在我开始之前，假设我有一个公共结构体&lt;code&gt;Person&lt;/code&gt;。这个结构体有一些私有属性，&lt;code&gt;name&lt;/code&gt;，&lt;code&gt;gender&lt;/code&gt;，和&lt;code&gt;age&lt;/code&gt;。用一个枚举把&lt;code&gt;Gender&lt;/code&gt;封装了一下。这个结构体看起来如下：&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Swift Increasing Performance by Reducing Dynamic Dispatch</title>
+      <link>http://ytlvy.com/posts/2015-08-08/2015-08-08-swift-increasing-performance-by-reducing-dynamic-dispatch/</link>
+      <pubDate>Sat, 08 Aug 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-08-08/2015-08-08-swift-increasing-performance-by-reducing-dynamic-dispatch/</guid>
+      <description>&lt;h2 id=&#34;通过减少动态分发来提高swift的执行效率&#34;&gt;通过减少动态分发来提高Swift的执行效率&lt;/h2&gt;
+
+&lt;blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;原文链接 : &lt;a href=&#34;https://developer.apple.com/swift/blog/?id=27&#34;&gt;Increasing Performance by Reducing Dynamic Dispatch&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;原文作者 : &lt;a href=&#34;https://developer.apple.com/swift&#34;&gt;Apple官方博文&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;译文出自 : &lt;a href=&#34;www.devtf.cn&#34;&gt;开发技术前线 www.devtf.cn&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;译者 : &lt;a href=&#34;https://github.com/samw00/&#34;&gt;samw00&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;和其他很多编程语言一样，Swift允许一个类重写其父类中声明的方法和属性。这意味着程序在运行时需要先确定要调用的方法和访问的属性是属于哪个类的，确定之后，则会执行间接调用（indirect call）或间接访问（indirect access）。这个运行机制称为&lt;strong&gt;动态分发&lt;/strong&gt;（dynamic dispatch）。这个机制能够提高语言的表现力，但其付出的代价是在每次间接调用或间接访问时，会产生一定量的运行时开销（runtime overhead）。在执行敏感代码时，最好能避免产生这样的开销。这篇博客将罗列三种通过消除这动态分发机制来提高程序执行效率的方式：&lt;code&gt;final&lt;/code&gt;，&lt;code&gt;private&lt;/code&gt;和全模块优化（Whole Module Optimization）。&lt;/p&gt;
+
+&lt;p&gt;Consider the following example:&lt;/p&gt;
+
+&lt;p&gt;先来看看下面这段代码&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;class ParticleModel {
+    var point = ( 0.0, 0.0 )
+    var velocity = 100.0
+
+    func updatePoint(newPoint: (Double, Double), newVelocity: Double) {
+        point = newPoint
+        velocity = newVelocity
+    }
+
+    func update(newP: (Double, Double), newV: Double) {
+        updatePoint(newP, newVelocity: newV)
+    }
+}
+
+var p = ParticalModel()
+for i in stride(from: 0.0, through: 360, by: 1.0) {
+    p.update((i * sin(i), i), newV: i * 1000)
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Swift Memory management</title>
+      <link>http://ytlvy.com/posts/2015-08-08/2015-08-08-swift-memory-management/</link>
+      <pubDate>Sat, 08 Aug 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-08-08/2015-08-08-swift-memory-management/</guid>
+      <description>&lt;h2 id=&#34;swift和自动引用计数-arc-整理之强-弱和无主引用&#34;&gt;Swift和自动引用计数(ARC)整理之强，弱和无主引用&lt;/h2&gt;
+
+&lt;blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;原文链接 : &lt;a href=&#34;http://www.andrewcbancroft.com/2015/05/08/strong-weak-and-unowned-sorting-out-arc-and-swift/&#34;&gt;Strong, Weak, and Unowned - Sorting out ARC and Swift&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;原文作者 : &lt;a href=&#34;http://www.andrewcbancroft.com/&#34;&gt;Andrew Bancroft&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;译文出自 : &lt;a href=&#34;www.devtf.cn&#34;&gt;开发技术前线 www.devtf.cn&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;译者 : &lt;a href=&#34;https://github.com/samw00/&#34;&gt;samw00&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;校对者:  &lt;a href=&#34;https://github.com/bboyfeiyu/&#34;&gt;MrSimple&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;状态 :  完成&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;我敢打赌有相当一部分的Swfit开发者纠结于&lt;code&gt;strong&lt;/code&gt;（强引用），&lt;code&gt;weak&lt;/code&gt;（弱引用)和&lt;code&gt;unowned&lt;/code&gt;（无主引用）这几种不同类型的引用方式对他们的代码在运行时所造成的影响。如果我的日子依赖于自动引用计数（ARC）,我想我是不会费神来尝试解释其中的奥妙的。&lt;/p&gt;
+
+&lt;p&gt;在我每次声明变量或是常量时，我都不是特别确定到底应该用哪种类型的引用，为了让自己不再纠结，我最终决定把&lt;a href=&#34;https://developer.apple.com/library/ios/documentation/Swift/Conceptual/Swift_Programming_Language/AutomaticReferenceCounting.html&#34;&gt;苹果官方关于ARC的文档&lt;/a&gt;拿出来拜读，试着去理解和消化里面的每一句话。这篇文章尝试着把我脑里关于Swift和自动引用计数（ARC）的整理分享给大家。&lt;/p&gt;
+
+&lt;p&gt;这篇文章稍微有点长所以我想：“为何不先把总结直接抛出来让小伙伴们先睹为快呢？然后如果实好奇再继续看我是如何得出这总结的”。所以下面献上我的总结！&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Swift Reactive</title>
+      <link>http://ytlvy.com/posts/2015-08-08/2015-08-08-swift-reactive/</link>
+      <pubDate>Sat, 08 Aug 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-08-08/2015-08-08-swift-reactive/</guid>
+      <description>&lt;h1 id=&#34;swift的响应式编程&#34;&gt;Swift的响应式编程&lt;/h1&gt;
+
+&lt;hr /&gt;
+
+&lt;blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;原文链接 : &lt;a href=&#34;https://medium.com/swift-programming/reactive-swift-3b6050375534&#34;&gt;Reactive Swift&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;原文作者 : &lt;a href=&#34;https://medium.com/@vasarhelyia&#34;&gt;Agnes Vasarhelyi&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;http://www.devtf.cn&#34;&gt;译文出自 :  开发技术前线 www.devtf.cn&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;译者 : &lt;a href=&#34;https://github.com/bboyefiyu&#34;&gt;Mr.Simple&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;校对者: &lt;a href=&#34;https://github.com/Lollypo&#34;&gt;Lollypo&lt;/a&gt;&lt;br /&gt;&lt;/li&gt;
+&lt;li&gt;状态 :  完成&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;让我们首先回到Apple刚推出Objective-C的继任者-Swift的时候，那真是一个非比寻常的时刻。
+Siri还没有开启地狱之门，Prezi还没有支持订阅，那时的朝鲜也还没有hack任何人的email。一种新语言的出现让我个人非常兴奋，尤其是这是一种类型安全的脚本语言。虽然Swift还在快速的发展中，但是我们不必担心它是否已经稳定。当那一刻到来之时，我应该已经知道如何交付整洁的、可测试的代码。还要有非常灵活、流畅的UI？如果你对Objective-C 和 MVC之外的东西感兴趣，那么就请继续读下去吧。&lt;/p&gt;
+
+&lt;h2 id=&#34;mvc-与-mvvm&#34;&gt;MVC 与 MVVM&lt;/h2&gt;
+
+&lt;p&gt;让我们从零开始，当我们设计一个应用时，你可能会先考虑应用的架构。Cocoa框架以&lt;a href=&#34;https://developer.apple.com/library/ios/documentation/General/Conceptual/DevPedia-CocoaCore/MVC.html&#34;&gt;Model-View-Controller&lt;/a&gt; (也称为 MVC)为基础架构，它的结构如下图所示。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://d262ilb51hltx0.cloudfront.net/max/1600/0*pEvMKHBK9HeAgrYC.&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Swift UIKit Dynamics - Tossing Views</title>
+      <link>http://ytlvy.com/posts/2015-08-08/2015-08-08-swift-uikit-dynamics-tossing-views/</link>
+      <pubDate>Sat, 08 Aug 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-08-08/2015-08-08-swift-uikit-dynamics-tossing-views/</guid>
+      <description>&lt;h2 id=&#34;uikit-dynamics-和-swift-教程-抛掷视图-tossing-views&#34;&gt;UIKit Dynamics 和 Swift 教程：抛掷视图 (Tossing Views)&lt;/h2&gt;
+
+&lt;blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;原文链接 : &lt;a href=&#34;http://www.raywenderlich.com/94719/uikit-dynamics-swift-tutorial-tossing-views&#34;&gt;UIKit Dynamics and Swift Tutorial:Tossing Views&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;原文作者 : &lt;a href=&#34;http://www.raywenderlich.com&#34;&gt;Ray Wenderlich&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;译文出自 : &lt;a href=&#34;http://www.devtf.cn&#34;&gt;开发技术前线 www.devtf.cn&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;译者 : &lt;a href=&#34;https://github.com/samw00&#34;&gt;samw00&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;校对者: &lt;a href=&#34;https://github.com/mrchenchao&#34;&gt;mrchenchao&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;状态 : 完成&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;在这篇UIKit Dynamics教程中，你将学会如何通过添加手势，用一种很自然的方式将视图抛掷出屏幕的显示区域。如下图所示：&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://cdn1.raywenderlich.com/wp-content/uploads/2014/07/UIKitDynamics3.gif&#34; alt=&#34;效果预览图&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;你可能已经在&lt;a href=&#34;https://itunes.apple.com/us/app/tweetbot-3-for-twitter-iphone/id722294701&#34;&gt;Tweetbot&lt;/a&gt;这个流行的app里看到这一个技巧被大量的运用。&lt;/p&gt;
+
+&lt;p&gt;这篇教程特别适合中级水平的开发人员，因为内容包括如何实现一些特别棒的特效，比如用原生的UIKit框架实现旋转(rotation)和飞离(fly-away)等动画效果。&lt;/p&gt;
+
+&lt;p&gt;如果你刚刚接触UIKit dynamics, 也别紧张 － 因为这篇教程会一步一步引导你如何去做。&lt;/p&gt;
+
+&lt;p&gt;废话不多说，让我们直切主题吧！&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Swift UIKit Dynamics Tutorial: Getting Started</title>
+      <link>http://ytlvy.com/posts/2015-08-08/2015-08-08-swift-uikit-dynamics-tutorial-getting-started/</link>
+      <pubDate>Sat, 08 Aug 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-08-08/2015-08-08-swift-uikit-dynamics-tutorial-getting-started/</guid>
+      <description>&lt;h2 id=&#34;uikit-dynamics-教程-起步&#34;&gt;UIKit Dynamics 教程: 起步&lt;/h2&gt;
+
+&lt;blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;原文链接 : &lt;a href=&#34;http://www.raywenderlich.com/76147/uikit-dynamics-tutorial-swift&#34;&gt;UIKit Dynamics Tutorial: Getting Started&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;原文作者: &lt;a href=&#34;http://www.raywenderlich.com/u/frosty&#34;&gt;James Frost&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;译文出自: &lt;a href=&#34;http://www.devtf.cn/&#34;&gt;开发技术前线http://www.devtf.cn/&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;译者 : &lt;a href=&#34;https://github.com/Lollypo&#34;&gt;Lollypo&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;校对者: &lt;a href=&#34;https://github.com/mrchenhao&#34;&gt;Harries Chen&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;状态 :  完成&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;&lt;strong&gt;更新备注&lt;/strong&gt;:本教程是由&lt;a href=&#34;http://www.raywenderlich.com/u/ColinEberhardt&#34;&gt;Colin Eberhardt&lt;/a&gt;编写的&lt;a href=&#34;http://www.raywenderlich.com/?page_id=48020&#34;&gt; iOS 7 by Tutorials&lt;/a&gt;其中某章节的精简版本.由James Frost更新到iOS8并用Swift重写,在Xcode 6 beta 7版本上测试通过。&lt;/p&gt;
+
+&lt;p&gt;iOS的设计目标鼓励你去创建数字界面模拟触摸，手势，改变方向等，就好像它们真实的物理对象而远非像素的集合。最终给予用户更深层级的交互而不是肤浅的拟真设计。&lt;/p&gt;
+
+&lt;p&gt;这听起来感觉挺难的，因为让数字界面看起来是真实的远比让它感觉是真实的简单。不过好在你有一些漂亮的新工具:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;UIKit Dynamics&lt;/strong&gt; 是集成到UIKit中的物理引擎。这允许你创建一个感觉像是真实的界面，通过添加一些行为，例如重力，锚连接 (弹簧)以及力. 你可以定义你希望你的界面需要的物理特征, Dynamics会帮你关心其他的细枝末节。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Motion Effects&lt;/strong&gt; 允许你创建类似于iOS 7 主屏幕中酷酷的视差效果. 基本上你可以利用手机加速器提供的数据来创建界面来模拟手机方向发生改变的反应。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;当一起使用的时候，由 Dynamics 与 Motion形成用户体验的工具，让你的界面给用户生活带来非同一般的体验。当观察到他们的操作是通过一种自然、动态的方式，你的用户将会与你的app进行更深层次的连接。&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;注意&lt;/strong&gt;: 由于本教程编写的时候iOS 8 还处于测试中，因此&lt;a href=&#34;http://www.raywenderlich.com/?p=74138&#34;&gt;没有提供iOS8的截图&lt;/a&gt;. 所有的截图都是iOS7环境下的,不过看起来与iOS 8相差不大.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Swift custom-view-controller-transitions-tutorial</title>
+      <link>http://ytlvy.com/posts/2015-08-08/2015-08-08-swift-custom-view-controller-transitions-tutorial/</link>
+      <pubDate>Sat, 08 Aug 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-08-08/2015-08-08-swift-custom-view-controller-transitions-tutorial/</guid>
+      <description>&lt;h1 id=&#34;使用swift自定义viewcontroller切换效果与动画&#34;&gt;使用Swift自定义ViewController切换效果与动画&lt;/h1&gt;
+
+&lt;blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;原文链接 : &lt;a href=&#34;http://www.appcoda.com/custom-view-controller-transitions-tutorial/&#34;&gt;custom-view-controller-transitions-tutorial&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;原文作者 : &lt;a href=&#34;http://www.appcoda.com/custom-view-controller-transitions-tutorial/&#34;&gt;joyce echessa&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;www.devtf.cn&#34;&gt;译文出自 :  开发技术前线 www.devtf.cn&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;译者 : &lt;a href=&#34;https:www.devtd.cn&#34;&gt;Shopie&lt;/a&gt;&lt;br /&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;当我们把从Apple iOS设备上内置的app从一个view切换到另一个的时候，我们可以看到各种不同的动态切换。比如，把详细view controller滑动到主view controller时呈现出的切换动画（通常在短信app或设置app中可以看到），以及代表了不同view controller之间切换的各种不间断过渡。&lt;/p&gt;
+
+&lt;p&gt;iOS 7引入了自定义view controller切换，使得开发人员能够在他们的app中实现不同 view controller之间的自定义切换动画。我们通过本教程来看看如何自定义切换动画。本教程还会讲到如何创建手势切换，也就是交互式切换。首先，大家需要下载starter项目，我们在后续的整个教程中将会用到。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://www.appcoda.com/wp-content/uploads/2015/03/custom-view-transition.jpg&#34; alt=&#34;pic-1&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>iOS What’s New in Swift 2</title>
+      <link>http://ytlvy.com/posts/2015-08-08/2015-08-08-ios-whats-new-in-swift-2/</link>
+      <pubDate>Sat, 08 Aug 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-08-08/2015-08-08-ios-whats-new-in-swift-2/</guid>
+      <description>&lt;h2 id=&#34;swift-2-有哪些新特性&#34;&gt;Swift 2 有哪些新特性&lt;/h2&gt;
+
+&lt;blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;原文链接 : &lt;a href=&#34;http://www.raywenderlich.com/108522/whats-new-in-swift-2&#34;&gt;What’s New in Swift 2&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;原文作者 : &lt;a href=&#34;http://www.raywenderlich.com/u/gregheo&#34;&gt;Greg Heo&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;译文出自 : &lt;a href=&#34;http://www.devtf.cn&#34;&gt;开发技术前线 www.devtf.cn&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;译者 : &lt;a href=&#34;https://github.com/samlaudev&#34;&gt;Sam Lau&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;校对者: &lt;a href=&#34;https://github.com/bboyfeiyu&#34;&gt;Mr.Simple&lt;/a&gt;&lt;br /&gt;&lt;/li&gt;
+&lt;li&gt;状态 :  校正完&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;在WWDC我们发现Swift团队没有浪费时间在无谓的地方，而是致力于改善Swift 2。&lt;/p&gt;
+
+&lt;p&gt;我们将会为你编写和录制很多关于Swift 2的教程，但在此期间我想强调Swift最令人兴奋的改变，为你可以在秋天迁移到Swift 2做准备。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://cdn2.raywenderlich.com/wp-content/uploads/2015/06/swift-new.jpg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;#错误处理&lt;/p&gt;
+
+&lt;p&gt;正如Ray在&lt;a href=&#34;http://www.raywenderlich.com/108379/wwdc-2015-initial-impressions&#34;&gt;WWDC 2015 Initial Impressions&lt;/a&gt;文章中提及，错误处理已经在Swift 2改进了。我们已经迁移到新的系统就像异常处理，而不是&lt;strong&gt;NSError&lt;/strong&gt;对象和双指针。&lt;/p&gt;
+
+&lt;p&gt;你可能对以下代码比较熟悉：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;if drinkWithError(nil) {
+  print(&amp;quot;Could not drink beer! :[&amp;quot;)
+  return
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;一般在Cocoa，你传入一个&lt;strong&gt;NSError&lt;/strong&gt;对象的引用(一个&lt;strong&gt;inout&lt;/strong&gt;参数在Swift)，然后方法会赋值给错误变量。但问题是你可以传入一个nil到这里来完全忽略这个错误；或者，你可以传入&lt;strong&gt;NSError&lt;/strong&gt;但从不检查它。&lt;/p&gt;
+
+&lt;p&gt;Swift 2 为错误检查添加额外保护层。你可以使用&lt;strong&gt;throws&lt;/strong&gt;关键字来指定那个函数和方法能够抛出一个错误。然后当你调用某样东西时，可以用&lt;strong&gt;do&lt;/strong&gt;, &lt;strong&gt;try&lt;/strong&gt;和&lt;strong&gt;catch&lt;/strong&gt;多个关键字来捕捉和处理错误。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;// 1
+enum DrinkError: ErrorType {
+  case NoBeerRemainingError
+}
+ 
+// 2
+func drinkWithError() throws {
+  if beer.isAvailable() {
+    // party!
+  } else {
+    // 3
+    throw DrinkError.NoBeerRemainingError
+  }
+}
+ 
+func tryToDrink() {
+  // 4
+  do {
+    try drinkWithError()
+  } catch {
+    print(&amp;quot;Could not drink beer! :[&amp;quot;)
+    return
+  }
+}
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;这里有几样东西需要强调的：&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;为了创建一个错误可以抛出，只是创建一个继承&lt;strong&gt;ErrorType&lt;/strong&gt;的&lt;strong&gt;enum&lt;/strong&gt;。&lt;/li&gt;
+&lt;li&gt;你需要使用&lt;strong&gt;throws&lt;/strong&gt;关键字来标志任何函数可以抛出一个错误。&lt;/li&gt;
+&lt;li&gt;这里抛出一个错误，它将会在section 4中被捕捉。&lt;/li&gt;
+&lt;li&gt;你在一个&lt;strong&gt;do&lt;/strong&gt;块中包含任何可以抛出一个错误的代码，而不是其他语言类似的&lt;strong&gt;try&lt;/strong&gt;块中。然后，你添加一个&lt;strong&gt;try&lt;/strong&gt;关键字到函数被调用的前面，而且这个函数能够抛出一个错误。&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;新语法是非常简洁和易读。任何API当前使用&lt;strong&gt;NSError&lt;/strong&gt;以后都会使用这种错误处理方式。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://cdn4.raywenderlich.com/wp-content/uploads/2015/06/throw-all-the-things-415x320.jpg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>swift Core Image Tutorial</title>
+      <link>http://ytlvy.com/posts/2015-08-08/2015-08-08-swift-core-image-tutorial/</link>
+      <pubDate>Sat, 08 Aug 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-08-08/2015-08-08-swift-core-image-tutorial/</guid>
+      <description>&lt;h2 id=&#34;core-image入门教程-swift&#34;&gt;Core Image入门教程(swift)&lt;/h2&gt;
+
+&lt;blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;原文链接 : &lt;a href=&#34;http://www.raywenderlich.com/76285/beginning-core-image-swift&#34;&gt;Core Image Tutorial: Getting Started&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;原文作者 : &lt;a href=&#34;http://www.raywenderlich.com/u/nicklockwood&#34;&gt;Nick Lockwood&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;译文出自 :&lt;a href=&#34;http://www.devtf.cn&#34;&gt;开发技术前线 www.devtf.cn&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;译者 : &lt;a href=&#34;https://github.com/samlaudev&#34;&gt;Sam Lau&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;校对者: &lt;a href=&#34;https://github.com/mrchenhao&#34;&gt;Harries Chen&lt;/a&gt;&lt;br /&gt;&lt;/li&gt;
+&lt;li&gt;状态 :  校正完&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;Core Image是一个强大的框架，它能够让你轻松地对图像进行过滤。你能够通过修改图像的饱和度、色调或曝光率来获取各种特效。你也可以使用CPU或GPU更快地来处理图像数据，快到能够实时处理视频帧数据(video frame)。&lt;/p&gt;
+
+&lt;p&gt;Core Image过滤器能够以链式的方式结合将多个特效应用到一个图像或视频帧数据。多个过滤器能够组合成单个过滤器应用在一个图像。通过每次与每个过滤器比较，这使它非常有效地处理图像。&lt;/p&gt;
+
+&lt;p&gt;在这个教程中，你将会亲手实践如何使用Core Image.通过使用几个不同的过滤器，你会看到实时使用各种炫酷的特效是多么容易。&lt;/p&gt;
+
+&lt;p&gt;#基础&lt;/p&gt;
+
+&lt;p&gt;在你开始之前，让我们先讨论在Core Image框架中几个很重要的类：&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;CIContext&lt;/strong&gt;. 所有处理core image的工作都在CIContext完成。这个与Core Graphics或OpenGL context有几分相似。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;CIImage&lt;/strong&gt;. 这个类保存图像数据，它能够从UIImage，图像文件或像素数据等方式来创建。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;CIFilter&lt;/strong&gt;. CIFilter类有一个字典(dictionary)来定义特定属性的过滤器，比如常用过滤器有饱和度，颜色翻转，裁剪等属性，还有很多没列出来。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;###CoreImageFun
+打开Xcode并使用&lt;strong&gt;iOS \ Application \ Single View Application&lt;/strong&gt;模板来创建一个新工程。输入&lt;strong&gt;CoreImageFun&lt;/strong&gt;作为Product Name，选择iPhone为Devices option和确定使用&lt;strong&gt;swift&lt;/strong&gt;作为编程语言。&lt;/p&gt;
+
+&lt;p&gt;下载&lt;a href=&#34;http://cdn5.raywenderlich.com/downloads/CIResources.zip&#34;&gt;教程的资源&lt;/a&gt;，并添加图片&lt;strong&gt;image.png&lt;/strong&gt;到工程&lt;/p&gt;
+
+&lt;p&gt;下一步，打开&lt;strong&gt;Main.storyboard&lt;/strong&gt;你文件，拖拽一个image view到已存在的view，image view作为view的子视图。在Attributes Inspector中，设置image view的content mode属性为Aspect Fit，这样它就不会拉伸图片。&lt;/p&gt;
+
+&lt;p&gt;下一步，确定Document Outline(在Interface Builder里canvas左边)是可见的 - 你可以从menu中&lt;strong&gt;Editor \ Show Document Outline&lt;/strong&gt;来启用。&lt;/p&gt;
+
+&lt;p&gt;按着control键从image view拖动到它的superview三次来添加三个约束(constraint)：&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;添加一个Top Space to Layout Guide的约束，如果有必要的话，使用Size Inspector来设置约束的constant为0&lt;/li&gt;
+&lt;li&gt;添加一个Center Horizontally in Container的约束(同样也需要设置constant为0)&lt;/li&gt;
+&lt;li&gt;添加一个Equal Width约束&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;最后，为了约束image view的高度，按着control键从image view拖动到本身，然后添加一个Aspect Ratio约束，使用Size Inspector来设置它的multiplier的值为8:5对应宽高比和constant factor为0。最后，选择&lt;strong&gt;Editor \ Resolve Auto Layout Issues \ All Views in View Controller \ Update Frames&lt;/strong&gt;，那么Interface Builder会根据这些约束来更新布局&lt;/p&gt;
+
+&lt;p&gt;下一步，打开Assistant Editor，然后确保它显示&lt;strong&gt;ViewController.swift&lt;/strong&gt;。按着control键从UIImageView拖动到刚刚打开的&lt;strong&gt;ViewController&lt;/strong&gt;类的大括号。命名outlet为&lt;strong&gt;imageView&lt;/strong&gt;，然后点击connect。&lt;/p&gt;
+
+&lt;p&gt;编译和运行这个项目来确保目前进展顺利 - 你应该看到一个空屏。初始化设置完成，现在进入Core Image的世界。&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Swift Exception Handle</title>
+      <link>http://ytlvy.com/posts/2015-07-28/2015-07-28-swift-exception-handle/</link>
+      <pubDate>Tue, 28 Jul 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-07-28/2015-07-28-swift-exception-handle/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;http://blog.callmewhy.com/2015/04/20/error-handling-in-swift/&#34;&gt;转自&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;swift-中的异常处理&#34;&gt;Swift 中的异常处理&lt;/h2&gt;
+
+&lt;h3 id=&#34;问题&#34;&gt;问题&lt;/h3&gt;
+
+&lt;p&gt;在开发过程中，异常处理算是比较常见的问题了。&lt;/p&gt;
+
+&lt;p&gt;举一个比较常见的例子：用户修改注册的邮箱，大概分为以下几个步骤：&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;接收到一个用户的请求：我要修改邮箱地址&lt;/li&gt;
+&lt;li&gt;验证一下请求是否合法，将请求进行格式转化&lt;/li&gt;
+&lt;li&gt;更新以前的邮箱地址记录&lt;/li&gt;
+&lt;li&gt;给新的邮箱地址发送验证邮件&lt;/li&gt;
+&lt;li&gt;将结果返回给用户&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;上面的步骤如果一切顺利，那代码肯定干净利落，但是人生不如意十有八九，上面的步骤很容易出现问题：&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;用户把邮箱地址填成了家庭地址&lt;/li&gt;
+&lt;li&gt;用户是个黑客，没登录就发送了更新请求&lt;/li&gt;
+&lt;li&gt;发送验证邮件的时候服务器爆炸了，发送邮件失败&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;各种异常都会导致这次操作的失败。&lt;/p&gt;
+
+&lt;h3 id=&#34;方案一&#34;&gt;方案一&lt;/h3&gt;
+
+&lt;p&gt;在传统的处理方案里，一般是遇到异常就往上抛：
+&lt;img src=&#34;http://segmentfault.com/img/bVlsK9&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;这种方案想必大家都不陌生，比如下面这段代码：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;NSError *err = nil;
+CGFloat result = [MathTool divide:2.5 by:3.0 error:&amp;amp;err];
+
+if (err) {
+    NSLog(@&amp;quot;%@&amp;quot;, err)
+} else {
+    [MathTool doSomethingWithResult:result]
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

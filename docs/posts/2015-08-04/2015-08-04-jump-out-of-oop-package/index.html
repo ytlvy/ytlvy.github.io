@@ -1,0 +1,764 @@
+
+
+  
+
+
+  
+
+
+
+
+  
+
+
+  
+
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="Hugo 0.30.2 with theme Tranquilpeak 0.4.2-BETA">
+    <title>jump out of OOP -- Package</title>
+    <meta name="author" content="肖杰">
+    <meta name="keywords" content="">
+
+    <link rel="icon" href="http://ytlvy.com/favicon.png">
+    
+
+    
+    <meta name="description" content="reference
+
+跳出面向对象思想(三) 封装
+
+简述
+
+我认为&rdquo;封装&rdquo;的概念在面向对象思想中是最基础的概念，它实质上是通过将相关的一堆函数和一堆对象放在一起，对外有函数作为操作通道，对内则以变量作为操作原料。只留给外部程序员操作方式，而不暴露具体执行细节。大部分书举的典型例子就是汽车和灯泡的例子：你不需要知道不同车子的发动机原理，只要踩油门就可以跑；你不需要知道你的灯泡是那种灯泡，打开开关就会亮。我们都会很直觉地认为这种做法非常棒，是吧？
+
+但是有的时候还是会觉得有哪些地方不对劲，使用面向对象语言的时候，我隐约觉得封装也许并没有我们直觉中认为的那么好，也就是说，面向对象其实并没有我们直觉中的那么好，虽然它已经流行了很多很多年。
+
+1. 将数据结构和函数放在一起是否真的合理？
+
+函数就是做事情的，它们有输入，有执行逻辑，有输出。 数据结构就是用来表达数据的，要么作为输入，要么作为输出。
+
+两者本质上是属于完全不同的东西，面向对象思想将他们放到一起，使得函数的作用被限制在某一个区域里，这样做虽然能够很好地将操作归类，但是这种归类方法是根据&rdquo;作用领域&rdquo;来归类的，在现实世界中可以，但在程序的世界中，有些不妥。
+
+不妥的理由有如下几个：
+
+
+在并行计算时，由于执行部分和数据部分被绑定在一起，这就使得这种方案制约了并行程度。在为了更好地实现并行的时候，业界的工程师们发现了一个新的思路：函数式编程。将函数作为数据来使用，这样就能保证执行的功能在时序上的正确性了。但你不觉得，只要把数据表达和执行部分分开，形成流水线，这不就能够非常方便地将并行数提高了么？
+
+
+我来举个例子： 在数据和函数没有分开时，程序的执行流程是这样：
+
+A.function1() -&gt; A.function2() -&gt; A.function3()     最后得到经过处理的A
+
+
+">
+    <meta property="og:description" content="reference
+
+跳出面向对象思想(三) 封装
+
+简述
+
+我认为&rdquo;封装&rdquo;的概念在面向对象思想中是最基础的概念，它实质上是通过将相关的一堆函数和一堆对象放在一起，对外有函数作为操作通道，对内则以变量作为操作原料。只留给外部程序员操作方式，而不暴露具体执行细节。大部分书举的典型例子就是汽车和灯泡的例子：你不需要知道不同车子的发动机原理，只要踩油门就可以跑；你不需要知道你的灯泡是那种灯泡，打开开关就会亮。我们都会很直觉地认为这种做法非常棒，是吧？
+
+但是有的时候还是会觉得有哪些地方不对劲，使用面向对象语言的时候，我隐约觉得封装也许并没有我们直觉中认为的那么好，也就是说，面向对象其实并没有我们直觉中的那么好，虽然它已经流行了很多很多年。
+
+1. 将数据结构和函数放在一起是否真的合理？
+
+函数就是做事情的，它们有输入，有执行逻辑，有输出。 数据结构就是用来表达数据的，要么作为输入，要么作为输出。
+
+两者本质上是属于完全不同的东西，面向对象思想将他们放到一起，使得函数的作用被限制在某一个区域里，这样做虽然能够很好地将操作归类，但是这种归类方法是根据&rdquo;作用领域&rdquo;来归类的，在现实世界中可以，但在程序的世界中，有些不妥。
+
+不妥的理由有如下几个：
+
+
+在并行计算时，由于执行部分和数据部分被绑定在一起，这就使得这种方案制约了并行程度。在为了更好地实现并行的时候，业界的工程师们发现了一个新的思路：函数式编程。将函数作为数据来使用，这样就能保证执行的功能在时序上的正确性了。但你不觉得，只要把数据表达和执行部分分开，形成流水线，这不就能够非常方便地将并行数提高了么？
+
+
+我来举个例子： 在数据和函数没有分开时，程序的执行流程是这样：
+
+A.function1() -&gt; A.function2() -&gt; A.function3()     最后得到经过处理的A
+
+
+">
+    <meta property="og:type" content="blog">
+    <meta property="og:title" content="jump out of OOP -- Package">
+    <meta property="og:url" content="/posts/2015-08-04/2015-08-04-jump-out-of-oop-package/">
+    <meta property="og:site_name" content="My New Hugo Site">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="My New Hugo Site">
+    <meta name="twitter:description" content="reference
+
+跳出面向对象思想(三) 封装
+
+简述
+
+我认为&rdquo;封装&rdquo;的概念在面向对象思想中是最基础的概念，它实质上是通过将相关的一堆函数和一堆对象放在一起，对外有函数作为操作通道，对内则以变量作为操作原料。只留给外部程序员操作方式，而不暴露具体执行细节。大部分书举的典型例子就是汽车和灯泡的例子：你不需要知道不同车子的发动机原理，只要踩油门就可以跑；你不需要知道你的灯泡是那种灯泡，打开开关就会亮。我们都会很直觉地认为这种做法非常棒，是吧？
+
+但是有的时候还是会觉得有哪些地方不对劲，使用面向对象语言的时候，我隐约觉得封装也许并没有我们直觉中认为的那么好，也就是说，面向对象其实并没有我们直觉中的那么好，虽然它已经流行了很多很多年。
+
+1. 将数据结构和函数放在一起是否真的合理？
+
+函数就是做事情的，它们有输入，有执行逻辑，有输出。 数据结构就是用来表达数据的，要么作为输入，要么作为输出。
+
+两者本质上是属于完全不同的东西，面向对象思想将他们放到一起，使得函数的作用被限制在某一个区域里，这样做虽然能够很好地将操作归类，但是这种归类方法是根据&rdquo;作用领域&rdquo;来归类的，在现实世界中可以，但在程序的世界中，有些不妥。
+
+不妥的理由有如下几个：
+
+
+在并行计算时，由于执行部分和数据部分被绑定在一起，这就使得这种方案制约了并行程度。在为了更好地实现并行的时候，业界的工程师们发现了一个新的思路：函数式编程。将函数作为数据来使用，这样就能保证执行的功能在时序上的正确性了。但你不觉得，只要把数据表达和执行部分分开，形成流水线，这不就能够非常方便地将并行数提高了么？
+
+
+我来举个例子： 在数据和函数没有分开时，程序的执行流程是这样：
+
+A.function1() -&gt; A.function2() -&gt; A.function3()     最后得到经过处理的A
+
+
+">
+    
+    
+
+    
+    
+
+    
+      <meta property="og:image" content="//www.gravatar.com/avatar/8d5387e20303e26c6147cfe67990995e?s=640">
+    
+
+    
+    
+    
+
+    
+
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/jquery.fancybox.min.css" integrity="sha256-vuXZ9LGmmwtjqFX1F+EKin1ThZMub58gKULUyf0qECk=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/helpers/jquery.fancybox-thumbs.min.css" integrity="sha256-SEa4XYAHihTcEP1f5gARTB2K26Uk8PsndQYHQC1f4jU=" crossorigin="anonymous" />
+    
+    
+    <link rel="stylesheet" href="http://ytlvy.com/css/style-jsjn0006wyhpyzivf6yceb31gvpjatbcs3qzjvlumobfnugccvobqwxnnaj8.min.css" />
+    
+    
+
+    
+      
+    
+    
+  </head>
+
+  <body>
+    <div id="blog">
+      <header id="header" data-behavior="1">
+  <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+  <div class="header-title">
+    <a class="header-title-link" href="http://ytlvy.com/">My New Hugo Site</a>
+  </div>
+  
+    
+      <a class="header-right-picture "
+         href="http://ytlvy.com/#about">
+    
+    
+    
+      
+        <img class="header-picture" src="//www.gravatar.com/avatar/8d5387e20303e26c6147cfe67990995e?s=90" alt="" />
+      
+    
+    </a>
+  
+</header>
+
+      <nav id="sidebar" data-behavior="1">
+  <div class="sidebar-container">
+    
+      <div class="sidebar-profile">
+        <a href="http://ytlvy.com/#about">
+          <img class="sidebar-profile-picture" src="//www.gravatar.com/avatar/8d5387e20303e26c6147cfe67990995e?s=110" alt="" />
+        </a>
+        <h4 class="sidebar-profile-name">肖杰</h4>
+        
+          <h5 class="sidebar-profile-bio">一个瑜伽|篮球|羽毛球爱好者</h5>
+        
+      </div>
+    
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="http://ytlvy.com/">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-home"></i>
+      
+      <span class="sidebar-button-desc">Home</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="http://ytlvy.com/categories">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-bookmark"></i>
+      
+      <span class="sidebar-button-desc">Categories</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="http://ytlvy.com/tags">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+      
+      <span class="sidebar-button-desc">Tags</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="http://ytlvy.com/archives">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
+      
+      <span class="sidebar-button-desc">Archives</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="http://ytlvy.com/#about">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-question"></i>
+      
+      <span class="sidebar-button-desc">About</span>
+    </a>
+  </li>
+
+
+    </ul>
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://github.com/ytlvy" target="_blank" rel="noopener">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-github"></i>
+      
+      <span class="sidebar-button-desc">GitHub</span>
+    </a>
+  </li>
+
+
+    </ul>
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="http://ytlvy.com/index.xml">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-rss"></i>
+      
+      <span class="sidebar-button-desc">RSS</span>
+    </a>
+  </li>
+
+
+    </ul>
+  </div>
+</nav>
+
+      
+
+      <div id="main" data-behavior="1"
+        class="
+               hasCoverMetaIn
+               ">
+        <article class="post" itemscope itemType="http://schema.org/BlogPosting">
+          
+          
+            <div class="post-header main-content-wrap text-left">
+  
+    <h1 class="post-title" itemprop="headline">
+      jump out of OOP -- Package
+    </h1>
+  
+  
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2015-08-04T00:00:00Z">
+        
+   4, 2015
+
+      </time>
+    
+    
+  
+  
+    <span></span>
+    
+      <a class="category-link" href="http://ytlvy.com/categories/framework">Framework</a>
+    
+  
+
+  </div>
+
+</div>
+          
+          <div class="post-content markdown" itemprop="articleBody">
+            <div class="main-content-wrap">
+              <p><a href="http://casatwy.com/tiao-chu-mian-xiang-dui-xiang-si-xiang-san-feng-zhuang.html">reference</a></p>
+
+<h2 id="跳出面向对象思想-三-封装">跳出面向对象思想(三) 封装</h2>
+
+<h3 id="简述">简述</h3>
+
+<p>我认为&rdquo;封装&rdquo;的概念在面向对象思想中是最基础的概念，它实质上是通过将相关的一堆函数和一堆对象放在一起，对外有函数作为操作通道，对内则以变量作为操作原料。只留给外部程序员操作方式，而不暴露具体执行细节。大部分书举的典型例子就是汽车和灯泡的例子：你不需要知道不同车子的发动机原理，只要踩油门就可以跑；你不需要知道你的灯泡是那种灯泡，打开开关就会亮。我们都会很直觉地认为这种做法非常棒，是吧？</p>
+
+<p>但是有的时候还是会觉得有哪些地方不对劲，使用面向对象语言的时候，我隐约觉得封装也许并没有我们直觉中认为的那么好，也就是说，面向对象其实并没有我们直觉中的那么好，虽然它已经流行了很多很多年。</p>
+
+<h3 id="1-将数据结构和函数放在一起是否真的合理">1. 将数据结构和函数放在一起是否真的合理？</h3>
+
+<p>函数就是做事情的，它们有输入，有执行逻辑，有输出。 数据结构就是用来表达数据的，要么作为输入，要么作为输出。</p>
+
+<p>两者本质上是属于完全不同的东西，面向对象思想将他们放到一起，使得函数的作用被限制在某一个区域里，这样做虽然能够很好地将操作归类，但是这种归类方法是根据&rdquo;作用领域&rdquo;来归类的，在现实世界中可以，但在程序的世界中，有些不妥。</p>
+
+<p>不妥的理由有如下几个：</p>
+
+<blockquote>
+<p>在并行计算时，由于执行部分和数据部分被绑定在一起，这就使得这种方案制约了并行程度。在为了更好地实现并行的时候，业界的工程师们发现了一个新的思路：函数式编程。将函数作为数据来使用，这样就能保证执行的功能在时序上的正确性了。但你不觉得，只要把数据表达和执行部分分开，形成流水线，这不就能够非常方便地将并行数提高了么？</p>
+</blockquote>
+
+<p>我来举个例子： 在数据和函数没有分开时，程序的执行流程是这样：</p>
+
+<pre><code>A.function1() -&gt; A.function2() -&gt; A.function3()     最后得到经过处理的A
+</code></pre>
+
+<p></p>
+
+<p>当处于并发环境时，假设有这么多任务同时到达</p>
+
+<pre><code>A.f1() -&gt; A.f2() -&gt; A.f3()     最后得到经过处理的A
+B.f1() -&gt; B.f2() -&gt; B.f3()     最后得到经过处理的B
+C.f1() -&gt; C.f2() -&gt; C.f3()     最后得到经过处理的C
+D.f1() -&gt; D.f2() -&gt; D.f3()     最后得到经过处理的D
+E.f1() -&gt; E.f2() -&gt; E.f3()     最后得到经过处理的E
+F.f1() -&gt; F.f2() -&gt; F.f3()     最后得到经过处理的F
+...
+</code></pre>
+
+<p>假设并发数是3，那么完成上面类似的很多个任务，时序就是这样</p>
+
+<pre><code>| time | 1   | 2   | 3   | 4   | 5   | 6   | 7   | 8   | 9   | 10  | 11  | 12  |
+|------|-----|-----|-----|-----|-----|-----|-----|-----|-----|-----|-----|-----|
+| A    | A.1 | A.2 | A.3 |     |     |     |     |     |     |     |     |     |
+| B    | B.1 | B.2 | B.3 |     |     |     |     |     |     |     |     |     |
+| C    | C.1 | C.2 | C.3 |     |     |     |     |     |     |     |     |     |
+| D    |     |     |     | D.1 | D.2 | D.3 |     |     |     |     |     |     |
+| E    |     |     |     | E.1 | E.2 | E.3 |     |     |     |     |     |     |
+| F    |     |     |     | F.1 | F.2 | F.3 |     |     |     |     |     |     |
+| G    |     |     |     |     |     |     | G.1 | G.2 | G.3 |     |     |     |
+| H    |     |     |     |     |     |     | H.1 | H.2 | H.3 |     |     |     |
+| I    |     |     |     |     |     |     | I.2 | I.2 | I.3 |     |     |     |
+| J    |     |     |     |     |     |     |     |     |     | J.1 | J.2 | J.3 |
+| K    |     |     |     |     |     |     |     |     |     | K.1 | K.2 | K.3 |
+| L    |     |     |     |     |     |     |     |     |     | L.1 | L.2 | L.3 |
+</code></pre>
+
+<p>当数据和函数分开时，并发数同样是3，就能形成流水线了，有没有发现吞吐量一下子上来了？</p>
+
+<pre><code>| time | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10| 11| 12|
+|------|---|---|---|---|---|---|---|---|---|---|---|---|
+| f1() | A | B | C | D | E | F | G | H | I | J | K | L |
+| f2() | Z | A | B | C | D | E | F | G | H | I | J | K |
+| f3() | Y | Z | A | B | C | D | E | F | G | H | I | J |
+</code></pre>
+
+<p>你要是粗看一下，诶？怎么到了第13个周期K才刚刚结束？上面一种方案在第12个周期的时候就结束了？不能这么看的哦，其实在12个周期里面，Y、Z也已经交付了。因为流水线吞吐量的提升是有过程的，我截取的片段应该是机器在持续运算过程中的一个片段。</p>
+
+<p>我们不能单纯地去看ABCD，要看交付的任务数量。在12个周期里面，大家都能够完成12个任务，在11个周期里面，流水线完成了11个任务，前面一种只完成了9个任务，流水线的优势在这里就体现出来了：每个时间段都能稳定地交付任务，吞吐量很大。而且并发数越多，跟第一种方案比起来的优势就越大，具体的大家也可以通过画图来验证。</p>
+
+<blockquote>
+<p>数据部分就是数据部分，执行部分就是执行部分，不同类的东西放在一起是不合适的</p>
+</blockquote>
+
+<p>函数就是一个执行黑盒，只要满足函数调用的充要条件（给够参数），就是能够确定输出结果的。面向对象思想将函数和数据绑在一起，这样的封装扩大了代码重用时的粒度。如果将函数和数据拆开，代码重用的基本元素就由对象变为了函数，这样才能更灵活更方便地进行代码重用。</p>
+
+<p>嗯，谁都经历过重用对象时，要把这个对象所依赖的所有东西都要移过来，哪怕你想用的只是这个对象里的一个方法，然而很有可能你的这些依赖是跟你所需要的方法无关的。</p>
+
+<p>但如果是函数的话，由于函数自身已经是天然完美封装的了，所以如果你要用到这个函数，那么这个函数所有的依赖你都需要，这才是合理的。</p>
+
+<h3 id="2-是否所有的东西都需要对象化">2. 是否所有的东西都需要对象化？</h3>
+
+<p>面向对象语言一直以自己做到&rdquo;一切皆对象&rdquo;为荣，但事实是：是否所有的东西都需要对象化？</p>
+
+<p>在iOS开发中，有一个类叫做NSNumber，它封装了所有数值：double，float，unsigned int, int&hellip;等等类型，在使用的时候它弱化了数值的类型，使得非常方便。但问题也来了，计算的时候是不能直接对这个对象做运算的，你得把它们拆成数值，然后进行运算，然后再把结果变成NSNumber对象，然后返回。这是第一点不合理。第二点不合理的地方在于，运算的时候你不知道原始数据的类型是什么，拆箱装箱过程中难免会导致内存的浪费（比如原来uint8_t的数据变成unsigned int），这也十分没有必要。</p>
+
+<p>还有就是我们的file descriptor，它本身是一个资源的标识号，如果将资源抽象成对象，那么不可避免的就会使得这个对象变得非常庞大，资源有非常多的用法，你需要将这些函数都放到对象里去。在真正传递资源的时候，其实我们也只是关心资源标识而已，其它的真的无需关心。</p>
+
+<p>我们已经有函数作为黑盒了，拿着数据塞到黑盒里就够了。</p>
+
+<h3 id="3-类型爆炸">3. 类型爆炸</h3>
+
+<p>由于数据和函数绑定到了一起，在逻辑上有派生关系的两种对象往往可以当作一种，以派生链最上端的那个对象为准。单纯地看这个现象直觉上会觉得非常棒，父亲有的儿子都有。但在实际工程中，派生是非常不好控制的，它导致同一类类型在工程中泛滥：ViewController、AViewController、BViewController、ThisViewController、ThatViewController&hellip;</p>
+
+<p>你有没有发现，一旦把执行和数据拆解开，就不需要这么多ViewController了，派生只是给对象添加属性和方法。但事实上是这样：</p>
+
+<pre><code>struct A {              Class A extends B
+    struct B b;         {
+    int number;             int number;
+}
+                        {
+</code></pre>
+
+<p>前者和后者的相同点是：在内存中，它们的数值部分的布局是一模一样的。不同点是：前者更强烈地表达了组合，后者更强烈地表达的是继承。然而我们都知道一个常识：组合要比继承更加合适，这在我这一系列的第一篇文章中有提到。</p>
+
+<p>上两者的表达在内存中没有任何不同，但在实际开发阶段中，后者会更容易把项目引入一个坏方向。</p>
+
+<h3 id="总结">总结</h3>
+
+<p>为什么面向对象会如此流行？我想了一下业界关于这个谈论的最多的是以下几点：</p>
+
+<ul>
+<li>它能够非常好地进行代码复用</li>
+<li>它能够非常方便地应对复杂代码</li>
+<li>在进行程序设计时，面向对象更加符合程序员的直觉</li>
+</ul>
+
+<p>第一点在理论上确实成立，但实际上大家都懂，在面向对象的大背景下，写一段便于复用的代码比面向过程背景下难多了。关于第二点，你不觉得正是面向对象，才把工程变复杂的么？如果层次清晰，调用规范，无论面向对象还是面向过程，处理复杂业务都是一样好，等真的到了非常复杂的时候，对象间错综复杂的关系只会让你处理起来更加头疼，不如面向过程来得简洁。关于第三点，这其实是一个障眼法，因为无论面向什么的设计，最终落实下来，还是要面向过程的，面向对象只是在处理调用关系时符合直觉，在架构设计时，理清需求是第一步，理清调用关系是第二步，理清实现过程是第三步。面向对象让你在第二步时就产生了设计完成的错觉，只有再往下落地到实现过程的时候，你才会发现第二步中都有哪些错误。</p>
+
+<p>所以综上所述，我的观点是：面向对象是在架构设计时非常好的思想，但如果只是简单映射到程序实现上来，引入的缺点会让我们得不偿失。</p>
+
+<hr />
+
+<h3 id="后记">后记</h3>
+
+<p>距离上一次博文更新已经快要一个月了，不是我偷懒，实在是太忙，现在终于有时间可以把&rdquo;跳出面向对象&rdquo;系列完成了。针对面向对象的3个支柱概念我写了三篇文章来挑它的刺，看上去有一种全盘否定的感觉，而我倒不至于希望大家回去下一个项目就开始面向过程的开发，我希望大家能够针对这一系列文章提出的面向对象的弊端，严格规范代码的行为，知道哪些可行哪些不可行。过去的工作中我深受其苦，往往没有时间去详细解释为什么这么直觉的东西实际上不可行，要想解释这些东西就得需要各种长篇大论。最痛苦的是，即便长篇大论说完了，最后对方还无法理解，照样写出垃圾代码出来害人。</p>
+
+<p>现在好了，长篇大论落在纸上了，说的时候听不懂，回去总可以翻文章慢慢理解了吧。</p>
+              
+            </div>
+          </div>
+          <div id="post-footer" class="post-footer main-content-wrap">
+            
+              
+                
+                
+                  <div class="post-footer-tags">
+                    <span class="text-color-light text-small"></span><br/>
+                    
+  <a class="tag tag--primary tag--small" href="http://ytlvy.com/tags/framework/">Framework</a>
+
+                  </div>
+                
+              
+            
+            
+  <div class="post-actions-wrap">
+      <nav >
+        <ul class="post-actions post-action-nav">
+          
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="http://ytlvy.com/posts/2015-08-04/2015-08-04-jump-out-of-oop-inherit/" data-tooltip="jump out of OOP -- Inherit">
+              
+                  <i class="fa fa-angle-left"></i>
+                  <span class="hide-xs hide-sm text-small icon-ml"></span>
+                </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="http://ytlvy.com/posts/2015-08-04/2015-08-04-jump-out-of-oop-polymorphic/" data-tooltip="jump out of OOP -- Polymorphic">
+              
+                  <span class="hide-xs hide-sm text-small icon-mr"></span>
+                  <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+          
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
+      
+        <li class="post-action hide-lg hide-md hide-sm">
+          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+            <i class="fa fa-share-alt"></i>
+          </a>
+        </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://ytlvy.com/posts/2015-08-04/2015-08-04-jump-out-of-oop-package/">
+              <i class="fa fa-facebook-official"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http://ytlvy.com/posts/2015-08-04/2015-08-04-jump-out-of-oop-package/">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=http://ytlvy.com/posts/2015-08-04/2015-08-04-jump-out-of-oop-package/">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        
+      
+      
+        <li class="post-action">
+          <a class="post-action-btn btn btn--default" href="#disqus_thread">
+            <i class="fa fa-comment-o"></i>
+          </a>
+        </li>
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#">
+        
+          <i class="fa fa-list"></i>
+        </a>
+      </li>
+    </ul>
+  </div>
+
+
+            
+              
+                <div id="disqus_thread">
+  <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+              
+            
+          </div>
+        </article>
+        <footer id="footer" class="main-content-wrap">
+  <span class="copyrights">
+    &copy; 2017 肖杰. 
+  </span>
+</footer>
+
+      </div>
+      <div id="bottom-bar" class="post-bottom-bar" data-behavior="1">
+        
+  <div class="post-actions-wrap">
+      <nav >
+        <ul class="post-actions post-action-nav">
+          
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="http://ytlvy.com/posts/2015-08-04/2015-08-04-jump-out-of-oop-inherit/" data-tooltip="jump out of OOP -- Inherit">
+              
+                  <i class="fa fa-angle-left"></i>
+                  <span class="hide-xs hide-sm text-small icon-ml"></span>
+                </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="http://ytlvy.com/posts/2015-08-04/2015-08-04-jump-out-of-oop-polymorphic/" data-tooltip="jump out of OOP -- Polymorphic">
+              
+                  <span class="hide-xs hide-sm text-small icon-mr"></span>
+                  <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+          
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
+      
+        <li class="post-action hide-lg hide-md hide-sm">
+          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+            <i class="fa fa-share-alt"></i>
+          </a>
+        </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://ytlvy.com/posts/2015-08-04/2015-08-04-jump-out-of-oop-package/">
+              <i class="fa fa-facebook-official"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http://ytlvy.com/posts/2015-08-04/2015-08-04-jump-out-of-oop-package/">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=http://ytlvy.com/posts/2015-08-04/2015-08-04-jump-out-of-oop-package/">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        
+      
+      
+        <li class="post-action">
+          <a class="post-action-btn btn btn--default" href="#disqus_thread">
+            <i class="fa fa-comment-o"></i>
+          </a>
+        </li>
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#">
+        
+          <i class="fa fa-list"></i>
+        </a>
+      </li>
+    </ul>
+  </div>
+
+
+      </div>
+      <div id="share-options-bar" class="share-options-bar" data-behavior="1">
+  <i id="btn-close-shareoptions" class="fa fa-close"></i>
+  <ul class="share-options">
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Fytlvy.com%2Fposts%2F2015-08-04%2F2015-08-04-jump-out-of-oop-package%2F">
+          <i class="fa fa-facebook-official"></i><span>%!(EXTRA string=Facebook)</span>
+        </a>
+      </li>
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=http%3A%2F%2Fytlvy.com%2Fposts%2F2015-08-04%2F2015-08-04-jump-out-of-oop-package%2F">
+          <i class="fa fa-twitter"></i><span>%!(EXTRA string=Twitter)</span>
+        </a>
+      </li>
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=http%3A%2F%2Fytlvy.com%2Fposts%2F2015-08-04%2F2015-08-04-jump-out-of-oop-package%2F">
+          <i class="fa fa-google-plus"></i><span>%!(EXTRA string=Google&#43;)</span>
+        </a>
+      </li>
+    
+  </ul>
+</div>
+<div id="share-options-mask" class="share-options-mask"></div>
+    </div>
+    
+    <div id="about">
+  <div id="about-card">
+    <div id="about-btn-close">
+      <i class="fa fa-remove"></i>
+    </div>
+    
+      <img id="about-card-picture" src="//www.gravatar.com/avatar/8d5387e20303e26c6147cfe67990995e?s=110" alt="" />
+    
+    <h4 id="about-card-name">肖杰</h4>
+    
+      <div id="about-card-bio">一个瑜伽|篮球|羽毛球爱好者</div>
+    
+    
+      <div id="about-card-job">
+        <i class="fa fa-briefcase"></i>
+        <br/>
+        搬砖工
+      </div>
+    
+    
+      <div id="about-card-location">
+        <i class="fa fa-map-marker"></i>
+        <br/>
+        Beijing
+      </div>
+    
+  </div>
+</div>
+
+    <div id="algolia-search-modal" class="modal-container">
+  <div class="modal">
+    <div class="modal-header">
+      <span class="close-button"><i class="fa fa-close"></i></span>
+      <a href="https://algolia.com" target="_blank" rel="noopener" class="searchby-algolia text-color-light link-unstyled">
+        <span class="searchby-algolia-text text-color-light text-small">by</span>
+        <img class="searchby-algolia-logo" src="https://www.algolia.com/static_assets/images/press/downloads/algolia-light.svg">
+      </a>
+      <i class="search-icon fa fa-search"></i>
+      <form id="algolia-search-form">
+        <input type="text" id="algolia-search-input" name="search"
+          class="form-control input--large search-input" placeholder="" />
+      </form>
+    </div>
+    <div class="modal-body">
+      <div class="no-result text-color-light text-center"></div>
+      <div class="results">
+        
+        
+      </div>
+    </div>
+    <div class="modal-footer">
+      <p class="results-count text-medium"
+         data-message-zero=""
+         data-message-one=""
+         data-message-other="">
+         0 posts found
+      </p>
+    </div>
+  </div>
+</div>
+    
+  
+    
+    <div id="cover" style="background-image:url('http://ytlvy.com/images/cover.jpg');"></div>
+  
+
+
+    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js" integrity="sha256-/BfiIkHlHoVihZdc6TFuj7MmJ0TWcWsMXkeDFwhi0zw=" crossorigin="anonymous"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.7/js/jquery.fancybox.min.js" integrity="sha256-GEAnjcTqVP+vBp3SSc8bEDQqvWAZMiHyUSIorrWwH50=" crossorigin="anonymous"></script>
+
+
+<script src="http://ytlvy.com/js/script-qi9wbxp2ya2j6p7wx1i6tgavftewndznf4v0hy2gvivk1rxgc3lm7njqb6bz.min.js"></script>
+
+
+
+<script>
+$(document).ready(function() {
+  hljs.configure({ classPrefix: '', useBR: false });
+  $('pre.code-highlight > code, pre > code').each(function(i, block) {
+    if (!$(this).hasClass('codeblock')) {
+      $(this).addClass('codeblock');
+    }
+    hljs.highlightBlock(block);
+  });
+});
+</script>
+
+
+  
+    
+      <script>
+        var disqus_config = function () {
+          this.page.url = 'http:\/\/ytlvy.com\/posts\/2015-08-04\/2015-08-04-jump-out-of-oop-package\/';
+          
+            this.page.identifier = '\/posts\/2015-08-04\/2015-08-04-jump-out-of-oop-package\/'
+          
+        };
+        (function() {
+          
+          
+          if (window.location.hostname == "localhost") {
+            return;
+          }
+          var d = document, s = d.createElement('script');
+          var disqus_shortname = 'hugo-tranquilpeak-theme';
+          s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+
+          s.setAttribute('data-timestamp', +new Date());
+          (d.head || d.body).appendChild(s);
+        })();
+      </script>
+    
+  
+
+
+
+    
+  </body>
+</html>
+

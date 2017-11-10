@@ -1,0 +1,1010 @@
+
+
+  
+
+
+  
+
+
+
+
+  
+
+
+  
+
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="Hugo 0.30.2 with theme Tranquilpeak 0.4.2-BETA">
+    <title>C programming -- Struct</title>
+    <meta name="author" content="肖杰">
+    <meta name="keywords" content="">
+
+    <link rel="icon" href="http://ytlvy.com/favicon.png">
+    
+
+    
+    <meta name="description" content="@charset &ldquo;UTF-8&rdquo;;
+/**
+ *
+ * @authors Your Name (you@example.org)
+ * @date    2015-08-16 11:06:45
+ * @version $Id$
+ * Copyright &copy; 2015年 Guo yanjie. All rights reserved.
+ */
+
+reference
+
+C语言之构造类型
+
+概述
+
+在第一节中我们就提到C语言的构造类型，分为：数组、结构体、枚举、共用体，当然前面数组的内容已经说了很多了，这一节将会重点说一下其他三种类型。
+
+
+结构体
+枚举
+共用体
+
+
+结构体
+
+数组中存储的是一系列相同的数据类型，那么如果想让一个变量存储不同的数据类型就要使用结构体，结构体定义类似于C&#43;&#43;、C#、Java等高级语言中类的定义，但事实上它们又有着很大的区别。结构体是一种类型，并非一个变量，只是这种类型可以由其他C语言基本类型共同组成。
+
+//
+//  main.c
+//  ConstructedType
+//
+//  Created by Kenshin Cui on 14-7-18.
+//  Copyright (c) 2014年 Kenshin Cui. All rights reserved.
+//
+
+#include &lt;stdio.h&gt;
+
+//结构体类型Date
+struct Date{
+    int year;
+    int month;
+    int day;
+};
+
+struct Person{
+    char *name;
+    int age;
+    struct Date birthday;//一个结构体中使用了另一个结构体类型，结构体类型变量声明前必须加上struct关键字
+    float height;
+};
+
+int main(int argc, const char * argv[]) {
+    struct Person p={&quot;Kenshin&quot;,28,{1986,8,8},1.72};
+    //定义结构体变量并初始化,不允许先定义再直接初始化，例如：struct Person p;p={&quot;Kenshin&quot;,28,{1986,8,8},1.72};是错误的，但是可以分别赋值，例如p.name=&quot;Kenshin&quot;
+    
+    printf(&quot;name=%s,age=%d,birthday=%d-%d-%d,height=%.2f\n&quot;,p.name,p.age,p.birthday.year,p.birthday.month,p.birthday.day,p.height); 
+    //结果：name=Kenshin,age=28,birthday=1986-8-8,height=1.72，结构体的引用是通过&quot;结构体变量.成员名称&quot;(注意和结构体指针访问结构体成员变量区分，结构体指针使用p-&gt;a的形式访问)
+    
+    printf(&quot;len(Date)=%lu,len(Person)=%lu\n&quot;,sizeof(struct Date),sizeof(struct Person)); 
+    //结果：len(Date)=12,len(Person)=32
+    
+    return 0;
+}
+
+
+">
+    <meta property="og:description" content="@charset &ldquo;UTF-8&rdquo;;
+/**
+ *
+ * @authors Your Name (you@example.org)
+ * @date    2015-08-16 11:06:45
+ * @version $Id$
+ * Copyright &copy; 2015年 Guo yanjie. All rights reserved.
+ */
+
+reference
+
+C语言之构造类型
+
+概述
+
+在第一节中我们就提到C语言的构造类型，分为：数组、结构体、枚举、共用体，当然前面数组的内容已经说了很多了，这一节将会重点说一下其他三种类型。
+
+
+结构体
+枚举
+共用体
+
+
+结构体
+
+数组中存储的是一系列相同的数据类型，那么如果想让一个变量存储不同的数据类型就要使用结构体，结构体定义类似于C&#43;&#43;、C#、Java等高级语言中类的定义，但事实上它们又有着很大的区别。结构体是一种类型，并非一个变量，只是这种类型可以由其他C语言基本类型共同组成。
+
+//
+//  main.c
+//  ConstructedType
+//
+//  Created by Kenshin Cui on 14-7-18.
+//  Copyright (c) 2014年 Kenshin Cui. All rights reserved.
+//
+
+#include &lt;stdio.h&gt;
+
+//结构体类型Date
+struct Date{
+    int year;
+    int month;
+    int day;
+};
+
+struct Person{
+    char *name;
+    int age;
+    struct Date birthday;//一个结构体中使用了另一个结构体类型，结构体类型变量声明前必须加上struct关键字
+    float height;
+};
+
+int main(int argc, const char * argv[]) {
+    struct Person p={&quot;Kenshin&quot;,28,{1986,8,8},1.72};
+    //定义结构体变量并初始化,不允许先定义再直接初始化，例如：struct Person p;p={&quot;Kenshin&quot;,28,{1986,8,8},1.72};是错误的，但是可以分别赋值，例如p.name=&quot;Kenshin&quot;
+    
+    printf(&quot;name=%s,age=%d,birthday=%d-%d-%d,height=%.2f\n&quot;,p.name,p.age,p.birthday.year,p.birthday.month,p.birthday.day,p.height); 
+    //结果：name=Kenshin,age=28,birthday=1986-8-8,height=1.72，结构体的引用是通过&quot;结构体变量.成员名称&quot;(注意和结构体指针访问结构体成员变量区分，结构体指针使用p-&gt;a的形式访问)
+    
+    printf(&quot;len(Date)=%lu,len(Person)=%lu\n&quot;,sizeof(struct Date),sizeof(struct Person)); 
+    //结果：len(Date)=12,len(Person)=32
+    
+    return 0;
+}
+
+
+">
+    <meta property="og:type" content="blog">
+    <meta property="og:title" content="C programming -- Struct">
+    <meta property="og:url" content="/posts/2015-08-22/2015-08-22-c-programming-struct/">
+    <meta property="og:site_name" content="My New Hugo Site">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="My New Hugo Site">
+    <meta name="twitter:description" content="@charset &ldquo;UTF-8&rdquo;;
+/**
+ *
+ * @authors Your Name (you@example.org)
+ * @date    2015-08-16 11:06:45
+ * @version $Id$
+ * Copyright &copy; 2015年 Guo yanjie. All rights reserved.
+ */
+
+reference
+
+C语言之构造类型
+
+概述
+
+在第一节中我们就提到C语言的构造类型，分为：数组、结构体、枚举、共用体，当然前面数组的内容已经说了很多了，这一节将会重点说一下其他三种类型。
+
+
+结构体
+枚举
+共用体
+
+
+结构体
+
+数组中存储的是一系列相同的数据类型，那么如果想让一个变量存储不同的数据类型就要使用结构体，结构体定义类似于C&#43;&#43;、C#、Java等高级语言中类的定义，但事实上它们又有着很大的区别。结构体是一种类型，并非一个变量，只是这种类型可以由其他C语言基本类型共同组成。
+
+//
+//  main.c
+//  ConstructedType
+//
+//  Created by Kenshin Cui on 14-7-18.
+//  Copyright (c) 2014年 Kenshin Cui. All rights reserved.
+//
+
+#include &lt;stdio.h&gt;
+
+//结构体类型Date
+struct Date{
+    int year;
+    int month;
+    int day;
+};
+
+struct Person{
+    char *name;
+    int age;
+    struct Date birthday;//一个结构体中使用了另一个结构体类型，结构体类型变量声明前必须加上struct关键字
+    float height;
+};
+
+int main(int argc, const char * argv[]) {
+    struct Person p={&quot;Kenshin&quot;,28,{1986,8,8},1.72};
+    //定义结构体变量并初始化,不允许先定义再直接初始化，例如：struct Person p;p={&quot;Kenshin&quot;,28,{1986,8,8},1.72};是错误的，但是可以分别赋值，例如p.name=&quot;Kenshin&quot;
+    
+    printf(&quot;name=%s,age=%d,birthday=%d-%d-%d,height=%.2f\n&quot;,p.name,p.age,p.birthday.year,p.birthday.month,p.birthday.day,p.height); 
+    //结果：name=Kenshin,age=28,birthday=1986-8-8,height=1.72，结构体的引用是通过&quot;结构体变量.成员名称&quot;(注意和结构体指针访问结构体成员变量区分，结构体指针使用p-&gt;a的形式访问)
+    
+    printf(&quot;len(Date)=%lu,len(Person)=%lu\n&quot;,sizeof(struct Date),sizeof(struct Person)); 
+    //结果：len(Date)=12,len(Person)=32
+    
+    return 0;
+}
+
+
+">
+    
+    
+
+    
+    
+
+    
+      <meta property="og:image" content="//www.gravatar.com/avatar/8d5387e20303e26c6147cfe67990995e?s=640">
+    
+
+    
+    
+    
+
+    
+
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/jquery.fancybox.min.css" integrity="sha256-vuXZ9LGmmwtjqFX1F+EKin1ThZMub58gKULUyf0qECk=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/helpers/jquery.fancybox-thumbs.min.css" integrity="sha256-SEa4XYAHihTcEP1f5gARTB2K26Uk8PsndQYHQC1f4jU=" crossorigin="anonymous" />
+    
+    
+    <link rel="stylesheet" href="http://ytlvy.com/css/style-jsjn0006wyhpyzivf6yceb31gvpjatbcs3qzjvlumobfnugccvobqwxnnaj8.min.css" />
+    
+    
+
+    
+      
+    
+    
+  </head>
+
+  <body>
+    <div id="blog">
+      <header id="header" data-behavior="1">
+  <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+  <div class="header-title">
+    <a class="header-title-link" href="http://ytlvy.com/">My New Hugo Site</a>
+  </div>
+  
+    
+      <a class="header-right-picture "
+         href="http://ytlvy.com/#about">
+    
+    
+    
+      
+        <img class="header-picture" src="//www.gravatar.com/avatar/8d5387e20303e26c6147cfe67990995e?s=90" alt="" />
+      
+    
+    </a>
+  
+</header>
+
+      <nav id="sidebar" data-behavior="1">
+  <div class="sidebar-container">
+    
+      <div class="sidebar-profile">
+        <a href="http://ytlvy.com/#about">
+          <img class="sidebar-profile-picture" src="//www.gravatar.com/avatar/8d5387e20303e26c6147cfe67990995e?s=110" alt="" />
+        </a>
+        <h4 class="sidebar-profile-name">肖杰</h4>
+        
+          <h5 class="sidebar-profile-bio">一个瑜伽|篮球|羽毛球爱好者</h5>
+        
+      </div>
+    
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="http://ytlvy.com/">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-home"></i>
+      
+      <span class="sidebar-button-desc">Home</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="http://ytlvy.com/categories">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-bookmark"></i>
+      
+      <span class="sidebar-button-desc">Categories</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="http://ytlvy.com/tags">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+      
+      <span class="sidebar-button-desc">Tags</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="http://ytlvy.com/archives">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
+      
+      <span class="sidebar-button-desc">Archives</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="http://ytlvy.com/#about">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-question"></i>
+      
+      <span class="sidebar-button-desc">About</span>
+    </a>
+  </li>
+
+
+    </ul>
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://github.com/ytlvy" target="_blank" rel="noopener">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-github"></i>
+      
+      <span class="sidebar-button-desc">GitHub</span>
+    </a>
+  </li>
+
+
+    </ul>
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="http://ytlvy.com/index.xml">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-rss"></i>
+      
+      <span class="sidebar-button-desc">RSS</span>
+    </a>
+  </li>
+
+
+    </ul>
+  </div>
+</nav>
+
+      
+
+      <div id="main" data-behavior="1"
+        class="
+               hasCoverMetaIn
+               ">
+        <article class="post" itemscope itemType="http://schema.org/BlogPosting">
+          
+          
+            <div class="post-header main-content-wrap text-left">
+  
+    <h1 class="post-title" itemprop="headline">
+      C programming -- Struct
+    </h1>
+  
+  
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2015-08-22T00:00:00Z">
+        
+   22, 2015
+
+      </time>
+    
+    
+  
+  
+    <span></span>
+    
+      <a class="category-link" href="http://ytlvy.com/categories/ios">IOS</a>
+    
+  
+
+  </div>
+
+</div>
+          
+          <div class="post-content markdown" itemprop="articleBody">
+            <div class="main-content-wrap">
+              <p>@charset &ldquo;UTF-8&rdquo;;
+/**
+ *
+ * @authors Your Name (you@example.org)
+ * @date    2015-08-16 11:06:45
+ * @version $Id$
+ * Copyright &copy; 2015年 Guo yanjie. All rights reserved.
+ */</p>
+
+<p><a href="http://www.cnblogs.com/kenshincui/p/3856543.html">reference</a></p>
+
+<h2 id="c语言之构造类型">C语言之构造类型</h2>
+
+<h3 id="概述">概述</h3>
+
+<p>在第一节中我们就提到C语言的构造类型，分为：数组、结构体、枚举、共用体，当然前面数组的内容已经说了很多了，这一节将会重点说一下其他三种类型。</p>
+
+<ul>
+<li>结构体</li>
+<li>枚举</li>
+<li>共用体</li>
+</ul>
+
+<h3 id="结构体">结构体</h3>
+
+<p>数组中存储的是一系列相同的数据类型，那么如果想让一个变量存储不同的数据类型就要使用结构体，结构体定义类似于C++、C#、Java等高级语言中类的定义，但事实上它们又有着很大的区别。结构体是一种类型，并非一个变量，只是这种类型可以由其他C语言基本类型共同组成。</p>
+
+<pre><code>//
+//  main.c
+//  ConstructedType
+//
+//  Created by Kenshin Cui on 14-7-18.
+//  Copyright (c) 2014年 Kenshin Cui. All rights reserved.
+//
+
+#include &lt;stdio.h&gt;
+
+//结构体类型Date
+struct Date{
+    int year;
+    int month;
+    int day;
+};
+
+struct Person{
+    char *name;
+    int age;
+    struct Date birthday;//一个结构体中使用了另一个结构体类型，结构体类型变量声明前必须加上struct关键字
+    float height;
+};
+
+int main(int argc, const char * argv[]) {
+    struct Person p={&quot;Kenshin&quot;,28,{1986,8,8},1.72};
+    //定义结构体变量并初始化,不允许先定义再直接初始化，例如：struct Person p;p={&quot;Kenshin&quot;,28,{1986,8,8},1.72};是错误的，但是可以分别赋值，例如p.name=&quot;Kenshin&quot;
+    
+    printf(&quot;name=%s,age=%d,birthday=%d-%d-%d,height=%.2f\n&quot;,p.name,p.age,p.birthday.year,p.birthday.month,p.birthday.day,p.height); 
+    //结果：name=Kenshin,age=28,birthday=1986-8-8,height=1.72，结构体的引用是通过&quot;结构体变量.成员名称&quot;(注意和结构体指针访问结构体成员变量区分，结构体指针使用p-&gt;a的形式访问)
+    
+    printf(&quot;len(Date)=%lu,len(Person)=%lu\n&quot;,sizeof(struct Date),sizeof(struct Person)); 
+    //结果：len(Date)=12,len(Person)=32
+    
+    return 0;
+}
+</code></pre>
+
+<p></p>
+
+<p>对于上面的例子需要做出如下说明：</p>
+
+<ul>
+<li>可以在定义结构体类型的同时声明结构体变量；</li>
+<li>如果定义结构体类型的同时声明结构体变量，此时结构体名称可以省略；</li>
+<li>定义结构体类型并不会分配内存，在定义结构体变量的时候才进行内存分配（同基本类型时类似的）；</li>
+<li>结构体类型的所占用内存大型等于所有成员占用内存大小之和（如果不考虑内存对齐的前提下）；</li>
+</ul>
+
+<p>对第4点需要进行说明，例如上面代码是在64位编译器下运行的结果（int长度4，char长度1，float类型4），Date=4+4+4=12。但是对于Person却没有那么简单了，因为按照正常方式计算Person=8+4+12+4=28，但是从上面代码中给出的结果是32，为什么呢？这里不得不引入一个概念“内存对齐”，关于内存对齐的概念在这里不做详细说明，大家需要了解的是：在Mac OS X中对齐参数默认为8（可以通过在代码中添加#pragma pack(8)改变对齐参数），如果结构体中的类型不大于8，那么结构体长度就是其成员类型之和，但是如果成员变量的长度大于这个对齐参数那么得到的结果就不一定是各个成员变量之和了。Person类型的长度之所以是32，其实主要原因是因为Date类型长度12在存储时其偏移量12不是8的倍数，考虑到内存对齐的原因需要添加4个补齐长度，这里使用表格的形式列出了具体原因：</p>
+
+<p><img src="http://images.cnitblog.com/blog/62046/201407/201858560376210.png" alt="" /></p>
+
+<p>接下来看一下结构体数组、指向结构体的指针：</p>
+
+<pre><code>//
+//  main.c
+//  ConstructedType
+//
+//  Created by Kenshin Cui on 14-7-18.
+//  Copyright (c) 2014年 Kenshin Cui. All rights reserved.
+//
+
+#include &lt;stdio.h&gt;
+
+struct Date{
+    int year;
+    int month;
+    int day;
+};
+
+struct Person{
+    char *name;
+    int age;
+    struct Date birthday;
+    float height;
+};
+
+void changeValue(struct Person person){
+    person.height=1.80;
+}
+
+int main(int argc, const char * argv[]) {
+    struct Person persons[]={
+        {&quot;Kenshin&quot;,28,{1986,8,8},1.72},
+        {&quot;Kaoru&quot;,27,{1987,8,8},1.60},
+        {&quot;Rosa&quot;,29,{1985,8,8},1.60}
+    };
+    for (int i=0; i&lt;3; ++i) {
+        printf(&quot;name=%s,age=%d,birthday=%d-%d-%d,height=%.2f\n&quot;,
+               persons[i].name,
+               persons[i].age,
+               persons[i].birthday.year,
+               persons[i].birthday.month,
+               persons[i].birthday.day,
+               persons[i].height);
+    }
+    /*输出结果：
+     name=Kenshin,age=28,birthday=1986-8-8,height=1.72
+     name=Kaoru,age=27,birthday=1987-8-8,height=1.60
+     name=Rosa,age=29,birthday=1985-8-8,height=1.60
+     */
+    
+    
+    
+    struct Person person=persons[0];
+    changeValue(person);
+    printf(&quot;name=%s,age=%d,birthday=%d-%d-%d,height=%.2f\n&quot;,
+           persons[0].name,
+           persons[0].age,
+           persons[0].birthday.year,
+           persons[0].birthday.month,
+           persons[0].birthday.day,
+           persons[0].height);
+    /*输出结果：
+     name=Kenshin,age=28,birthday=1986-8-8,height=1.72
+     */
+    
+    
+    struct Person *p=&amp;person;
+    printf(&quot;name=%s,age=%d,birthday=%d-%d-%d,height=%.2f\n&quot;,
+           (*p).name,
+           (*p).age,
+           (*p).birthday.year,
+           (*p).birthday.month,
+           (*p).birthday.day,
+           (*p).height);
+    /*输出结果：
+     name=Kenshin,age=28,birthday=1986-8-8,height=1.72
+     */
+    printf(&quot;name=%s,age=%d,birthday=%d-%d-%d,height=%.2f\n&quot;,
+           p-&gt;name,
+           p-&gt;age,
+           p-&gt;birthday.year,
+           p-&gt;birthday.month,
+           p-&gt;birthday.day,
+           p-&gt;height);
+    /*输出结果：
+     name=Kenshin,age=28,birthday=1986-8-8,height=1.72
+     */
+    
+    return 0;
+}
+</code></pre>
+
+<p>结构体作为函数参数传递的是成员的值（值传递而不是引用传递），对于结构体指针而言可以通过”-&gt;”操作符进行访问。</p>
+
+<h3 id="枚举">枚举</h3>
+
+<p>枚举类型是比较简单的一种数据类型，事实上在C语言中枚举类型是作为整形常量进行处理的，通常称为“枚举常量”。</p>
+
+<pre><code>//
+//  main.c
+//  ConstructedType
+//
+//  Created by Kenshin Cui on 14-7-18.
+//  Copyright (c) 2014年 Kenshin Cui. All rights reserved.
+//
+
+#include &lt;stdio.h&gt;
+
+enum Season{ //默认情况下spring=0，summer=1,autumn=2,winter=3
+    spring,
+    summer,
+    autumn,
+    winter
+};
+
+int main(int argc, const char * argv[]) {
+    enum Season season=summer; //枚举赋值,等价于season=1
+    printf(&quot;summer=%d\n&quot;,season); //结果：summer=1
+    
+    for(season=spring;season&lt;=winter;++season){
+        printf(&quot;element value=%d\n&quot;,season);
+    }
+    /*结果：
+     element value=0
+     element value=1
+     element value=2
+     element value=3
+     */
+    return 0;
+}
+</code></pre>
+
+<p>需要注意的是枚举成员默认值从0开始，如果给其中一个成员赋值，其它后面的成员将依次赋值，例如上面如果summer手动指定为8，则autumn=9，winter=10，而sprint还是0。</p>
+
+<h3 id="共用体">共用体</h3>
+
+<p>共用体又叫联合，因为它的关键字是union（貌似数据库操作经常使用这个关键字），它的使用不像枚举和结构体那么频繁，但是作为C语言中的一种数据类型我们也有必要弄清它的用法。从前面的分析我们知道结构体的总长度等于所有成员的和（当然此时还可能遇到对齐问题），但是和结构体不同的是共用体所有成员共用一块内存，顺序从低地址开始存放，一次只能使用其中一个成员，union最终大小由共用体中最大的成员决定，对某一成员赋值可能会覆盖另一个成员。</p>
+
+<pre><code>//
+//  main.c
+//  ConstructedType
+//
+//  Created by Kenshin Cui on 14-7-20.
+//  Copyright (c) 2014年 Kenshin Cui. All rights reserved.
+//
+
+#include &lt;stdio.h&gt;
+
+union Type{
+    char a;
+    short int b;
+    int c;
+};
+
+int main(int argc, const char * argv[]) {
+    union Type t;
+    t.a='a';
+    t.b=10;
+    t.c=65796;
+    
+    printf(&quot;address(Type)=%x,address(t.a)=%x,address(t.b)=%x,address(t.c)=%x\n&quot;,&amp;t,&amp;t.a,&amp;t.b,&amp;t.c);
+    //结果：address(Type)=5fbff7b8,address(t.a)=5fbff7b8,address(t.b)=5fbff7b8,address(t.c)=5fbff7b8
+    
+    printf(&quot;len(Type)=%d\n&quot;,sizeof(union Type));
+    //结果：len(Type)=4
+    
+    printf(&quot;t.a=%d,t.b=%d,t.c=%d\n&quot;,t.a,t.b,t.c);
+    //结果:t.a=4,t.b=260,t.c=65796
+    
+    return 0;
+}
+</code></pre>
+
+<p>这里需要重点解释一个问题：为什么t.a、t.b、t.c输出结果分别是4、260、65796，当然t.c等于65796并不奇怪，但是t.a前面赋值为’a’不应该是97吗，而t.b不应该是10吗？其实如果弄清这个问题共用体的概念基本就清楚了。</p>
+
+<p>根据前面提到的，共用体其实每次只能使用其中一个成员，对于上面的代码经过三次赋值最终使用的其实就是t.c,而通过上面的输出结果我们也确实看到c是有效的。共用体有一个特点就是它的成员存储在同一块内存区域，这块区域的大小需要根据它的成员中长度最大的成员长度而定。由于上面的代码是在64位编译器下编译的，具体长度：char=1，short int=2，int=4，所以得出结论，Type的长度为4，又根据上面输出的地址，可以得到下面的存储信息(注意数据的存储方式：高地址存储高位，低地址存储地位)：</p>
+
+<p><img src="http://images.cnitblog.com/blog/62046/201407/201858575218722.png" alt="" /></p>
+
+<pre><code>当读取c的时候，它的二进制是“00000000  00000001  00000001  00000100”，换算成十进制就是65796；而经过三次赋值后，此时b的存储就已经被c成员的低位数据覆盖，b的长度是二，所以从起始地址取两个字节得到的二进制数据此时是“00000001  00000100”（b原来的数据已经被c低2位数据覆盖，其实此时就是c的低2位数据），换算成十进制就是260；类似的a此时的数据就是c的低一位数据”00000100”,换算成十进制就是4。
+</code></pre>
+              
+            </div>
+          </div>
+          <div id="post-footer" class="post-footer main-content-wrap">
+            
+              
+                
+                
+                  <div class="post-footer-tags">
+                    <span class="text-color-light text-small"></span><br/>
+                    
+  <a class="tag tag--primary tag--small" href="http://ytlvy.com/tags/c/">C</a>
+
+                  </div>
+                
+              
+            
+            
+  <div class="post-actions-wrap">
+      <nav >
+        <ul class="post-actions post-action-nav">
+          
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="http://ytlvy.com/posts/2015-08-22/2015-08-22-c-programming-precompile/" data-tooltip="C programming -- Precompile">
+              
+                  <i class="fa fa-angle-left"></i>
+                  <span class="hide-xs hide-sm text-small icon-ml"></span>
+                </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="http://ytlvy.com/posts/2015-08-22/2015-08-22-c-programming-memory-scope/" data-tooltip="C programming -- memory &amp; scope">
+              
+                  <span class="hide-xs hide-sm text-small icon-mr"></span>
+                  <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+          
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
+      
+        <li class="post-action hide-lg hide-md hide-sm">
+          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+            <i class="fa fa-share-alt"></i>
+          </a>
+        </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://ytlvy.com/posts/2015-08-22/2015-08-22-c-programming-struct/">
+              <i class="fa fa-facebook-official"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http://ytlvy.com/posts/2015-08-22/2015-08-22-c-programming-struct/">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=http://ytlvy.com/posts/2015-08-22/2015-08-22-c-programming-struct/">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        
+      
+      
+        <li class="post-action">
+          <a class="post-action-btn btn btn--default" href="#disqus_thread">
+            <i class="fa fa-comment-o"></i>
+          </a>
+        </li>
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#">
+        
+          <i class="fa fa-list"></i>
+        </a>
+      </li>
+    </ul>
+  </div>
+
+
+            
+              
+                <div id="disqus_thread">
+  <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+              
+            
+          </div>
+        </article>
+        <footer id="footer" class="main-content-wrap">
+  <span class="copyrights">
+    &copy; 2017 肖杰. 
+  </span>
+</footer>
+
+      </div>
+      <div id="bottom-bar" class="post-bottom-bar" data-behavior="1">
+        
+  <div class="post-actions-wrap">
+      <nav >
+        <ul class="post-actions post-action-nav">
+          
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="http://ytlvy.com/posts/2015-08-22/2015-08-22-c-programming-precompile/" data-tooltip="C programming -- Precompile">
+              
+                  <i class="fa fa-angle-left"></i>
+                  <span class="hide-xs hide-sm text-small icon-ml"></span>
+                </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="http://ytlvy.com/posts/2015-08-22/2015-08-22-c-programming-memory-scope/" data-tooltip="C programming -- memory &amp; scope">
+              
+                  <span class="hide-xs hide-sm text-small icon-mr"></span>
+                  <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+          
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
+      
+        <li class="post-action hide-lg hide-md hide-sm">
+          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+            <i class="fa fa-share-alt"></i>
+          </a>
+        </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://ytlvy.com/posts/2015-08-22/2015-08-22-c-programming-struct/">
+              <i class="fa fa-facebook-official"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http://ytlvy.com/posts/2015-08-22/2015-08-22-c-programming-struct/">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=http://ytlvy.com/posts/2015-08-22/2015-08-22-c-programming-struct/">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        
+      
+      
+        <li class="post-action">
+          <a class="post-action-btn btn btn--default" href="#disqus_thread">
+            <i class="fa fa-comment-o"></i>
+          </a>
+        </li>
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#">
+        
+          <i class="fa fa-list"></i>
+        </a>
+      </li>
+    </ul>
+  </div>
+
+
+      </div>
+      <div id="share-options-bar" class="share-options-bar" data-behavior="1">
+  <i id="btn-close-shareoptions" class="fa fa-close"></i>
+  <ul class="share-options">
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Fytlvy.com%2Fposts%2F2015-08-22%2F2015-08-22-c-programming-struct%2F">
+          <i class="fa fa-facebook-official"></i><span>%!(EXTRA string=Facebook)</span>
+        </a>
+      </li>
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=http%3A%2F%2Fytlvy.com%2Fposts%2F2015-08-22%2F2015-08-22-c-programming-struct%2F">
+          <i class="fa fa-twitter"></i><span>%!(EXTRA string=Twitter)</span>
+        </a>
+      </li>
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=http%3A%2F%2Fytlvy.com%2Fposts%2F2015-08-22%2F2015-08-22-c-programming-struct%2F">
+          <i class="fa fa-google-plus"></i><span>%!(EXTRA string=Google&#43;)</span>
+        </a>
+      </li>
+    
+  </ul>
+</div>
+<div id="share-options-mask" class="share-options-mask"></div>
+    </div>
+    
+    <div id="about">
+  <div id="about-card">
+    <div id="about-btn-close">
+      <i class="fa fa-remove"></i>
+    </div>
+    
+      <img id="about-card-picture" src="//www.gravatar.com/avatar/8d5387e20303e26c6147cfe67990995e?s=110" alt="" />
+    
+    <h4 id="about-card-name">肖杰</h4>
+    
+      <div id="about-card-bio">一个瑜伽|篮球|羽毛球爱好者</div>
+    
+    
+      <div id="about-card-job">
+        <i class="fa fa-briefcase"></i>
+        <br/>
+        搬砖工
+      </div>
+    
+    
+      <div id="about-card-location">
+        <i class="fa fa-map-marker"></i>
+        <br/>
+        Beijing
+      </div>
+    
+  </div>
+</div>
+
+    <div id="algolia-search-modal" class="modal-container">
+  <div class="modal">
+    <div class="modal-header">
+      <span class="close-button"><i class="fa fa-close"></i></span>
+      <a href="https://algolia.com" target="_blank" rel="noopener" class="searchby-algolia text-color-light link-unstyled">
+        <span class="searchby-algolia-text text-color-light text-small">by</span>
+        <img class="searchby-algolia-logo" src="https://www.algolia.com/static_assets/images/press/downloads/algolia-light.svg">
+      </a>
+      <i class="search-icon fa fa-search"></i>
+      <form id="algolia-search-form">
+        <input type="text" id="algolia-search-input" name="search"
+          class="form-control input--large search-input" placeholder="" />
+      </form>
+    </div>
+    <div class="modal-body">
+      <div class="no-result text-color-light text-center"></div>
+      <div class="results">
+        
+        
+      </div>
+    </div>
+    <div class="modal-footer">
+      <p class="results-count text-medium"
+         data-message-zero=""
+         data-message-one=""
+         data-message-other="">
+         0 posts found
+      </p>
+    </div>
+  </div>
+</div>
+    
+  
+    
+    <div id="cover" style="background-image:url('http://ytlvy.com/images/cover.jpg');"></div>
+  
+
+
+    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js" integrity="sha256-/BfiIkHlHoVihZdc6TFuj7MmJ0TWcWsMXkeDFwhi0zw=" crossorigin="anonymous"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.7/js/jquery.fancybox.min.js" integrity="sha256-GEAnjcTqVP+vBp3SSc8bEDQqvWAZMiHyUSIorrWwH50=" crossorigin="anonymous"></script>
+
+
+<script src="http://ytlvy.com/js/script-qi9wbxp2ya2j6p7wx1i6tgavftewndznf4v0hy2gvivk1rxgc3lm7njqb6bz.min.js"></script>
+
+
+
+<script>
+$(document).ready(function() {
+  hljs.configure({ classPrefix: '', useBR: false });
+  $('pre.code-highlight > code, pre > code').each(function(i, block) {
+    if (!$(this).hasClass('codeblock')) {
+      $(this).addClass('codeblock');
+    }
+    hljs.highlightBlock(block);
+  });
+});
+</script>
+
+
+  
+    
+      <script>
+        var disqus_config = function () {
+          this.page.url = 'http:\/\/ytlvy.com\/posts\/2015-08-22\/2015-08-22-c-programming-struct\/';
+          
+            this.page.identifier = '\/posts\/2015-08-22\/2015-08-22-c-programming-struct\/'
+          
+        };
+        (function() {
+          
+          
+          if (window.location.hostname == "localhost") {
+            return;
+          }
+          var d = document, s = d.createElement('script');
+          var disqus_shortname = 'hugo-tranquilpeak-theme';
+          s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+
+          s.setAttribute('data-timestamp', +new Date());
+          (d.head || d.body).appendChild(s);
+        })();
+      </script>
+    
+  
+
+
+
+    
+  </body>
+</html>
+

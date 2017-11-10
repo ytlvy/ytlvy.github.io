@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Gcd on My New Hugo Site</title>
+    <link>http://ytlvy.com/tags/gcd/</link>
+    <description>Recent content in Gcd on My New Hugo Site</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sat, 08 Aug 2015 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="http://ytlvy.com/tags/gcd/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>iOS Dispatch_async usages tips</title>
+      <link>http://ytlvy.com/posts/2015-08-08/2015-08-08-ios-dispatch-async-usages-tips/</link>
+      <pubDate>Sat, 08 Aug 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-08-08/2015-08-08-ios-dispatch-async-usages-tips/</guid>
+      <description>reference
+Dispatch_async异步的小妙用 GCD 对于cocoa和cocoa Touch的开发者来说已经是在熟悉不过了，相信有些基础的人都能说出一些特性。但是今天我们不是讲GCD的介绍和使用bulabulabula. 本文就介绍下使用dispatch_async的一个小妙用，且看下文分解。
+我们都知道dispatch_async可以用来异步执行代码。你的第一反应的可能是后台、多线程 这样的字眼，但是异步执行不是就代表多线程，它只是代表代码的执行方式，知道这点可以做更多事情。
+afterDelay 你是否做过这样的事情，在修改一个bug时，把方法延迟执行，like this:
+//[self doSomething]; [self performSelector:@selector(doSomething) withObject:nil afterDelay:0.1f];  Let me guess, 你一定是发现doSomething方法中所依赖的数据或环境还达不到，立即执行的话，可能会有问题。所以你就让doSomething延迟一点时间执行，保证它需要的数据或环境已经处理完成，改完打包测试，bug看起来已经修复了。
+这个问题从大多数场景来说的确已经修复了，但是在强迫症眼里，好像还是有些瑕疵，不是完美方案。
+两个问题，你怎么能100%确保你需要的数据或环境能再0.1s内准备完成呢； 另一个是数据准备完成到doSomething执行中间可能会有一段空白时间，有时是我们不希望的。那如何替代这个方案呢，如果你得doSomething需要的数据和环境是在主线程执行的，那么方案很简单：
+//[self doSomething]; dispatch_async(dispatch_get_main_queue(), ^{ [self doSomething]; });  你可能问了，我本来就在主线程执行任务，为什么还要往main_queue里面提交任务呢。巧妙的地方就在这，我们巧妙的把doSomething作为任务提交到主线程，它会等待主线程的任务一个个执行完成才执行，这样就可以巧妙的解决这个问题。
+不过注意，不是所有场景都适合这个用法，就像上面描述的，你要确保doSomething的依赖条件实在主线程中执行的。</description>
+    </item>
+    
+    <item>
+      <title>ios gcd</title>
+      <link>http://ytlvy.com/posts/2015-06-15/2015-06-15-ios-gcd/</link>
+      <pubDate>Mon, 15 Jun 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-06-15/2015-06-15-ios-gcd/</guid>
+      <description>&lt;h2 id=&#34;gcd&#34;&gt;GCD&lt;/h2&gt;
+
+&lt;h3 id=&#34;befor-gcd&#34;&gt;befor GCD&lt;/h3&gt;
+
+&lt;h4 id=&#34;object-method&#34;&gt;object method&lt;/h4&gt;
+
+&lt;pre&gt;&lt;code&gt;- (void) performSelectorInBackground: withObject:
+- (void) performSelectorOnMainThread: withObject: waitUntilDone:
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;多线程面临的问题&#34;&gt;多线程面临的问题&lt;/h3&gt;
+
+&lt;ol&gt;
+&lt;li&gt;race condition&lt;/li&gt;
+&lt;li&gt;dead lock&lt;/li&gt;
+&lt;li&gt;too much threads consumes two much memory&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h4 id=&#34;多线程的意义&#34;&gt;多线程的意义&lt;/h4&gt;
+
+&lt;p&gt;高交互性， 界面编程中，将耗时的操作放入到其他线程执行，避免影响到主线程界面响应&lt;/p&gt;
+
+&lt;h3 id=&#34;gcd-基础&#34;&gt;GCD 基础&lt;/h3&gt;
+
+&lt;h4 id=&#34;dispatch-queue-派发队列&#34;&gt;Dispatch Queue 派发队列&lt;/h4&gt;
+
+&lt;ol&gt;
+&lt;li&gt;serial dispath queue  顺序派发队列&lt;/li&gt;
+&lt;li&gt;concurrent dispath queue  并发派发队列&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;和浏览器对同一域名可发起的同时连接数限制一样，可最多同时执行的线程数，也是由系统来决定的
+&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>IOS Multithreading &amp;&amp; Memory Management</title>
+      <link>http://ytlvy.com/posts/2015-06-07/2015-06-07-ios-multithreading-memory-management/</link>
+      <pubDate>Sun, 07 Jun 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-06-07/2015-06-07-ios-multithreading-memory-management/</guid>
+      <description>&lt;h2 id=&#34;block&#34;&gt;Block&lt;/h2&gt;
+
+&lt;p&gt;Converting Source Code&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;clang -rewrite-objc file_name_of_the_source_code
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;无变量&#34;&gt;无变量&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code&gt;//
+struct __block_impl {
+  void *isa;
+  int Flags;
+  int Reserved;
+  void *FuncPtr;
+};
+
+struct __main_block_impl_0 {
+  struct __block_impl impl;
+  struct __main_block_desc_0* Desc;
+  __main_block_impl_0(void *fp, struct __main_block_desc_0 *desc, int flags=0) {
+    impl.isa = &amp;amp;_NSConcreteStackBlock;
+    impl.Flags = flags;
+    impl.FuncPtr = fp;
+    Desc = desc;
+  }
+};
+static void __main_block_func_0(struct __main_block_impl_0 *__cself) {
+
+    printf(&amp;quot;Block\n&amp;quot;);
+  }
+
+static struct __main_block_desc_0 {
+  size_t reserved;
+  size_t Block_size;
+} __main_block_desc_0_DATA = { 0, sizeof(struct __main_block_impl_0)};
+
+int main(){
+  void (*blk)(void) = (void (*)())&amp;amp;__main_block_impl_0((void *)__main_block_func_0, &amp;amp;__main_block_desc_0_DATA);
+
+  ((void (*)(__block_impl *))((__block_impl *)blk)-&amp;gt;FuncPtr)((__block_impl *)blk);
+  return 0;
+
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

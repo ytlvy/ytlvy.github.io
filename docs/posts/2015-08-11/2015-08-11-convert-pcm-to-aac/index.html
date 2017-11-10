@@ -1,0 +1,913 @@
+
+
+  
+
+
+  
+
+
+
+
+  
+
+
+  
+
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="Hugo 0.30.2 with theme Tranquilpeak 0.4.2-BETA">
+    <title>Convert PCM To AAC</title>
+    <meta name="author" content="肖杰">
+    <meta name="keywords" content="">
+
+    <link rel="icon" href="http://ytlvy.com/favicon.png">
+    
+
+    
+    <meta name="description" content="reference
+
+音频编解码·实战篇（1）PCM转至AAC（AAC编码）
+
+
+作者：柳大·Poechant
+博客：blog.csdn.net/poechant
+邮箱：zhongchao.ustc@gmail.com
+日期：April 7th, 2012
+
+
+这里利用FAAC来实现AAC编码。
+
+下载安装 FAAC
+
+这里的安装过程是在 Mac 和 Linux 上实现的，Windows可以类似参考。
+
+wget http://downloads.sourceforge.net/faac/faac-1.28.tar.gz
+tar zxvf faac-1.28.tar.gz
+cd faac-1.28
+./configure
+make
+sudo make install
+
+
+如果才用默认的 configure 中的 prefix path，那么安装后的 lib 和 .h 文件分别在/usr/local/lib和/usr/local/include，后面编译的时候会用到。
+
+如果编译过程中发现错误：
+
+mpeg4ip.h:126: error: new declaration ‘char* strcasestr(const char*, const char*)’
+
+
+">
+    <meta property="og:description" content="reference
+
+音频编解码·实战篇（1）PCM转至AAC（AAC编码）
+
+
+作者：柳大·Poechant
+博客：blog.csdn.net/poechant
+邮箱：zhongchao.ustc@gmail.com
+日期：April 7th, 2012
+
+
+这里利用FAAC来实现AAC编码。
+
+下载安装 FAAC
+
+这里的安装过程是在 Mac 和 Linux 上实现的，Windows可以类似参考。
+
+wget http://downloads.sourceforge.net/faac/faac-1.28.tar.gz
+tar zxvf faac-1.28.tar.gz
+cd faac-1.28
+./configure
+make
+sudo make install
+
+
+如果才用默认的 configure 中的 prefix path，那么安装后的 lib 和 .h 文件分别在/usr/local/lib和/usr/local/include，后面编译的时候会用到。
+
+如果编译过程中发现错误：
+
+mpeg4ip.h:126: error: new declaration ‘char* strcasestr(const char*, const char*)’
+
+
+">
+    <meta property="og:type" content="blog">
+    <meta property="og:title" content="Convert PCM To AAC">
+    <meta property="og:url" content="/posts/2015-08-11/2015-08-11-convert-pcm-to-aac/">
+    <meta property="og:site_name" content="My New Hugo Site">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="My New Hugo Site">
+    <meta name="twitter:description" content="reference
+
+音频编解码·实战篇（1）PCM转至AAC（AAC编码）
+
+
+作者：柳大·Poechant
+博客：blog.csdn.net/poechant
+邮箱：zhongchao.ustc@gmail.com
+日期：April 7th, 2012
+
+
+这里利用FAAC来实现AAC编码。
+
+下载安装 FAAC
+
+这里的安装过程是在 Mac 和 Linux 上实现的，Windows可以类似参考。
+
+wget http://downloads.sourceforge.net/faac/faac-1.28.tar.gz
+tar zxvf faac-1.28.tar.gz
+cd faac-1.28
+./configure
+make
+sudo make install
+
+
+如果才用默认的 configure 中的 prefix path，那么安装后的 lib 和 .h 文件分别在/usr/local/lib和/usr/local/include，后面编译的时候会用到。
+
+如果编译过程中发现错误：
+
+mpeg4ip.h:126: error: new declaration ‘char* strcasestr(const char*, const char*)’
+
+
+">
+    
+    
+
+    
+    
+
+    
+      <meta property="og:image" content="//www.gravatar.com/avatar/8d5387e20303e26c6147cfe67990995e?s=640">
+    
+
+    
+    
+    
+
+    
+
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/jquery.fancybox.min.css" integrity="sha256-vuXZ9LGmmwtjqFX1F+EKin1ThZMub58gKULUyf0qECk=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/helpers/jquery.fancybox-thumbs.min.css" integrity="sha256-SEa4XYAHihTcEP1f5gARTB2K26Uk8PsndQYHQC1f4jU=" crossorigin="anonymous" />
+    
+    
+    <link rel="stylesheet" href="http://ytlvy.com/css/style-jsjn0006wyhpyzivf6yceb31gvpjatbcs3qzjvlumobfnugccvobqwxnnaj8.min.css" />
+    
+    
+
+    
+      
+    
+    
+  </head>
+
+  <body>
+    <div id="blog">
+      <header id="header" data-behavior="1">
+  <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+  <div class="header-title">
+    <a class="header-title-link" href="http://ytlvy.com/">My New Hugo Site</a>
+  </div>
+  
+    
+      <a class="header-right-picture "
+         href="http://ytlvy.com/#about">
+    
+    
+    
+      
+        <img class="header-picture" src="//www.gravatar.com/avatar/8d5387e20303e26c6147cfe67990995e?s=90" alt="" />
+      
+    
+    </a>
+  
+</header>
+
+      <nav id="sidebar" data-behavior="1">
+  <div class="sidebar-container">
+    
+      <div class="sidebar-profile">
+        <a href="http://ytlvy.com/#about">
+          <img class="sidebar-profile-picture" src="//www.gravatar.com/avatar/8d5387e20303e26c6147cfe67990995e?s=110" alt="" />
+        </a>
+        <h4 class="sidebar-profile-name">肖杰</h4>
+        
+          <h5 class="sidebar-profile-bio">一个瑜伽|篮球|羽毛球爱好者</h5>
+        
+      </div>
+    
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="http://ytlvy.com/">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-home"></i>
+      
+      <span class="sidebar-button-desc">Home</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="http://ytlvy.com/categories">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-bookmark"></i>
+      
+      <span class="sidebar-button-desc">Categories</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="http://ytlvy.com/tags">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+      
+      <span class="sidebar-button-desc">Tags</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="http://ytlvy.com/archives">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
+      
+      <span class="sidebar-button-desc">Archives</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="http://ytlvy.com/#about">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-question"></i>
+      
+      <span class="sidebar-button-desc">About</span>
+    </a>
+  </li>
+
+
+    </ul>
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://github.com/ytlvy" target="_blank" rel="noopener">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-github"></i>
+      
+      <span class="sidebar-button-desc">GitHub</span>
+    </a>
+  </li>
+
+
+    </ul>
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="http://ytlvy.com/index.xml">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-rss"></i>
+      
+      <span class="sidebar-button-desc">RSS</span>
+    </a>
+  </li>
+
+
+    </ul>
+  </div>
+</nav>
+
+      
+
+      <div id="main" data-behavior="1"
+        class="
+               hasCoverMetaIn
+               ">
+        <article class="post" itemscope itemType="http://schema.org/BlogPosting">
+          
+          
+            <div class="post-header main-content-wrap text-left">
+  
+    <h1 class="post-title" itemprop="headline">
+      Convert PCM To AAC
+    </h1>
+  
+  
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2015-08-11T00:00:00Z">
+        
+   11, 2015
+
+      </time>
+    
+    
+  
+  
+    <span></span>
+    
+      <a class="category-link" href="http://ytlvy.com/categories/audio">Audio</a>
+    
+  
+
+  </div>
+
+</div>
+          
+          <div class="post-content markdown" itemprop="articleBody">
+            <div class="main-content-wrap">
+              <p><a href="http://blog.csdn.net/poechant/article/details/7435054">reference</a></p>
+
+<h2 id="音频编解码-实战篇-1-pcm转至aac-aac编码">音频编解码·实战篇（1）PCM转至AAC（AAC编码）</h2>
+
+<ul>
+<li>作者：柳大·Poechant</li>
+<li>博客：blog.csdn.net/poechant</li>
+<li>邮箱：zhongchao.ustc@gmail.com</li>
+<li>日期：April 7th, 2012</li>
+</ul>
+
+<p>这里利用FAAC来实现AAC编码。</p>
+
+<h3 id="下载安装-faac">下载安装 FAAC</h3>
+
+<p>这里的安装过程是在 Mac 和 Linux 上实现的，Windows可以类似参考。</p>
+
+<pre><code>wget http://downloads.sourceforge.net/faac/faac-1.28.tar.gz
+tar zxvf faac-1.28.tar.gz
+cd faac-1.28
+./configure
+make
+sudo make install
+</code></pre>
+
+<p>如果才用默认的 configure 中的 prefix path，那么安装后的 lib 和 .h 文件分别在/usr/local/lib和/usr/local/include，后面编译的时候会用到。</p>
+
+<p>如果编译过程中发现错误：</p>
+
+<pre><code>mpeg4ip.h:126: error: new declaration ‘char* strcasestr(const char*, const char*)’
+</code></pre>
+
+<p></p>
+
+<p>解决方法：
+从123行开始修改此文件mpeg4ip.h，到129行结束。 修改前：</p>
+
+<pre><code>#ifdef __cplusplus
+extern &quot;C&quot; {
+#endif
+char *strcasestr(const char *haystack, const char *needle);
+#ifdef __cplusplus
+}
+#endif
+</code></pre>
+
+<p>修改后：</p>
+
+<pre><code>#ifdef __cplusplus
+extern &quot;C++&quot; {
+#endif
+const char *strcasestr(const char *haystack, const char *needle);
+#ifdef __cplusplus
+}
+#endif
+</code></pre>
+
+<h3 id="faac-api">FAAC API</h3>
+
+<h4 id="open-faac-engine">Open FAAC engine</h4>
+
+<p>Prototype:</p>
+
+<pre><code>faacEncHandle faacEncOpen               // 返回一个FAAC的handle
+(                   
+    unsigned long   nSampleRate,        // 采样率，单位是bps
+    unsigned long   nChannels,          // 声道，1为单声道，2为双声道
+    unsigned long   &amp;nInputSamples,     // 传引用，得到每次调用编码时所应接收的原始数据长度
+    unsigned long   &amp;nMaxOutputBytes    // 传引用，得到每次调用编码时生成的AAC数据的最大长度
+);
+</code></pre>
+
+<h4 id="get-set-encoding-configuration">Get/Set encoding configuration</h4>
+
+<p>获取编码器的配置：</p>
+
+<pre><code>faacEncConfigurationPtr faacEncGetCurrentConfiguration // 得到指向当前编码器配置的指针
+(
+    faacEncHandle hEncoder  // FAAC的handle
+);
+</code></pre>
+
+<p>设定编码器的配置：</p>
+
+<pre><code>int FAACAPI faacEncSetConfiguration
+(
+    faacDecHandle hDecoder,         // 此前得到的FAAC的handle
+    faacEncConfigurationPtr config  // FAAC编码器的配置
+);
+</code></pre>
+
+<h4 id="encode">Encode</h4>
+
+<p>Prototype:</p>
+
+<pre><code>int faacEncEncode
+(
+    faacEncHandle hEncoder,     // FAAC的handle
+    short *inputBuffer,         // PCM原始数据
+    unsigned int samplesInput,  // 调用faacEncOpen时得到的nInputSamples值
+    unsigned char *outputBuffer,// 至少具有调用faacEncOpen时得到的nMaxOutputBytes字节长度的缓冲区
+    unsigned int bufferSize     // outputBuffer缓冲区的实际大小
+);
+</code></pre>
+
+<h4 id="close-faac-engine">Close FAAC engine</h4>
+
+<p>Prototype</p>
+
+<pre><code>void faacEncClose
+(
+    faacEncHandle hEncoder  // 此前得到的FAAC handle
+);
+</code></pre>
+
+<h3 id="流程">流程</h3>
+
+<h4 id="做什么准备">做什么准备？</h4>
+
+<p>采样率，声道数（双声道还是单声道？），还有你的PCM的单个样本是8位的还是16位的？</p>
+
+<h4 id="开启faac编码器-做编码前的准备">开启FAAC编码器，做编码前的准备</h4>
+
+<ol>
+<li>调用faacEncOpen开启FAAC编码器后，得到了单次输入样本数nInputSamples和输出数据最大字节数nMaxOutputBytes；</li>
+<li>根据nInputSamples和nMaxOutputBytes，分别为PCM数据和将要得到的AAC数据创建缓冲区；</li>
+<li>调用faacEncGetCurrentConfiguration获取当前配置，修改完配置后，调用faacEncSetConfiguration设置新配置。</li>
+</ol>
+
+<h4 id="开始编码">开始编码</h4>
+
+<p>调用<code>faacEncEncode</code>，该准备的刚才都准备好了，很简单。</p>
+
+<h4 id="善后">善后</h4>
+
+<p>关闭编码器，另外别忘了释放缓冲区，如果使用了文件流，也别忘记了关闭。</p>
+
+<h3 id="测试程序">测试程序</h3>
+
+<h4 id="完整代码">完整代码</h4>
+
+<p>将PCM格式音频文件<code>/home/michael/Development/testspace/in.pcm</code>转至AAC格式文件<code>/home/michael/Development/testspace/out.aac</code>。</p>
+
+<pre><code>#include &lt;faac.h&gt;
+#include &lt;stdio.h&gt;
+
+typedef unsigned long   ULONG;
+typedef unsigned int    UINT;
+typedef unsigned char   BYTE;
+typedef char            _TCHAR;
+
+int main(int argc, _TCHAR* argv[])
+{
+    ULONG nSampleRate = 11025;  // 采样率
+    UINT nChannels = 1;         // 声道数
+    UINT nPCMBitSize = 16;      // 单样本位数
+    ULONG nInputSamples = 0;
+    ULONG nMaxOutputBytes = 0;
+
+    int nRet;
+    faacEncHandle hEncoder;
+    faacEncConfigurationPtr pConfiguration; 
+
+    int nBytesRead;
+    int nPCMBufferSize;
+    BYTE* pbPCMBuffer;
+    BYTE* pbAACBuffer;
+
+    FILE* fpIn; // PCM file for input
+    FILE* fpOut; // AAC file for output
+
+    fpIn = fopen(&quot;/home/michael/Development/testspace/in.pcm&quot;, &quot;rb&quot;);
+    fpOut = fopen(&quot;/home/michael/Development/testspace/out.aac&quot;, &quot;wb&quot;);
+
+    // (1) Open FAAC engine
+    hEncoder = faacEncOpen(nSampleRate, nChannels, &amp;nInputSamples, &amp;nMaxOutputBytes);
+    if(hEncoder == NULL)
+    {
+        printf(&quot;[ERROR] Failed to call faacEncOpen()\n&quot;);
+        return -1;
+    }
+
+    nPCMBufferSize = nInputSamples * nPCMBitSize / 8;
+    pbPCMBuffer = new BYTE [nPCMBufferSize];
+    pbAACBuffer = new BYTE [nMaxOutputBytes];
+
+    // (2.1) Get current encoding configuration
+    pConfiguration = faacEncGetCurrentConfiguration(hEncoder);
+    pConfiguration-&gt;inputFormat = FAAC_INPUT_16BIT;
+
+    // (2.2) Set encoding configuration
+    nRet = faacEncSetConfiguration(hEncoder, pConfiguration);
+
+    for(int i = 0; 1; i++)
+    {
+        // 读入的实际字节数，最大不会超过nPCMBufferSize，一般只有读到文件尾时才不是这个值
+        nBytesRead = fread(pbPCMBuffer, 1, nPCMBufferSize, fpIn);
+
+        // 输入样本数，用实际读入字节数计算，一般只有读到文件尾时才不是nPCMBufferSize/(nPCMBitSize/8);
+        nInputSamples = nBytesRead / (nPCMBitSize / 8);
+
+        // (3) Encode
+        nRet = faacEncEncode(
+        hEncoder, (int*) pbPCMBuffer, nInputSamples, pbAACBuffer, nMaxOutputBytes);
+
+        fwrite(pbAACBuffer, 1, nRet, fpOut);
+
+        printf(&quot;%d: faacEncEncode returns %d\n&quot;, i, nRet);
+
+        if(nBytesRead &lt;= 0)
+        {
+            break;
+        }
+    }
+
+    /*
+    while(1)
+    {
+        // (3) Flushing
+        nRet = faacEncEncode(
+        hEncoder, (int*) pbPCMBuffer, 0, pbAACBuffer, nMaxOutputBytes);
+
+        if(nRet &lt;= 0)
+        {
+            break;
+        }
+    }
+    */
+
+    // (4) Close FAAC engine
+    nRet = faacEncClose(hEncoder);
+
+    delete[] pbPCMBuffer;
+    delete[] pbAACBuffer;
+    fclose(fpIn);
+    fclose(fpOut);
+
+    //getchar();
+
+    return 0;
+}
+</code></pre>
+
+<h4 id="编译运行">编译运行</h4>
+
+<p>将上述代码保存为“pcm2aac.cpp”文件，然后编译：</p>
+
+<pre><code>g++ pcm2aac.cpp -o pcm2aac -L/usr/local/lib -lfaac -I/usr/local/include
+</code></pre>
+
+<p>运行：</p>
+
+<pre><code>./pcm2aac
+</code></pre>
+
+<p>然后就生成了out.aac文件了，听听看吧！~</p>
+
+<h3 id="reference">Reference</h3>
+
+<ul>
+<li><a href="http://www.audiocoding.com/faac.html">AudioCoding.com - FAAC</a></li>
+<li><a href="http://blog.tcltk.co.kr/?p=2130">Dogfoot – 재밌는 개발</a></li>
+</ul>
+              
+            </div>
+          </div>
+          <div id="post-footer" class="post-footer main-content-wrap">
+            
+              
+                
+                
+                  <div class="post-footer-tags">
+                    <span class="text-color-light text-small"></span><br/>
+                    
+  <a class="tag tag--primary tag--small" href="http://ytlvy.com/tags/audio/">Audio</a>
+
+                  </div>
+                
+              
+            
+            
+  <div class="post-actions-wrap">
+      <nav >
+        <ul class="post-actions post-action-nav">
+          
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="http://ytlvy.com/posts/2015-08-11/2015-08-11-audio-basic-knowleage/" data-tooltip="Audio Basic Knowleage">
+              
+                  <i class="fa fa-angle-left"></i>
+                  <span class="hide-xs hide-sm text-small icon-ml"></span>
+                </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="http://ytlvy.com/posts/2015-08-11/2015-08-11-wave-and-pcm-audio-format/" data-tooltip="Wave And PCM Audio Format">
+              
+                  <span class="hide-xs hide-sm text-small icon-mr"></span>
+                  <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+          
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
+      
+        <li class="post-action hide-lg hide-md hide-sm">
+          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+            <i class="fa fa-share-alt"></i>
+          </a>
+        </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://ytlvy.com/posts/2015-08-11/2015-08-11-convert-pcm-to-aac/">
+              <i class="fa fa-facebook-official"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http://ytlvy.com/posts/2015-08-11/2015-08-11-convert-pcm-to-aac/">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=http://ytlvy.com/posts/2015-08-11/2015-08-11-convert-pcm-to-aac/">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        
+      
+      
+        <li class="post-action">
+          <a class="post-action-btn btn btn--default" href="#disqus_thread">
+            <i class="fa fa-comment-o"></i>
+          </a>
+        </li>
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#">
+        
+          <i class="fa fa-list"></i>
+        </a>
+      </li>
+    </ul>
+  </div>
+
+
+            
+              
+                <div id="disqus_thread">
+  <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+              
+            
+          </div>
+        </article>
+        <footer id="footer" class="main-content-wrap">
+  <span class="copyrights">
+    &copy; 2017 肖杰. 
+  </span>
+</footer>
+
+      </div>
+      <div id="bottom-bar" class="post-bottom-bar" data-behavior="1">
+        
+  <div class="post-actions-wrap">
+      <nav >
+        <ul class="post-actions post-action-nav">
+          
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="http://ytlvy.com/posts/2015-08-11/2015-08-11-audio-basic-knowleage/" data-tooltip="Audio Basic Knowleage">
+              
+                  <i class="fa fa-angle-left"></i>
+                  <span class="hide-xs hide-sm text-small icon-ml"></span>
+                </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="http://ytlvy.com/posts/2015-08-11/2015-08-11-wave-and-pcm-audio-format/" data-tooltip="Wave And PCM Audio Format">
+              
+                  <span class="hide-xs hide-sm text-small icon-mr"></span>
+                  <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+          
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
+      
+        <li class="post-action hide-lg hide-md hide-sm">
+          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+            <i class="fa fa-share-alt"></i>
+          </a>
+        </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://ytlvy.com/posts/2015-08-11/2015-08-11-convert-pcm-to-aac/">
+              <i class="fa fa-facebook-official"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http://ytlvy.com/posts/2015-08-11/2015-08-11-convert-pcm-to-aac/">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=http://ytlvy.com/posts/2015-08-11/2015-08-11-convert-pcm-to-aac/">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        
+      
+      
+        <li class="post-action">
+          <a class="post-action-btn btn btn--default" href="#disqus_thread">
+            <i class="fa fa-comment-o"></i>
+          </a>
+        </li>
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#">
+        
+          <i class="fa fa-list"></i>
+        </a>
+      </li>
+    </ul>
+  </div>
+
+
+      </div>
+      <div id="share-options-bar" class="share-options-bar" data-behavior="1">
+  <i id="btn-close-shareoptions" class="fa fa-close"></i>
+  <ul class="share-options">
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Fytlvy.com%2Fposts%2F2015-08-11%2F2015-08-11-convert-pcm-to-aac%2F">
+          <i class="fa fa-facebook-official"></i><span>%!(EXTRA string=Facebook)</span>
+        </a>
+      </li>
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=http%3A%2F%2Fytlvy.com%2Fposts%2F2015-08-11%2F2015-08-11-convert-pcm-to-aac%2F">
+          <i class="fa fa-twitter"></i><span>%!(EXTRA string=Twitter)</span>
+        </a>
+      </li>
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=http%3A%2F%2Fytlvy.com%2Fposts%2F2015-08-11%2F2015-08-11-convert-pcm-to-aac%2F">
+          <i class="fa fa-google-plus"></i><span>%!(EXTRA string=Google&#43;)</span>
+        </a>
+      </li>
+    
+  </ul>
+</div>
+<div id="share-options-mask" class="share-options-mask"></div>
+    </div>
+    
+    <div id="about">
+  <div id="about-card">
+    <div id="about-btn-close">
+      <i class="fa fa-remove"></i>
+    </div>
+    
+      <img id="about-card-picture" src="//www.gravatar.com/avatar/8d5387e20303e26c6147cfe67990995e?s=110" alt="" />
+    
+    <h4 id="about-card-name">肖杰</h4>
+    
+      <div id="about-card-bio">一个瑜伽|篮球|羽毛球爱好者</div>
+    
+    
+      <div id="about-card-job">
+        <i class="fa fa-briefcase"></i>
+        <br/>
+        搬砖工
+      </div>
+    
+    
+      <div id="about-card-location">
+        <i class="fa fa-map-marker"></i>
+        <br/>
+        Beijing
+      </div>
+    
+  </div>
+</div>
+
+    <div id="algolia-search-modal" class="modal-container">
+  <div class="modal">
+    <div class="modal-header">
+      <span class="close-button"><i class="fa fa-close"></i></span>
+      <a href="https://algolia.com" target="_blank" rel="noopener" class="searchby-algolia text-color-light link-unstyled">
+        <span class="searchby-algolia-text text-color-light text-small">by</span>
+        <img class="searchby-algolia-logo" src="https://www.algolia.com/static_assets/images/press/downloads/algolia-light.svg">
+      </a>
+      <i class="search-icon fa fa-search"></i>
+      <form id="algolia-search-form">
+        <input type="text" id="algolia-search-input" name="search"
+          class="form-control input--large search-input" placeholder="" />
+      </form>
+    </div>
+    <div class="modal-body">
+      <div class="no-result text-color-light text-center"></div>
+      <div class="results">
+        
+        
+      </div>
+    </div>
+    <div class="modal-footer">
+      <p class="results-count text-medium"
+         data-message-zero=""
+         data-message-one=""
+         data-message-other="">
+         0 posts found
+      </p>
+    </div>
+  </div>
+</div>
+    
+  
+    
+    <div id="cover" style="background-image:url('http://ytlvy.com/images/cover.jpg');"></div>
+  
+
+
+    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js" integrity="sha256-/BfiIkHlHoVihZdc6TFuj7MmJ0TWcWsMXkeDFwhi0zw=" crossorigin="anonymous"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.7/js/jquery.fancybox.min.js" integrity="sha256-GEAnjcTqVP+vBp3SSc8bEDQqvWAZMiHyUSIorrWwH50=" crossorigin="anonymous"></script>
+
+
+<script src="http://ytlvy.com/js/script-qi9wbxp2ya2j6p7wx1i6tgavftewndznf4v0hy2gvivk1rxgc3lm7njqb6bz.min.js"></script>
+
+
+
+<script>
+$(document).ready(function() {
+  hljs.configure({ classPrefix: '', useBR: false });
+  $('pre.code-highlight > code, pre > code').each(function(i, block) {
+    if (!$(this).hasClass('codeblock')) {
+      $(this).addClass('codeblock');
+    }
+    hljs.highlightBlock(block);
+  });
+});
+</script>
+
+
+  
+    
+      <script>
+        var disqus_config = function () {
+          this.page.url = 'http:\/\/ytlvy.com\/posts\/2015-08-11\/2015-08-11-convert-pcm-to-aac\/';
+          
+            this.page.identifier = '\/posts\/2015-08-11\/2015-08-11-convert-pcm-to-aac\/'
+          
+        };
+        (function() {
+          
+          
+          if (window.location.hostname == "localhost") {
+            return;
+          }
+          var d = document, s = d.createElement('script');
+          var disqus_shortname = 'hugo-tranquilpeak-theme';
+          s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+
+          s.setAttribute('data-timestamp', +new Date());
+          (d.head || d.body).appendChild(s);
+        })();
+      </script>
+    
+  
+
+
+
+    
+  </body>
+</html>
+

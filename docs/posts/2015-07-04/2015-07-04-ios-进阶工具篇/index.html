@@ -1,0 +1,770 @@
+
+
+  
+
+
+  
+
+
+
+
+  
+
+
+  
+
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="Hugo 0.30.2 with theme Tranquilpeak 0.4.2-BETA">
+    <title>IOS 进阶工具篇</title>
+    <meta name="author" content="肖杰">
+    <meta name="keywords" content="">
+
+    <link rel="icon" href="http://ytlvy.com/favicon.png">
+    
+
+    
+    <meta name="description" content="第一部分：iOS 开发工具
+第2章使用CocoaPods 做依赖管理
+2.1 CocoaPods 简介
+2.2 CocoaPods 的安装和使用
+2.2.1 CocoaPods 的安装
+2.2.2 使用CocoaPods 的镜像索引
+2.2.3 使用CocoaPods
+2.2.4 查找第三方库
+2.3 注意事项
+2.3.1 关于.gitignore
+2.3.2 为自己的项目创建podspec 文件
+2.3.3 使用私有的pods
+2.3.4 不更新podspec
+2.3.5 生成第三方库的帮助文档
+2.3.6 原理
+第3章网络封包分析工具Charles
+3.1 Charles 简介
+3.2 Charles 的安装和使用
+3.2.1 安装Charles
+3.2.2 安装SSL 证书
+3.2.3 将Charles 设置成系统代理
+3.2.4 Charles 主界面介绍
+3.2.5 过滤网络请求
+3.3 使用Charles 协助iOS 开发
+3.3.1 截取iPhone 上的网络封包
+3.3.2 模拟慢速网络
+3.4 高级功能
+3.4.1 截取SSL 信息
+3.4.2 修改网络请求内容
+3.4.3 修改服务器返回内容
+3.5 Map 功能
+3.6 Rewrite 功能
+3.7 Breakpoints 功能
+3.8 总结
+3.9 参考链接
+
+
+">
+    <meta property="og:description" content="第一部分：iOS 开发工具
+第2章使用CocoaPods 做依赖管理
+2.1 CocoaPods 简介
+2.2 CocoaPods 的安装和使用
+2.2.1 CocoaPods 的安装
+2.2.2 使用CocoaPods 的镜像索引
+2.2.3 使用CocoaPods
+2.2.4 查找第三方库
+2.3 注意事项
+2.3.1 关于.gitignore
+2.3.2 为自己的项目创建podspec 文件
+2.3.3 使用私有的pods
+2.3.4 不更新podspec
+2.3.5 生成第三方库的帮助文档
+2.3.6 原理
+第3章网络封包分析工具Charles
+3.1 Charles 简介
+3.2 Charles 的安装和使用
+3.2.1 安装Charles
+3.2.2 安装SSL 证书
+3.2.3 将Charles 设置成系统代理
+3.2.4 Charles 主界面介绍
+3.2.5 过滤网络请求
+3.3 使用Charles 协助iOS 开发
+3.3.1 截取iPhone 上的网络封包
+3.3.2 模拟慢速网络
+3.4 高级功能
+3.4.1 截取SSL 信息
+3.4.2 修改网络请求内容
+3.4.3 修改服务器返回内容
+3.5 Map 功能
+3.6 Rewrite 功能
+3.7 Breakpoints 功能
+3.8 总结
+3.9 参考链接
+
+
+">
+    <meta property="og:type" content="blog">
+    <meta property="og:title" content="IOS 进阶工具篇">
+    <meta property="og:url" content="/posts/2015-07-04/2015-07-04-ios-%E8%BF%9B%E9%98%B6%E5%B7%A5%E5%85%B7%E7%AF%87/">
+    <meta property="og:site_name" content="My New Hugo Site">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="My New Hugo Site">
+    <meta name="twitter:description" content="第一部分：iOS 开发工具
+第2章使用CocoaPods 做依赖管理
+2.1 CocoaPods 简介
+2.2 CocoaPods 的安装和使用
+2.2.1 CocoaPods 的安装
+2.2.2 使用CocoaPods 的镜像索引
+2.2.3 使用CocoaPods
+2.2.4 查找第三方库
+2.3 注意事项
+2.3.1 关于.gitignore
+2.3.2 为自己的项目创建podspec 文件
+2.3.3 使用私有的pods
+2.3.4 不更新podspec
+2.3.5 生成第三方库的帮助文档
+2.3.6 原理
+第3章网络封包分析工具Charles
+3.1 Charles 简介
+3.2 Charles 的安装和使用
+3.2.1 安装Charles
+3.2.2 安装SSL 证书
+3.2.3 将Charles 设置成系统代理
+3.2.4 Charles 主界面介绍
+3.2.5 过滤网络请求
+3.3 使用Charles 协助iOS 开发
+3.3.1 截取iPhone 上的网络封包
+3.3.2 模拟慢速网络
+3.4 高级功能
+3.4.1 截取SSL 信息
+3.4.2 修改网络请求内容
+3.4.3 修改服务器返回内容
+3.5 Map 功能
+3.6 Rewrite 功能
+3.7 Breakpoints 功能
+3.8 总结
+3.9 参考链接
+
+
+">
+    
+    
+
+    
+    
+
+    
+      <meta property="og:image" content="//www.gravatar.com/avatar/8d5387e20303e26c6147cfe67990995e?s=640">
+    
+
+    
+    
+    
+
+    
+
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/jquery.fancybox.min.css" integrity="sha256-vuXZ9LGmmwtjqFX1F+EKin1ThZMub58gKULUyf0qECk=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/helpers/jquery.fancybox-thumbs.min.css" integrity="sha256-SEa4XYAHihTcEP1f5gARTB2K26Uk8PsndQYHQC1f4jU=" crossorigin="anonymous" />
+    
+    
+    <link rel="stylesheet" href="http://ytlvy.com/css/style-jsjn0006wyhpyzivf6yceb31gvpjatbcs3qzjvlumobfnugccvobqwxnnaj8.min.css" />
+    
+    
+
+    
+      
+    
+    
+  </head>
+
+  <body>
+    <div id="blog">
+      <header id="header" data-behavior="1">
+  <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+  <div class="header-title">
+    <a class="header-title-link" href="http://ytlvy.com/">My New Hugo Site</a>
+  </div>
+  
+    
+      <a class="header-right-picture "
+         href="http://ytlvy.com/#about">
+    
+    
+    
+      
+        <img class="header-picture" src="//www.gravatar.com/avatar/8d5387e20303e26c6147cfe67990995e?s=90" alt="" />
+      
+    
+    </a>
+  
+</header>
+
+      <nav id="sidebar" data-behavior="1">
+  <div class="sidebar-container">
+    
+      <div class="sidebar-profile">
+        <a href="http://ytlvy.com/#about">
+          <img class="sidebar-profile-picture" src="//www.gravatar.com/avatar/8d5387e20303e26c6147cfe67990995e?s=110" alt="" />
+        </a>
+        <h4 class="sidebar-profile-name">肖杰</h4>
+        
+          <h5 class="sidebar-profile-bio">一个瑜伽|篮球|羽毛球爱好者</h5>
+        
+      </div>
+    
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="http://ytlvy.com/">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-home"></i>
+      
+      <span class="sidebar-button-desc">Home</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="http://ytlvy.com/categories">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-bookmark"></i>
+      
+      <span class="sidebar-button-desc">Categories</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="http://ytlvy.com/tags">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+      
+      <span class="sidebar-button-desc">Tags</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="http://ytlvy.com/archives">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
+      
+      <span class="sidebar-button-desc">Archives</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="http://ytlvy.com/#about">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-question"></i>
+      
+      <span class="sidebar-button-desc">About</span>
+    </a>
+  </li>
+
+
+    </ul>
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://github.com/ytlvy" target="_blank" rel="noopener">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-github"></i>
+      
+      <span class="sidebar-button-desc">GitHub</span>
+    </a>
+  </li>
+
+
+    </ul>
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="http://ytlvy.com/index.xml">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-rss"></i>
+      
+      <span class="sidebar-button-desc">RSS</span>
+    </a>
+  </li>
+
+
+    </ul>
+  </div>
+</nav>
+
+      
+
+      <div id="main" data-behavior="1"
+        class="
+               hasCoverMetaIn
+               ">
+        <article class="post" itemscope itemType="http://schema.org/BlogPosting">
+          
+          
+            <div class="post-header main-content-wrap text-left">
+  
+    <h1 class="post-title" itemprop="headline">
+      IOS 进阶工具篇
+    </h1>
+  
+  
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2015-07-04T00:00:00Z">
+        
+   4, 2015
+
+      </time>
+    
+    
+  
+  
+    <span></span>
+    
+      <a class="category-link" href="http://ytlvy.com/categories/ios">IOS</a>
+    
+  
+
+  </div>
+
+</div>
+          
+          <div class="post-content markdown" itemprop="articleBody">
+            <div class="main-content-wrap">
+              <pre><code>第一部分：iOS 开发工具
+第2章使用CocoaPods 做依赖管理
+2.1 CocoaPods 简介
+2.2 CocoaPods 的安装和使用
+2.2.1 CocoaPods 的安装
+2.2.2 使用CocoaPods 的镜像索引
+2.2.3 使用CocoaPods
+2.2.4 查找第三方库
+2.3 注意事项
+2.3.1 关于.gitignore
+2.3.2 为自己的项目创建podspec 文件
+2.3.3 使用私有的pods
+2.3.4 不更新podspec
+2.3.5 生成第三方库的帮助文档
+2.3.6 原理
+第3章网络封包分析工具Charles
+3.1 Charles 简介
+3.2 Charles 的安装和使用
+3.2.1 安装Charles
+3.2.2 安装SSL 证书
+3.2.3 将Charles 设置成系统代理
+3.2.4 Charles 主界面介绍
+3.2.5 过滤网络请求
+3.3 使用Charles 协助iOS 开发
+3.3.1 截取iPhone 上的网络封包
+3.3.2 模拟慢速网络
+3.4 高级功能
+3.4.1 截取SSL 信息
+3.4.2 修改网络请求内容
+3.4.3 修改服务器返回内容
+3.5 Map 功能
+3.6 Rewrite 功能
+3.7 Breakpoints 功能
+3.8 总结
+3.9 参考链接
+</code></pre>
+
+<p></p>
+
+<pre><code>第4章界面调试工具Reveal
+4.1 Reveal 简介
+4.2 Reveal 的使用
+4.2.1 用Reveal 连接模拟器调试
+4.2.2 用Reveal 连接真机调试
+4.2.3 用Reveal 调试其他应用界面
+4.2.4 总结
+4.2.5 参考资料
+第5章移动统计工具Flurry
+5.1 Flurry 简介
+5.2 Flurry 的基本使用
+5.2.1 注册和下载对应SDK
+5.2.2 集成SDK
+5.2.3 自定义统计项
+5.2.4 查看统计结果
+5.2.5 统计Crashlog
+5.3 对比和总结
+5.3.1 和其他统计分析平台的对比
+5.3.2 总结
+第6章崩溃日志记录工具Crashlytics
+6.1 Crashlytics 简介
+6.2 Crashlytics 的使用
+6.3 实现原理和使用体会
+第7章App Store 统计工具App Annie
+7.1 App Annie 简介
+7.2 App Annie 的使用
+7.3 App Annie 账号的注册及配置
+7.4 和其他工具的对比
+7.4.1 官方的命令行工具
+7.4.2 其他类似服务
+7.4.3 功能对比
+第8章Xcode 插件
+8.1 Xcode 插件管理工具Alcatraz
+8.1.1 简介
+8.1.2 安装和删除
+8.1.3 使用
+8.1.4 插件路径
+8.2 关于Xcode 的插件机制
+8.3 常用Xcode 插件
+8.3.1 KSImageNamed
+8.3.2 XVim
+8.3.3 FuzzyAutocompletePlugin
+8.3.4 XToDo
+8.3.5 BBUDebuggerTuckAway
+8.3.6 SCXcodeSwitchExpander
+8.3.7 deriveddata-exterminator
+8.3.8 VVDocumenter
+8.3.9 ClangFormat
+8.3.10 ColorSense
+8.3.11 XcodeBoost
+第9章其他工具介绍
+9.1 取色工具：数码测色计（DigitalColor Meter）
+9.1.1 前言
+9.1.2 使用介绍
+9.1.3 其他类似工具：xScope
+9.2 其他图形工具
+9.2.1 ImageOptim
+9.2.2 马克鳗
+9.2.3 Dash
+9.2.4 蒲公英
+9.3 命令行工具
+9.3.1 nomad
+9.3.2 xctool
+9.3.3 appledoc
+
+</code></pre>
+              
+            </div>
+          </div>
+          <div id="post-footer" class="post-footer main-content-wrap">
+            
+              
+                
+                
+                  <div class="post-footer-tags">
+                    <span class="text-color-light text-small"></span><br/>
+                    
+  <a class="tag tag--primary tag--small" href="http://ytlvy.com/tags/tool/">Tool</a>
+
+                  </div>
+                
+              
+            
+            
+  <div class="post-actions-wrap">
+      <nav >
+        <ul class="post-actions post-action-nav">
+          
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="http://ytlvy.com/posts/2015-07-06/2015-07-06-what-happen-before-main/" data-tooltip="what happen before main">
+              
+                  <i class="fa fa-angle-left"></i>
+                  <span class="hide-xs hide-sm text-small icon-ml"></span>
+                </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="http://ytlvy.com/posts/2015-07-03/2015-07-03-stack-and-heap-overflow/" data-tooltip="Stack And Heap OverFlow">
+              
+                  <span class="hide-xs hide-sm text-small icon-mr"></span>
+                  <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+          
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
+      
+        <li class="post-action hide-lg hide-md hide-sm">
+          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+            <i class="fa fa-share-alt"></i>
+          </a>
+        </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://ytlvy.com/posts/2015-07-04/2015-07-04-ios-%E8%BF%9B%E9%98%B6%E5%B7%A5%E5%85%B7%E7%AF%87/">
+              <i class="fa fa-facebook-official"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http://ytlvy.com/posts/2015-07-04/2015-07-04-ios-%E8%BF%9B%E9%98%B6%E5%B7%A5%E5%85%B7%E7%AF%87/">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=http://ytlvy.com/posts/2015-07-04/2015-07-04-ios-%E8%BF%9B%E9%98%B6%E5%B7%A5%E5%85%B7%E7%AF%87/">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        
+      
+      
+        <li class="post-action">
+          <a class="post-action-btn btn btn--default" href="#disqus_thread">
+            <i class="fa fa-comment-o"></i>
+          </a>
+        </li>
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#">
+        
+          <i class="fa fa-list"></i>
+        </a>
+      </li>
+    </ul>
+  </div>
+
+
+            
+              
+                <div id="disqus_thread">
+  <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+              
+            
+          </div>
+        </article>
+        <footer id="footer" class="main-content-wrap">
+  <span class="copyrights">
+    &copy; 2017 肖杰. 
+  </span>
+</footer>
+
+      </div>
+      <div id="bottom-bar" class="post-bottom-bar" data-behavior="1">
+        
+  <div class="post-actions-wrap">
+      <nav >
+        <ul class="post-actions post-action-nav">
+          
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="http://ytlvy.com/posts/2015-07-06/2015-07-06-what-happen-before-main/" data-tooltip="what happen before main">
+              
+                  <i class="fa fa-angle-left"></i>
+                  <span class="hide-xs hide-sm text-small icon-ml"></span>
+                </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="http://ytlvy.com/posts/2015-07-03/2015-07-03-stack-and-heap-overflow/" data-tooltip="Stack And Heap OverFlow">
+              
+                  <span class="hide-xs hide-sm text-small icon-mr"></span>
+                  <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+          
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
+      
+        <li class="post-action hide-lg hide-md hide-sm">
+          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+            <i class="fa fa-share-alt"></i>
+          </a>
+        </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://ytlvy.com/posts/2015-07-04/2015-07-04-ios-%E8%BF%9B%E9%98%B6%E5%B7%A5%E5%85%B7%E7%AF%87/">
+              <i class="fa fa-facebook-official"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http://ytlvy.com/posts/2015-07-04/2015-07-04-ios-%E8%BF%9B%E9%98%B6%E5%B7%A5%E5%85%B7%E7%AF%87/">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=http://ytlvy.com/posts/2015-07-04/2015-07-04-ios-%E8%BF%9B%E9%98%B6%E5%B7%A5%E5%85%B7%E7%AF%87/">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        
+      
+      
+        <li class="post-action">
+          <a class="post-action-btn btn btn--default" href="#disqus_thread">
+            <i class="fa fa-comment-o"></i>
+          </a>
+        </li>
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#">
+        
+          <i class="fa fa-list"></i>
+        </a>
+      </li>
+    </ul>
+  </div>
+
+
+      </div>
+      <div id="share-options-bar" class="share-options-bar" data-behavior="1">
+  <i id="btn-close-shareoptions" class="fa fa-close"></i>
+  <ul class="share-options">
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Fytlvy.com%2Fposts%2F2015-07-04%2F2015-07-04-ios-%25E8%25BF%259B%25E9%2598%25B6%25E5%25B7%25A5%25E5%2585%25B7%25E7%25AF%2587%2F">
+          <i class="fa fa-facebook-official"></i><span>%!(EXTRA string=Facebook)</span>
+        </a>
+      </li>
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=http%3A%2F%2Fytlvy.com%2Fposts%2F2015-07-04%2F2015-07-04-ios-%25E8%25BF%259B%25E9%2598%25B6%25E5%25B7%25A5%25E5%2585%25B7%25E7%25AF%2587%2F">
+          <i class="fa fa-twitter"></i><span>%!(EXTRA string=Twitter)</span>
+        </a>
+      </li>
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=http%3A%2F%2Fytlvy.com%2Fposts%2F2015-07-04%2F2015-07-04-ios-%25E8%25BF%259B%25E9%2598%25B6%25E5%25B7%25A5%25E5%2585%25B7%25E7%25AF%2587%2F">
+          <i class="fa fa-google-plus"></i><span>%!(EXTRA string=Google&#43;)</span>
+        </a>
+      </li>
+    
+  </ul>
+</div>
+<div id="share-options-mask" class="share-options-mask"></div>
+    </div>
+    
+    <div id="about">
+  <div id="about-card">
+    <div id="about-btn-close">
+      <i class="fa fa-remove"></i>
+    </div>
+    
+      <img id="about-card-picture" src="//www.gravatar.com/avatar/8d5387e20303e26c6147cfe67990995e?s=110" alt="" />
+    
+    <h4 id="about-card-name">肖杰</h4>
+    
+      <div id="about-card-bio">一个瑜伽|篮球|羽毛球爱好者</div>
+    
+    
+      <div id="about-card-job">
+        <i class="fa fa-briefcase"></i>
+        <br/>
+        搬砖工
+      </div>
+    
+    
+      <div id="about-card-location">
+        <i class="fa fa-map-marker"></i>
+        <br/>
+        Beijing
+      </div>
+    
+  </div>
+</div>
+
+    <div id="algolia-search-modal" class="modal-container">
+  <div class="modal">
+    <div class="modal-header">
+      <span class="close-button"><i class="fa fa-close"></i></span>
+      <a href="https://algolia.com" target="_blank" rel="noopener" class="searchby-algolia text-color-light link-unstyled">
+        <span class="searchby-algolia-text text-color-light text-small">by</span>
+        <img class="searchby-algolia-logo" src="https://www.algolia.com/static_assets/images/press/downloads/algolia-light.svg">
+      </a>
+      <i class="search-icon fa fa-search"></i>
+      <form id="algolia-search-form">
+        <input type="text" id="algolia-search-input" name="search"
+          class="form-control input--large search-input" placeholder="" />
+      </form>
+    </div>
+    <div class="modal-body">
+      <div class="no-result text-color-light text-center"></div>
+      <div class="results">
+        
+        
+      </div>
+    </div>
+    <div class="modal-footer">
+      <p class="results-count text-medium"
+         data-message-zero=""
+         data-message-one=""
+         data-message-other="">
+         0 posts found
+      </p>
+    </div>
+  </div>
+</div>
+    
+  
+    
+    <div id="cover" style="background-image:url('http://ytlvy.com/images/cover.jpg');"></div>
+  
+
+
+    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js" integrity="sha256-/BfiIkHlHoVihZdc6TFuj7MmJ0TWcWsMXkeDFwhi0zw=" crossorigin="anonymous"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.7/js/jquery.fancybox.min.js" integrity="sha256-GEAnjcTqVP+vBp3SSc8bEDQqvWAZMiHyUSIorrWwH50=" crossorigin="anonymous"></script>
+
+
+<script src="http://ytlvy.com/js/script-qi9wbxp2ya2j6p7wx1i6tgavftewndznf4v0hy2gvivk1rxgc3lm7njqb6bz.min.js"></script>
+
+
+
+<script>
+$(document).ready(function() {
+  hljs.configure({ classPrefix: '', useBR: false });
+  $('pre.code-highlight > code, pre > code').each(function(i, block) {
+    if (!$(this).hasClass('codeblock')) {
+      $(this).addClass('codeblock');
+    }
+    hljs.highlightBlock(block);
+  });
+});
+</script>
+
+
+  
+    
+      <script>
+        var disqus_config = function () {
+          this.page.url = 'http:\/\/ytlvy.com\/posts\/2015-07-04\/2015-07-04-ios-%E8%BF%9B%E9%98%B6%E5%B7%A5%E5%85%B7%E7%AF%87\/';
+          
+            this.page.identifier = '\/posts\/2015-07-04\/2015-07-04-ios-%E8%BF%9B%E9%98%B6%E5%B7%A5%E5%85%B7%E7%AF%87\/'
+          
+        };
+        (function() {
+          
+          
+          if (window.location.hostname == "localhost") {
+            return;
+          }
+          var d = document, s = d.createElement('script');
+          var disqus_shortname = 'hugo-tranquilpeak-theme';
+          s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+
+          s.setAttribute('data-timestamp', +new Date());
+          (d.head || d.body).appendChild(s);
+        })();
+      </script>
+    
+  
+
+
+
+    
+  </body>
+</html>
+

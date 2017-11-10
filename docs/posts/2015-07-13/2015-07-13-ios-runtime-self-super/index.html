@@ -1,0 +1,1003 @@
+
+
+  
+
+
+  
+
+
+
+
+  
+
+
+  
+
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="Hugo 0.30.2 with theme Tranquilpeak 0.4.2-BETA">
+    <title>iOS Runtime Self &amp; Super</title>
+    <meta name="author" content="肖杰">
+    <meta name="keywords" content="">
+
+    <link rel="icon" href="http://ytlvy.com/favicon.png">
+    
+
+    
+    <meta name="description" content="Self &amp;&amp; Super
+
+What is Super?
+
+Super 是和 Self 一样的关键字, 不同的是, 它不能用作函数的参数, 只能接收消息.当接收消息的时候, 它会向父类搜索方法的定义. 如果在向上的类链中没有任何定义, 则程序会 crash.
+
+- (instancetype)initWithValue1:(id)value1 value2:(id)value2
+{
+    self = [super initWithValue1:value1];
+
+    if (self) {
+        _value2 = value2;
+    }
+
+    return self;
+}
+
+
+messaging super
+
+struct objc_super {
+    __unsafe_unretained id receiver;
+    __unsafe_unretained Class super_class;
+};
+
+
+- (void)methodWithArgument:(id)arg
+{
+    [super otherMethodWithArgument:arg];
+}
+
+
+- (void)methodWithArgument:(id)arg
+{
+    struct objc_super super = {.receiver = self, .super_class = 0xC0FFEE};
+
+    objc_msgSendSuper(&amp;super, @selector(otherMethodWithArgument:), arg);
+}
+
+
+objc_msgSendSuper 将从父类的定义开始查找方法的实现. super_class是在 runtime 时, 动态生成的.
+">
+    <meta property="og:description" content="Self &amp;&amp; Super
+
+What is Super?
+
+Super 是和 Self 一样的关键字, 不同的是, 它不能用作函数的参数, 只能接收消息.当接收消息的时候, 它会向父类搜索方法的定义. 如果在向上的类链中没有任何定义, 则程序会 crash.
+
+- (instancetype)initWithValue1:(id)value1 value2:(id)value2
+{
+    self = [super initWithValue1:value1];
+
+    if (self) {
+        _value2 = value2;
+    }
+
+    return self;
+}
+
+
+messaging super
+
+struct objc_super {
+    __unsafe_unretained id receiver;
+    __unsafe_unretained Class super_class;
+};
+
+
+- (void)methodWithArgument:(id)arg
+{
+    [super otherMethodWithArgument:arg];
+}
+
+
+- (void)methodWithArgument:(id)arg
+{
+    struct objc_super super = {.receiver = self, .super_class = 0xC0FFEE};
+
+    objc_msgSendSuper(&amp;super, @selector(otherMethodWithArgument:), arg);
+}
+
+
+objc_msgSendSuper 将从父类的定义开始查找方法的实现. super_class是在 runtime 时, 动态生成的.
+">
+    <meta property="og:type" content="blog">
+    <meta property="og:title" content="iOS Runtime Self &amp; Super">
+    <meta property="og:url" content="/posts/2015-07-13/2015-07-13-ios-runtime-self-super/">
+    <meta property="og:site_name" content="My New Hugo Site">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="My New Hugo Site">
+    <meta name="twitter:description" content="Self &amp;&amp; Super
+
+What is Super?
+
+Super 是和 Self 一样的关键字, 不同的是, 它不能用作函数的参数, 只能接收消息.当接收消息的时候, 它会向父类搜索方法的定义. 如果在向上的类链中没有任何定义, 则程序会 crash.
+
+- (instancetype)initWithValue1:(id)value1 value2:(id)value2
+{
+    self = [super initWithValue1:value1];
+
+    if (self) {
+        _value2 = value2;
+    }
+
+    return self;
+}
+
+
+messaging super
+
+struct objc_super {
+    __unsafe_unretained id receiver;
+    __unsafe_unretained Class super_class;
+};
+
+
+- (void)methodWithArgument:(id)arg
+{
+    [super otherMethodWithArgument:arg];
+}
+
+
+- (void)methodWithArgument:(id)arg
+{
+    struct objc_super super = {.receiver = self, .super_class = 0xC0FFEE};
+
+    objc_msgSendSuper(&amp;super, @selector(otherMethodWithArgument:), arg);
+}
+
+
+objc_msgSendSuper 将从父类的定义开始查找方法的实现. super_class是在 runtime 时, 动态生成的.
+">
+    
+    
+
+    
+    
+
+    
+      <meta property="og:image" content="//www.gravatar.com/avatar/8d5387e20303e26c6147cfe67990995e?s=640">
+    
+
+    
+    
+    
+
+    
+
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/jquery.fancybox.min.css" integrity="sha256-vuXZ9LGmmwtjqFX1F+EKin1ThZMub58gKULUyf0qECk=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/helpers/jquery.fancybox-thumbs.min.css" integrity="sha256-SEa4XYAHihTcEP1f5gARTB2K26Uk8PsndQYHQC1f4jU=" crossorigin="anonymous" />
+    
+    
+    <link rel="stylesheet" href="http://ytlvy.com/css/style-jsjn0006wyhpyzivf6yceb31gvpjatbcs3qzjvlumobfnugccvobqwxnnaj8.min.css" />
+    
+    
+
+    
+      
+    
+    
+  </head>
+
+  <body>
+    <div id="blog">
+      <header id="header" data-behavior="1">
+  <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+  <div class="header-title">
+    <a class="header-title-link" href="http://ytlvy.com/">My New Hugo Site</a>
+  </div>
+  
+    
+      <a class="header-right-picture "
+         href="http://ytlvy.com/#about">
+    
+    
+    
+      
+        <img class="header-picture" src="//www.gravatar.com/avatar/8d5387e20303e26c6147cfe67990995e?s=90" alt="" />
+      
+    
+    </a>
+  
+</header>
+
+      <nav id="sidebar" data-behavior="1">
+  <div class="sidebar-container">
+    
+      <div class="sidebar-profile">
+        <a href="http://ytlvy.com/#about">
+          <img class="sidebar-profile-picture" src="//www.gravatar.com/avatar/8d5387e20303e26c6147cfe67990995e?s=110" alt="" />
+        </a>
+        <h4 class="sidebar-profile-name">肖杰</h4>
+        
+          <h5 class="sidebar-profile-bio">一个瑜伽|篮球|羽毛球爱好者</h5>
+        
+      </div>
+    
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="http://ytlvy.com/">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-home"></i>
+      
+      <span class="sidebar-button-desc">Home</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="http://ytlvy.com/categories">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-bookmark"></i>
+      
+      <span class="sidebar-button-desc">Categories</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="http://ytlvy.com/tags">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+      
+      <span class="sidebar-button-desc">Tags</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="http://ytlvy.com/archives">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
+      
+      <span class="sidebar-button-desc">Archives</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="http://ytlvy.com/#about">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-question"></i>
+      
+      <span class="sidebar-button-desc">About</span>
+    </a>
+  </li>
+
+
+    </ul>
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://github.com/ytlvy" target="_blank" rel="noopener">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-github"></i>
+      
+      <span class="sidebar-button-desc">GitHub</span>
+    </a>
+  </li>
+
+
+    </ul>
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="http://ytlvy.com/index.xml">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-rss"></i>
+      
+      <span class="sidebar-button-desc">RSS</span>
+    </a>
+  </li>
+
+
+    </ul>
+  </div>
+</nav>
+
+      
+
+      <div id="main" data-behavior="1"
+        class="
+               hasCoverMetaIn
+               ">
+        <article class="post" itemscope itemType="http://schema.org/BlogPosting">
+          
+          
+            <div class="post-header main-content-wrap text-left">
+  
+    <h1 class="post-title" itemprop="headline">
+      iOS Runtime Self &amp; Super
+    </h1>
+  
+  
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2015-07-13T00:00:00Z">
+        
+   13, 2015
+
+      </time>
+    
+    
+  
+  
+    <span></span>
+    
+      <a class="category-link" href="http://ytlvy.com/categories/ios">IOS</a>
+    
+  
+
+  </div>
+
+</div>
+          
+          <div class="post-content markdown" itemprop="articleBody">
+            <div class="main-content-wrap">
+              <h2 id="self-super">Self &amp;&amp; Super</h2>
+
+<h3 id="what-is-super">What is Super?</h3>
+
+<p><code>Super</code> 是和 <code>Self</code> 一样的关键字, 不同的是, 它不能用作函数的参数, 只能接收消息.当接收消息的时候, 它会向父类搜索方法的定义. 如果在向上的类链中没有任何定义, 则程序会 crash.</p>
+
+<pre><code>- (instancetype)initWithValue1:(id)value1 value2:(id)value2
+{
+    self = [super initWithValue1:value1];
+
+    if (self) {
+        _value2 = value2;
+    }
+
+    return self;
+}
+</code></pre>
+
+<h3 id="messaging-super">messaging <code>super</code></h3>
+
+<pre><code>struct objc_super {
+    __unsafe_unretained id receiver;
+    __unsafe_unretained Class super_class;
+};
+</code></pre>
+
+<pre><code>- (void)methodWithArgument:(id)arg
+{
+    [super otherMethodWithArgument:arg];
+}
+</code></pre>
+
+<pre><code>- (void)methodWithArgument:(id)arg
+{
+    struct objc_super super = {.receiver = self, .super_class = 0xC0FFEE};
+
+    objc_msgSendSuper(&amp;super, @selector(otherMethodWithArgument:), arg);
+}
+</code></pre>
+
+<p><code>objc_msgSendSuper</code> 将从父类的定义开始查找方法的实现. <code>super_class</code>是在 runtime 时, 动态生成的.
+</p>
+
+<h4 id="objc-msgsendsuper-例子">objc_msgSendSuper 例子</h4>
+
+<p><img src="http://cdn.macoscope.com/blog/wp-content/uploads/2015/02/how-does-super-work-1.png" alt="" /></p>
+
+<pre><code>#import &lt;Foundation/Foundation.h&gt;
+#import &lt;objc/message.h&gt;
+
+@interface A : NSObject @end
+@interface B : A @end
+@interface C : B @end
+@interface X : NSObject @end
+
+@implementation A 
+- (void)abc
+{
+    NSLog(@&quot;-[A abc] called from class %@&quot;, NSStringFromClass([self class]));
+}
+@end
+
+@implementation B
+@end
+
+@implementation C
+- (void)abc
+{
+    NSLog(@&quot;-[C abc] called from class %@&quot;, NSStringFromClass([self class]));
+}
+@end
+
+@implementation X
+-(void)A_abc
+{
+    struct objc_super sup = {self, [A class]};
+    objc_msgSendSuper(&amp;sup, @selector(abc));
+}
+-(void)B_abc
+{
+    struct objc_super sup = {self, [B class]};
+    objc_msgSendSuper(&amp;sup, @selector(abc));
+}
+-(void)C_abc
+{
+    struct objc_super sup = {self, [C class]};
+    objc_msgSendSuper(&amp;sup, @selector(abc));
+}
+@end
+
+int main(int argc, char *argv[])
+{
+    @autoreleasepool {
+        [[X new] A_abc];
+        [[X new] B_abc];
+        [[X new] C_abc];
+    }
+}
+</code></pre>
+
+<p>Output:</p>
+
+<pre><code>-[A abc] called from class X
+-[A abc] called from class X
+-[C abc] called from class X
+</code></pre>
+
+<h4 id="message-forwarding-experiment">Message Forwarding Experiment</h4>
+
+<p><img src="http://cdn.macoscope.com/blog/wp-content/uploads/2015/02/how-does-super-work-2.png" alt="" /></p>
+
+<pre><code>#import &lt;Foundation/Foundation.h&gt;
+#import &lt;objc/runtime.h&gt;
+
+@interface NSInvocation (PrivateAPI)
+- (void)invokeUsingIMP:(IMP)imp;
+@end
+
+@interface A : NSObject @end
+@interface B : A @end
+@interface C : B @end
+@interface X : NSObject @end
+
+@implementation A 
+- (void)abc
+{
+    NSLog(@&quot;-[A abc]&quot;);
+}
+@end
+
+@implementation B
+@end
+
+@implementation C
+- (void)abc
+{
+    [super abc];
+    NSLog(@&quot;-[C abc]&quot;);
+}
+@end
+
+@interface X (ForwardedMethods)
+- (void)xyz;
+@end
+
+@implementation X
+- (BOOL)respondsToSelector:(SEL)selector
+{
+    return selector == @selector(xyz);
+}
+
+- (NSMethodSignature *)methodSignatureForSelector:(SEL)selector
+{
+    if (selector == @selector(xyz)) {
+        return [C instanceMethodSignatureForSelector:@selector(abc)];
+    }
+
+    return nil;
+}
+
+- (void)forwardInvocation:(NSInvocation *)invocation
+{
+    if (invocation.selector == @selector(xyz)) {
+        Method method = class_getInstanceMethod([C class], @selector(abc));
+        [invocation invokeUsingIMP:method_getImplementation(method)];
+    }
+}
+@end
+
+int main(int argc, char *argv[])
+{
+    @autoreleasepool {
+        [[X new] xyz];  
+    }
+}
+</code></pre>
+
+<p>Output:</p>
+
+<pre><code>-[A abc]
+-[C abc]
+</code></pre>
+
+<h4 id="method-copying-experiment">Method Copying Experiment</h4>
+
+<p><img src="http://cdn.macoscope.com/blog/wp-content/uploads/2015/02/how-does-super-work-3.png" alt="" /></p>
+
+<pre><code>#import &lt;Foundation/Foundation.h&gt;
+#import &lt;objc/runtime.h&gt;
+
+@interface A : NSObject @end
+@interface B : A @end
+@interface C : B @end
+@interface X : NSObject @end
+
+@implementation A 
+- (void)abc
+{
+    NSLog(@&quot;-[A abc]&quot;);
+}
+@end
+
+@implementation B
+@end
+
+@implementation C
+- (void)abc
+{
+    [super abc];
+    NSLog(@&quot;-[C abc]&quot;);
+}
+@end
+
+@interface X (CopiedMethods)
+- (void)xyz;
+@end
+
+@implementation X
++ (void)load
+{
+    Method method = class_getInstanceMethod([C class], @selector(abc));
+    IMP imp = method_getImplementation(method);
+    const char *typeEncoding = method_getTypeEncoding(method);
+    class_addMethod(self, @selector(xyz), imp, typeEncoding);
+}
+@end
+
+int main(int argc, char *argv[])
+{
+    @autoreleasepool {
+        [[X new] xyz];  
+    }
+}
+</code></pre>
+
+<p>Output:</p>
+
+<pre><code>-[A abc]
+-[C abc]
+</code></pre>
+
+<h3 id="刨根问底">刨根问底</h3>
+
+<pre><code>@implementation Son : Father
+- (id)init
+{
+    self = [super init];
+    if (self)
+    {
+        NSLog(@&quot;%@&quot;, NSStringFromClass([self class]));
+        NSLog(@&quot;%@&quot;, NSStringFromClass([super class]));
+    }
+    return self;
+}
+@end
+</code></pre>
+
+<p>解惑：这个题目主要是考察关于objc中对 self 和 super 的理解。</p>
+
+<p>self 是类的隐藏参数，指向当前调用方法的这个类的实例。而 super 是一个 Magic Keyword， 它本质是一个编译器标示符，和 self 是指向的同一个消息接受者。上面的例子不管调用[self class]还是[super class]，接受消息的对象都是当前 Son ＊xxx 这个对象。而不同的是，super是告诉编译器，调用 class 这个方法时，要去父类的方法，而不是本类里的。</p>
+
+<p>当使用 self 调用方法时，会从当前类的方法列表中开始找，如果没有，就从父类中再找；而当使用 super 时，则从父类的方法列表中开始找。然后调用父类的这个方法。</p>
+
+<p>真的是这样吗？继续看：</p>
+
+<p>使用clang重写命令:</p>
+
+<pre><code>$ clang -rewrite-objc test.m
+</code></pre>
+
+<p>发现上述代码被转化为:</p>
+
+<pre><code>NSLog( (NSString *) &amp;__NSConstantStringImpl__var_folders_gm_0jk35cwn1d3326x0061qym280000gn_T_main_a5cecc_mi_0, 
+    NSStringFromClass(((Class (*)(id, SEL))(void *)objc_msgSend)((id)self, sel_registerName(&quot;class&quot;))) );
+
+NSLog( (NSString *) &amp;__NSConstantStringImpl__var_folders_gm_0jk35cwn1d3326x0061qym280000gn_T_main_a5cecc_mi_1, 
+    NSStringFromClass(((Class (*)(__rw_objc_super *, SEL))(void *)objc_msgSendSuper)((__rw_objc_super){ (id)self, (id)class_getSuperclass(objc_getClass(&quot;Son&quot;)) }, sel_registerName(&quot;class&quot;))) );
+</code></pre>
+
+<p>精简后</p>
+
+<pre><code>objc_msgSend(self,  @selector&quot;class&quot;)
+
+objc_msgSendSuper( {self, class_getSuperclass(objc_getClass(&quot;Son&quot;)),  @selector&quot;class&quot;}
+</code></pre>
+
+<p>从上面的代码中，我们可以发现在调用 <code>[self class]</code>时，会转化成 <code>objc_msgSend</code>函数。看下函数定义：</p>
+
+<pre><code>id objc_msgSend(id self, SEL op, ...)
+</code></pre>
+
+<p>我们把 <code>self</code> 做为第一个参数传递进去。</p>
+
+<p>而在调用 <code>[super class]</code>时，会转化成 <code>objc_msgSendSuper</code>函数。看下函数定义:</p>
+
+<pre><code>id objc_msgSendSuper(struct objc_super *super, SEL op, ...)
+</code></pre>
+
+<p>第一个参数是 <code>objc_super</code> 这样一个结构体，其定义如下:</p>
+
+<pre><code>struct objc_super {
+   __unsafe_unretained id receiver;
+   __unsafe_unretained Class super_class;
+};
+</code></pre>
+
+<p>结构体有两个成员，第一个成员是 <code>receiver</code>, 类似于上面的 <code>objc_msgSend</code>函数第一个参数<code>self</code> 。第二个成员是记录当前类的父类是什么。</p>
+
+<p>所以，当调用 <code>[self class]</code>时，实际先调用的是 <code>objc_msgSend</code>函数，第一个参数是 <code>Son</code>当前的这个实例，然后在 <code>Son</code> 这个类里面去找 <code>- (Class)class</code>这个方法，没有，去父类 Father里找，也没有，最后在 <code>NSObject</code> 类中发现这个方法。而 <code>- (Class)class</code>的实现就是返回self的类别，故上述输出结果为 <code>Son</code>。</p>
+
+<p>objc Runtime开源代码对- (Class)class方法的实现:</p>
+
+<pre><code>- (Class)class {
+    return object_getClass(self);
+}
+</code></pre>
+
+<p>而当调用 <code>[super class]</code>时，会转换成<code>objc_msgSendSuper</code>函数。第一步先构造<code>objc_super</code> 结构体，结构体第一个成员就是 <code>self</code> 。第二个成员是 <code>(id)class_getSuperclass(objc_getClass(“Son”))</code>, 实际该函数输出结果为 Father。第二步是去  <code>Father</code> 这个类里去找 <code>- (Class)class</code> ，没有，然后去NSObject类去找，找到了。最后内部是使用 objc_msgSend(objc_super-&gt;receiver, @selector(class))去调用，此时已经和[self class]调用相同了，故上述输出结果仍然返回 Son</p>
+
+<h3 id="总结">总结</h3>
+
+<p><code>super</code>的作用主要是告诉编译器 方法的定义从父类开始查找, 并不是生成了一个真的父类对象. 而 <code>class</code> 方法的定义<code>return object_getClass(self);</code> 决定了其返回结果是运行期动态决定的, 而此时的<code>self</code> 变量同样只能是<code>Son</code>的实例对象.</p>
+              
+            </div>
+          </div>
+          <div id="post-footer" class="post-footer main-content-wrap">
+            
+              
+                
+                
+                  <div class="post-footer-tags">
+                    <span class="text-color-light text-small"></span><br/>
+                    
+  <a class="tag tag--primary tag--small" href="http://ytlvy.com/tags/ios/">IOS</a>
+
+  <a class="tag tag--primary tag--small" href="http://ytlvy.com/tags/self/">Self</a>
+
+  <a class="tag tag--primary tag--small" href="http://ytlvy.com/tags/super/">Super</a>
+
+                  </div>
+                
+              
+            
+            
+  <div class="post-actions-wrap">
+      <nav >
+        <ul class="post-actions post-action-nav">
+          
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="http://ytlvy.com/posts/2015-07-13/2015-07-13-ios-runtime-object-class-meta-class/" data-tooltip="iOS Runtime Object &amp; Class &amp; Meta Class">
+              
+                  <i class="fa fa-angle-left"></i>
+                  <span class="hide-xs hide-sm text-small icon-ml"></span>
+                </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="http://ytlvy.com/posts/2015-07-13/2015-07-13-ios-runtime-%E6%88%90%E5%91%98%E5%8F%98%E9%87%8F%E4%B8%8E%E5%B1%9E%E6%80%A7/" data-tooltip="iOS Runtime 成员变量与属性">
+              
+                  <span class="hide-xs hide-sm text-small icon-mr"></span>
+                  <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+          
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
+      
+        <li class="post-action hide-lg hide-md hide-sm">
+          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+            <i class="fa fa-share-alt"></i>
+          </a>
+        </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://ytlvy.com/posts/2015-07-13/2015-07-13-ios-runtime-self-super/">
+              <i class="fa fa-facebook-official"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http://ytlvy.com/posts/2015-07-13/2015-07-13-ios-runtime-self-super/">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=http://ytlvy.com/posts/2015-07-13/2015-07-13-ios-runtime-self-super/">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        
+      
+      
+        <li class="post-action">
+          <a class="post-action-btn btn btn--default" href="#disqus_thread">
+            <i class="fa fa-comment-o"></i>
+          </a>
+        </li>
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#">
+        
+          <i class="fa fa-list"></i>
+        </a>
+      </li>
+    </ul>
+  </div>
+
+
+            
+              
+                <div id="disqus_thread">
+  <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+              
+            
+          </div>
+        </article>
+        <footer id="footer" class="main-content-wrap">
+  <span class="copyrights">
+    &copy; 2017 肖杰. 
+  </span>
+</footer>
+
+      </div>
+      <div id="bottom-bar" class="post-bottom-bar" data-behavior="1">
+        
+  <div class="post-actions-wrap">
+      <nav >
+        <ul class="post-actions post-action-nav">
+          
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="http://ytlvy.com/posts/2015-07-13/2015-07-13-ios-runtime-object-class-meta-class/" data-tooltip="iOS Runtime Object &amp; Class &amp; Meta Class">
+              
+                  <i class="fa fa-angle-left"></i>
+                  <span class="hide-xs hide-sm text-small icon-ml"></span>
+                </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="http://ytlvy.com/posts/2015-07-13/2015-07-13-ios-runtime-%E6%88%90%E5%91%98%E5%8F%98%E9%87%8F%E4%B8%8E%E5%B1%9E%E6%80%A7/" data-tooltip="iOS Runtime 成员变量与属性">
+              
+                  <span class="hide-xs hide-sm text-small icon-mr"></span>
+                  <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+          
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
+      
+        <li class="post-action hide-lg hide-md hide-sm">
+          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+            <i class="fa fa-share-alt"></i>
+          </a>
+        </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://ytlvy.com/posts/2015-07-13/2015-07-13-ios-runtime-self-super/">
+              <i class="fa fa-facebook-official"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http://ytlvy.com/posts/2015-07-13/2015-07-13-ios-runtime-self-super/">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=http://ytlvy.com/posts/2015-07-13/2015-07-13-ios-runtime-self-super/">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        
+      
+      
+        <li class="post-action">
+          <a class="post-action-btn btn btn--default" href="#disqus_thread">
+            <i class="fa fa-comment-o"></i>
+          </a>
+        </li>
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#">
+        
+          <i class="fa fa-list"></i>
+        </a>
+      </li>
+    </ul>
+  </div>
+
+
+      </div>
+      <div id="share-options-bar" class="share-options-bar" data-behavior="1">
+  <i id="btn-close-shareoptions" class="fa fa-close"></i>
+  <ul class="share-options">
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Fytlvy.com%2Fposts%2F2015-07-13%2F2015-07-13-ios-runtime-self-super%2F">
+          <i class="fa fa-facebook-official"></i><span>%!(EXTRA string=Facebook)</span>
+        </a>
+      </li>
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=http%3A%2F%2Fytlvy.com%2Fposts%2F2015-07-13%2F2015-07-13-ios-runtime-self-super%2F">
+          <i class="fa fa-twitter"></i><span>%!(EXTRA string=Twitter)</span>
+        </a>
+      </li>
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=http%3A%2F%2Fytlvy.com%2Fposts%2F2015-07-13%2F2015-07-13-ios-runtime-self-super%2F">
+          <i class="fa fa-google-plus"></i><span>%!(EXTRA string=Google&#43;)</span>
+        </a>
+      </li>
+    
+  </ul>
+</div>
+<div id="share-options-mask" class="share-options-mask"></div>
+    </div>
+    
+    <div id="about">
+  <div id="about-card">
+    <div id="about-btn-close">
+      <i class="fa fa-remove"></i>
+    </div>
+    
+      <img id="about-card-picture" src="//www.gravatar.com/avatar/8d5387e20303e26c6147cfe67990995e?s=110" alt="" />
+    
+    <h4 id="about-card-name">肖杰</h4>
+    
+      <div id="about-card-bio">一个瑜伽|篮球|羽毛球爱好者</div>
+    
+    
+      <div id="about-card-job">
+        <i class="fa fa-briefcase"></i>
+        <br/>
+        搬砖工
+      </div>
+    
+    
+      <div id="about-card-location">
+        <i class="fa fa-map-marker"></i>
+        <br/>
+        Beijing
+      </div>
+    
+  </div>
+</div>
+
+    <div id="algolia-search-modal" class="modal-container">
+  <div class="modal">
+    <div class="modal-header">
+      <span class="close-button"><i class="fa fa-close"></i></span>
+      <a href="https://algolia.com" target="_blank" rel="noopener" class="searchby-algolia text-color-light link-unstyled">
+        <span class="searchby-algolia-text text-color-light text-small">by</span>
+        <img class="searchby-algolia-logo" src="https://www.algolia.com/static_assets/images/press/downloads/algolia-light.svg">
+      </a>
+      <i class="search-icon fa fa-search"></i>
+      <form id="algolia-search-form">
+        <input type="text" id="algolia-search-input" name="search"
+          class="form-control input--large search-input" placeholder="" />
+      </form>
+    </div>
+    <div class="modal-body">
+      <div class="no-result text-color-light text-center"></div>
+      <div class="results">
+        
+        
+      </div>
+    </div>
+    <div class="modal-footer">
+      <p class="results-count text-medium"
+         data-message-zero=""
+         data-message-one=""
+         data-message-other="">
+         0 posts found
+      </p>
+    </div>
+  </div>
+</div>
+    
+  
+    
+    <div id="cover" style="background-image:url('http://ytlvy.com/images/cover.jpg');"></div>
+  
+
+
+    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js" integrity="sha256-/BfiIkHlHoVihZdc6TFuj7MmJ0TWcWsMXkeDFwhi0zw=" crossorigin="anonymous"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.7/js/jquery.fancybox.min.js" integrity="sha256-GEAnjcTqVP+vBp3SSc8bEDQqvWAZMiHyUSIorrWwH50=" crossorigin="anonymous"></script>
+
+
+<script src="http://ytlvy.com/js/script-qi9wbxp2ya2j6p7wx1i6tgavftewndznf4v0hy2gvivk1rxgc3lm7njqb6bz.min.js"></script>
+
+
+
+<script>
+$(document).ready(function() {
+  hljs.configure({ classPrefix: '', useBR: false });
+  $('pre.code-highlight > code, pre > code').each(function(i, block) {
+    if (!$(this).hasClass('codeblock')) {
+      $(this).addClass('codeblock');
+    }
+    hljs.highlightBlock(block);
+  });
+});
+</script>
+
+
+  
+    
+      <script>
+        var disqus_config = function () {
+          this.page.url = 'http:\/\/ytlvy.com\/posts\/2015-07-13\/2015-07-13-ios-runtime-self-super\/';
+          
+            this.page.identifier = '\/posts\/2015-07-13\/2015-07-13-ios-runtime-self-super\/'
+          
+        };
+        (function() {
+          
+          
+          if (window.location.hostname == "localhost") {
+            return;
+          }
+          var d = document, s = d.createElement('script');
+          var disqus_shortname = 'hugo-tranquilpeak-theme';
+          s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+
+          s.setAttribute('data-timestamp', +new Date());
+          (d.head || d.body).appendChild(s);
+        })();
+      </script>
+    
+  
+
+
+
+    
+  </body>
+</html>
+

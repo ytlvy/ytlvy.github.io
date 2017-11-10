@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Eventkit on My New Hugo Site</title>
+    <link>http://ytlvy.com/tags/eventkit/</link>
+    <description>Recent content in Eventkit on My New Hugo Site</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sat, 08 Aug 2015 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="http://ytlvy.com/tags/eventkit/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Swift EventKit - Requesting Permission</title>
+      <link>http://ytlvy.com/posts/2015-08-08/2015-08-08-swift-eventkit-requesting-permission/</link>
+      <pubDate>Sat, 08 Aug 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-08-08/2015-08-08-swift-eventkit-requesting-permission/</guid>
+      <description>&lt;h1 id=&#34;swift-eventkit的初学者指南-请求权限&#34;&gt;Swift  EventKit的初学者指南&amp;ndash;请求权限&lt;/h1&gt;
+
+&lt;hr /&gt;
+
+&lt;blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;原文链接 : &lt;a href=&#34;http://www.andrewcbancroft.com/2015/05/14/beginners-guide-to-eventkit-in-swift-requesting-permission/&#34;&gt;Beginner’s Guide to EventKit in Swift – Requesting Permission&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;原文作者 : &lt;a href=&#34;http://www.andrewcbancroft.com/&#34;&gt;Andrew&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;http://www.devtf.cn&#34;&gt;译文出自 :  开发技术前线 www.devtf.cn&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;译者 : &lt;a href=&#34;https://github.com/MollyMmm&#34;&gt;MollyMmm&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;校对者: &lt;a href=&#34;https://github.com/bboyfeiyu&#34;&gt;Mr.Simple&lt;/a&gt;&lt;br /&gt;&lt;/li&gt;
+&lt;li&gt;状态 : 校对完成&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;EventKit为获取和操作用户日历事件和提醒提供了一系列的类.在下面的教程中,我的目标是带领你走出利用EventKit建立一个应用程序的第.我的目标是带领你迈出利用EventKit建立一个应用程序的第一步.我将演示如何向用户的日历请求许可,我还将展示几个处理用户响应的例子(当他们授予访问权限,或者拒绝).
+#Example scenario
+#场景&lt;/p&gt;
+
+&lt;p&gt;让我们先提出一个基本方案，作为本教程的例子。&lt;/p&gt;
+
+&lt;p&gt;假设我们正在构建一个应用程序，现在，有一个单一的视图控制器。在得到用户授权允许的情况下，我们希望这个视图控制器显示日历列表。如果用户拒绝访问,我们将向用户展示一个消息,用来说明我们的应用程序在没有访问权限时不能运行,我们也将允许他们通过单击一个按钮能够在他们的设备的设置中设置授权访问.&lt;/p&gt;
+
+&lt;p&gt;我已经创建一个那样的应用程序作为例子&amp;ndash;跳到GitHub中查看并研究这个例子的代码.&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;资源&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://github.com/andrewcbancroft/EventTracker/tree/ask-for-permission&#34;&gt;Xcode工程示例&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;#Storyboard setup
+#故事面板设置&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

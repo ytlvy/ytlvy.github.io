@@ -1,0 +1,1124 @@
+
+
+  
+
+
+  
+
+
+
+
+  
+
+
+  
+
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="Hugo 0.30.2 with theme Tranquilpeak 0.4.2-BETA">
+    <title>iOS Runtime 成员变量与属性</title>
+    <meta name="author" content="肖杰">
+    <meta name="keywords" content="">
+
+    <link rel="icon" href="http://ytlvy.com/favicon.png">
+    
+
+    
+    <meta name="description" content="习题内容
+
+下面代码会? Compile Error / Runtime Crash / NSLog…?
+
+@interface Sark : NSObject
+@property (nonatomic, copy) NSString *name;
+@end
+
+@implementation Sark
+
+- (void)speak {
+    NSLog(@&quot;my name is %@&quot;, self.name);
+}
+
+@end
+
+@interface Test : NSObject
+@end
+
+@implementation Test
+
+- (instancetype)init {
+    self = [super init];
+    if (self) {
+        id cls = [Sark class];
+        void *obj = &amp;cls;
+        [(__bridge id)obj speak];
+    }
+    return self;
+}
+
+@end
+
+int main(int argc, const char * argv[]) {
+    @autoreleasepool {
+        [[Test alloc] init];
+    }
+    return 0;
+}
+
+
+答案：代码正常输出，输出结果为：
+
+2014-11-07 14:08:25.698 Test[1097:57255] my name is &lt;Test: 0x1001002d0&gt;
+
+
+">
+    <meta property="og:description" content="习题内容
+
+下面代码会? Compile Error / Runtime Crash / NSLog…?
+
+@interface Sark : NSObject
+@property (nonatomic, copy) NSString *name;
+@end
+
+@implementation Sark
+
+- (void)speak {
+    NSLog(@&quot;my name is %@&quot;, self.name);
+}
+
+@end
+
+@interface Test : NSObject
+@end
+
+@implementation Test
+
+- (instancetype)init {
+    self = [super init];
+    if (self) {
+        id cls = [Sark class];
+        void *obj = &amp;cls;
+        [(__bridge id)obj speak];
+    }
+    return self;
+}
+
+@end
+
+int main(int argc, const char * argv[]) {
+    @autoreleasepool {
+        [[Test alloc] init];
+    }
+    return 0;
+}
+
+
+答案：代码正常输出，输出结果为：
+
+2014-11-07 14:08:25.698 Test[1097:57255] my name is &lt;Test: 0x1001002d0&gt;
+
+
+">
+    <meta property="og:type" content="blog">
+    <meta property="og:title" content="iOS Runtime 成员变量与属性">
+    <meta property="og:url" content="/posts/2015-07-13/2015-07-13-ios-runtime-%E6%88%90%E5%91%98%E5%8F%98%E9%87%8F%E4%B8%8E%E5%B1%9E%E6%80%A7/">
+    <meta property="og:site_name" content="My New Hugo Site">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="My New Hugo Site">
+    <meta name="twitter:description" content="习题内容
+
+下面代码会? Compile Error / Runtime Crash / NSLog…?
+
+@interface Sark : NSObject
+@property (nonatomic, copy) NSString *name;
+@end
+
+@implementation Sark
+
+- (void)speak {
+    NSLog(@&quot;my name is %@&quot;, self.name);
+}
+
+@end
+
+@interface Test : NSObject
+@end
+
+@implementation Test
+
+- (instancetype)init {
+    self = [super init];
+    if (self) {
+        id cls = [Sark class];
+        void *obj = &amp;cls;
+        [(__bridge id)obj speak];
+    }
+    return self;
+}
+
+@end
+
+int main(int argc, const char * argv[]) {
+    @autoreleasepool {
+        [[Test alloc] init];
+    }
+    return 0;
+}
+
+
+答案：代码正常输出，输出结果为：
+
+2014-11-07 14:08:25.698 Test[1097:57255] my name is &lt;Test: 0x1001002d0&gt;
+
+
+">
+    
+    
+
+    
+    
+
+    
+      <meta property="og:image" content="//www.gravatar.com/avatar/8d5387e20303e26c6147cfe67990995e?s=640">
+    
+
+    
+    
+    
+
+    
+
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/jquery.fancybox.min.css" integrity="sha256-vuXZ9LGmmwtjqFX1F+EKin1ThZMub58gKULUyf0qECk=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/helpers/jquery.fancybox-thumbs.min.css" integrity="sha256-SEa4XYAHihTcEP1f5gARTB2K26Uk8PsndQYHQC1f4jU=" crossorigin="anonymous" />
+    
+    
+    <link rel="stylesheet" href="http://ytlvy.com/css/style-jsjn0006wyhpyzivf6yceb31gvpjatbcs3qzjvlumobfnugccvobqwxnnaj8.min.css" />
+    
+    
+
+    
+      
+    
+    
+  </head>
+
+  <body>
+    <div id="blog">
+      <header id="header" data-behavior="1">
+  <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+  <div class="header-title">
+    <a class="header-title-link" href="http://ytlvy.com/">My New Hugo Site</a>
+  </div>
+  
+    
+      <a class="header-right-picture "
+         href="http://ytlvy.com/#about">
+    
+    
+    
+      
+        <img class="header-picture" src="//www.gravatar.com/avatar/8d5387e20303e26c6147cfe67990995e?s=90" alt="" />
+      
+    
+    </a>
+  
+</header>
+
+      <nav id="sidebar" data-behavior="1">
+  <div class="sidebar-container">
+    
+      <div class="sidebar-profile">
+        <a href="http://ytlvy.com/#about">
+          <img class="sidebar-profile-picture" src="//www.gravatar.com/avatar/8d5387e20303e26c6147cfe67990995e?s=110" alt="" />
+        </a>
+        <h4 class="sidebar-profile-name">肖杰</h4>
+        
+          <h5 class="sidebar-profile-bio">一个瑜伽|篮球|羽毛球爱好者</h5>
+        
+      </div>
+    
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="http://ytlvy.com/">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-home"></i>
+      
+      <span class="sidebar-button-desc">Home</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="http://ytlvy.com/categories">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-bookmark"></i>
+      
+      <span class="sidebar-button-desc">Categories</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="http://ytlvy.com/tags">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+      
+      <span class="sidebar-button-desc">Tags</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="http://ytlvy.com/archives">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
+      
+      <span class="sidebar-button-desc">Archives</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="http://ytlvy.com/#about">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-question"></i>
+      
+      <span class="sidebar-button-desc">About</span>
+    </a>
+  </li>
+
+
+    </ul>
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://github.com/ytlvy" target="_blank" rel="noopener">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-github"></i>
+      
+      <span class="sidebar-button-desc">GitHub</span>
+    </a>
+  </li>
+
+
+    </ul>
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="http://ytlvy.com/index.xml">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-rss"></i>
+      
+      <span class="sidebar-button-desc">RSS</span>
+    </a>
+  </li>
+
+
+    </ul>
+  </div>
+</nav>
+
+      
+
+      <div id="main" data-behavior="1"
+        class="
+               hasCoverMetaIn
+               ">
+        <article class="post" itemscope itemType="http://schema.org/BlogPosting">
+          
+          
+            <div class="post-header main-content-wrap text-left">
+  
+    <h1 class="post-title" itemprop="headline">
+      iOS Runtime 成员变量与属性
+    </h1>
+  
+  
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2015-07-13T00:00:00Z">
+        
+   13, 2015
+
+      </time>
+    
+    
+  
+  
+    <span></span>
+    
+      <a class="category-link" href="http://ytlvy.com/categories/ios">IOS</a>
+    
+  
+
+  </div>
+
+</div>
+          
+          <div class="post-content markdown" itemprop="articleBody">
+            <div class="main-content-wrap">
+              <h3 id="习题内容">习题内容</h3>
+
+<p>下面代码会? Compile Error / Runtime Crash / NSLog…?</p>
+
+<pre><code>@interface Sark : NSObject
+@property (nonatomic, copy) NSString *name;
+@end
+
+@implementation Sark
+
+- (void)speak {
+    NSLog(@&quot;my name is %@&quot;, self.name);
+}
+
+@end
+
+@interface Test : NSObject
+@end
+
+@implementation Test
+
+- (instancetype)init {
+    self = [super init];
+    if (self) {
+        id cls = [Sark class];
+        void *obj = &amp;cls;
+        [(__bridge id)obj speak];
+    }
+    return self;
+}
+
+@end
+
+int main(int argc, const char * argv[]) {
+    @autoreleasepool {
+        [[Test alloc] init];
+    }
+    return 0;
+}
+</code></pre>
+
+<p>答案：代码正常输出，输出结果为：</p>
+
+<pre><code>2014-11-07 14:08:25.698 Test[1097:57255] my name is &lt;Test: 0x1001002d0&gt;
+</code></pre>
+
+<p></p>
+
+<h3 id="为什么呢">为什么呢?</h3>
+
+<p>前几节博文中多次讲到了<code>objc_class</code>结构体，今天我们再拿出来看一下：</p>
+
+<pre><code>struct objc_class {
+    Class isa  OBJC_ISA_AVAILABILITY;
+
+#if !__OBJC2__
+    Class super_class                                        OBJC2_UNAVAILABLE;
+    const char *name                                         OBJC2_UNAVAILABLE;
+    long version                                             OBJC2_UNAVAILABLE;
+    long info                                                OBJC2_UNAVAILABLE;
+    long instance_size                                       OBJC2_UNAVAILABLE;
+    struct objc_ivar_list *ivars                             OBJC2_UNAVAILABLE;
+    struct objc_method_list **methodLists                    OBJC2_UNAVAILABLE;
+    struct objc_cache *cache                                 OBJC2_UNAVAILABLE;
+    struct objc_protocol_list *protocols                     OBJC2_UNAVAILABLE;
+#endif
+
+} OBJC2_UNAVAILABLE;
+</code></pre>
+
+<p>其中<code>objc_ivar_list</code>结构体存储着<code>objc_ivar</code>数组列表，而<code>objc_ivar</code>结构体存储了类的单个成员变量的信息。</p>
+
+<p>那么什么是Ivar呢？</p>
+
+<p>Ivar 在objc中被定义为：</p>
+
+<pre><code>typedef struct objc_ivar *Ivar;
+</code></pre>
+
+<p>它是一个指向objc_ivar结构体的指针，结构体有如下定义：</p>
+
+<pre><code>struct objc_ivar {
+    char *ivar_name                                          OBJC2_UNAVAILABLE;
+    char *ivar_type                                          OBJC2_UNAVAILABLE;
+    int ivar_offset                                          OBJC2_UNAVAILABLE;
+#ifdef __LP64__
+    int space                                                OBJC2_UNAVAILABLE;
+#endif
+}                                                            OBJC2_UNAVAILABLE;
+</code></pre>
+
+<p>这里我们注意第三个成员 <code>ivar_offset</code>。它表示基地址偏移字节。</p>
+
+<p>在编译我们的类时，编译器生成了一个<code>ivar</code>布局，显示了在类中从哪可以访问我们的 ivars 。看下图:</p>
+
+<p><img src="http://106.186.113.24:8888/other/2014031602.png" alt="" /></p>
+
+<p>上图中，左侧的数据就是地址偏移字节，我们对 ivar 的访问就可以通过 <code>对象地址 ＋ ivar偏移字节</code>的方法。但是这又引发一个问题，看下图:</p>
+
+<p><img src="http://106.186.113.24:8888/other/2014031603.png" alt="" /></p>
+
+<p>我们增加了父类的ivar，这个时候布局就出错了，我们就不得不重新编译子类来恢复兼容性。</p>
+
+<p>而Objective－C Runtime中使用了<code>Non Fragile ivars</code>，看下图:</p>
+
+<p><img src="http://106.186.113.24:8888/other/2014031604.png" alt="" /></p>
+
+<p>使用<code>Non Fragile ivars</code>时，Runtime会进行检测来调整类中新增的ivar的偏移量。 这样我们就可以通过 <code>对象地址 + ivar偏移字节</code>的方法来计算出ivar相应的地址，并访问到相应的ivar。</p>
+
+<pre><code>@interface Student : NSObject
+{
+    @private
+    NSInteger age;
+}
+@end
+
+@implementation Student
+- (NSString *)description
+{
+    return [NSString stringWithFormat:@&quot;age = %d&quot;, age];
+}
+@end
+
+int main(int argc, const char * argv[]) {
+    @autoreleasepool {
+        Student *student = [[Student alloc] init];
+        student-&gt;age = 24;
+    }
+    return 0;
+}
+</code></pre>
+
+<p>上述代码，Student有两个被标记为private的ivar，这个时候当我们使用 -&gt; 访问时，编译器会报错。那么我们如何设置一个被标记为private的ivar的值呢?</p>
+
+<p>通过上面的描述，我们知道ivar是通过计算字节偏量来确定地址，并访问的。我们可以改成这样:</p>
+
+<pre><code>@interface Student : NSObject  {
+    @private
+    int age;
+}
+@end
+
+@implementation Student
+
+- (NSString *)description {
+    NSLog(@&quot;current pointer = %p&quot;, self);
+    NSLog(@&quot;age pointer = %p&quot;, &amp;age);
+    return [NSString stringWithFormat:@&quot;age = %d&quot;, age];
+}
+@end
+
+int main(int argc, const char * argv[]) {
+    @autoreleasepool {
+        Student *student = [[Student alloc] init];
+        Ivar age_ivar = class_getInstanceVariable(object_getClass(student), &quot;age&quot;);
+        int *age_pointer = (int *)((__bridge void *)(student) + ivar_getOffset(age_ivar));
+        NSLog(@&quot;age ivar offset = %td&quot;, ivar_getOffset(age_ivar));
+        *age_pointer = 10;
+        NSLog(@&quot;%@&quot;, student);
+    }
+    return 0;
+}
+</code></pre>
+
+<p>上述代码的输出结果为:</p>
+
+<pre><code>2014-11-08 18:24:38.892 Test[4143:466864] age ivar offset = 8
+2014-11-08 18:24:38.893 Test[4143:466864] current pointer = 0x1001002d0
+2014-11-08 18:24:38.893 Test[4143:466864] age pointer = 0x1001002d8
+2014-11-08 18:24:38.894 Test[4143:466864] age = 10
+</code></pre>
+
+<p>我们可以清晰的看到指针地址的变化和偏移量，和我们上述描述一致</p>
+
+<h3 id="说完了ivar-那property又是怎么样的呢">说完了Ivar， 那Property又是怎么样的呢？</h3>
+
+<p>使用 <code>clang -rewrite-objc main.m</code> 重写题目中的代码，我们发现<code>Sark</code>类中的<code>name</code>属性被转换成了如下代码:</p>
+
+<pre><code>struct Sark_IMPL {
+    struct NSObject_IMPL NSObject_IVARS;
+    NSString *_name;
+};
+
+// @property (nonatomic, copy) NSString *name;
+/* @end */
+
+
+// @implementation Sark
+
+static NSString * _I_Sark_name(Sark * self, SEL _cmd) { return (*(NSString **)((char *)self + OBJC_IVAR_$_Sark$_name)); }
+
+static void _I_Sark_setName_(Sark * self, SEL _cmd, NSString *name) { objc_setProperty (self, _cmd, __OFFSETOFIVAR__(struct Sark, _name), (id)name, 0, 1); }
+</code></pre>
+
+<p>类中的 <code>Property</code> 属性被编译器转换成了<code>Ivar</code>，并且自动添加了我们熟悉的<code>Set</code>和<code>Get</code>方法。</p>
+
+<p>我们这个时候回头看一下<code>objc_class</code>结构体中的内容，并没有发现用来专门记录<code>Property</code>的list。我们翻开objc源代码，在<code>objc-runtime-new.h</code>中，发现最终还是会通过在<code>class_ro_t</code>结构体中使用property_list_t存储对应的propertyies。</p>
+
+<p>而在刚刚重写的代码中，我们可以找到这个<code>property_list_t</code>:</p>
+
+<pre><code>static struct /*_prop_list_t*/ {
+    unsigned int entsize;  // sizeof(struct _prop_t)
+    unsigned int count_of_properties;
+    struct _prop_t prop_list[1];
+    } _OBJC_$_PROP_LIST_Sark __attribute__ ((used, section (&quot;__DATA,__objc_const&quot;))) = {
+        sizeof(_prop_t),
+        1,
+        name
+};
+
+static struct _class_ro_t _OBJC_CLASS_RO_$_Sark __attribute__ ((used, section (&quot;__DATA,__objc_const&quot;))) = {
+    0, __OFFSETOFIVAR__(struct Sark, _name), sizeof(struct Sark_IMPL), 
+    (unsigned int)0, 
+    0, 
+    &quot;Sark&quot;,
+    (const struct _method_list_t *)&amp;_OBJC_$_INSTANCE_METHODS_Sark,
+    0, 
+    (const struct _ivar_list_t *)&amp;_OBJC_$_INSTANCE_VARIABLES_Sark,
+    0, 
+    (const struct _prop_list_t *)&amp;_OBJC_$_PROP_LIST_Sark,
+};
+</code></pre>
+
+<h3 id="解惑">解惑</h3>
+
+<p>1）为什么能够正常运行，并调用到<code>speak</code>方法？</p>
+
+<pre><code>id cls = [Sark class];
+void *obj = &amp;cls;
+[(__bridge id)obj speak];
+</code></pre>
+
+<p>obj被转换成了一个指向<code>cls</code>的指针，而 <code>cls</code> 又指向<code>[Sark Class]</code>, 此时<code>cls</code> 起到了类似<code>isa</code> 指针的作用, 因为<code>isa</code>也是指向一个类. 之后当<code>obj</code>被强制转换为<code>objc_object</code>类型时, <code>obj</code>就被当做了一个<code>[Sark Class]</code>的对象, 但是此对象和实际的对象是有差别的, 实际的对象时分配在堆上的, 而这个变量是临时变量, 本身分配在栈上, 强制转换后, 也同样还在栈上. 同时此对象除了有<code>isa</code> 指针相对应的类能提供的特性外, 其他的一切都是假的.</p>
+
+<p>也正因为<code>obj</code> 此时被强制转换为<code>[Sark Class]</code>, 所以它可以调用<code>speak</code>方法.</p>
+
+<p>2) 为什么self.name的输出为 <Test: 0x1001002d0> ?
+在<code>speak</code>方法中, 关于<code>self.name</code>的调用, 由上面的<code>ivar</code> 的获取方法<code>对象地址 + ivar偏移字节</code>,  可以推导出此时 self.name的调用地址为 <code>obj</code>指向对象的地址 + 偏移8(64位系统)而得出.</p>
+
+<p><code>obj</code>指向的对象地址, 由上面的代码<code>void *obj = &amp;cls;</code> 可知, 是<code>cls</code>变量的地址, 而此局部变量是分配在栈上的. 同时所有的局部变量是按照出现顺序从高到底一个个入栈的.可以参考<a href="http://ytlvy.com/2015/07/06/progress-memory-map/">这篇文章</a>. 而 <code>cls</code> 变量地址+8是 <code>cls</code>局部变量上一个局部变量.</p>
+
+<p>具体的情况,我们在下面来分析</p>
+
+<p>我们在测试代码中加入一些调试代码和Log如下:</p>
+
+<pre><code>- (void)speak
+{ 
+    unsigned int numberOfIvars = 0;
+    Ivar *ivars = class_copyIvarList([self class], &amp;numberOfIvars);
+    for(const Ivar *p = ivars; p &lt; ivars+numberOfIvars; p++) {
+        Ivar const ivar = *p;
+        ptrdiff_t offset = ivar_getOffset(ivar);
+        const char *name = ivar_getName(ivar);
+        NSLog(@&quot;Sark ivar name = %s, offset = %td&quot;, name, offset);
+    }
+    NSLog(@&quot;_name变量 本身的地址 %p&quot;, &amp;_name);
+    NSLog(@&quot;_name变量 指向地址 %p&quot;, _name);
+    NSLog(@&quot;_name 变量指向对象的内容 %@&quot;, _name);
+}
+
+@implementation Test
+
+- (instancetype)init
+{
+   self = [super init];
+
+    if (self) {
+        
+        NSLog(@&quot;=================================&quot;);
+        NSLog(@&quot;self变量 指向对象的地址 = %p ========&quot;, self);
+        NSLog(@&quot;self变量 本身的地址 = %p&quot;, &amp;self);
+        NSLog(@&quot;=================================&quot;);
+        
+        NSLog(@&quot;select address %p&quot;, @selector(initWithAttribute:));
+        NSLog(@&quot;_cmd address %p&quot;, _cmd);
+
+        id cls = [Sark class];
+        NSLog(@&quot;cls变量 指向的地址 = %p&quot;, cls);
+        NSLog(@&quot;cls变量 本身地址 = %p&quot;, &amp;cls);
+        NSLog(@&quot;=================================&quot;);
+        
+        void *obj = &amp;cls;
+        NSLog(@&quot;obj变量 指向的虚假对象地址 = %@&quot;, obj);
+        NSLog(@&quot;obj变量 本身地址 = %p&quot;, &amp;obj);
+        NSLog(@&quot;=================================&quot;);
+
+        [(__bridge id)obj speak];
+        
+    }
+    return self;
+}
+
+@end
+</code></pre>
+
+<p>输出结果如下:</p>
+
+<pre><code>2015-07-13 20:24:31.485 iTest[13990:495035] =================================
+2015-07-13 20:24:31.487 iTest[13990:495035] self变量 指向对象的地址 = 0x7f8d32700050 ========
+2015-07-13 20:24:31.487 iTest[13990:495035] self变量 本身的地址 = 0x7fff5cb8f408
+2015-07-13 20:24:31.487 iTest[13990:495035] =================================
+2015-07-13 20:24:31.488 iTest[13990:495035] select address 0x103071b4e
+2015-07-13 20:24:31.488 iTest[13990:495035] _cmd address 0x10603733b
+2015-07-13 20:24:31.489 iTest[13990:495035] cls变量 指向的地址 = 0x103075760
+2015-07-13 20:24:31.489 iTest[13990:495035] cls变量 本身地址 = 0x7fff5cb8f3e8
+2015-07-13 20:24:31.489 iTest[13990:495035] =================================
+2015-07-13 20:24:31.490 iTest[13990:495035] obj变量 指向的虚假对象地址 = &lt;Sark: 0x7fff5cb8f3e8&gt;
+2015-07-13 20:24:31.490 iTest[13990:495035] obj变量 本身地址 = 0x7fff5cb8f3e0
+2015-07-13 20:24:31.490 iTest[13990:495035] =================================
+2015-07-13 20:24:31.491 iTest[13990:495035] Sark ivar name = _name, offset = 8
+2015-07-13 20:24:31.491 iTest[13990:495035] _name变量 本身的地址 0x7fff5cb8f3f0
+2015-07-13 20:24:31.492 iTest[13990:495035] _name变量 指向地址 0x7f8d32700050
+2015-07-13 20:24:31.492 iTest[13990:495035] _name 变量指向对象的内容 &lt;Test: 0x7f8d32700050&gt;
+</code></pre>
+
+<p>由上面的分析可知 <code>_name</code>指针本身的地址为<code>0x7fff5cb8f3f0</code> 正好是指针<code>cls</code>本身地址<code>0x7fff5cb8f3e8</code> + <code>8</code>得到的。而此地址由Debug 输出可知为<code>&lt;Test: 0x7f8d32700050&gt;</code>. 但是我们发现<code>cls</code>的上一个变量是<code>self</code>, 而<code>self</code> 的地址确是<code>0x7fff5cb8f408</code>, 是<code>cls</code>地址+<code>32</code>.</p>
+
+<p><img src="http://7jpswx.com1.z0.glb.clouddn.com/iOS%20Runtime%20成员变量与属性1.png" alt="" />
+<img src="http://7jpswx.com1.z0.glb.clouddn.com/iOS%20Runtime%20成员变量与属性2.png" alt="" /></p>
+
+<p>通过在Xcode自带的内存浏览器中查看, 并通过 <code>LLDB</code> 打印输出3个多出的变量, 分别为 <code>Test对象指针地址</code>, <code>Test类</code>, <code>_cmd</code>.</p>
+
+<h3 id="进一步分析">进一步分析</h3>
+
+<p>将代码注释如下:</p>
+
+<pre><code>//    self = [super init];
+//
+//    if (self) {
+
+    ....
+
+    //    }
+//    return self;
+    return nil;
+</code></pre>
+
+<p>在<code>NSLog(@&quot;cls变量 本身地址 = %p&quot;, &amp;cls);</code>句下面断点, 输出如下:</p>
+
+<pre><code>2015-07-13 20:43:05.377 iTest[14251:506168] =================================
+2015-07-13 20:43:05.378 iTest[14251:506168] self变量 指向对象的地址 = 0x7fda40f02c20 ========
+2015-07-13 20:43:05.378 iTest[14251:506168] self变量 本身的地址 = 0x7fff5f003408
+2015-07-13 20:43:05.378 iTest[14251:506168] =================================
+2015-07-13 20:43:05.379 iTest[14251:506168] select address 0x100bfdb4e
+2015-07-13 20:43:05.379 iTest[14251:506168] _cmd address 0x103bc333b
+2015-07-13 20:43:05.379 iTest[14251:506168] cls变量 指向的地址 = 0x100c01758
+2015-07-13 20:43:05.379 iTest[14251:506168] cls变量 本身地址 = 0x7fff5f0033f8
+</code></pre>
+
+<p>此时<code>cls</code> 和<code>self</code>相差 <code>0x7fff5f003408 - 0x7fff5f0033f8 = 16</code> 恰好为两个变量地址, 而我们由 runtime 调用知道, 每个方法都默认隐藏传入了两个变量<code>self</code> 和 <code>_cmd</code>. 从内存浏览器可以看出此时 <code>self</code>变量的上一个地址 <code>0x7fff5f003400</code>恰好为<code>0x103bc333b</code> 是<code>_ cmd</code>的地址. 而此时由于<code>self.name</code>指向了 <code>_cmd</code>的地址, 程序继续运行报错<code>EXC_BAD_ACCESS</code>
+<img src="http://7jpswx.com1.z0.glb.clouddn.com/iOS%20Runtime%20成员变量与属性3.png" alt="" /></p>
+
+<p>由此可以推论出:
+1) <code>_cmd</code> 为隐藏参数自动传入,</p>
+
+<p>2)<code>Test类</code>和另外一个<code>Test对象指针地址</code> 应该是 <code>[super init]</code>语句产生的, 经过编译后, <code>objc_super</code>结构体正好包含两个变量分别为<code>(id)self</code>, <code>objc_getClass(&quot;Test&quot;)</code>.</p>
+
+<pre><code>self = ((Test *(*)(__rw_objc_super *, SEL, NSInteger))(void *)objc_msgSendSuper)((__rw_objc_super){ (id)self, (id)class_getSuperclass(objc_getClass(&quot;Test&quot;)) }, sel_registerName(&quot;init&quot;));
+</code></pre>
+
+<p>看下图，可以清楚的展示整个计算的过程：</p>
+
+<p><img src="http://7jpswx.com1.z0.glb.clouddn.com/iOS%20Runtime%20成员变量与属性.jpg" alt="" /></p>
+
+<p>我们可以做一个另外的实验，把<code>Test Class</code> 的<code>init</code>方法改为如下代码：</p>
+
+<pre><code>@interface Father : NSObject
+@end
+
+@implementation Father
+@end
+
+@implementation Test
+
+- (instancetype)init
+{
+    self = [super init];
+    if (self) {
+        NSLog(@&quot;self变量 指向对象的地址 = %p ========&quot;, self);
+        NSLog(@&quot;self变量 本身的地址 = %p&quot;, &amp;self);
+        NSLog(@&quot;=================================&quot;);
+        
+        NSString *ss = @&quot;hello world&quot;;
+        NSLog(@&quot;ss变量 指向对象的地址 = %p ========&quot;, ss);
+        NSLog(@&quot;ss变量 本身的地址 = %p&quot;, &amp;ss);
+        NSLog(@&quot;=================================&quot;);
+
+        id cls = [Sark class];
+        NSLog(@&quot;cls变量 指向的地址 = %p&quot;, cls);
+        NSLog(@&quot;cls变量 本身地址 = %p&quot;, &amp;cls);
+        NSLog(@&quot;=================================&quot;);
+        
+        void *obj = &amp;cls;
+        NSLog(@&quot;obj变量 指向的虚假对象地址 = %@&quot;, obj);
+        NSLog(@&quot;obj变量 本身地址 = %p&quot;, &amp;obj);
+        NSLog(@&quot;=================================&quot;);
+
+        [(__bridge id)obj speak];
+    }
+    return self;
+}
+
+@end
+</code></pre>
+
+<p>你会发现这个时候的输出变成了:</p>
+
+<pre><code>2015-07-13 14:16:23.281 iTest[11586:381830] self变量 指向对象的地址 = 0x7fa3325007b0 ========
+2015-07-13 14:16:23.283 iTest[11586:381830] self变量 本身的地址 = 0x7fff57c6e408
+2015-07-13 14:16:23.283 iTest[11586:381830] =================================
+2015-07-13 14:16:23.284 iTest[11586:381830] ss变量 指向对象的地址 = 0x107f944e0 ========
+2015-07-13 14:16:23.284 iTest[11586:381830] ss变量 本身的地址 = 0x7fff57c6e3e8
+2015-07-13 14:16:23.284 iTest[11586:381830] =================================
+2015-07-13 14:16:23.285 iTest[11586:381830] cls变量 指向的地址 = 0x107f966d8
+2015-07-13 14:16:23.285 iTest[11586:381830] cls变量 本身地址 = 0x7fff57c6e3e0
+2015-07-13 14:16:23.286 iTest[11586:381830] =================================
+2015-07-13 14:16:23.286 iTest[11586:381830] obj变量 指向的虚假对象地址 = &lt;Sark: 0x7fff57c6e3e0&gt;
+2015-07-13 14:16:23.286 iTest[11586:381830] obj变量 本身地址 = 0x7fff57c6e3d8
+2015-07-13 14:16:23.287 iTest[11586:381830] =================================
+2015-07-13 14:16:23.287 iTest[11586:381830] Sark ivar name = _name, offset = 8
+2015-07-13 14:16:23.287 iTest[11586:381830] _name变量 本身的地址 0x7fff57c6e3e8
+2015-07-13 14:16:23.288 iTest[11586:381830] _name变量 指向地址 0x107f944e0
+2015-07-13 14:16:23.288 iTest[11586:381830] _name 变量指向对象的内容 hello world
+</code></pre>
+
+<h3 id="参考">参考</h3>
+
+<p><a href="http://chun.tips/blog/2014/11/08/bao-gen-wen-di-objective%5Bnil%5Dc-runtime(4)%5Bnil%5D-cheng-yuan-bian-liang-yu-shu-xing/">http://chun.tips/blog/2014/11/08/bao-gen-wen-di-objective%5Bnil%5Dc-runtime(4)%5Bnil%5D-cheng-yuan-bian-liang-yu-shu-xing/</a></p>
+              
+            </div>
+          </div>
+          <div id="post-footer" class="post-footer main-content-wrap">
+            
+              
+                
+                
+                  <div class="post-footer-tags">
+                    <span class="text-color-light text-small"></span><br/>
+                    
+  <a class="tag tag--primary tag--small" href="http://ytlvy.com/tags/ios/">IOS</a>
+
+  <a class="tag tag--primary tag--small" href="http://ytlvy.com/tags/property/">Property</a>
+
+  <a class="tag tag--primary tag--small" href="http://ytlvy.com/tags/ivar/">iVar</a>
+
+                  </div>
+                
+              
+            
+            
+  <div class="post-actions-wrap">
+      <nav >
+        <ul class="post-actions post-action-nav">
+          
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="http://ytlvy.com/posts/2015-07-13/2015-07-13-ios-runtime-self-super/" data-tooltip="iOS Runtime Self &amp; Super">
+              
+                  <i class="fa fa-angle-left"></i>
+                  <span class="hide-xs hide-sm text-small icon-ml"></span>
+                </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="http://ytlvy.com/posts/2015-07-13/2015-07-13-ios-runtime-%E8%BF%90%E8%A1%8C%E6%97%B6%E7%B1%BB%E4%B8%8E%E5%AF%B9%E8%B1%A1%E7%9A%84%E7%BC%96%E8%AF%91%E5%A4%84%E7%90%86/" data-tooltip="iOS Runtime 运行时类与对象的编译处理">
+              
+                  <span class="hide-xs hide-sm text-small icon-mr"></span>
+                  <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+          
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
+      
+        <li class="post-action hide-lg hide-md hide-sm">
+          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+            <i class="fa fa-share-alt"></i>
+          </a>
+        </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://ytlvy.com/posts/2015-07-13/2015-07-13-ios-runtime-%E6%88%90%E5%91%98%E5%8F%98%E9%87%8F%E4%B8%8E%E5%B1%9E%E6%80%A7/">
+              <i class="fa fa-facebook-official"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http://ytlvy.com/posts/2015-07-13/2015-07-13-ios-runtime-%E6%88%90%E5%91%98%E5%8F%98%E9%87%8F%E4%B8%8E%E5%B1%9E%E6%80%A7/">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=http://ytlvy.com/posts/2015-07-13/2015-07-13-ios-runtime-%E6%88%90%E5%91%98%E5%8F%98%E9%87%8F%E4%B8%8E%E5%B1%9E%E6%80%A7/">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        
+      
+      
+        <li class="post-action">
+          <a class="post-action-btn btn btn--default" href="#disqus_thread">
+            <i class="fa fa-comment-o"></i>
+          </a>
+        </li>
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#">
+        
+          <i class="fa fa-list"></i>
+        </a>
+      </li>
+    </ul>
+  </div>
+
+
+            
+              
+                <div id="disqus_thread">
+  <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+              
+            
+          </div>
+        </article>
+        <footer id="footer" class="main-content-wrap">
+  <span class="copyrights">
+    &copy; 2017 肖杰. 
+  </span>
+</footer>
+
+      </div>
+      <div id="bottom-bar" class="post-bottom-bar" data-behavior="1">
+        
+  <div class="post-actions-wrap">
+      <nav >
+        <ul class="post-actions post-action-nav">
+          
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="http://ytlvy.com/posts/2015-07-13/2015-07-13-ios-runtime-self-super/" data-tooltip="iOS Runtime Self &amp; Super">
+              
+                  <i class="fa fa-angle-left"></i>
+                  <span class="hide-xs hide-sm text-small icon-ml"></span>
+                </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="http://ytlvy.com/posts/2015-07-13/2015-07-13-ios-runtime-%E8%BF%90%E8%A1%8C%E6%97%B6%E7%B1%BB%E4%B8%8E%E5%AF%B9%E8%B1%A1%E7%9A%84%E7%BC%96%E8%AF%91%E5%A4%84%E7%90%86/" data-tooltip="iOS Runtime 运行时类与对象的编译处理">
+              
+                  <span class="hide-xs hide-sm text-small icon-mr"></span>
+                  <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+          
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
+      
+        <li class="post-action hide-lg hide-md hide-sm">
+          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+            <i class="fa fa-share-alt"></i>
+          </a>
+        </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://ytlvy.com/posts/2015-07-13/2015-07-13-ios-runtime-%E6%88%90%E5%91%98%E5%8F%98%E9%87%8F%E4%B8%8E%E5%B1%9E%E6%80%A7/">
+              <i class="fa fa-facebook-official"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http://ytlvy.com/posts/2015-07-13/2015-07-13-ios-runtime-%E6%88%90%E5%91%98%E5%8F%98%E9%87%8F%E4%B8%8E%E5%B1%9E%E6%80%A7/">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=http://ytlvy.com/posts/2015-07-13/2015-07-13-ios-runtime-%E6%88%90%E5%91%98%E5%8F%98%E9%87%8F%E4%B8%8E%E5%B1%9E%E6%80%A7/">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        
+      
+      
+        <li class="post-action">
+          <a class="post-action-btn btn btn--default" href="#disqus_thread">
+            <i class="fa fa-comment-o"></i>
+          </a>
+        </li>
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#">
+        
+          <i class="fa fa-list"></i>
+        </a>
+      </li>
+    </ul>
+  </div>
+
+
+      </div>
+      <div id="share-options-bar" class="share-options-bar" data-behavior="1">
+  <i id="btn-close-shareoptions" class="fa fa-close"></i>
+  <ul class="share-options">
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Fytlvy.com%2Fposts%2F2015-07-13%2F2015-07-13-ios-runtime-%25E6%2588%2590%25E5%2591%2598%25E5%258F%2598%25E9%2587%258F%25E4%25B8%258E%25E5%25B1%259E%25E6%2580%25A7%2F">
+          <i class="fa fa-facebook-official"></i><span>%!(EXTRA string=Facebook)</span>
+        </a>
+      </li>
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=http%3A%2F%2Fytlvy.com%2Fposts%2F2015-07-13%2F2015-07-13-ios-runtime-%25E6%2588%2590%25E5%2591%2598%25E5%258F%2598%25E9%2587%258F%25E4%25B8%258E%25E5%25B1%259E%25E6%2580%25A7%2F">
+          <i class="fa fa-twitter"></i><span>%!(EXTRA string=Twitter)</span>
+        </a>
+      </li>
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=http%3A%2F%2Fytlvy.com%2Fposts%2F2015-07-13%2F2015-07-13-ios-runtime-%25E6%2588%2590%25E5%2591%2598%25E5%258F%2598%25E9%2587%258F%25E4%25B8%258E%25E5%25B1%259E%25E6%2580%25A7%2F">
+          <i class="fa fa-google-plus"></i><span>%!(EXTRA string=Google&#43;)</span>
+        </a>
+      </li>
+    
+  </ul>
+</div>
+<div id="share-options-mask" class="share-options-mask"></div>
+    </div>
+    
+    <div id="about">
+  <div id="about-card">
+    <div id="about-btn-close">
+      <i class="fa fa-remove"></i>
+    </div>
+    
+      <img id="about-card-picture" src="//www.gravatar.com/avatar/8d5387e20303e26c6147cfe67990995e?s=110" alt="" />
+    
+    <h4 id="about-card-name">肖杰</h4>
+    
+      <div id="about-card-bio">一个瑜伽|篮球|羽毛球爱好者</div>
+    
+    
+      <div id="about-card-job">
+        <i class="fa fa-briefcase"></i>
+        <br/>
+        搬砖工
+      </div>
+    
+    
+      <div id="about-card-location">
+        <i class="fa fa-map-marker"></i>
+        <br/>
+        Beijing
+      </div>
+    
+  </div>
+</div>
+
+    <div id="algolia-search-modal" class="modal-container">
+  <div class="modal">
+    <div class="modal-header">
+      <span class="close-button"><i class="fa fa-close"></i></span>
+      <a href="https://algolia.com" target="_blank" rel="noopener" class="searchby-algolia text-color-light link-unstyled">
+        <span class="searchby-algolia-text text-color-light text-small">by</span>
+        <img class="searchby-algolia-logo" src="https://www.algolia.com/static_assets/images/press/downloads/algolia-light.svg">
+      </a>
+      <i class="search-icon fa fa-search"></i>
+      <form id="algolia-search-form">
+        <input type="text" id="algolia-search-input" name="search"
+          class="form-control input--large search-input" placeholder="" />
+      </form>
+    </div>
+    <div class="modal-body">
+      <div class="no-result text-color-light text-center"></div>
+      <div class="results">
+        
+        
+      </div>
+    </div>
+    <div class="modal-footer">
+      <p class="results-count text-medium"
+         data-message-zero=""
+         data-message-one=""
+         data-message-other="">
+         0 posts found
+      </p>
+    </div>
+  </div>
+</div>
+    
+  
+    
+    <div id="cover" style="background-image:url('http://ytlvy.com/images/cover.jpg');"></div>
+  
+
+
+    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js" integrity="sha256-/BfiIkHlHoVihZdc6TFuj7MmJ0TWcWsMXkeDFwhi0zw=" crossorigin="anonymous"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.7/js/jquery.fancybox.min.js" integrity="sha256-GEAnjcTqVP+vBp3SSc8bEDQqvWAZMiHyUSIorrWwH50=" crossorigin="anonymous"></script>
+
+
+<script src="http://ytlvy.com/js/script-qi9wbxp2ya2j6p7wx1i6tgavftewndznf4v0hy2gvivk1rxgc3lm7njqb6bz.min.js"></script>
+
+
+
+<script>
+$(document).ready(function() {
+  hljs.configure({ classPrefix: '', useBR: false });
+  $('pre.code-highlight > code, pre > code').each(function(i, block) {
+    if (!$(this).hasClass('codeblock')) {
+      $(this).addClass('codeblock');
+    }
+    hljs.highlightBlock(block);
+  });
+});
+</script>
+
+
+  
+    
+      <script>
+        var disqus_config = function () {
+          this.page.url = 'http:\/\/ytlvy.com\/posts\/2015-07-13\/2015-07-13-ios-runtime-%E6%88%90%E5%91%98%E5%8F%98%E9%87%8F%E4%B8%8E%E5%B1%9E%E6%80%A7\/';
+          
+            this.page.identifier = '\/posts\/2015-07-13\/2015-07-13-ios-runtime-%E6%88%90%E5%91%98%E5%8F%98%E9%87%8F%E4%B8%8E%E5%B1%9E%E6%80%A7\/'
+          
+        };
+        (function() {
+          
+          
+          if (window.location.hostname == "localhost") {
+            return;
+          }
+          var d = document, s = d.createElement('script');
+          var disqus_shortname = 'hugo-tranquilpeak-theme';
+          s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+
+          s.setAttribute('data-timestamp', +new Date());
+          (d.head || d.body).appendChild(s);
+        })();
+      </script>
+    
+  
+
+
+
+    
+  </body>
+</html>
+

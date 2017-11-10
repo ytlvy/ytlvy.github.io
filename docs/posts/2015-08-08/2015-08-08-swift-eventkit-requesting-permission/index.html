@@ -1,0 +1,899 @@
+
+
+  
+
+
+  
+
+
+
+
+  
+
+
+  
+
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="Hugo 0.30.2 with theme Tranquilpeak 0.4.2-BETA">
+    <title>Swift EventKit - Requesting Permission</title>
+    <meta name="author" content="肖杰">
+    <meta name="keywords" content="">
+
+    <link rel="icon" href="http://ytlvy.com/favicon.png">
+    
+
+    
+    <meta name="description" content="Swift  EventKit的初学者指南&ndash;请求权限
+
+
+
+
+
+原文链接 : Beginner’s Guide to EventKit in Swift – Requesting Permission
+原文作者 : Andrew
+译文出自 :  开发技术前线 www.devtf.cn
+译者 : MollyMmm
+校对者: Mr.Simple
+状态 : 校对完成
+
+
+
+EventKit为获取和操作用户日历事件和提醒提供了一系列的类.在下面的教程中,我的目标是带领你走出利用EventKit建立一个应用程序的第.我的目标是带领你迈出利用EventKit建立一个应用程序的第一步.我将演示如何向用户的日历请求许可,我还将展示几个处理用户响应的例子(当他们授予访问权限,或者拒绝).
+#Example scenario
+#场景
+
+让我们先提出一个基本方案，作为本教程的例子。
+
+假设我们正在构建一个应用程序，现在，有一个单一的视图控制器。在得到用户授权允许的情况下，我们希望这个视图控制器显示日历列表。如果用户拒绝访问,我们将向用户展示一个消息,用来说明我们的应用程序在没有访问权限时不能运行,我们也将允许他们通过单击一个按钮能够在他们的设备的设置中设置授权访问.
+
+我已经创建一个那样的应用程序作为例子&ndash;跳到GitHub中查看并研究这个例子的代码.
+
+
+资源
+
+Xcode工程示例
+
+
+#Storyboard setup
+#故事面板设置
+
+">
+    <meta property="og:description" content="Swift  EventKit的初学者指南&ndash;请求权限
+
+
+
+
+
+原文链接 : Beginner’s Guide to EventKit in Swift – Requesting Permission
+原文作者 : Andrew
+译文出自 :  开发技术前线 www.devtf.cn
+译者 : MollyMmm
+校对者: Mr.Simple
+状态 : 校对完成
+
+
+
+EventKit为获取和操作用户日历事件和提醒提供了一系列的类.在下面的教程中,我的目标是带领你走出利用EventKit建立一个应用程序的第.我的目标是带领你迈出利用EventKit建立一个应用程序的第一步.我将演示如何向用户的日历请求许可,我还将展示几个处理用户响应的例子(当他们授予访问权限,或者拒绝).
+#Example scenario
+#场景
+
+让我们先提出一个基本方案，作为本教程的例子。
+
+假设我们正在构建一个应用程序，现在，有一个单一的视图控制器。在得到用户授权允许的情况下，我们希望这个视图控制器显示日历列表。如果用户拒绝访问,我们将向用户展示一个消息,用来说明我们的应用程序在没有访问权限时不能运行,我们也将允许他们通过单击一个按钮能够在他们的设备的设置中设置授权访问.
+
+我已经创建一个那样的应用程序作为例子&ndash;跳到GitHub中查看并研究这个例子的代码.
+
+
+资源
+
+Xcode工程示例
+
+
+#Storyboard setup
+#故事面板设置
+
+">
+    <meta property="og:type" content="blog">
+    <meta property="og:title" content="Swift EventKit - Requesting Permission">
+    <meta property="og:url" content="/posts/2015-08-08/2015-08-08-swift-eventkit-requesting-permission/">
+    <meta property="og:site_name" content="My New Hugo Site">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="My New Hugo Site">
+    <meta name="twitter:description" content="Swift  EventKit的初学者指南&ndash;请求权限
+
+
+
+
+
+原文链接 : Beginner’s Guide to EventKit in Swift – Requesting Permission
+原文作者 : Andrew
+译文出自 :  开发技术前线 www.devtf.cn
+译者 : MollyMmm
+校对者: Mr.Simple
+状态 : 校对完成
+
+
+
+EventKit为获取和操作用户日历事件和提醒提供了一系列的类.在下面的教程中,我的目标是带领你走出利用EventKit建立一个应用程序的第.我的目标是带领你迈出利用EventKit建立一个应用程序的第一步.我将演示如何向用户的日历请求许可,我还将展示几个处理用户响应的例子(当他们授予访问权限,或者拒绝).
+#Example scenario
+#场景
+
+让我们先提出一个基本方案，作为本教程的例子。
+
+假设我们正在构建一个应用程序，现在，有一个单一的视图控制器。在得到用户授权允许的情况下，我们希望这个视图控制器显示日历列表。如果用户拒绝访问,我们将向用户展示一个消息,用来说明我们的应用程序在没有访问权限时不能运行,我们也将允许他们通过单击一个按钮能够在他们的设备的设置中设置授权访问.
+
+我已经创建一个那样的应用程序作为例子&ndash;跳到GitHub中查看并研究这个例子的代码.
+
+
+资源
+
+Xcode工程示例
+
+
+#Storyboard setup
+#故事面板设置
+
+">
+    
+    
+
+    
+    
+
+    
+      <meta property="og:image" content="//www.gravatar.com/avatar/8d5387e20303e26c6147cfe67990995e?s=640">
+    
+
+    
+    
+    
+
+    
+
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/jquery.fancybox.min.css" integrity="sha256-vuXZ9LGmmwtjqFX1F+EKin1ThZMub58gKULUyf0qECk=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/helpers/jquery.fancybox-thumbs.min.css" integrity="sha256-SEa4XYAHihTcEP1f5gARTB2K26Uk8PsndQYHQC1f4jU=" crossorigin="anonymous" />
+    
+    
+    <link rel="stylesheet" href="http://ytlvy.com/css/style-jsjn0006wyhpyzivf6yceb31gvpjatbcs3qzjvlumobfnugccvobqwxnnaj8.min.css" />
+    
+    
+
+    
+      
+    
+    
+  </head>
+
+  <body>
+    <div id="blog">
+      <header id="header" data-behavior="1">
+  <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+  <div class="header-title">
+    <a class="header-title-link" href="http://ytlvy.com/">My New Hugo Site</a>
+  </div>
+  
+    
+      <a class="header-right-picture "
+         href="http://ytlvy.com/#about">
+    
+    
+    
+      
+        <img class="header-picture" src="//www.gravatar.com/avatar/8d5387e20303e26c6147cfe67990995e?s=90" alt="" />
+      
+    
+    </a>
+  
+</header>
+
+      <nav id="sidebar" data-behavior="1">
+  <div class="sidebar-container">
+    
+      <div class="sidebar-profile">
+        <a href="http://ytlvy.com/#about">
+          <img class="sidebar-profile-picture" src="//www.gravatar.com/avatar/8d5387e20303e26c6147cfe67990995e?s=110" alt="" />
+        </a>
+        <h4 class="sidebar-profile-name">肖杰</h4>
+        
+          <h5 class="sidebar-profile-bio">一个瑜伽|篮球|羽毛球爱好者</h5>
+        
+      </div>
+    
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="http://ytlvy.com/">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-home"></i>
+      
+      <span class="sidebar-button-desc">Home</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="http://ytlvy.com/categories">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-bookmark"></i>
+      
+      <span class="sidebar-button-desc">Categories</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="http://ytlvy.com/tags">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+      
+      <span class="sidebar-button-desc">Tags</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="http://ytlvy.com/archives">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
+      
+      <span class="sidebar-button-desc">Archives</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="http://ytlvy.com/#about">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-question"></i>
+      
+      <span class="sidebar-button-desc">About</span>
+    </a>
+  </li>
+
+
+    </ul>
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://github.com/ytlvy" target="_blank" rel="noopener">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-github"></i>
+      
+      <span class="sidebar-button-desc">GitHub</span>
+    </a>
+  </li>
+
+
+    </ul>
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="http://ytlvy.com/index.xml">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-rss"></i>
+      
+      <span class="sidebar-button-desc">RSS</span>
+    </a>
+  </li>
+
+
+    </ul>
+  </div>
+</nav>
+
+      
+
+      <div id="main" data-behavior="1"
+        class="
+               hasCoverMetaIn
+               ">
+        <article class="post" itemscope itemType="http://schema.org/BlogPosting">
+          
+          
+            <div class="post-header main-content-wrap text-left">
+  
+    <h1 class="post-title" itemprop="headline">
+      Swift EventKit - Requesting Permission
+    </h1>
+  
+  
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2015-08-08T00:00:00Z">
+        
+   8, 2015
+
+      </time>
+    
+    
+  
+  
+    <span></span>
+    
+      <a class="category-link" href="http://ytlvy.com/categories/swift">Swift</a>
+    
+  
+
+  </div>
+
+</div>
+          
+          <div class="post-content markdown" itemprop="articleBody">
+            <div class="main-content-wrap">
+              <h1 id="swift-eventkit的初学者指南-请求权限">Swift  EventKit的初学者指南&ndash;请求权限</h1>
+
+<hr />
+
+<blockquote>
+<ul>
+<li>原文链接 : <a href="http://www.andrewcbancroft.com/2015/05/14/beginners-guide-to-eventkit-in-swift-requesting-permission/">Beginner’s Guide to EventKit in Swift – Requesting Permission</a></li>
+<li>原文作者 : <a href="http://www.andrewcbancroft.com/">Andrew</a></li>
+<li><a href="http://www.devtf.cn">译文出自 :  开发技术前线 www.devtf.cn</a></li>
+<li>译者 : <a href="https://github.com/MollyMmm">MollyMmm</a></li>
+<li>校对者: <a href="https://github.com/bboyfeiyu">Mr.Simple</a><br /></li>
+<li>状态 : 校对完成</li>
+</ul>
+</blockquote>
+
+<p>EventKit为获取和操作用户日历事件和提醒提供了一系列的类.在下面的教程中,我的目标是带领你走出利用EventKit建立一个应用程序的第.我的目标是带领你迈出利用EventKit建立一个应用程序的第一步.我将演示如何向用户的日历请求许可,我还将展示几个处理用户响应的例子(当他们授予访问权限,或者拒绝).
+#Example scenario
+#场景</p>
+
+<p>让我们先提出一个基本方案，作为本教程的例子。</p>
+
+<p>假设我们正在构建一个应用程序，现在，有一个单一的视图控制器。在得到用户授权允许的情况下，我们希望这个视图控制器显示日历列表。如果用户拒绝访问,我们将向用户展示一个消息,用来说明我们的应用程序在没有访问权限时不能运行,我们也将允许他们通过单击一个按钮能够在他们的设备的设置中设置授权访问.</p>
+
+<p>我已经创建一个那样的应用程序作为例子&ndash;跳到GitHub中查看并研究这个例子的代码.</p>
+
+<blockquote>
+<p>资源</p>
+
+<p><a href="https://github.com/andrewcbancroft/EventTracker/tree/ask-for-permission">Xcode工程示例</a></p>
+</blockquote>
+
+<p>#Storyboard setup
+#故事面板设置</p>
+
+<p></p>
+
+<p>你使用EventKit的第一步就是需要为自己创建一个用户界面来处理当你第一个程序启动时用户对&rdquo;该程序可以访问你的日历吗?&ldquo;对出不同的响应,不久,我们将得到如何请求这个许可的详情.但首先,让我们来剖析我们如何用对于一个许可操作导致的给定响应能够做正确的操作的一些视图来安排我们的故事板.</p>
+
+<p>用户可以授予访问权限,也可以拒绝授予访问权限来通知他们的日历或者提醒.我们需要为这两种情况做好准备.</p>
+
+<p>#当被授予访问权限时,tableview显示日历列表</p>
+
+<p>我今天持乐观态度,所以让我们开始处理从一开始用户就授予我们访问他们日历的权限的情况.</p>
+
+<p>当用户授予我们访问权限,我们想列出一个表视图的日历.在接下来的教程中,我们将担心数据源的设置.现在,我们将从实用工具栏中拽一个表格视图过来.</p>
+
+<p>为了得到填满整个屏幕的表视图,我做了几件事情.通常,当你从实用工具栏中拽一个表视图过来的时候,它会在故事板中填满整个场景.在布局中我向下拖顶部边缘知道它&rdquo;捕捉&rdquo;到我所期望的状态栏底部被定位的那行.然后,我设置了以下限制:</p>
+
+<blockquote>
+<ul>
+<li>Center X<br /></li>
+<li>Center Y</li>
+<li>Equal width to Superview</li>
+<li>Top space to Top Layout Guide for height.</li>
+</ul>
+</blockquote>
+
+<p>我已经创建了一个设置表视图的简短截屏,如果你想要一个完整的练习,可以参看下面链接的内容:</p>
+
+<blockquote>
+<p>Resources
+资源</p>
+
+<p><a href="http://bit.ly/WatchSetUpTVFromACB">Screencast: Setting Up a Table View</a></p>
+
+<p><a href="http://www.andrewcbancroft.com/2015/05/18/swift-how-to-setting-up-a-table-view/"> Full transcript</a></p>
+</blockquote>
+
+<p>这里有这些约束的详细视图,以及故事板看起来像装表视图的视觉效果.</p>
+
+<p><img src="http://ww1.sinaimg.cn/mw690/a10328aajw1eshuj6c424j20850ciwfn.jpg" alt="Detailed view of constraints" /></p>
+
+<p><img src="http://ww2.sinaimg.cn/mw690/a10328aajw1eshuj777a3j212u0oxguc.jpg" alt="Table view in Storyboard" /></p>
+
+<p>最后一点,在故事板中我已经将这个表视图的hidden属性设置为true.根据用户允许或者拒绝对日历的访问后,我将切换表的可见性,但我认为值得指出的是在我例子中表视图的初始状态是被隐藏.</p>
+
+<p>#访问被拒绝时的&rdquo;需要许可&rdquo;视图</p>
+
+<p>但有时,用户拒绝授权访问日历,在意识到这样做将导致基本上停止你应用程序所有的功能之前,如果你的整个应用程序或者只是该应用程序的一部分需要访问功能,你需要一种方法来告知用户,并为他们提供一种方法跳到用户设置,如果可能的话让用户手动授予访问权限.</p>
+
+<p>我在示例项目中的方法是在故事板场景中组织一个新的视图,该视图包含一个展示操作说明的标签和一个点击后使用户进入我们应用程序的设置界面的按钮.</p>
+
+<p>再次,一些约束涉及到在运行时使一些事物正确的显示.在这里我不会讲述这个细节,因为它很可能因为每一个执行操作而有一点不同.</p>
+
+<p>我将指出的意见事情是,这个视图的透明度已经被设置为0,以便如果用户拒绝授权,我能够展示一个逐渐消失的效果.下面就来看看在设置了隐藏“NeedPermissionsView”的场景：</p>
+
+<p><img src="http://ww3.sinaimg.cn/mw690/a10328aajw1eshuj6ra19j214p0ou12b.jpg" alt="Need permission view" /></p>
+
+<h1 id="event-store的角色">Event Store的角色</h1>
+
+<p>EventKit的核心是EKEventStore.EKEventStore是事物的中心.创建EKEventStore的一个实例,为开发人员提供了对用户的日历和提醒列表中执行各种读/写操作的API.</p>
+
+<p>一个与日历交互的视图控制器应该有一个引用EKEventStore的实例.这很容易被创建&ndash;这里是一个例子:</p>
+
+<blockquote>
+<p>ViewController.swift</p>
+
+<pre><code>class ViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+    let eventStore = EKEventStore()
+    // ...    
+}
+</code></pre>
+</blockquote>
+
+<p>#检查日历的授权</p>
+
+<p>一旦我们有了引用EKEventStore的实例,我们可以做像检查用户是否授权访问他们的日历这样的事情.根据这里,我们可以做是否需要请求许可的决定,随后确定要显示的视图(表视图或者需要许可视图).</p>
+
+<p>我们在哪里检查日历授权很重要.我的建议是每次在视图出现时检查(即在viewWillAppear()中),因为用户首次授予访问权限,切换设置,拒绝访问的情况是完全有可能的.我们的应用程序需要做出适当的响应.</p>
+
+<p>In the example project provided with this article, I’ve created a function named checkCalendarAuthorizationStatus(). Here a peek at what it does:</p>
+
+<p>在这个文章提供的示例工程中,我已经创建了一个名为checkCalendarAuthorizationStatus()的函数.
+接下来看看它的实现:</p>
+
+<blockquote>
+<p>ViewController.swift</p>
+
+<pre><code>class ViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+    // ...    
+    override func viewWillAppear(animated: Bool) {
+        checkCalendarAuthorizationStatus()
+    }
+        func checkCalendarAuthorizationStatus() {
+        let status = EKEventStore.authorizationStatusForEntityType(EKEntityTypeEvent)      
+        switch (status) {
+            case EKAuthorizationStatus.NotDetermined:
+                // This happens on first-run
+                requestAccessToCalendar()
+            case EKAuthorizationStatus.Authorized:
+                // Things are in line with being able to show the calendars in the table view
+                loadCalendars()
+                refreshTableView()
+            case EKAuthorizationStatus.Restricted, EKAuthorizationStatus.Denied:
+                // We need to help them give us permission
+                needPermissionView.fadeIn()
+            default:
+                let alert = UIAlertView(title: &quot;Privacy Warning&quot;, message: &quot;You have not granted permission for this app to access your Calendar&quot;, delegate: nil, cancelButtonTitle: &quot;OK&quot;)
+                alert.show()
+        }
+    }
+    // ...
+}
+</code></pre>
+</blockquote>
+
+<p>这里关键的功能是EKEventStore的 authorizationStatusForEntityType实现的.传入的EKEntityTypeEvent用于跟用户日历进行交互.如果我们想要检查他们的提醒的权限,我们将在这里使用EKEntityTypeReminder.</p>
+
+<p>EKAuthorizationStatus的可能值根据switch里的相应的case来执行封装好的方便阅读的独立功能的逻辑代码.</p>
+
+<p>让我们一步步来看一看这些功能.</p>
+
+<p>#请求访问日历</p>
+
+<p>正如标题所说的,所有的事情从这里开始.每当我们的应用程序加载和调用authorizationStatusForEntityType的时候,将返回NotDetermined的状态.就是在这一点上我们想请求访问日历.</p>
+
+<p>为了这样做,按照下面的方法定义requestAccessToCalendar函数:</p>
+
+<blockquote>
+<p>requestAccessToCalendar()</p>
+
+<pre><code>class ViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+   // ...  
+   func requestAccessToCalendar() {
+        eventStore.requestAccessToEntityType(EKEntityTypeEvent, completion: {
+            (accessGranted: Bool, error: NSError!) in            
+            if accessGranted == true {
+                // Ensure that UI refreshes happen back on the main thread!
+                dispatch_async(dispatch_get_main_queue(), {
+                    self.loadCalendars()
+                    self.refreshTableView()
+                })
+            } else {
+                // Ensure that UI refreshes happen back on the main thread!
+                dispatch_async(dispatch_get_main_queue(), {
+                    self.needPermissionView.fadeIn()
+                })
+            }
+        })
+    }
+    // ...
+}
+</code></pre>
+</blockquote>
+
+<p>我们的EKEventStore实例提供了一个名为requestAccessToEntityType的函数.再次将EKEntityTypeEvent作为我们请求访问日历的参数传递.剩余的有趣的部分在我们提供的封装完的闭包里能够找到.</p>
+
+<p>在实现里有三个主要的事情需要注意:</p>
+
+<p>1.传递到闭包里的两个参数一个是用来说明访问权限是否被授予的Bool类型的,另一个是NSError.</p>
+
+<p>2.我们需要调用dispatch_async(),并表明我们要调回主队列中执行刷新UI的操作.</p>
+
+<p>3.self.needPermissionView.fadeIn()作为我操作中的一个UIView的拓展,<a href="https://github.com/andrewcbancroft/EventTracker/tree/ask-for-permission">Swift中渐入/淡出动画的拓展类(Fade In / Out Animations as Class Extensions in Swift)</a>.</p>
+
+<p>#授予访问权限！加载日历和刷新表视图</p>
+
+<p>当被允许访问的时候,我们可以调用eventStore实例中的calendarsForEntityType函数,并传递EKEntityTypeEvent去抓取用户日历的数组在我们的表视图中显示.下面就来看看:</p>
+
+<blockquote>
+<p>loadCalendars()</p>
+
+<pre><code> class ViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+    // ...
+    var calendars: [EKCalendar]?
+    // ...    
+    func loadCalendars() {
+        self.calendars = eventStore.calendarsForEntityType(EKEntityTypeEvent) as? [EKCalendar]
+    }    
+    func refreshTableView() {
+        calendarsTableView.hidden = false
+        calendarsTableView.reloadData()
+    }
+    // ...
+}
+</code></pre>
+</blockquote>
+
+<p>#拒绝访问&ndash;显示需要许可视图</p>
+
+<p>当访问被拒绝的时候,我们需要弹出在故事板场景中创建的“Needs Permission View”.</p>
+
+<p>在这个视图中,上面的函数重新被调用,这样有一个能够让用户直接跳转到我们应用程序的设置页面中,以便他们能够从那里授权日历访问.这个按钮连线到了一个IBAction.下面有实现IBAction的例子:</p>
+
+<blockquote>
+<p>goToSettingsButtonTapped()</p>
+
+<pre><code> class ViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+    // ...
+    @IBAction func goToSettingsButtonTapped(sender: UIButton) {
+        let openSettingsUrl = NSURL(string: UIApplicationOpenSettingsURLString)
+        UIApplication.sharedApplication().openURL(openSettingsUrl!)
+    }
+    // ...
+}
+</code></pre>
+</blockquote>
+
+<p>#结束语</p>
+
+<p>这几乎完成了使用 Event Kit的开始工作!对于checkCalendarAuthorizationStatus()函数的其余案例简单的重用,我只是简单的剖析了请求允许的过程.</p>
+
+<p>我鼓励你们<a href="https://github.com/andrewcbancroft/EventTracker/tree/ask-for-permission">跳到Github</a>,并且作为你应用程序中利用Event Kit的开始,自己深入研究这些代码.</p>
+              
+            </div>
+          </div>
+          <div id="post-footer" class="post-footer main-content-wrap">
+            
+              
+                
+                
+                  <div class="post-footer-tags">
+                    <span class="text-color-light text-small"></span><br/>
+                    
+  <a class="tag tag--primary tag--small" href="http://ytlvy.com/tags/eventkit/">EventKit</a>
+
+                  </div>
+                
+              
+            
+            
+  <div class="post-actions-wrap">
+      <nav >
+        <ul class="post-actions post-action-nav">
+          
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="http://ytlvy.com/posts/2015-08-08/2015-08-08-swift-core-graphics-tutorial-part-3-patterns-and-playgrounds/" data-tooltip="Swift Core Graphics Tutorial Part 3: Patterns and Playgrounds">
+              
+                  <i class="fa fa-angle-left"></i>
+                  <span class="hide-xs hide-sm text-small icon-ml"></span>
+                </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="http://ytlvy.com/posts/2015-08-08/2015-08-08-swift-extensions-nuances/" data-tooltip="Swift Extensions Nuances">
+              
+                  <span class="hide-xs hide-sm text-small icon-mr"></span>
+                  <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+          
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
+      
+        <li class="post-action hide-lg hide-md hide-sm">
+          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+            <i class="fa fa-share-alt"></i>
+          </a>
+        </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://ytlvy.com/posts/2015-08-08/2015-08-08-swift-eventkit-requesting-permission/">
+              <i class="fa fa-facebook-official"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http://ytlvy.com/posts/2015-08-08/2015-08-08-swift-eventkit-requesting-permission/">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=http://ytlvy.com/posts/2015-08-08/2015-08-08-swift-eventkit-requesting-permission/">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        
+      
+      
+        <li class="post-action">
+          <a class="post-action-btn btn btn--default" href="#disqus_thread">
+            <i class="fa fa-comment-o"></i>
+          </a>
+        </li>
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#">
+        
+          <i class="fa fa-list"></i>
+        </a>
+      </li>
+    </ul>
+  </div>
+
+
+            
+              
+                <div id="disqus_thread">
+  <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+              
+            
+          </div>
+        </article>
+        <footer id="footer" class="main-content-wrap">
+  <span class="copyrights">
+    &copy; 2017 肖杰. 
+  </span>
+</footer>
+
+      </div>
+      <div id="bottom-bar" class="post-bottom-bar" data-behavior="1">
+        
+  <div class="post-actions-wrap">
+      <nav >
+        <ul class="post-actions post-action-nav">
+          
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="http://ytlvy.com/posts/2015-08-08/2015-08-08-swift-core-graphics-tutorial-part-3-patterns-and-playgrounds/" data-tooltip="Swift Core Graphics Tutorial Part 3: Patterns and Playgrounds">
+              
+                  <i class="fa fa-angle-left"></i>
+                  <span class="hide-xs hide-sm text-small icon-ml"></span>
+                </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="http://ytlvy.com/posts/2015-08-08/2015-08-08-swift-extensions-nuances/" data-tooltip="Swift Extensions Nuances">
+              
+                  <span class="hide-xs hide-sm text-small icon-mr"></span>
+                  <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+          
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
+      
+        <li class="post-action hide-lg hide-md hide-sm">
+          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+            <i class="fa fa-share-alt"></i>
+          </a>
+        </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://ytlvy.com/posts/2015-08-08/2015-08-08-swift-eventkit-requesting-permission/">
+              <i class="fa fa-facebook-official"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http://ytlvy.com/posts/2015-08-08/2015-08-08-swift-eventkit-requesting-permission/">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=http://ytlvy.com/posts/2015-08-08/2015-08-08-swift-eventkit-requesting-permission/">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        
+      
+      
+        <li class="post-action">
+          <a class="post-action-btn btn btn--default" href="#disqus_thread">
+            <i class="fa fa-comment-o"></i>
+          </a>
+        </li>
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#">
+        
+          <i class="fa fa-list"></i>
+        </a>
+      </li>
+    </ul>
+  </div>
+
+
+      </div>
+      <div id="share-options-bar" class="share-options-bar" data-behavior="1">
+  <i id="btn-close-shareoptions" class="fa fa-close"></i>
+  <ul class="share-options">
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Fytlvy.com%2Fposts%2F2015-08-08%2F2015-08-08-swift-eventkit-requesting-permission%2F">
+          <i class="fa fa-facebook-official"></i><span>%!(EXTRA string=Facebook)</span>
+        </a>
+      </li>
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=http%3A%2F%2Fytlvy.com%2Fposts%2F2015-08-08%2F2015-08-08-swift-eventkit-requesting-permission%2F">
+          <i class="fa fa-twitter"></i><span>%!(EXTRA string=Twitter)</span>
+        </a>
+      </li>
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=http%3A%2F%2Fytlvy.com%2Fposts%2F2015-08-08%2F2015-08-08-swift-eventkit-requesting-permission%2F">
+          <i class="fa fa-google-plus"></i><span>%!(EXTRA string=Google&#43;)</span>
+        </a>
+      </li>
+    
+  </ul>
+</div>
+<div id="share-options-mask" class="share-options-mask"></div>
+    </div>
+    
+    <div id="about">
+  <div id="about-card">
+    <div id="about-btn-close">
+      <i class="fa fa-remove"></i>
+    </div>
+    
+      <img id="about-card-picture" src="//www.gravatar.com/avatar/8d5387e20303e26c6147cfe67990995e?s=110" alt="" />
+    
+    <h4 id="about-card-name">肖杰</h4>
+    
+      <div id="about-card-bio">一个瑜伽|篮球|羽毛球爱好者</div>
+    
+    
+      <div id="about-card-job">
+        <i class="fa fa-briefcase"></i>
+        <br/>
+        搬砖工
+      </div>
+    
+    
+      <div id="about-card-location">
+        <i class="fa fa-map-marker"></i>
+        <br/>
+        Beijing
+      </div>
+    
+  </div>
+</div>
+
+    <div id="algolia-search-modal" class="modal-container">
+  <div class="modal">
+    <div class="modal-header">
+      <span class="close-button"><i class="fa fa-close"></i></span>
+      <a href="https://algolia.com" target="_blank" rel="noopener" class="searchby-algolia text-color-light link-unstyled">
+        <span class="searchby-algolia-text text-color-light text-small">by</span>
+        <img class="searchby-algolia-logo" src="https://www.algolia.com/static_assets/images/press/downloads/algolia-light.svg">
+      </a>
+      <i class="search-icon fa fa-search"></i>
+      <form id="algolia-search-form">
+        <input type="text" id="algolia-search-input" name="search"
+          class="form-control input--large search-input" placeholder="" />
+      </form>
+    </div>
+    <div class="modal-body">
+      <div class="no-result text-color-light text-center"></div>
+      <div class="results">
+        
+        
+      </div>
+    </div>
+    <div class="modal-footer">
+      <p class="results-count text-medium"
+         data-message-zero=""
+         data-message-one=""
+         data-message-other="">
+         0 posts found
+      </p>
+    </div>
+  </div>
+</div>
+    
+  
+    
+    <div id="cover" style="background-image:url('http://ytlvy.com/images/cover.jpg');"></div>
+  
+
+
+    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js" integrity="sha256-/BfiIkHlHoVihZdc6TFuj7MmJ0TWcWsMXkeDFwhi0zw=" crossorigin="anonymous"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.7/js/jquery.fancybox.min.js" integrity="sha256-GEAnjcTqVP+vBp3SSc8bEDQqvWAZMiHyUSIorrWwH50=" crossorigin="anonymous"></script>
+
+
+<script src="http://ytlvy.com/js/script-qi9wbxp2ya2j6p7wx1i6tgavftewndznf4v0hy2gvivk1rxgc3lm7njqb6bz.min.js"></script>
+
+
+
+<script>
+$(document).ready(function() {
+  hljs.configure({ classPrefix: '', useBR: false });
+  $('pre.code-highlight > code, pre > code').each(function(i, block) {
+    if (!$(this).hasClass('codeblock')) {
+      $(this).addClass('codeblock');
+    }
+    hljs.highlightBlock(block);
+  });
+});
+</script>
+
+
+  
+    
+      <script>
+        var disqus_config = function () {
+          this.page.url = 'http:\/\/ytlvy.com\/posts\/2015-08-08\/2015-08-08-swift-eventkit-requesting-permission\/';
+          
+            this.page.identifier = '\/posts\/2015-08-08\/2015-08-08-swift-eventkit-requesting-permission\/'
+          
+        };
+        (function() {
+          
+          
+          if (window.location.hostname == "localhost") {
+            return;
+          }
+          var d = document, s = d.createElement('script');
+          var disqus_shortname = 'hugo-tranquilpeak-theme';
+          s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+
+          s.setAttribute('data-timestamp', +new Date());
+          (d.head || d.body).appendChild(s);
+        })();
+      </script>
+    
+  
+
+
+
+    
+  </body>
+</html>
+

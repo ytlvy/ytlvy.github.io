@@ -1,0 +1,3849 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>My New Hugo Site</title>
+    <link>http://ytlvy.com/</link>
+    <description>Recent content on My New Hugo Site</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sat, 22 Aug 2015 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="http://ytlvy.com/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Big-endian &amp;&amp; Little-endian</title>
+      <link>http://ytlvy.com/posts/2015-08-22/2015-08-22-big-endian-little-endian/</link>
+      <pubDate>Sat, 22 Aug 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-08-22/2015-08-22-big-endian-little-endian/</guid>
+      <description>&lt;h2 id=&#34;大端序与小端序&#34;&gt;大端序与小端序&lt;/h2&gt;
+
+&lt;h3 id=&#34;何为大端序-小端序&#34;&gt;何为大端序，小端序？&lt;/h3&gt;
+
+&lt;p&gt;简单点说，就是字节的存储顺序，如果数据都是单字节的，那怎么存储无所谓了，但是对于多字节数据，比如int，double等，就要考虑存储的顺序了。注意字节序是硬件层面的东西，对于软件来说通常是透明的。再说白一点，字节序通常只和你使用的处理器架构有关，而和编程语言无关，比如常见的Intel x86系列就是小端序。&lt;/p&gt;
+
+&lt;h4 id=&#34;big-endian-大端序&#34;&gt;Big-endian（大端序）&lt;/h4&gt;
+
+&lt;p&gt;数据的高位字节存放在地址的低端 低位字节存放在地址高端&lt;/p&gt;
+
+&lt;h4 id=&#34;little-endian-小端序&#34;&gt;Little-endian（小端序）&lt;/h4&gt;
+
+&lt;p&gt;数据的高位字节存放在地址的高端 低位字节存放在地址低端&lt;/p&gt;
+
+&lt;h4 id=&#34;字节的高位与低位&#34;&gt;字节的高位与低位&lt;/h4&gt;
+
+&lt;p&gt;举个例子，int a = 0x12345678 ; 那么左边12就是高位字节，右边的78就是低位字节，从左到右，由高到低，（注意，高低乃相对而言，比如56相对于78是高字节，相对于34是低字节）&lt;/p&gt;
+
+&lt;p&gt;地址的高端与低端
+0x00000001
+0x00000002
+0x00000003
+0x00000004
+从上倒下，由低到高，地址值小的为低端，地址值大的为高端。&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>C programming -- Array &amp; String</title>
+      <link>http://ytlvy.com/posts/2015-08-22/2015-08-22-c-programming-array-string/</link>
+      <pubDate>Sat, 22 Aug 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-08-22/2015-08-22-c-programming-array-string/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;http://www.cnblogs.com/kenshincui/p/3843505.html&#34;&gt;reference&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;c语言之数组和字符串&#34;&gt;C语言之数组和字符串&lt;/h2&gt;
+
+&lt;h3 id=&#34;概览&#34;&gt;概览&lt;/h3&gt;
+
+&lt;p&gt;数组在C语言中有着特殊的地位，它有很多特性，例如它的存储是连续的，数组的名称就是数组的地址等。而在C语言中是没有String类型的，那么如果要表示一个字符串，就必须使用字符数组。今天主要就介绍如下三个方面：&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;一维数组&lt;/li&gt;
+&lt;li&gt;多维数组&lt;/li&gt;
+&lt;li&gt;字符串&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;一维数组&#34;&gt;一维数组&lt;/h3&gt;
+
+&lt;p&gt;一维数组操作比较简单，但是需要注意，数组长度必须是固定的，长度不能使用变量进行初始化；如果声明的同时进行赋值则数组长度可以省略，编译器会自动计算数组长度；同时数组不能先声明再一次性赋值（当然可以对每个元素一一赋值）。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;#include &amp;lt;stdio.h&amp;gt;
+
+int main(){
+    int len = 2;
+    //int a[len] = { 1, 2};//错误,不能使变量
+    int a[2];//正确
+    a[0] = 1;
+    a[1] = 2;
+    //a[2] = 3;//超过数组长度，但是编译器并不会检查，运行报错
+    int b[&#39;a&#39;] = {1,2,3};//&#39;a&#39;=97，所以可以作为数组长度，但是后面的元素没有初始化，其值默认为0
+    for (int i = 0; i &amp;lt; 97; ++i){
+        printf(&amp;quot;b[%d]=%d\n&amp;quot;,i,b[i]);
+    }
+    int c[2 * 3];//2*3是固定值可以作为数组长度
+    int d[] = { 1, 2, 3 };//如果初始化的同时赋值则数组长度可以省略，当前个数为3
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>C programming -- Precompile</title>
+      <link>http://ytlvy.com/posts/2015-08-22/2015-08-22-c-programming-precompile/</link>
+      <pubDate>Sat, 22 Aug 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-08-22/2015-08-22-c-programming-precompile/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;http://www.cnblogs.com/kenshincui/p/3854242.html&#34;&gt;reference&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;c语言之预处理&#34;&gt;C语言之预处理&lt;/h2&gt;
+
+&lt;h3 id=&#34;概述&#34;&gt;概述&lt;/h3&gt;
+
+&lt;p&gt;大家都知道一个C程序的运行包括编译和链接两个阶段，其实在编译之前预处理器首先要进行预处理操作，将处理完产生的一个新的源文件进行编译。由于预处理指令是在编译之前就进行了，因此很多时候它要比在程序运行时进行操作效率高。在C语言中包括三类预处理指令，今天将一一介绍：&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;宏定义&lt;/li&gt;
+&lt;li&gt;条件编译&lt;/li&gt;
+&lt;li&gt;文件包含&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;宏定义&#34;&gt;宏定义&lt;/h3&gt;
+
+&lt;p&gt;对于程序中经常用到的一些常量或者简短的函数我们通常使用宏定义来处理，这样做的好处是对于程序中所有的配置我们可以统一在宏定义中进行管理，而且由于宏定义是在程序编译之前进行替换相比定义成全局变量或函数效率更高。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;//
+//  main.c
+//  Pretreatment
+//
+//  Created by Kenshin Cui on 14-6-28.
+//  Copyright (c) 2014年 Kenshin Cui. All rights reserved.
+//
+
+#include &amp;lt;stdio.h&amp;gt;
+#define PI 3.14 //宏定义一般大写
+#define R 10
+#define S 2*PI*R //在另一个宏里面引用了上面的宏
+
+int main(int argc, const char * argv[]) {
+    float r=10.5;
+    double area=PI*r*r;
+    printf(&amp;quot;area=%.2f\n&amp;quot;,area);
+    
+    double a=S;
+    printf(&amp;quot;a=%.2f\n&amp;quot;,a);
+    printf(&amp;quot;PI=3.14\n&amp;quot;);//注意输出结果不是3.14=3.14而是PI=3.14，字符串中的PI并不会被替换
+#undef PI //强制终止宏定义，否则它的范围一直到文件结束
+    int PI=3.1415926;
+    double area2=PI*r*r;
+    printf(&amp;quot;area2=%.2f\n&amp;quot;,area2);
+    
+    
+    return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;宏定义实际的操作就是在预处理时进行对应替换，这个阶段不管语法是否正确，而且对于字符串中出现的宏名不会进行替换。宏定义的功能事实上是非常强大的，除了简单的常量替换还可以传入参数：&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>C programming -- Struct</title>
+      <link>http://ytlvy.com/posts/2015-08-22/2015-08-22-c-programming-struct/</link>
+      <pubDate>Sat, 22 Aug 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-08-22/2015-08-22-c-programming-struct/</guid>
+      <description>&lt;p&gt;@charset &amp;ldquo;UTF-8&amp;rdquo;;
+/**
+ *
+ * @authors Your Name (you@example.org)
+ * @date    2015-08-16 11:06:45
+ * @version $Id$
+ * Copyright &amp;copy; 2015年 Guo yanjie. All rights reserved.
+ */&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;http://www.cnblogs.com/kenshincui/p/3856543.html&#34;&gt;reference&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;c语言之构造类型&#34;&gt;C语言之构造类型&lt;/h2&gt;
+
+&lt;h3 id=&#34;概述&#34;&gt;概述&lt;/h3&gt;
+
+&lt;p&gt;在第一节中我们就提到C语言的构造类型，分为：数组、结构体、枚举、共用体，当然前面数组的内容已经说了很多了，这一节将会重点说一下其他三种类型。&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;结构体&lt;/li&gt;
+&lt;li&gt;枚举&lt;/li&gt;
+&lt;li&gt;共用体&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;结构体&#34;&gt;结构体&lt;/h3&gt;
+
+&lt;p&gt;数组中存储的是一系列相同的数据类型，那么如果想让一个变量存储不同的数据类型就要使用结构体，结构体定义类似于C++、C#、Java等高级语言中类的定义，但事实上它们又有着很大的区别。结构体是一种类型，并非一个变量，只是这种类型可以由其他C语言基本类型共同组成。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;//
+//  main.c
+//  ConstructedType
+//
+//  Created by Kenshin Cui on 14-7-18.
+//  Copyright (c) 2014年 Kenshin Cui. All rights reserved.
+//
+
+#include &amp;lt;stdio.h&amp;gt;
+
+//结构体类型Date
+struct Date{
+    int year;
+    int month;
+    int day;
+};
+
+struct Person{
+    char *name;
+    int age;
+    struct Date birthday;//一个结构体中使用了另一个结构体类型，结构体类型变量声明前必须加上struct关键字
+    float height;
+};
+
+int main(int argc, const char * argv[]) {
+    struct Person p={&amp;quot;Kenshin&amp;quot;,28,{1986,8,8},1.72};
+    //定义结构体变量并初始化,不允许先定义再直接初始化，例如：struct Person p;p={&amp;quot;Kenshin&amp;quot;,28,{1986,8,8},1.72};是错误的，但是可以分别赋值，例如p.name=&amp;quot;Kenshin&amp;quot;
+    
+    printf(&amp;quot;name=%s,age=%d,birthday=%d-%d-%d,height=%.2f\n&amp;quot;,p.name,p.age,p.birthday.year,p.birthday.month,p.birthday.day,p.height); 
+    //结果：name=Kenshin,age=28,birthday=1986-8-8,height=1.72，结构体的引用是通过&amp;quot;结构体变量.成员名称&amp;quot;(注意和结构体指针访问结构体成员变量区分，结构体指针使用p-&amp;gt;a的形式访问)
+    
+    printf(&amp;quot;len(Date)=%lu,len(Person)=%lu\n&amp;quot;,sizeof(struct Date),sizeof(struct Person)); 
+    //结果：len(Date)=12,len(Person)=32
+    
+    return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>C programming -- memory &amp; scope</title>
+      <link>http://ytlvy.com/posts/2015-08-22/2015-08-22-c-programming-memory-scope/</link>
+      <pubDate>Sat, 22 Aug 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-08-22/2015-08-22-c-programming-memory-scope/</guid>
+      <description>&lt;p&gt;@charset &amp;ldquo;UTF-8&amp;rdquo;;
+/**
+ *
+ * @authors yanjie Guo (ytlvy2008@gmail.com)
+ * @date    2015-08-15 16:02:00
+ * @version $Id$
+ * Copyright &amp;copy; 2015年 Guo yanjie. All rights reserved.
+ *
+ */&lt;/p&gt;
+
+&lt;h2 id=&#34;概述&#34;&gt;概述&lt;/h2&gt;
+
+&lt;p&gt;基本上每种语言都要讨论这个话题，C语言也不例外，因为只有你完全了解每个变量或函数存储方式、作用范围和销毁时间才可能正确的使用这门语言。今天将着重介绍C语言中变量作用范围、存储方式、生命周期、作用域和可访问性。&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;变量作用范围&lt;/li&gt;
+&lt;li&gt;存储方式&lt;/li&gt;
+&lt;li&gt;可访问性&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;变量作用范围&#34;&gt;变量作用范围&lt;/h3&gt;
+
+&lt;p&gt;在C语言中变量从作用范围包括全局变量和局部变量。全局变量在定义之后所有的函数中均可以使用，只要前面的代码修改了，那么后面的代码中再使用就是修改后的值；局部变量的作用范围一般在一个函数内部（通常在一对大括号{}内），外面的程序无法访问它，它却可以访问外面的变量。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;//
+//  main.c
+//  ScopeAndLifeCycle
+//
+//  Created by Kenshin Cui on 14-7-12.
+//  Copyright (c) 2014年 Kenshin Cui. All rights reserved.
+//
+
+#include &amp;lt;stdio.h&amp;gt;
+
+int a=1;
+void changeValue(){
+    a=2;
+    printf(&amp;quot;a=%d\n&amp;quot;,a);
+}
+int main(int argc, const char * argv[]) {
+    int b=1;
+    changeValue(); //结果：a=2
+    printf(&amp;quot;a=%d,b=%d\n&amp;quot;,a,b); //结果：a=2,b=1 ，因为changeValue修改了这个全局变量
+    return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>C programming -- pointer</title>
+      <link>http://ytlvy.com/posts/2015-08-22/2015-08-22-c-programming-pointer/</link>
+      <pubDate>Sat, 22 Aug 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-08-22/2015-08-22-c-programming-pointer/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;http://www.cnblogs.com/kenshincui/p/3848442.html&#34;&gt;reference&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;c语言之指针&#34;&gt;C语言之指针&lt;/h2&gt;
+
+&lt;h3 id=&#34;概览&#34;&gt;概览&lt;/h3&gt;
+
+&lt;p&gt;指针是C语言的精髓，但是很多初学者往往对于指针的概念并不深刻，以至于学完之后随着时间的推移越来越模糊，感觉指针难以掌握，本文通过简单的例子试图将指针解释清楚，今天的重点有几个方面：&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;什么是指针&lt;/li&gt;
+&lt;li&gt;数组和指针&lt;/li&gt;
+&lt;li&gt;函数指针&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;什么是指针&#34;&gt;什么是指针&lt;/h3&gt;
+
+&lt;p&gt;存放变量地址的变量我们称之为“指针变量”,简单的说变量p中存储的是变量a的地址,那么p就可以称为是指针变量,或者说p指向a。当我们访问a变量的时候其实是程序先根据a取得a对应的地址，再到这个地址对应的存储空间中拿到a的值，这种方式我们称之为“直接引用”；而当我们通过p取得a的时候首先要先根据p转换成p对应的存储地址，再根据这个地址到其对应的存储空间中拿到存储内容，它的内容其实就是a的地址，然后根据这个地址到对应的存储空间中取得对应的内容，这个内容就是a的值，这种通过p找到a对应地址再取值的方式成为“间接引用”。这里以表格形式列出a和p的存储以帮助大家理解上面说的内容：&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://images.cnitblog.com/blog/62046/201407/161307139741921.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Audio Basic Knowleage</title>
+      <link>http://ytlvy.com/posts/2015-08-11/2015-08-11-audio-basic-knowleage/</link>
+      <pubDate>Tue, 11 Aug 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-08-11/2015-08-11-audio-basic-knowleage/</guid>
+      <description>音频编码基础知识 自然界中的声音非常复杂，波形极其复杂，通常我们采用的是脉冲代码调制编码，即PCM编码。PCM通过抽样、量化、编码三个步骤将连续变化的模拟信号转换为数字编码。
+什么是采样率和采样大小（位/bit）。 声音其实是一种能量波，因此也有频率和振幅的特征，频率对应于时间轴线，振幅对应于电平轴线。波是无限光滑的，弦线可以看成由无数点组成，由于存储空间是相对有限的，数字编码过程中，必须对弦线的点进行采样。采样的过程就是抽取某点的频率值，很显然，在一秒中内抽取的点越多，获取得频率信息更丰富，为了复原波形，一次振动中，必须有2个点的采样，人耳能够感觉到的最高频率为20kHz，因此要满足人耳的听觉要求，则需要至少每秒进行40k次采样，用40kHz表达，这个40kHz就是采样率。我们常见的CD，采样率为44.1kHz。光有频率信息是不够的，我们还必须获得该频率的能量值并量化，用于表示信号强度。量化电平数为2的整数次幂，我们常见的CD位16bit的采样大小，即2的16次方。采样大小相对采样率更难理解，因为要显得抽象点，举个简单例子：假设对一个波进行8次采样，采样点分别对应的能量值分别为A1-A8，但我们只使用2bit的采样大小，结果我们只能保留A1-A8中4个点的值而舍弃另外4个。如果我们进行3bit的采样大小，则刚好记录下8个点的所有信息。采样率和采样大小的值越大，记录的波形更接近原始信号。
+有损和无损 根据采样率和采样大小可以得知，相对自然界的信号，音频编码最多只能做到无限接近，至少目前的技术只能这样了，相对自然界的信号，任何数字音频编码方案都是有损的，因为无法完全还原。在计算机应用中，能够达到最高保真水平的就是PCM编码，被广泛用于素材保存及音乐欣赏，CD、DVD以及我们常见的WAV文件中均有应用。因此，PCM约定俗成了无损编码，因为PCM代表了数字音频中最佳的保真水准，并不意味着PCM就能够确保信号绝对保真，PCM也只能做到最大程度的无限接近。我们而习惯性的把MP3列入有损音频编码范畴，是相对PCM编码的。强调编码的相对性的有损和无损，是为了告诉大家，要做到真正的无损是困难的，就像用数字去表达圆周率，不管精度多高，也只是无限接近，而不是真正等于圆周率的值。
+###为什么要使用音频压缩技术
+要算一个PCM音频流的码率是一件很轻松的事情，采样率值×采样大小值×声道数 bps。一个采样率为44.1KHz，采样大小为16bit，双声道的PCM编码的WAV文件，它的数据速率则为 44.1K×16×2 =1411.2 Kbps。我们常说128K的MP3，对应的WAV的参数，就是这个1411.2 Kbps，这个参数也被称为数据带宽，它和ADSL中的带宽是一个概念。将码率除以8,就可以得到这个WAV的数据速率，即176.4KB/s。这表示存储一秒钟采样率为44.1KHz，采样大小为16bit，双声道的PCM编码的音频信号，需要176.4KB的空间，1分钟则约为10.34M，这对大部分用户是不可接受的，尤其是喜欢在电脑上听音乐的朋友，要降低磁盘占用，只有2种方法，降低采样指标或者压缩。降低指标是不可取的，因此专家们研发了各种压缩方案。由于用途和针对的目标市场不一样，各种音频压缩编码所达到的音质和压缩比都不一样，在后面的文章中我们都会一一提到。有一点是可以肯定的，他们都压缩过。
+频率与采样率的关系 采样率表示了每秒对原始信号采样的次数，我们常见到的音频文件采样率多为44.1KHz，这意味着什么呢？假设我们有2段正弦波信号，分别为20Hz和20KHz，长度均为一秒钟，以对应我们能听到的最低频和最高频，分别对这两段信号进行40KHz的采样，我们可以得到一个什么样的结果呢？结果是：20Hz的信号每次振动被采样了40K/20=2000次，而20K的信号每次振动只有2次采样。显然，在相同的采样率下，记录低频的信息远比高频的详细。这也是为什么有些音响发烧友指责CD有数码声不够真实的原因，CD的44.1KHz采样也无法保证高频信号被较好记录。要较好的记录高频信号，看来需要更高的采样率，于是有些朋友在捕捉CD音轨的时候使用48KHz的采样率，这是不可取的！这其实对音质没有任何好处，对抓轨软件来说，保持和CD提供的44.1KHz一样的采样率才是最佳音质的保证之一，而不是去提高它。较高的采样率只有相对模拟信号的时候才有用，如果被采样的信号是数字的，请不要去尝试提高采样率。</description>
+    </item>
+    
+    <item>
+      <title>Convert PCM To AAC</title>
+      <link>http://ytlvy.com/posts/2015-08-11/2015-08-11-convert-pcm-to-aac/</link>
+      <pubDate>Tue, 11 Aug 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-08-11/2015-08-11-convert-pcm-to-aac/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;http://blog.csdn.net/poechant/article/details/7435054&#34;&gt;reference&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;音频编解码-实战篇-1-pcm转至aac-aac编码&#34;&gt;音频编解码·实战篇（1）PCM转至AAC（AAC编码）&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;作者：柳大·Poechant&lt;/li&gt;
+&lt;li&gt;博客：blog.csdn.net/poechant&lt;/li&gt;
+&lt;li&gt;邮箱：zhongchao.ustc@gmail.com&lt;/li&gt;
+&lt;li&gt;日期：April 7th, 2012&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;这里利用FAAC来实现AAC编码。&lt;/p&gt;
+
+&lt;h3 id=&#34;下载安装-faac&#34;&gt;下载安装 FAAC&lt;/h3&gt;
+
+&lt;p&gt;这里的安装过程是在 Mac 和 Linux 上实现的，Windows可以类似参考。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;wget http://downloads.sourceforge.net/faac/faac-1.28.tar.gz
+tar zxvf faac-1.28.tar.gz
+cd faac-1.28
+./configure
+make
+sudo make install
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;如果才用默认的 configure 中的 prefix path，那么安装后的 lib 和 .h 文件分别在/usr/local/lib和/usr/local/include，后面编译的时候会用到。&lt;/p&gt;
+
+&lt;p&gt;如果编译过程中发现错误：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;mpeg4ip.h:126: error: new declaration ‘char* strcasestr(const char*, const char*)’
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Wave And PCM Audio Format</title>
+      <link>http://ytlvy.com/posts/2015-08-11/2015-08-11-wave-and-pcm-audio-format/</link>
+      <pubDate>Tue, 11 Aug 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-08-11/2015-08-11-wave-and-pcm-audio-format/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;http://blog.csdn.net/poechant/article/details/7436710&#34;&gt;reference&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;音频编解码-格式篇-1-wave-pcm-audio-format-wav&#34;&gt;音频编解码·格式篇（1）Wave PCM audio format（WAV）&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;作者：柳大·Poechant&lt;/li&gt;
+&lt;li&gt;博客：Blog.CSDN.net/Poechant&lt;/li&gt;
+&lt;li&gt;邮箱：zhongchao.ustc@gmail.com&lt;/li&gt;
+&lt;li&gt;日期：April 6th, 2012&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;音频编解码基础&#34;&gt;音频编解码基础&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;采样率：声音信号在“模数转换”过程中单位时间内采样的次数。&lt;/li&gt;
+&lt;li&gt;采样值：每一次采样周期内声音模拟信号的积分值。&lt;/li&gt;
+&lt;li&gt;单声道：11.025 KHz 采样值，8 Bits 采样值（0x00 - 0xFF）。&lt;/li&gt;
+&lt;li&gt;双声道：44.1 KHz 采样值，16 Bits 采样值。高八位表示左声道，低八位表示右声道。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;wav音频文件格式&#34;&gt;WAV音频文件格式&lt;/h3&gt;
+
+&lt;p&gt;见下图：
+&lt;img src=&#34;http://img.my.csdn.net/uploads/201204/08/1333820202_8901.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;1) 文件头&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;RIFF/WAV 文件标识段&lt;/li&gt;
+&lt;li&gt;声音数据格式说明段&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;2) 数据体：由 PCM（脉冲编码调制）格式表示的样本组成。&lt;/p&gt;
+
+&lt;p&gt;单声道 WAV 文件中，声道0代表左声道，声道1代表右声道；多声道 WAV 文件中，左右声道的样本是交替出现的。&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>iOS APP Icon Longpress shake</title>
+      <link>http://ytlvy.com/posts/2015-08-11/2015-08-11-ios-app-icon-longpress-shake/</link>
+      <pubDate>Tue, 11 Aug 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-08-11/2015-08-11-ios-app-icon-longpress-shake/</guid>
+      <description>&lt;h2 id=&#34;ios-app图标长按抖动效果的实现-caanimation&#34;&gt;iOS APP图标长按抖动效果的实现（CAAnimation）&lt;/h2&gt;
+
+&lt;p&gt;实现效果:当长按图标时，图标抖动，点击图标以外区域时停止抖动&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://img.blog.csdn.net/20150808181226925&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;工程下载：&lt;a href=&#34;https://github.com/Nongchaozhe/iconShakeDemo&#34;&gt;github工程下载&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;1) 视图代码&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;@interface ViewController ()
+{
+    UIImageView *imageView;
+}
+@end
+
+@implementation ViewController
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+
+    imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 100, 100)];
+    imageView.center = self.view.center;
+    imageView.image = [UIImage imageNamed:@&amp;quot;icon1&amp;quot;];
+    imageView.userInteractionEnabled = YES;
+    [self.view addSubview:imageView];
+
+    //添加长按手势
+    UILongPressGestureRecognizer *recognize = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(longPress)];
+    //长按响应时间
+    recognize.minimumPressDuration = 1;
+    [imageView addGestureRecognizer:recognize];
+    // Do any additional setup after loading the view, typically from a nib.
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>iOS Crash Bugs</title>
+      <link>http://ytlvy.com/posts/2015-08-11/2015-08-11-ios-crash-bugs/</link>
+      <pubDate>Tue, 11 Aug 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-08-11/2015-08-11-ios-crash-bugs/</guid>
+      <description>&lt;h2 id=&#34;crash-bug&#34;&gt;Crash Bug&lt;/h2&gt;
+
+&lt;p&gt;1) ios7 下没有 &lt;code&gt;ContainString&lt;/code&gt; API&lt;/p&gt;
+
+&lt;p&gt;2) NSDictionary &amp;amp; NSArray nil insert&lt;/p&gt;
+
+&lt;p&gt;3) 数组越界 NSArray &lt;code&gt;out of bounds&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;4) &lt;code&gt;substringwithrange&lt;/code&gt; out of bounds&lt;/p&gt;
+
+&lt;p&gt;5) &lt;code&gt;GPUImageView presentBufferForDisplay&lt;/code&gt; &amp;ndash; 内存泄露 或者 app 进入后台&lt;/p&gt;
+
+&lt;p&gt;6) &lt;code&gt;locationOfTouch: inView:&lt;/code&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;if (gestureRecognizer)numberOfTouches &amp;gt; 0){
+
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>iOS Music Background Play And Lock Screen Image</title>
+      <link>http://ytlvy.com/posts/2015-08-11/2015-08-11-ios-music-background-play-and-lock-screen-image/</link>
+      <pubDate>Tue, 11 Aug 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-08-11/2015-08-11-ios-music-background-play-and-lock-screen-image/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;http://blog.csdn.net/zsk_zane/article/details/47320621&#34;&gt;reference&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;ios-音乐后台播放及锁屏信息显示&#34;&gt;iOS 音乐后台播放及锁屏信息显示&lt;/h2&gt;
+
+&lt;p&gt;实现音乐的后台播放，以及播放时，可以控制其暂停，下一首等操作，以及锁屏图片歌曲名等的显示
+此实例需要真机调试，效果图如下：&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://img.blog.csdn.net/20150806175143383&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;工程下载：&lt;a href=&#34;https://github.com/Nongchaozhe/MusicRemoteControl&#34;&gt;github工程下载&lt;/a&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;实现步骤&#34;&gt;实现步骤：&lt;/h3&gt;
+
+&lt;p&gt;1) 首先修改info.plist&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://img.blog.csdn.net/20150806174938474&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;2) 其次引入两个需要的框架&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;#import &amp;lt;AVFoundation/AVFoundation.h&amp;gt;
+#import &amp;lt;MediaPlayer/MediaPlayer.h&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;3) 设置播放器及后台播放&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;- (void)viewDidLoad {
+    [super viewDidLoad];
+//    设置后台播放
+    [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayback error:nil];
+
+//    设置播放器
+    NSURL *url = [NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@&amp;quot;那些花儿&amp;quot; ofType:@&amp;quot;mp3&amp;quot;] ];
+    _player = [[AVPlayer alloc] initWithURL:url];
+    [_player play];
+    _isPlayingNow = YES;
+
+    //后台播放显示信息设置
+    [self setPlayingInfo];
+}
+
+#pragma mark - 接收方法的设置
+- (void)remoteControlReceivedWithEvent:(UIEvent *)event {
+    if (event.type == UIEventTypeRemoteControl) {  //判断是否为远程控制
+        switch (event.subtype) {
+            case  UIEventSubtypeRemoteControlPlay:
+                if (!_isPlayingNow) {
+                    [_player play];
+                }
+                _isPlayingNow = !_isPlayingNow;
+                break;
+            case UIEventSubtypeRemoteControlPause:
+                if (_isPlayingNow) {
+                    [_player pause];
+                }
+                _isPlayingNow = !_isPlayingNow;
+                break;
+            case UIEventSubtypeRemoteControlNextTrack:
+                NSLog(@&amp;quot;下一首&amp;quot;);
+                break;
+            case UIEventSubtypeRemoteControlPreviousTrack:
+                NSLog(@&amp;quot;上一首 &amp;quot;);
+                break;
+            default:
+                break;
+        }
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>iOS NSNull Detect</title>
+      <link>http://ytlvy.com/posts/2015-08-11/2015-08-11-ios-nsnull-detect/</link>
+      <pubDate>Tue, 11 Aug 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-08-11/2015-08-11-ios-nsnull-detect/</guid>
+      <description>Object-C中nil, NULL跟NSNull 相信不少开发者，都被NSNull坑过，最常见的是服务器返回的json里面，说好的字典、数组、数字，结果返回的是空值。这个时候，NSJSONSerialization 会自动把他们换成 NSNull。当我们再去用dict[@“hello”]的时候，就会出触发exception，导致程序崩溃。
+最简单的做法 相信大家都知道，[NSNull null] 并不是一个工厂方法，而是一个单例模式，那么我们直接去判断赋值的这个指针是不是[NSNull null] 就好了。
+那么问题来了，编译器会多了一个warning，很烦人。
+在这篇文章里面介绍了各种做法：
+- (void)someMethod { NSString *aString = @&amp;quot;loremipsum&amp;quot;; // This will complain: &amp;quot;Comparison of distinct pointer types (&#39;NSString *&#39; and &#39;NSNull *&#39;)&amp;quot; if (aString != [NSNull null]) { } // This works (at least for strings), but isEqual: does different things // for different classes, so it&#39;s not ideal if ([aString isEqual:[NSNull null]]) { } // If you cast it to the class you&#39;re comparing against // then you&#39;re good to go if (aString !</description>
+    </item>
+    
+    <item>
+      <title>git flow</title>
+      <link>http://ytlvy.com/posts/2015-08-09/2015-08-09-git-flow/</link>
+      <pubDate>Sun, 09 Aug 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-08-09/2015-08-09-git-flow/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;http://nvie.com/posts/a-successful-git-branching-model/&#34;&gt;reference&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;a-successful-git-branching-model&#34;&gt;A successful Git branching model&lt;/h2&gt;
+
+&lt;p&gt;&lt;code&gt;git flow&lt;/code&gt; 工作流, 流转示意图:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://nvie.com/img/git-model@2x.png&#34; alt=&#34;git flow&#34; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;去中心化-和-中心化&#34;&gt;去中心化 和 中心化&lt;/h3&gt;
+
+&lt;p&gt;此工作流中, 存在唯一的&lt;code&gt;中心仓库&lt;/code&gt; &amp;ndash; &lt;code&gt;origin&lt;/code&gt;. 每个程序员向中心仓库, 拉取更新和提交更新. 然而, 程序员也可以被划分为小组, 来进入更进一步的划分, 先从这些&lt;code&gt;分中心仓库&lt;/code&gt; 来拉取更新和提交更新, 先完成小组的同步, 再和中心仓库同步.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://nvie.com/img/centr-decentr@2x.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;主要分支&#34;&gt;主要分支&lt;/h3&gt;
+
+&lt;p&gt;这个工作流的核心为两个主分支:&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;Master&lt;/li&gt;
+&lt;li&gt;Develop&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://nvie.com/img/main-branches@2x.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>How To Implement A Circular Image Loader Animation with CAShapeLayer</title>
+      <link>http://ytlvy.com/posts/2015-08-08/2015-08-08-how-to-implement-a-circular-image-loader-animation-with-cashapelayer/</link>
+      <pubDate>Sat, 08 Aug 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-08-08/2015-08-08-how-to-implement-a-circular-image-loader-animation-with-cashapelayer/</guid>
+      <description>&lt;h2 id=&#34;使用cashapelayer来实现圆形图片加载动画&#34;&gt;使用CAShapeLayer来实现圆形图片加载动画&lt;/h2&gt;
+
+&lt;blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;原文链接 : &lt;a href=&#34;http://www.raywenderlich.com/94302/implement-circular-image-loader-animation-cashapelayer&#34;&gt;How To Implement A Circular Image Loader Animation with CAShapeLayer&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;原文作者 : &lt;a href=&#34;http://www.raywenderlich.com/u/rounak&#34;&gt;Rounak Jain&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;译文出自 : &lt;a href=&#34;http://www.devtf.cn&#34;&gt;开发技术前线 www.devtf.cn&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;译者 : &lt;a href=&#34;https://github.com/samlaudev&#34;&gt;Sam Lau&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;校对者: &lt;a href=&#34;https://github.com/Lollypo&#34;&gt;Lollypo&lt;/a&gt;&lt;br /&gt;&lt;/li&gt;
+&lt;li&gt;状态 :  校正完&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;几个星期之前，Michael Villar在Motion试验中创建一个非常有趣的加载动画。&lt;/p&gt;
+
+&lt;p&gt;下面的GIF图片展示这个加载动画，它将一个圆形进度指示器和圆形渐现动画结合。这个组合的效果有趣，独一无二和有点迷人。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://cdn3.raywenderlich.com/wp-content/uploads/2015/02/Circle.gif&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;这个教程将会教你如何使用Swift和Core Animatoin来重新创建这个效果。让我们开始吧！&lt;/p&gt;
+
+&lt;p&gt;#基础&lt;/p&gt;
+
+&lt;p&gt;首先下载这个教程的&lt;a href=&#34;http://cdn1.raywenderlich.com/wp-content/uploads/2015/02/ImageLoaderIndicator-Starter.zip&#34;&gt;启动项目&lt;/a&gt;，然后编译和运行。过一会之后，你应该看到一个简单的image显示：&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://cdn2.raywenderlich.com/wp-content/uploads/2015/02/StarterProject.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;这个启动项目已经预先在恰当的位置将views和加载逻辑编写好了。花一分钟来浏览来快速了解这个项目；那里有一个&lt;strong&gt;ViewController&lt;/strong&gt;，&lt;strong&gt;ViewController&lt;/strong&gt;里有一个命名为&lt;strong&gt;CustomImageView&lt;/strong&gt;的&lt;strong&gt;UIImageView&lt;/strong&gt;子类, 还有一个&lt;strong&gt;SDWebImage&lt;/strong&gt;的方法被调用来加载image。&lt;/p&gt;
+
+&lt;p&gt;你可能注意到当你第一次运行这个app的时候，当image下载时这个app似乎会暂停几秒，然后image会显示在屏幕。当然，此刻没有圆形进度指示器 - 你将会在这个教程中创建它！&lt;/p&gt;
+
+&lt;p&gt;你会在两个步骤中创建这个动画：&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;圆形进度&lt;/strong&gt;。首先，你会画一个圆形进度指示器，然后根据下载进度来更新它。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;扩展圆形图片&lt;/strong&gt;。第二，你会通过扩展的圆形窗口来揭示下载图片。&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;紧跟着下面步骤来逐步实现！&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Notes: The interesting things from WWDC, iOS 9, Swift 2</title>
+      <link>http://ytlvy.com/posts/2015-08-08/2015-08-08-notes-the-interesting-things-from-wwdc-ios-9-swift-2/</link>
+      <pubDate>Sat, 08 Aug 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-08-08/2015-08-08-notes-the-interesting-things-from-wwdc-ios-9-swift-2/</guid>
+      <description>WWDC中那些令人感兴趣的事物:iOS 9, Swift 2   原文链接 : Notes: The interesting things from WWDC, iOS 9, Swift 2 原文作者: Rounak Jain 译文出自: 开发技术前线http://www.devtf.cn/ 译者 : Lollypo 校对者:Mr.Simple 状态 : 完成   今天WWDC上的Keynote非常棒,即便到目前为止还未结束.在开发者方面,已经有大量的新事物出现,其中包括有Swift 2, iOS 9, CloudKit等等.
+这里是我在浏览发布日志,API差异,新特性等内容时记录的笔记
+ 你不需要加入$99的开发者计划就可以在真机上调试应用程序.此外,Mac与iOS开发者计划合并,可以节省一半支出:  Interface Builder支持实时预览模糊与透明效果  Objective-C支持泛型,这意味着集合对象,如数组,字典可以像Swift一样指定类型  新的名为 UIStackViewUI类,是Mac中NSStackView的一种实现.
+ CloudKit现在也可以在Web中使用
+ 开放 CASpringAnimation!  应用程序现在可以作为拓展插入到Safari中,听起来有点像广告拦截器.此外,应用程序可以在Safari的共享链接填充内容
+ 开发者现在可以使用 SFSafariViewController, 这可以共享Safari中中cookies, 自动填充以及其他Safari中的特性.
+ UIPickerView 可转换为任意尺寸,而不必再使用那些丑陋的转换技巧.
+ iOS应用程序可在发出提醒展示一段文本域,此前仅限于Messages使用.
+ 通讯录可通过面向对象的API来访问,而不是之前的C
+ 电话API在低版本设备上不支持,这也许会导致编译时错误.现在有新的判断条件来决定是否执行代码,这可以有效避免使用新的API导致的应用程序崩溃:  UICollectionView 新添加了许多方法来支持交互式移动</description>
+    </item>
+    
+    <item>
+      <title>Swift Access Sub-Controllers from a UINavigationController</title>
+      <link>http://ytlvy.com/posts/2015-08-08/2015-08-08-swift-access-sub-controllers-from-a-uinavigationcontroller/</link>
+      <pubDate>Sat, 08 Aug 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-08-08/2015-08-08-swift-access-sub-controllers-from-a-uinavigationcontroller/</guid>
+      <description>&lt;h1 id=&#34;在swift开发中通过uinavigationcontroller来访问sub-controllers&#34;&gt;在Swift开发中通过UINavigationController来访问Sub-Controllers&lt;/h1&gt;
+
+&lt;blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;原文链接 : &lt;a href=&#34;http://www.andrewcbancroft.com/2015/06/02/access-sub-controllers-from-a-uinavigationcontroller-in-swift/&#34;&gt;Access Sub-Controllers from a UINavigationController in Swift&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;原文作者 : &lt;a href=&#34;http://www.andrewcbancroft.com&#34;&gt;Andrew Bancroft&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;译文出自 : &lt;a href=&#34;http://www.devtf.cn&#34;&gt;开发技术前线 www.devtf.cn&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;译者 : &lt;a href=&#34;http://www.andrewcbancroft.com/2015/06/02/access-sub-controllers-from-a-uinavigationcontroller-in-swift/&#34;&gt;samw00&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;校对者: &lt;a href=&#34;https://github.com/mrchenhao&#34;&gt;mrchenhao&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;状态 : 完成&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;通过&lt;code&gt;AppDelegate&lt;/code&gt;或者通过&lt;code&gt;prepareForSegue(_:sender:)&lt;/code&gt;来访问&lt;code&gt;UINavigationController&lt;/code&gt;的第一个子元素的访问顺序总是让我有点纳闷。这篇博文中有几段代码可以帮助你和我迅速的弄清楚如何在我们的Swift应用程序开发中和navigation controllers打交道。&lt;/p&gt;
+
+&lt;p&gt;##AppDelegate&lt;/p&gt;
+
+&lt;p&gt;每一个iOS应用在其启动加载完成后都会显示一个根视图控制器。假设我们要搭建一个以导航控制器(navigation controller)为主的一个app&amp;hellip;,也就是说我们这个app的第一（根）视图控制器是一个UINavigationController。在我们的Storyboard中，我们创建了一个简单的场景，给一个视图控制器添加了些UI控件和一些属性，然后我们将这个视图控制器嵌入在一个导航控制器中。&lt;/p&gt;
+
+&lt;p&gt;但是如果我想在app启动之后再去设置视图控制器中的某些个属性呢？我们要如何才能做到这点呢？&lt;/p&gt;
+
+&lt;p&gt;我一直把我在Storyboard中添加UI要素的第一个场景(first scene)视为“第一视图控制器”。但是，对iOS来说，导航控制器才是实际意义上的第一（根）视图控制器。&lt;/p&gt;
+
+&lt;p&gt;当一个app把导航控制器视为其第一（根）视图器时，我们就需要在视图层级结构中“挖”的更深一点才能访问到我们之前所以为的“第一视图控制器“。&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Swift Back to the Future</title>
+      <link>http://ytlvy.com/posts/2015-08-08/2015-08-08-swift-back-to-the-future/</link>
+      <pubDate>Sat, 08 Aug 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-08-08/2015-08-08-swift-back-to-the-future/</guid>
+      <description>&lt;h1 id=&#34;swift的异步机制-future&#34;&gt;Swift的异步机制-Future&lt;/h1&gt;
+
+&lt;hr /&gt;
+
+&lt;blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;原文链接 : &lt;a href=&#34;https://realm.io/news/swift-summit-javier-soto-futures/&#34;&gt;Back to the Future&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;原文作者 : &lt;a href=&#34;https://twitter.com/Javi&#34;&gt;Javier Soto&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;http://www.devtf.cn&#34;&gt;译文出自 :  开发技术前线 www.devtf.cn&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;译者 : &lt;a href=&#34;http://shidanqing.net&#34;&gt;sdq&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;我们在使用Objective-C写异步代码时常常会出现许多问题。它没有很好的错误处理机制，当你发现你需要在你的异步函数中创建新的异步函数它也没有一个很好的可伸缩实现。在这次演讲中，Javier Soto将演示实现一个能够简化异步API的Swift Future类型。并且创建一个Resule类型,我们可以在这个类型上调用map和andThen等操作。对于Swift来说，Futures的未来可能很会基于信号和eactiveCocoa 3。&lt;/p&gt;
+
+&lt;p&gt;你可以在&lt;a href=&#34;https://github.com/JaviSoto/Talks#swift-summit-2015-back-to-the-futures&#34;&gt;这里&lt;/a&gt;看到这次演讲中的代码。&lt;/p&gt;
+
+&lt;h2 id=&#34;更优雅地使用swift&#34;&gt;更优雅地使用Swift&lt;/h2&gt;
+
+&lt;p&gt;谢谢各位，很高兴和大家一起来聊一聊Swift，感谢组织者把我们聚集在一起并让我在这里演讲。我的名字叫Javi，是来自Twitter的iOS工程师。&lt;/p&gt;
+
+&lt;p&gt;相比于Objective-C，我们在Swift里可以把很多事做得更好。我们已经在之前的演讲中看了不少例子，我想紧接着着他们，和大家谈论一下一种我想引入Swift的设计模式。这种设计模式会使我们的代码更为优雅。&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Swift Core Graphics Tutorial Part 1: Getting Started</title>
+      <link>http://ytlvy.com/posts/2015-08-08/2015-08-08-swift-core-graphics-tutorial-part-1-getting-started/</link>
+      <pubDate>Sat, 08 Aug 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-08-08/2015-08-08-swift-core-graphics-tutorial-part-1-getting-started/</guid>
+      <description>&lt;h2 id=&#34;core-graphics教程第一部分-swift-起步&#34;&gt;Core Graphics教程第一部分(Swift) - 起步&lt;/h2&gt;
+
+&lt;blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;原文链接 : &lt;a href=&#34;http://www.raywenderlich.com/90690/modern-core-graphics-with-swift-part-1&#34;&gt;Core Graphics Tutorial Part 1: Getting Started&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;原文作者 : &lt;a href=&#34;http://www.raywenderlich.com/u/caroline&#34;&gt;Caroline Begbie &lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;译文出自 :  &lt;a href=&#34;www.devtf.cn&#34;&gt;开发技术前线&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;译者 : &lt;a href=&#34;https://github.com/sdq/&#34;&gt;sdq&lt;/a&gt;  &lt;a href=&#34;https://github.com/StormXX/&#34;&gt;StormXX&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;校对者:  &lt;a href=&#34;https://github.com/StormXX/&#34;&gt;StormXX&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;想象一下&amp;hellip;当你完成了你的应用，它能够很好地运行，但是界面还缺少个人的风格。这时，你可以选择用PS画出一系列尺寸的图片，并希望Apple不会再推出一个&lt;strong&gt;@4x&lt;/strong&gt;的retina显示尺寸&amp;hellip;&lt;/p&gt;
+
+&lt;p&gt;或者，你可以领先一步，采用Core Graphics进行绘图，保证一个图片可以适应各种尺寸的屏幕。&lt;/p&gt;
+
+&lt;p&gt;Core Graphics是苹果的一个矢量图绘制框架 - 它是一个大型且给力的API、有很多需要去学习。不过别慌，这个系列的文章会带你由简入深地学习Core Graphics，最后你将可以在你的应用中创作令人惊叹的图片。&lt;/p&gt;
+
+&lt;p&gt;这是一个全新的系列，采用最新的方式来学习Core Graphics。这个系列完全和Xcode6与Swift保持同步，并且包含了一些很酷的新特性，比如&lt;strong&gt;@IBDesignable&lt;/strong&gt;和&lt;strong&gt;@IBInspectable&lt;/strong&gt;，这让学习Core Graphics变得更有趣也更容易。&lt;/p&gt;
+
+&lt;p&gt;拿起可乐，让我们开始吧！&lt;/p&gt;
+
+&lt;h2 id=&#34;介绍flo-一款记录喝水杯数的app&#34;&gt;介绍Flo - 一款记录喝水杯数的App&lt;/h2&gt;
+
+&lt;p&gt;你将会完成一个追踪你喝水习惯的app。&lt;/p&gt;
+
+&lt;p&gt;Flo可以让你很轻松地追踪到你喝了多少水。人们说一天喝8杯水才是健康的，但是往往喝了几杯水之后我们就忘了记录了。这就是Flo使用的时候了，每当你喝完一杯水以后，你就可以在Flo上点击计数，Flo会为你记录喝水情况。你也可以在Flo上查看到过去7天的喝水状况。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://cdn4.raywenderlich.com/wp-content/uploads/2014/12/1-CompletedApp.gif&#34; alt=&#34;demo&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;在这个系列的第一部分，你将会通过UIKit的画图方法创建三个控件。
+第二部分中，你将会深入了解Core Graphics的内容并且学习绘图。
+最后第三部分，你将会制作一个样式背景，并且获得自制的Core Graphics奖牌 ：）&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Swift Core Graphics Tutorial Part 2: Gradients and Contexts</title>
+      <link>http://ytlvy.com/posts/2015-08-08/2015-08-08-swift-core-graphics-tutorial-part-2-gradients-and-contexts/</link>
+      <pubDate>Sat, 08 Aug 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-08-08/2015-08-08-swift-core-graphics-tutorial-part-2-gradients-and-contexts/</guid>
+      <description>&lt;h2 id=&#34;core-graphics教程第二部分-swift-gradients-与-context&#34;&gt;Core Graphics教程第二部分(Swift) - Gradients 与 Context&lt;/h2&gt;
+
+&lt;blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;原文链接 : &lt;a href=&#34;http://www.raywenderlich.com/90693/modern-core-graphics-with-swift-part-2&#34;&gt;Core Graphics Tutorial Part 2: Gradients and Contexts&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;原文作者 : &lt;a href=&#34;http://www.raywenderlich.com/u/caroline&#34;&gt;caroline&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;译文出自 :  &lt;a href=&#34;http://www.devtf.cn&#34;&gt;开发技术前线&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;译者 : &lt;a href=&#34;https://github.com/mrchenhao&#34;&gt;HarriesChen&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;校对者: &lt;a href=&#34;https://github.com/mrchenhao&#34;&gt;HarriesChen&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://cdn3.raywenderlich.com/wp-content/uploads/2014/12/FinalApp-192x320.png&#34; alt=&#34;FinalApp&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;更新时间  04/15/2015&lt;/em&gt; 为Xcode 6.3 和 Swift1.2更新&lt;/p&gt;
+
+&lt;p&gt;欢迎回到我们的Swift核心绘图教程系列！&lt;/p&gt;
+
+&lt;p&gt;在&lt;a href=&#34;http://www.raywenderlich.com/?p=90690&#34;&gt;第一部分&lt;/a&gt;中,你学习到了使用storyboard绘制线条和矩形.&lt;/p&gt;
+
+&lt;p&gt;在第二部部分中，你将深入核心绘图，使用CGContext实现渐变效果&lt;/p&gt;
+
+&lt;h2 id=&#34;核心绘图&#34;&gt;核心绘图&lt;/h2&gt;
+
+&lt;p&gt;你现在已经从简单的UIKit深入到核心绘图。&lt;/p&gt;
+
+&lt;p&gt;下图是各个框架的关系图：&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;http://cdn2.raywenderlich.com/wp-content/uploads/2014/12/2-Architecture.png&#34;&gt;&lt;img src=&#34;http://cdn3.raywenderlich.com/wp-content/uploads/2014/12/2-Architecture-433x320.png&#34; alt=&#34;2-Architecture&#34; /&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;UIKit是在最顶层，使用最友好的框架。你使用过UIBezierPath的就是在UIKit层中对Core Graphics层中CGPath的封装。&lt;/p&gt;
+
+&lt;p&gt;你可以看到 Core Graphics 的对象和方法都是CG开头的，非常容易辨认。&lt;/p&gt;
+
+&lt;p&gt;另外CG方法都是C方法，在调用的时候不需要明确的指定参数名，和一般Swift调用方法不一样。&lt;/p&gt;
+
+&lt;h2 id=&#34;从graph-view开始&#34;&gt;从Graph View开始&lt;/h2&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Swift Core Graphics Tutorial Part 3: Patterns and Playgrounds</title>
+      <link>http://ytlvy.com/posts/2015-08-08/2015-08-08-swift-core-graphics-tutorial-part-3-patterns-and-playgrounds/</link>
+      <pubDate>Sat, 08 Aug 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-08-08/2015-08-08-swift-core-graphics-tutorial-part-3-patterns-and-playgrounds/</guid>
+      <description>&lt;h2 id=&#34;core-graphics-教程第三部分-swift-patterns-和-playgrounds&#34;&gt;Core Graphics 教程第三部分(Swift) - Patterns 和 Playgrounds&lt;/h2&gt;
+
+&lt;blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;原文链接：&lt;a href=&#34;http://www.raywenderlich.com/90695/modern-core-graphics-with-swift-part-3&#34;&gt;Core Graphics Tutorial Part 3: Patterns and Playgrounds&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;原文作者：&lt;a href=&#34;http://www.raywenderlich.com/u/caroline&#34;&gt; Caroline Begbie &lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;译文出自：&lt;a href=&#34;www.devtf.cn&#34;&gt;开发者前线&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;译者：&lt;a href=&#34;https://github.com/MrLoong&#34;&gt;MrLoong&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;校对者：&lt;a href=&#34;https://github.com/samw00&#34;&gt;samw00&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;欢迎回到Core Graphics 教学系列的第三也是最后一部分！Flo，你的water drinking tracking app将使用Core Graphics 进行最终的改进。&lt;/p&gt;
+
+&lt;p&gt;在&lt;a href=&#34;http://www.raywenderlich.com/90690/modern-core-graphics-with-swift-part-1&#34;&gt;第一部分&lt;/a&gt;，你通过UIKit画了三个自定义形状的控件,&lt;a href=&#34;http://www.raywenderlich.com/90693/modern-core-graphics-with-swift-part-2&#34;&gt;在第二部分&lt;/a&gt;你创建了一个视图用来显示用户在过去一周的喝水量，并且研究了transforming the context transformation matrix (CTM)&lt;/p&gt;
+
+&lt;p&gt;在这第三也是最后一部分，你将使&lt;strong&gt;Flo&lt;/strong&gt;升级到它的最终形态，特别的是你将：&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;创建一个重复的背景图案&lt;/li&gt;
+&lt;li&gt;为成功每天喝掉8杯水的用户从头到尾画一枚奖章&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;如果你还没有这个项目的源代码，从本系列的第二部分下载&lt;a href=&#34;http://cdn1.raywenderlich.com/wp-content/uploads/2015/02/Flo-Part2-6.3.zip&#34;&gt;&lt;strong&gt;Flo工程&lt;/strong&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://cdn3.raywenderlich.com/wp-content/uploads/2014/12/FinalApp-192x320.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Swift EventKit - Requesting Permission</title>
+      <link>http://ytlvy.com/posts/2015-08-08/2015-08-08-swift-eventkit-requesting-permission/</link>
+      <pubDate>Sat, 08 Aug 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-08-08/2015-08-08-swift-eventkit-requesting-permission/</guid>
+      <description>&lt;h1 id=&#34;swift-eventkit的初学者指南-请求权限&#34;&gt;Swift  EventKit的初学者指南&amp;ndash;请求权限&lt;/h1&gt;
+
+&lt;hr /&gt;
+
+&lt;blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;原文链接 : &lt;a href=&#34;http://www.andrewcbancroft.com/2015/05/14/beginners-guide-to-eventkit-in-swift-requesting-permission/&#34;&gt;Beginner’s Guide to EventKit in Swift – Requesting Permission&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;原文作者 : &lt;a href=&#34;http://www.andrewcbancroft.com/&#34;&gt;Andrew&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;http://www.devtf.cn&#34;&gt;译文出自 :  开发技术前线 www.devtf.cn&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;译者 : &lt;a href=&#34;https://github.com/MollyMmm&#34;&gt;MollyMmm&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;校对者: &lt;a href=&#34;https://github.com/bboyfeiyu&#34;&gt;Mr.Simple&lt;/a&gt;&lt;br /&gt;&lt;/li&gt;
+&lt;li&gt;状态 : 校对完成&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;EventKit为获取和操作用户日历事件和提醒提供了一系列的类.在下面的教程中,我的目标是带领你走出利用EventKit建立一个应用程序的第.我的目标是带领你迈出利用EventKit建立一个应用程序的第一步.我将演示如何向用户的日历请求许可,我还将展示几个处理用户响应的例子(当他们授予访问权限,或者拒绝).
+#Example scenario
+#场景&lt;/p&gt;
+
+&lt;p&gt;让我们先提出一个基本方案，作为本教程的例子。&lt;/p&gt;
+
+&lt;p&gt;假设我们正在构建一个应用程序，现在，有一个单一的视图控制器。在得到用户授权允许的情况下，我们希望这个视图控制器显示日历列表。如果用户拒绝访问,我们将向用户展示一个消息,用来说明我们的应用程序在没有访问权限时不能运行,我们也将允许他们通过单击一个按钮能够在他们的设备的设置中设置授权访问.&lt;/p&gt;
+
+&lt;p&gt;我已经创建一个那样的应用程序作为例子&amp;ndash;跳到GitHub中查看并研究这个例子的代码.&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;资源&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://github.com/andrewcbancroft/EventTracker/tree/ask-for-permission&#34;&gt;Xcode工程示例&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;#Storyboard setup
+#故事面板设置&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Swift Extensions Nuances</title>
+      <link>http://ytlvy.com/posts/2015-08-08/2015-08-08-swift-extensions-nuances/</link>
+      <pubDate>Sat, 08 Aug 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-08-08/2015-08-08-swift-extensions-nuances/</guid>
+      <description>&lt;h2 id=&#34;swift扩展的三个微妙细节&#34;&gt;Swift扩展的三个微妙细节&lt;/h2&gt;
+
+&lt;blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;原文链接 : &lt;a href=&#34;http://www.andrewcbancroft.com/2015/04/22/3-nuances-of-swift-extensions/&#34;&gt;3 Nuances of Swift Extensions&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;原文作者 : &lt;a href=&#34;http://www.andrewcbancroft.com/&#34;&gt;Andrew Bancroft&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;译文出自 : &lt;a href=&#34;www.devtf.cn&#34;&gt;开发技术前线 www.devtf.cn&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;译者 : &lt;a href=&#34;https://github.com/samw00/&#34;&gt;samw00&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;校对者:&lt;br /&gt;&lt;/li&gt;
+&lt;li&gt;状态 :  校对中&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;每当我初次翻看某文档时，我都走马观花似的快速阅过，还一边点着头一边喃喃自语说：“好！懂了，就这么回事！”，可是过后当我真正要运用到这些我以为已经理解了的知识点时，却发现实际情况和我想的往往不一样，每当这时我就懵了，心想：“哇哦&amp;hellip;怎么回事？这和我想的完全不一样啊！文档里有说这事吗？”。&lt;/p&gt;
+
+&lt;p&gt;最近的几次讨论促使我扪心自问是否真正的理解了Swift中的扩展。我阅读过关于扩展的文档，并且我“认为”我自己对这块内容已经是理解的相当透彻了。可是这几次讨论，加上自己私下通过敲代码的验证，让我发现了我原先不曾注意到几个微妙的细节。&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;更新&lt;/strong&gt;：这篇文章刚一发表，Swift社区就出手襄助并帮助我弄明白了我最根本的纠结点在哪。为此，我写了另一篇文章“&lt;a href=&#34;http://www.andrewcbancroft.com/2015/04/24/clarifying-swift-access-control-hint-swift-isnt-c-sharp/&#34;&gt;阐明Swift访问控制&lt;/a&gt;”进一步说明我之前的误解。为了避免犯我曾今犯过的错误，我建议大家去读一读。&lt;/p&gt;
+
+&lt;h2 id=&#34;三个关于扩展的微妙细节&#34;&gt;三个关于扩展的微妙细节&lt;/h2&gt;
+
+&lt;p&gt;对下面列出的三个细节的思考严重挑战了我之前对Swift扩展的理解：&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;Swift扩展对它所扩展类型的&lt;strong&gt;visibility&lt;/strong&gt;。比如，扩展能访问被&lt;code&gt;private&lt;/code&gt;所修饰的内容吗?&lt;/li&gt;
+&lt;li&gt;定义扩展的位置是否对扩展的&lt;strong&gt;visibility&lt;/strong&gt;有影响。比如我这有一个类型我想写个扩展，把扩展写在同一个源文件里和把扩展写在另一个文件里有什么区别吗？&lt;/li&gt;
+&lt;li&gt;扩展里“成员”的默认访问修饰符以及是否给他们添加修饰对这个扩展作为一个类型的公共接口的影响。&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;在我开始之前，假设我有一个公共结构体&lt;code&gt;Person&lt;/code&gt;。这个结构体有一些私有属性，&lt;code&gt;name&lt;/code&gt;，&lt;code&gt;gender&lt;/code&gt;，和&lt;code&gt;age&lt;/code&gt;。用一个枚举把&lt;code&gt;Gender&lt;/code&gt;封装了一下。这个结构体看起来如下：&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Swift Increasing Performance by Reducing Dynamic Dispatch</title>
+      <link>http://ytlvy.com/posts/2015-08-08/2015-08-08-swift-increasing-performance-by-reducing-dynamic-dispatch/</link>
+      <pubDate>Sat, 08 Aug 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-08-08/2015-08-08-swift-increasing-performance-by-reducing-dynamic-dispatch/</guid>
+      <description>&lt;h2 id=&#34;通过减少动态分发来提高swift的执行效率&#34;&gt;通过减少动态分发来提高Swift的执行效率&lt;/h2&gt;
+
+&lt;blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;原文链接 : &lt;a href=&#34;https://developer.apple.com/swift/blog/?id=27&#34;&gt;Increasing Performance by Reducing Dynamic Dispatch&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;原文作者 : &lt;a href=&#34;https://developer.apple.com/swift&#34;&gt;Apple官方博文&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;译文出自 : &lt;a href=&#34;www.devtf.cn&#34;&gt;开发技术前线 www.devtf.cn&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;译者 : &lt;a href=&#34;https://github.com/samw00/&#34;&gt;samw00&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;和其他很多编程语言一样，Swift允许一个类重写其父类中声明的方法和属性。这意味着程序在运行时需要先确定要调用的方法和访问的属性是属于哪个类的，确定之后，则会执行间接调用（indirect call）或间接访问（indirect access）。这个运行机制称为&lt;strong&gt;动态分发&lt;/strong&gt;（dynamic dispatch）。这个机制能够提高语言的表现力，但其付出的代价是在每次间接调用或间接访问时，会产生一定量的运行时开销（runtime overhead）。在执行敏感代码时，最好能避免产生这样的开销。这篇博客将罗列三种通过消除这动态分发机制来提高程序执行效率的方式：&lt;code&gt;final&lt;/code&gt;，&lt;code&gt;private&lt;/code&gt;和全模块优化（Whole Module Optimization）。&lt;/p&gt;
+
+&lt;p&gt;Consider the following example:&lt;/p&gt;
+
+&lt;p&gt;先来看看下面这段代码&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;class ParticleModel {
+    var point = ( 0.0, 0.0 )
+    var velocity = 100.0
+
+    func updatePoint(newPoint: (Double, Double), newVelocity: Double) {
+        point = newPoint
+        velocity = newVelocity
+    }
+
+    func update(newP: (Double, Double), newV: Double) {
+        updatePoint(newP, newVelocity: newV)
+    }
+}
+
+var p = ParticalModel()
+for i in stride(from: 0.0, through: 360, by: 1.0) {
+    p.update((i * sin(i), i), newV: i * 1000)
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Swift Memory management</title>
+      <link>http://ytlvy.com/posts/2015-08-08/2015-08-08-swift-memory-management/</link>
+      <pubDate>Sat, 08 Aug 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-08-08/2015-08-08-swift-memory-management/</guid>
+      <description>&lt;h2 id=&#34;swift和自动引用计数-arc-整理之强-弱和无主引用&#34;&gt;Swift和自动引用计数(ARC)整理之强，弱和无主引用&lt;/h2&gt;
+
+&lt;blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;原文链接 : &lt;a href=&#34;http://www.andrewcbancroft.com/2015/05/08/strong-weak-and-unowned-sorting-out-arc-and-swift/&#34;&gt;Strong, Weak, and Unowned - Sorting out ARC and Swift&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;原文作者 : &lt;a href=&#34;http://www.andrewcbancroft.com/&#34;&gt;Andrew Bancroft&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;译文出自 : &lt;a href=&#34;www.devtf.cn&#34;&gt;开发技术前线 www.devtf.cn&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;译者 : &lt;a href=&#34;https://github.com/samw00/&#34;&gt;samw00&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;校对者:  &lt;a href=&#34;https://github.com/bboyfeiyu/&#34;&gt;MrSimple&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;状态 :  完成&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;我敢打赌有相当一部分的Swfit开发者纠结于&lt;code&gt;strong&lt;/code&gt;（强引用），&lt;code&gt;weak&lt;/code&gt;（弱引用)和&lt;code&gt;unowned&lt;/code&gt;（无主引用）这几种不同类型的引用方式对他们的代码在运行时所造成的影响。如果我的日子依赖于自动引用计数（ARC）,我想我是不会费神来尝试解释其中的奥妙的。&lt;/p&gt;
+
+&lt;p&gt;在我每次声明变量或是常量时，我都不是特别确定到底应该用哪种类型的引用，为了让自己不再纠结，我最终决定把&lt;a href=&#34;https://developer.apple.com/library/ios/documentation/Swift/Conceptual/Swift_Programming_Language/AutomaticReferenceCounting.html&#34;&gt;苹果官方关于ARC的文档&lt;/a&gt;拿出来拜读，试着去理解和消化里面的每一句话。这篇文章尝试着把我脑里关于Swift和自动引用计数（ARC）的整理分享给大家。&lt;/p&gt;
+
+&lt;p&gt;这篇文章稍微有点长所以我想：“为何不先把总结直接抛出来让小伙伴们先睹为快呢？然后如果实好奇再继续看我是如何得出这总结的”。所以下面献上我的总结！&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Swift Reactive</title>
+      <link>http://ytlvy.com/posts/2015-08-08/2015-08-08-swift-reactive/</link>
+      <pubDate>Sat, 08 Aug 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-08-08/2015-08-08-swift-reactive/</guid>
+      <description>&lt;h1 id=&#34;swift的响应式编程&#34;&gt;Swift的响应式编程&lt;/h1&gt;
+
+&lt;hr /&gt;
+
+&lt;blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;原文链接 : &lt;a href=&#34;https://medium.com/swift-programming/reactive-swift-3b6050375534&#34;&gt;Reactive Swift&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;原文作者 : &lt;a href=&#34;https://medium.com/@vasarhelyia&#34;&gt;Agnes Vasarhelyi&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;http://www.devtf.cn&#34;&gt;译文出自 :  开发技术前线 www.devtf.cn&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;译者 : &lt;a href=&#34;https://github.com/bboyefiyu&#34;&gt;Mr.Simple&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;校对者: &lt;a href=&#34;https://github.com/Lollypo&#34;&gt;Lollypo&lt;/a&gt;&lt;br /&gt;&lt;/li&gt;
+&lt;li&gt;状态 :  完成&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;让我们首先回到Apple刚推出Objective-C的继任者-Swift的时候，那真是一个非比寻常的时刻。
+Siri还没有开启地狱之门，Prezi还没有支持订阅，那时的朝鲜也还没有hack任何人的email。一种新语言的出现让我个人非常兴奋，尤其是这是一种类型安全的脚本语言。虽然Swift还在快速的发展中，但是我们不必担心它是否已经稳定。当那一刻到来之时，我应该已经知道如何交付整洁的、可测试的代码。还要有非常灵活、流畅的UI？如果你对Objective-C 和 MVC之外的东西感兴趣，那么就请继续读下去吧。&lt;/p&gt;
+
+&lt;h2 id=&#34;mvc-与-mvvm&#34;&gt;MVC 与 MVVM&lt;/h2&gt;
+
+&lt;p&gt;让我们从零开始，当我们设计一个应用时，你可能会先考虑应用的架构。Cocoa框架以&lt;a href=&#34;https://developer.apple.com/library/ios/documentation/General/Conceptual/DevPedia-CocoaCore/MVC.html&#34;&gt;Model-View-Controller&lt;/a&gt; (也称为 MVC)为基础架构，它的结构如下图所示。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://d262ilb51hltx0.cloudfront.net/max/1600/0*pEvMKHBK9HeAgrYC.&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Swift UIKit Dynamics - Tossing Views</title>
+      <link>http://ytlvy.com/posts/2015-08-08/2015-08-08-swift-uikit-dynamics-tossing-views/</link>
+      <pubDate>Sat, 08 Aug 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-08-08/2015-08-08-swift-uikit-dynamics-tossing-views/</guid>
+      <description>&lt;h2 id=&#34;uikit-dynamics-和-swift-教程-抛掷视图-tossing-views&#34;&gt;UIKit Dynamics 和 Swift 教程：抛掷视图 (Tossing Views)&lt;/h2&gt;
+
+&lt;blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;原文链接 : &lt;a href=&#34;http://www.raywenderlich.com/94719/uikit-dynamics-swift-tutorial-tossing-views&#34;&gt;UIKit Dynamics and Swift Tutorial:Tossing Views&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;原文作者 : &lt;a href=&#34;http://www.raywenderlich.com&#34;&gt;Ray Wenderlich&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;译文出自 : &lt;a href=&#34;http://www.devtf.cn&#34;&gt;开发技术前线 www.devtf.cn&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;译者 : &lt;a href=&#34;https://github.com/samw00&#34;&gt;samw00&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;校对者: &lt;a href=&#34;https://github.com/mrchenchao&#34;&gt;mrchenchao&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;状态 : 完成&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;在这篇UIKit Dynamics教程中，你将学会如何通过添加手势，用一种很自然的方式将视图抛掷出屏幕的显示区域。如下图所示：&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://cdn1.raywenderlich.com/wp-content/uploads/2014/07/UIKitDynamics3.gif&#34; alt=&#34;效果预览图&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;你可能已经在&lt;a href=&#34;https://itunes.apple.com/us/app/tweetbot-3-for-twitter-iphone/id722294701&#34;&gt;Tweetbot&lt;/a&gt;这个流行的app里看到这一个技巧被大量的运用。&lt;/p&gt;
+
+&lt;p&gt;这篇教程特别适合中级水平的开发人员，因为内容包括如何实现一些特别棒的特效，比如用原生的UIKit框架实现旋转(rotation)和飞离(fly-away)等动画效果。&lt;/p&gt;
+
+&lt;p&gt;如果你刚刚接触UIKit dynamics, 也别紧张 － 因为这篇教程会一步一步引导你如何去做。&lt;/p&gt;
+
+&lt;p&gt;废话不多说，让我们直切主题吧！&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Swift UIKit Dynamics Tutorial: Getting Started</title>
+      <link>http://ytlvy.com/posts/2015-08-08/2015-08-08-swift-uikit-dynamics-tutorial-getting-started/</link>
+      <pubDate>Sat, 08 Aug 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-08-08/2015-08-08-swift-uikit-dynamics-tutorial-getting-started/</guid>
+      <description>&lt;h2 id=&#34;uikit-dynamics-教程-起步&#34;&gt;UIKit Dynamics 教程: 起步&lt;/h2&gt;
+
+&lt;blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;原文链接 : &lt;a href=&#34;http://www.raywenderlich.com/76147/uikit-dynamics-tutorial-swift&#34;&gt;UIKit Dynamics Tutorial: Getting Started&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;原文作者: &lt;a href=&#34;http://www.raywenderlich.com/u/frosty&#34;&gt;James Frost&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;译文出自: &lt;a href=&#34;http://www.devtf.cn/&#34;&gt;开发技术前线http://www.devtf.cn/&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;译者 : &lt;a href=&#34;https://github.com/Lollypo&#34;&gt;Lollypo&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;校对者: &lt;a href=&#34;https://github.com/mrchenhao&#34;&gt;Harries Chen&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;状态 :  完成&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;&lt;strong&gt;更新备注&lt;/strong&gt;:本教程是由&lt;a href=&#34;http://www.raywenderlich.com/u/ColinEberhardt&#34;&gt;Colin Eberhardt&lt;/a&gt;编写的&lt;a href=&#34;http://www.raywenderlich.com/?page_id=48020&#34;&gt; iOS 7 by Tutorials&lt;/a&gt;其中某章节的精简版本.由James Frost更新到iOS8并用Swift重写,在Xcode 6 beta 7版本上测试通过。&lt;/p&gt;
+
+&lt;p&gt;iOS的设计目标鼓励你去创建数字界面模拟触摸，手势，改变方向等，就好像它们真实的物理对象而远非像素的集合。最终给予用户更深层级的交互而不是肤浅的拟真设计。&lt;/p&gt;
+
+&lt;p&gt;这听起来感觉挺难的，因为让数字界面看起来是真实的远比让它感觉是真实的简单。不过好在你有一些漂亮的新工具:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;UIKit Dynamics&lt;/strong&gt; 是集成到UIKit中的物理引擎。这允许你创建一个感觉像是真实的界面，通过添加一些行为，例如重力，锚连接 (弹簧)以及力. 你可以定义你希望你的界面需要的物理特征, Dynamics会帮你关心其他的细枝末节。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Motion Effects&lt;/strong&gt; 允许你创建类似于iOS 7 主屏幕中酷酷的视差效果. 基本上你可以利用手机加速器提供的数据来创建界面来模拟手机方向发生改变的反应。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;当一起使用的时候，由 Dynamics 与 Motion形成用户体验的工具，让你的界面给用户生活带来非同一般的体验。当观察到他们的操作是通过一种自然、动态的方式，你的用户将会与你的app进行更深层次的连接。&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;注意&lt;/strong&gt;: 由于本教程编写的时候iOS 8 还处于测试中，因此&lt;a href=&#34;http://www.raywenderlich.com/?p=74138&#34;&gt;没有提供iOS8的截图&lt;/a&gt;. 所有的截图都是iOS7环境下的,不过看起来与iOS 8相差不大.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Swift custom-view-controller-transitions-tutorial</title>
+      <link>http://ytlvy.com/posts/2015-08-08/2015-08-08-swift-custom-view-controller-transitions-tutorial/</link>
+      <pubDate>Sat, 08 Aug 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-08-08/2015-08-08-swift-custom-view-controller-transitions-tutorial/</guid>
+      <description>&lt;h1 id=&#34;使用swift自定义viewcontroller切换效果与动画&#34;&gt;使用Swift自定义ViewController切换效果与动画&lt;/h1&gt;
+
+&lt;blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;原文链接 : &lt;a href=&#34;http://www.appcoda.com/custom-view-controller-transitions-tutorial/&#34;&gt;custom-view-controller-transitions-tutorial&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;原文作者 : &lt;a href=&#34;http://www.appcoda.com/custom-view-controller-transitions-tutorial/&#34;&gt;joyce echessa&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;www.devtf.cn&#34;&gt;译文出自 :  开发技术前线 www.devtf.cn&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;译者 : &lt;a href=&#34;https:www.devtd.cn&#34;&gt;Shopie&lt;/a&gt;&lt;br /&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;当我们把从Apple iOS设备上内置的app从一个view切换到另一个的时候，我们可以看到各种不同的动态切换。比如，把详细view controller滑动到主view controller时呈现出的切换动画（通常在短信app或设置app中可以看到），以及代表了不同view controller之间切换的各种不间断过渡。&lt;/p&gt;
+
+&lt;p&gt;iOS 7引入了自定义view controller切换，使得开发人员能够在他们的app中实现不同 view controller之间的自定义切换动画。我们通过本教程来看看如何自定义切换动画。本教程还会讲到如何创建手势切换，也就是交互式切换。首先，大家需要下载starter项目，我们在后续的整个教程中将会用到。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://www.appcoda.com/wp-content/uploads/2015/03/custom-view-transition.jpg&#34; alt=&#34;pic-1&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>iOS Autolayout Practices</title>
+      <link>http://ytlvy.com/posts/2015-08-08/2015-08-08-ios-autolayout-practices/</link>
+      <pubDate>Sat, 08 Aug 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-08-08/2015-08-08-ios-autolayout-practices/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;http://blog.cnbluebox.com/blog/2015/02/02/autolayout2/&#34;&gt;reference&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;autolayout小结&#34;&gt;Autolayout小结&lt;/h2&gt;
+
+&lt;h3 id=&#34;如何自动适应cell的高度&#34;&gt;如何自动适应cell的高度&lt;/h3&gt;
+
+&lt;p&gt;在IOS的布局中，计算和适应cell的高度是个经典的问题, 在frame时代，我们都知道用&lt;code&gt;sizeWithFont:&lt;/code&gt; 先计算出文字的高度，然后通过计算得出cell的高度，然后赋予&lt;code&gt;heightForRow:&lt;/code&gt;。&lt;/p&gt;
+
+&lt;p&gt;那在Autolayout时代如何计算cell的高度呢？因为sizeWithFont:方法已经不太实用了。其实Autolayout不但更简单，还可以不用写过多的计算代码达到自适应高度。&lt;/p&gt;
+
+&lt;p&gt;理论上是可以通过已知的完整的Constraints和view的属性来计算高度的，我们可以通过&lt;code&gt;systemLayoutSizeFittingSize:&lt;/code&gt;方法来获取计算出来cell的size，我们知道cell的高度需要在tableView的代理方法&lt;code&gt;tableView:heightForRowAtIndexPath:&lt;/code&gt;中实现的，那么我们考虑从以下两点来做：&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;通过创建一个额外的cell专门用来计算其高度&lt;/li&gt;
+&lt;li&gt;因为计算需要布局，所以尽量让其只计算一次，计算完可以将高度保存起来&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>iOS Background Modes Tutorial</title>
+      <link>http://ytlvy.com/posts/2015-08-08/2015-08-08-ios-background-modes-tutorial/</link>
+      <pubDate>Sat, 08 Aug 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-08-08/2015-08-08-ios-background-modes-tutorial/</guid>
+      <description>&lt;h1 id=&#34;ios后台模式开发指南&#34;&gt;iOS后台模式开发指南&lt;/h1&gt;
+
+&lt;hr /&gt;
+
+&lt;blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;原文链接 : &lt;a href=&#34;http://www.raywenderlich.com/92428/background-modes-ios-swift-tutorial&#34;&gt;Background Modes Tutorial: Getting Started&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;原文作者 : &lt;a href=&#34;http://www.raywenderlich.com/u/rayfix&#34;&gt; Ray Fix &lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;译者 : &lt;a href=&#34;https://github.com/MollyMmm&#34;&gt;MollyMmm&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;校对者:David Hu&lt;/li&gt;
+&lt;li&gt;状态 :  已完成&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;更新说明:这个教程被Ray Fix更新为关于iOS和Swift的.原著作者为&lt;a href=&#34;http://www.raywenderlich.com/29948/backgrounding-for-ios&#34;&gt;Gustavo Ambrozio&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;自从古老的iOS4以来,当用户点击home建的时候,你可以使你的APP们在内存中处于suspended(挂起)状态.即使APP仍停留在内存中,它的所有操作是被暂停的直到用户再次运行它.&lt;/p&gt;
+
+&lt;p&gt;当然这个规则中有例外情况.在特定的情况下,这个APP仍然可以在后台中执行某些操作.这个教程会教你在什么时候怎么去用最常用的一些后台操作.&lt;/p&gt;
+
+&lt;p&gt;每一次iOS的发布都会在后台操作和细节上的放宽限制，以此提升用户体验和延长电池寿命.对于在iOS中实现&amp;rdquo;真正&amp;rdquo;的多任务来说,后台模式不是一个神奇的解决办法.当用户切换到其他的APP应用时,大多数的APP应用仍然会完全的暂停运行.你的应用只被允许在很特殊的情况下才能在后台中继续运行.例如,这些包括播放音频,获取位置更新,或者从服务器获取最新内容的情况.&lt;/p&gt;
+
+&lt;p&gt;iOS7之前,APP应用在真正暂停之前会有连续10分钟的时间去完成它们当前的操作.随着NSURLSession的出现,有了一种更为优雅的方式去应对大量的网络切换.因此,对于可用的后台运行时间已经减少到只有几分钟,而且不再必须为连续的.&lt;/p&gt;
+
+&lt;p&gt;这样的后台模式可能不适合你.但如果合适,请继续阅读!&lt;/p&gt;
+
+&lt;p&gt;接下来的学习中,将会有几个几个后台模式提供给你.在本教程中你将建立一个关于简单标签应用的工程,来探索从连续播放视频到周期性的获取更新内容的四种常见模式.&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>iOS Continuous Integration &amp; Deployment</title>
+      <link>http://ytlvy.com/posts/2015-08-08/2015-08-08-ios-continuous-integration-deployment/</link>
+      <pubDate>Sat, 08 Aug 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-08-08/2015-08-08-ios-continuous-integration-deployment/</guid>
+      <description>&lt;h2 id=&#34;ios项目的持续集成与管理&#34;&gt;iOS项目的持续集成与管理&lt;/h2&gt;
+
+&lt;blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;原文链接 : &lt;a href=&#34;https://medium.com/ribot-labs/continuous-integration-deployment-for-ios-projects-7358b72ca2e9&#34;&gt;Continuous Integration &amp;amp; Deployment for iOS Projects&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;原文作者 : &lt;a href=&#34;https://medium.com/@matto1990&#34;&gt;Matt Oakes&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;http://www.devtf.cn&#34;&gt;译文出自 :  开发技术前线 www.devtf.cn&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;译者 : &lt;a href=&#34;https://github.com/samlaudev&#34;&gt;Sam Lau&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;校对者: &lt;a href=&#34;https://github.com/bboyfeiyu&#34;&gt;Mr.Simple&lt;/a&gt;&lt;br /&gt;&lt;/li&gt;
+&lt;li&gt;状态 :  校正完&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;当实现新功能时，如果忽略可维护性而引入&lt;a href=&#34;http://en.wikipedia.org/wiki/Technical_debt&#34;&gt;技术债务&lt;/a&gt;，那将会需要延迟解决它或导致增加维护成本。&lt;/p&gt;
+
+&lt;p&gt;最近我们已经思考通过哪些方式来提高代码的质量：&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;当代码的质量下降时，通过设置一些工具来马上提醒开发者&lt;/li&gt;
+&lt;li&gt;文档化一些编码规范和思考在过去的几个项目中如何避免维护性差的问题&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;strong&gt;我将会简单地概括我们需要设置什么才能自动监控代码质量.&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;#基础
+我们选择一个持续集成工具&lt;a href=&#34;https://jenkins-ci.org/&#34;&gt;Jenkins&lt;/a&gt;，让它运行在一台放在我们工作室的Mac Mini。其实我不怎么喜欢Jenkins，但到目前为止，它是最稳定和最适合的工具来完成这些工作。&lt;/p&gt;
+
+&lt;p&gt;我们已经通过&lt;a href=&#34;https://brew.sh/&#34;&gt;Homebrew&lt;/a&gt;和&lt;a href=&#34;https://github.com/sstephenson/rbenv&#34;&gt;rbenv&lt;/a&gt;来分别安装Jenkins和Ruby，而rbenv能够为我们提供一个最新和稳定的&lt;a href=&#34;https://rubygems.org/&#34;&gt;Ruby Gems&lt;/a&gt;环境。有个Homebrew和Ruby Gems两个包管理工具之后，我们就几乎能够安装所有我们需要的工具，但很少会破坏与原有OS X系统更新提供的Ruby。&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>iOS Dispatch_async usages tips</title>
+      <link>http://ytlvy.com/posts/2015-08-08/2015-08-08-ios-dispatch-async-usages-tips/</link>
+      <pubDate>Sat, 08 Aug 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-08-08/2015-08-08-ios-dispatch-async-usages-tips/</guid>
+      <description>reference
+Dispatch_async异步的小妙用 GCD 对于cocoa和cocoa Touch的开发者来说已经是在熟悉不过了，相信有些基础的人都能说出一些特性。但是今天我们不是讲GCD的介绍和使用bulabulabula. 本文就介绍下使用dispatch_async的一个小妙用，且看下文分解。
+我们都知道dispatch_async可以用来异步执行代码。你的第一反应的可能是后台、多线程 这样的字眼，但是异步执行不是就代表多线程，它只是代表代码的执行方式，知道这点可以做更多事情。
+afterDelay 你是否做过这样的事情，在修改一个bug时，把方法延迟执行，like this:
+//[self doSomething]; [self performSelector:@selector(doSomething) withObject:nil afterDelay:0.1f];  Let me guess, 你一定是发现doSomething方法中所依赖的数据或环境还达不到，立即执行的话，可能会有问题。所以你就让doSomething延迟一点时间执行，保证它需要的数据或环境已经处理完成，改完打包测试，bug看起来已经修复了。
+这个问题从大多数场景来说的确已经修复了，但是在强迫症眼里，好像还是有些瑕疵，不是完美方案。
+两个问题，你怎么能100%确保你需要的数据或环境能再0.1s内准备完成呢； 另一个是数据准备完成到doSomething执行中间可能会有一段空白时间，有时是我们不希望的。那如何替代这个方案呢，如果你得doSomething需要的数据和环境是在主线程执行的，那么方案很简单：
+//[self doSomething]; dispatch_async(dispatch_get_main_queue(), ^{ [self doSomething]; });  你可能问了，我本来就在主线程执行任务，为什么还要往main_queue里面提交任务呢。巧妙的地方就在这，我们巧妙的把doSomething作为任务提交到主线程，它会等待主线程的任务一个个执行完成才执行，这样就可以巧妙的解决这个问题。
+不过注意，不是所有场景都适合这个用法，就像上面描述的，你要确保doSomething的依赖条件实在主线程中执行的。</description>
+    </item>
+    
+    <item>
+      <title>iOS UITableviewCell Swipeable</title>
+      <link>http://ytlvy.com/posts/2015-08-08/2015-08-08-ios-uitableviewcell-swipeable/</link>
+      <pubDate>Sat, 08 Aug 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-08-08/2015-08-08-ios-uitableviewcell-swipeable/</guid>
+      <description>&lt;h2 id=&#34;ios开发-可滑动的单元格&#34;&gt;&lt;code&gt;iOS开发-可滑动的单元格&lt;/code&gt;&lt;/h2&gt;
+
+&lt;blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;原文链接 : &lt;a href=&#34;https://medium.com/ios-os-x-development/swipeable-table-view-cells-in-ios-apps-472da0af1935&#34;&gt;Swipeable table view cells in iOS apps&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;译者 : &lt;a href=&#34;https://github.com/mrchenhao&#34;&gt;Harries Chen&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;校对者: &lt;a href=&#34;https://github.com/mrchenhao&#34;&gt;Mr.Simple&lt;/a&gt;&lt;br /&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;我在过去的一个月里致力于开发我的创业项目，其中有一个功能就是我想让用户通过左右滑动表格来显示更多的选项（就像系统自带的邮件程序现实更多和删除一样，在这篇文章中我将讨论一些关于这方面的方法，以及如何动手实现它）&lt;/p&gt;
+
+&lt;p&gt;首先，让我们来看一下现有的解决方法。&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;UITableViewRowAction (new in iOS 8)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;这是最好的方法如果你只是希望加一些从左滑到右才会出现的按钮。&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/CEWendel/SWTableViewCell&#34;&gt;SWTableViewCell&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;这是一个功能很全的按钮库，支持左滑和右滑，同时也可以在iOS8以前的版本中使用&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/MortimerGoro/MGSwipeTableCell&#34;&gt;MGSwipeTableCell&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;如果你想要实现表格的左右滑动功能，你可以从上面的解决方按照找到你需要的。但是为什么我们还要自己来实现呢？就我而言，我需要MGSwipeTableCell的一些功能，但是有的功能它对我并没有用，如果你想要自己来实现它，或者仅仅只是想要知道它的原理，那么接下去看。&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>iOS What’s New in Swift 2</title>
+      <link>http://ytlvy.com/posts/2015-08-08/2015-08-08-ios-whats-new-in-swift-2/</link>
+      <pubDate>Sat, 08 Aug 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-08-08/2015-08-08-ios-whats-new-in-swift-2/</guid>
+      <description>&lt;h2 id=&#34;swift-2-有哪些新特性&#34;&gt;Swift 2 有哪些新特性&lt;/h2&gt;
+
+&lt;blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;原文链接 : &lt;a href=&#34;http://www.raywenderlich.com/108522/whats-new-in-swift-2&#34;&gt;What’s New in Swift 2&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;原文作者 : &lt;a href=&#34;http://www.raywenderlich.com/u/gregheo&#34;&gt;Greg Heo&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;译文出自 : &lt;a href=&#34;http://www.devtf.cn&#34;&gt;开发技术前线 www.devtf.cn&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;译者 : &lt;a href=&#34;https://github.com/samlaudev&#34;&gt;Sam Lau&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;校对者: &lt;a href=&#34;https://github.com/bboyfeiyu&#34;&gt;Mr.Simple&lt;/a&gt;&lt;br /&gt;&lt;/li&gt;
+&lt;li&gt;状态 :  校正完&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;在WWDC我们发现Swift团队没有浪费时间在无谓的地方，而是致力于改善Swift 2。&lt;/p&gt;
+
+&lt;p&gt;我们将会为你编写和录制很多关于Swift 2的教程，但在此期间我想强调Swift最令人兴奋的改变，为你可以在秋天迁移到Swift 2做准备。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://cdn2.raywenderlich.com/wp-content/uploads/2015/06/swift-new.jpg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;#错误处理&lt;/p&gt;
+
+&lt;p&gt;正如Ray在&lt;a href=&#34;http://www.raywenderlich.com/108379/wwdc-2015-initial-impressions&#34;&gt;WWDC 2015 Initial Impressions&lt;/a&gt;文章中提及，错误处理已经在Swift 2改进了。我们已经迁移到新的系统就像异常处理，而不是&lt;strong&gt;NSError&lt;/strong&gt;对象和双指针。&lt;/p&gt;
+
+&lt;p&gt;你可能对以下代码比较熟悉：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;if drinkWithError(nil) {
+  print(&amp;quot;Could not drink beer! :[&amp;quot;)
+  return
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;一般在Cocoa，你传入一个&lt;strong&gt;NSError&lt;/strong&gt;对象的引用(一个&lt;strong&gt;inout&lt;/strong&gt;参数在Swift)，然后方法会赋值给错误变量。但问题是你可以传入一个nil到这里来完全忽略这个错误；或者，你可以传入&lt;strong&gt;NSError&lt;/strong&gt;但从不检查它。&lt;/p&gt;
+
+&lt;p&gt;Swift 2 为错误检查添加额外保护层。你可以使用&lt;strong&gt;throws&lt;/strong&gt;关键字来指定那个函数和方法能够抛出一个错误。然后当你调用某样东西时，可以用&lt;strong&gt;do&lt;/strong&gt;, &lt;strong&gt;try&lt;/strong&gt;和&lt;strong&gt;catch&lt;/strong&gt;多个关键字来捕捉和处理错误。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;// 1
+enum DrinkError: ErrorType {
+  case NoBeerRemainingError
+}
+ 
+// 2
+func drinkWithError() throws {
+  if beer.isAvailable() {
+    // party!
+  } else {
+    // 3
+    throw DrinkError.NoBeerRemainingError
+  }
+}
+ 
+func tryToDrink() {
+  // 4
+  do {
+    try drinkWithError()
+  } catch {
+    print(&amp;quot;Could not drink beer! :[&amp;quot;)
+    return
+  }
+}
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;这里有几样东西需要强调的：&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;为了创建一个错误可以抛出，只是创建一个继承&lt;strong&gt;ErrorType&lt;/strong&gt;的&lt;strong&gt;enum&lt;/strong&gt;。&lt;/li&gt;
+&lt;li&gt;你需要使用&lt;strong&gt;throws&lt;/strong&gt;关键字来标志任何函数可以抛出一个错误。&lt;/li&gt;
+&lt;li&gt;这里抛出一个错误，它将会在section 4中被捕捉。&lt;/li&gt;
+&lt;li&gt;你在一个&lt;strong&gt;do&lt;/strong&gt;块中包含任何可以抛出一个错误的代码，而不是其他语言类似的&lt;strong&gt;try&lt;/strong&gt;块中。然后，你添加一个&lt;strong&gt;try&lt;/strong&gt;关键字到函数被调用的前面，而且这个函数能够抛出一个错误。&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;新语法是非常简洁和易读。任何API当前使用&lt;strong&gt;NSError&lt;/strong&gt;以后都会使用这种错误处理方式。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://cdn4.raywenderlich.com/wp-content/uploads/2015/06/throw-all-the-things-415x320.jpg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>iOS float trap</title>
+      <link>http://ytlvy.com/posts/2015-08-08/2015-08-08-ios-float-trap/</link>
+      <pubDate>Sat, 08 Aug 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-08-08/2015-08-08-ios-float-trap/</guid>
+      <description> float陷阱以及在Objc中的注意 浮点数不准，这个貌似基本都知道。但是在开发中很多人没有对它的使用产生警觉。如果你在开发Cocoa应用，你可能使用过如下代码判断系统版本：
+if ([[[UIDevice currentDevice] systemVersion] floatValue] &amp;gt;= 7.0) { //something support for ios7 }  这样一段代码也的确工作良好，但是注意了如果你把比较的数值改为7.1，那么很有可能就会出问题。
+浮点数不准 这一篇博文从二进制的表示方面说明了为什么浮点数不准，讲的很好，感兴趣的可以学习学习，学习这些感觉还是很有用的，也可以帮助我们定位一些诡异的问题。 浮点数的二进制表示 在精确的比较中不要使用float 文章开头的系统版本的比较就是一个典型的例子，我们可以通过其他方法实现比较：
+if ([[[UIDevice currentDevice] systemVersion] compare:@&amp;quot;7.1&amp;quot;] != NSOrderedAscending) { //something support for ios7 }  </description>
+    </item>
+    
+    <item>
+      <title>iOS shake in pull to refresh</title>
+      <link>http://ytlvy.com/posts/2015-08-08/2015-08-08-ios-shake-in-pull-to-refresh/</link>
+      <pubDate>Sat, 08 Aug 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-08-08/2015-08-08-ios-shake-in-pull-to-refresh/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;http://blog.cnbluebox.com/blog/2015/01/19/shake-in-pull-to-refresh/&#34;&gt;reference&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;你的下拉刷新是否-抖-了一下&#34;&gt;你的下拉刷新是否“抖”了一下&lt;/h2&gt;
+
+&lt;p&gt;在进入IOS8之后，你有没有注意到老式的下拉刷新可能会抖一下， 在下拉松开后，scrollView即将回到“刷新中…”的状态过程中的时候。如果你又这个问题，那不妨跟随我来看看怎么解决这个问题。&lt;/p&gt;
+
+&lt;h3 id=&#34;抖动的原因&#34;&gt;抖动的原因&lt;/h3&gt;
+
+&lt;p&gt;我们先来看看在手松开之后我们对scrollView做了什么事情：&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;ScrollViewDidEndDragging&lt;/code&gt; =&amp;gt; &lt;code&gt;setContentInset:&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;为了保证在“Loading”的状态下，下拉刷新控件可以展示，我们对&lt;code&gt;contentInset&lt;/code&gt;做了修改，增加了&lt;code&gt;inset&lt;/code&gt;的&lt;code&gt;top&lt;/code&gt;. 那这样一步操作为什么会导致scrollView抖动一下呢。&lt;/p&gt;
+
+&lt;p&gt;我在&lt;code&gt;scrollViewDidScroll:&lt;/code&gt;中打了个断点，来看看在&lt;code&gt;setContentInset:&lt;/code&gt;之后发生了什么事情。 我设置的&lt;code&gt;inset.top = 64&lt;/code&gt;; 结果发现scrollView的&lt;code&gt;contentOffset&lt;/code&gt;发生了这样的变化：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;(0, -64) =&amp;gt; (0, -133) =&amp;gt; (0, -64)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;由以上数据可以看出，contentOffset在这个过程中先被向下移动了一段，再回归正常。 猜测问题原因：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;下拉松开之后， scrollView本身的 bounce 效果 与 当前设置inset冲突了
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>iOS8 iCloud</title>
+      <link>http://ytlvy.com/posts/2015-08-08/2015-08-08-ios8-icloud/</link>
+      <pubDate>Sat, 08 Aug 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-08-08/2015-08-08-ios8-icloud/</guid>
+      <description>&lt;h2 id=&#34;ios8使用icloud&#34;&gt;&lt;code&gt;iOS8使用icloud&lt;/code&gt;&lt;/h2&gt;
+
+&lt;blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;原文链接 : &lt;a href=&#34;http://www.appcoda.com/cloudkit-introduction-tutorial/&#34;&gt;Working with CloudKit in iOS 8&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;译文出自 &lt;a href=&#34;http://www.dectf.cn&#34;&gt;开发技术前线&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;译者 : &lt;a href=&#34;https://github.com/mrchenhao&#34;&gt;Harries Chen&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;对于开发者来说，如何用适当的方式来存储应用程序数据是一个比较重要的问题。 毫无疑问，任何应用都或多或少需要存储一些数据。对于一般的应用程序来说，被保存的数据各不相同，大部分时间都被存储在本地以便再次在相同的设备运行该应用程序。尽管这不是是唯一的选择。随着云服务的发展，一个应用程序也可以把数据存储在云端，既可以完全把数据存储在云端，也可以本地和远程都存储。&lt;/p&gt;
+
+&lt;p&gt;有许多网络服务商提供云服务，通常会赠送一定的免费空间。其中之一就是苹果，也就是著名的云服务提供商iCloud。开发人员可以访问iCloud，把它作为一个存储方式。有多种方法可以从iCloud中存储和读取数据，但在本教程中，我们将专注于其中之一：CloudKitframework。
+&lt;img src=&#34;http://img.blog.csdn.net/20150515220618400&#34; alt=&#34;这里写图片描述&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;当你处理结构化数据（不是单纯的文件和文档）并希望将其保存在网络上的，使用CloudKit会非常方便。通过CloudKit，可以很容易的做到其它数据库能做的事情，代替数据库、记录等等。事实上，一条CloudKit记录就是iOS中大家都知道的字典，当然CloudKit还可以处理其它不同的数据。通过本教程，我们会发现使用这个框架是有趣的，而不是特别困难。&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>swift Core Image Tutorial</title>
+      <link>http://ytlvy.com/posts/2015-08-08/2015-08-08-swift-core-image-tutorial/</link>
+      <pubDate>Sat, 08 Aug 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-08-08/2015-08-08-swift-core-image-tutorial/</guid>
+      <description>&lt;h2 id=&#34;core-image入门教程-swift&#34;&gt;Core Image入门教程(swift)&lt;/h2&gt;
+
+&lt;blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;原文链接 : &lt;a href=&#34;http://www.raywenderlich.com/76285/beginning-core-image-swift&#34;&gt;Core Image Tutorial: Getting Started&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;原文作者 : &lt;a href=&#34;http://www.raywenderlich.com/u/nicklockwood&#34;&gt;Nick Lockwood&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;译文出自 :&lt;a href=&#34;http://www.devtf.cn&#34;&gt;开发技术前线 www.devtf.cn&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;译者 : &lt;a href=&#34;https://github.com/samlaudev&#34;&gt;Sam Lau&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;校对者: &lt;a href=&#34;https://github.com/mrchenhao&#34;&gt;Harries Chen&lt;/a&gt;&lt;br /&gt;&lt;/li&gt;
+&lt;li&gt;状态 :  校正完&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;Core Image是一个强大的框架，它能够让你轻松地对图像进行过滤。你能够通过修改图像的饱和度、色调或曝光率来获取各种特效。你也可以使用CPU或GPU更快地来处理图像数据，快到能够实时处理视频帧数据(video frame)。&lt;/p&gt;
+
+&lt;p&gt;Core Image过滤器能够以链式的方式结合将多个特效应用到一个图像或视频帧数据。多个过滤器能够组合成单个过滤器应用在一个图像。通过每次与每个过滤器比较，这使它非常有效地处理图像。&lt;/p&gt;
+
+&lt;p&gt;在这个教程中，你将会亲手实践如何使用Core Image.通过使用几个不同的过滤器，你会看到实时使用各种炫酷的特效是多么容易。&lt;/p&gt;
+
+&lt;p&gt;#基础&lt;/p&gt;
+
+&lt;p&gt;在你开始之前，让我们先讨论在Core Image框架中几个很重要的类：&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;CIContext&lt;/strong&gt;. 所有处理core image的工作都在CIContext完成。这个与Core Graphics或OpenGL context有几分相似。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;CIImage&lt;/strong&gt;. 这个类保存图像数据，它能够从UIImage，图像文件或像素数据等方式来创建。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;CIFilter&lt;/strong&gt;. CIFilter类有一个字典(dictionary)来定义特定属性的过滤器，比如常用过滤器有饱和度，颜色翻转，裁剪等属性，还有很多没列出来。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;###CoreImageFun
+打开Xcode并使用&lt;strong&gt;iOS \ Application \ Single View Application&lt;/strong&gt;模板来创建一个新工程。输入&lt;strong&gt;CoreImageFun&lt;/strong&gt;作为Product Name，选择iPhone为Devices option和确定使用&lt;strong&gt;swift&lt;/strong&gt;作为编程语言。&lt;/p&gt;
+
+&lt;p&gt;下载&lt;a href=&#34;http://cdn5.raywenderlich.com/downloads/CIResources.zip&#34;&gt;教程的资源&lt;/a&gt;，并添加图片&lt;strong&gt;image.png&lt;/strong&gt;到工程&lt;/p&gt;
+
+&lt;p&gt;下一步，打开&lt;strong&gt;Main.storyboard&lt;/strong&gt;你文件，拖拽一个image view到已存在的view，image view作为view的子视图。在Attributes Inspector中，设置image view的content mode属性为Aspect Fit，这样它就不会拉伸图片。&lt;/p&gt;
+
+&lt;p&gt;下一步，确定Document Outline(在Interface Builder里canvas左边)是可见的 - 你可以从menu中&lt;strong&gt;Editor \ Show Document Outline&lt;/strong&gt;来启用。&lt;/p&gt;
+
+&lt;p&gt;按着control键从image view拖动到它的superview三次来添加三个约束(constraint)：&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;添加一个Top Space to Layout Guide的约束，如果有必要的话，使用Size Inspector来设置约束的constant为0&lt;/li&gt;
+&lt;li&gt;添加一个Center Horizontally in Container的约束(同样也需要设置constant为0)&lt;/li&gt;
+&lt;li&gt;添加一个Equal Width约束&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;最后，为了约束image view的高度，按着control键从image view拖动到本身，然后添加一个Aspect Ratio约束，使用Size Inspector来设置它的multiplier的值为8:5对应宽高比和constant factor为0。最后，选择&lt;strong&gt;Editor \ Resolve Auto Layout Issues \ All Views in View Controller \ Update Frames&lt;/strong&gt;，那么Interface Builder会根据这些约束来更新布局&lt;/p&gt;
+
+&lt;p&gt;下一步，打开Assistant Editor，然后确保它显示&lt;strong&gt;ViewController.swift&lt;/strong&gt;。按着control键从UIImageView拖动到刚刚打开的&lt;strong&gt;ViewController&lt;/strong&gt;类的大括号。命名outlet为&lt;strong&gt;imageView&lt;/strong&gt;，然后点击connect。&lt;/p&gt;
+
+&lt;p&gt;编译和运行这个项目来确保目前进展顺利 - 你应该看到一个空屏。初始化设置完成，现在进入Core Image的世界。&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>iOS Application Framework Think - Network</title>
+      <link>http://ytlvy.com/posts/2015-08-05/2015-08-05-ios-application-framework-think-network/</link>
+      <pubDate>Wed, 05 Aug 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-08-05/2015-08-05-ios-application-framework-think-network/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;http://blog.cnbluebox.com/blog/2015/05/07/architecture-ios-1/&#34;&gt;reference&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;ios应用架构思考一-网络层&#34;&gt;IOS应用架构思考一（网络层）&lt;/h2&gt;
+
+&lt;p&gt;最近看到Casa Taloyum同学的关于IOS架构的文章，分享的概念和观点很值得一看，于是不禁心痒，也做些分享吧，我会从实际设计过程中需要思考的问题的角度着手来讲述，毕竟无论什么样的架构，什么样的设计都是要解决这些问题的。
+今天就先讲讲网络层的需要思考的问题吧。&lt;/p&gt;
+
+&lt;h3 id=&#34;requestoperation的设计&#34;&gt;requestOperation的设计&lt;/h3&gt;
+
+&lt;p&gt;我们都知道在客户端发送请求是需要成本的，那么设计异步的请求就是首要的问题。我们知道Cocoa提供了非常丰富和易于使用的异步api, 有&lt;code&gt;NSOperationQueue&lt;/code&gt;, &lt;code&gt;dispatch queue&lt;/code&gt;, &lt;code&gt;NSThread&lt;/code&gt;等。那么如何选择呢，答案毫无疑问的必须是&lt;code&gt;NSOperation&lt;/code&gt;。 不信你去看ASIHTTPRequest和AFNetworking. 好像这个理由不够充分是吧，而且很多人就是使用了这些框架，而不清楚它们到底为何优秀，那我就列举下一些它们的优点吧&lt;/p&gt;
+
+&lt;p&gt;首先举个反例吧：曾经有人问过我“为什么要用AFNetworking和ASI这样的框架呢，我直接dispatch到后台用类似dataWithURL:拉数据这样不是很简单？”。 那么这样的使用案例有2个很致命的缺陷：&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;无法cancel这个请求&lt;/li&gt;
+&lt;li&gt;占用了完整的一个线程&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>iOS Best Practices</title>
+      <link>http://ytlvy.com/posts/2015-08-05/2015-08-05-ios-best-practices/</link>
+      <pubDate>Wed, 05 Aug 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-08-05/2015-08-05-ios-best-practices/</guid>
+      <description>&lt;h1 id=&#34;ios-best-practices&#34;&gt;iOS Best Practices&lt;/h1&gt;
+
+&lt;p&gt;这里总结一下iOS最佳实践，主要参考Futurice developers的文章&lt;a href=&#34;https://github.com/futurice/ios-good-practices&#34;&gt;iOS Good Practices&lt;/a&gt;，同时加上了一些自己的理解&lt;/p&gt;
+
+&lt;p&gt;##目录
+* &lt;a href=&#34;#setup_project&#34;&gt;初始化项目&lt;/a&gt;
+* &lt;a href=&#34;#iOS_architecture&#34;&gt;iOS架构&lt;/a&gt;
+* &lt;a href=&#34;#api_design&#34;&gt;API设计&lt;/a&gt;
+* &lt;a href=&#34;#high_quality_code&#34;&gt;高质量代码&lt;/a&gt;
+* &lt;a href=&#34;#code_style&#34;&gt;编码规范&lt;/a&gt;
+* &lt;a href=&#34;#iOS_open_source_lib&#34;&gt;iOS开源库&lt;/a&gt;
+* &lt;a href=&#34;#iOS_basic_skills&#34;&gt;iOS基本技能&lt;/a&gt;
+* &lt;a href=&#34;#build_automation&#34;&gt;自动化构建&lt;/a&gt;
+* &lt;a href=&#34;#optimiaze_app&#34;&gt;优化App&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;b id=&#34;setup_project&#34;&gt;&lt;/b&gt;
+##初始化项目
+###UI采用Interface Builder还是手写代码
+当开始一个iOS项目时，一个常见的问题就是编写所有的views是采用手写代码的方式还是使用Interface Builder的Storyboard或XIB文件。两种方式都可以实现相同UI效果，但几点需要考虑：&lt;/p&gt;
+
+&lt;p&gt;####为什么使用代码？
+* 当多人协作开发时，由于Storyboard复杂的XML结构，它更容易发生版本冲突，这比手写代码的方式更难合并代码。
+* 手写代码更容易地结构化和重用views，因此使你的代码库保持&lt;a href=&#34;http://en.wikipedia.org/wiki/Don%27t_repeat_yourself&#34;&gt;DRY&lt;/a&gt;。
+* 所有的信息都在同一个地方。在Interface Builder中，你必须通过点击所有inspectors才能找到你想要的东西。&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>C programe memory management</title>
+      <link>http://ytlvy.com/posts/2015-08-04/2015-08-04-c-programe-memory-management/</link>
+      <pubDate>Tue, 04 Aug 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-08-04/2015-08-04-c-programe-memory-management/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;http://casatwy.com/ccheng-xu-de-nei-cun-guan-li.html&#34;&gt;reference&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;c程序的内存管理&#34;&gt;C程序的内存管理&lt;/h2&gt;
+
+&lt;h3 id=&#34;简述&#34;&gt;简述&lt;/h3&gt;
+
+&lt;p&gt;自从自动内存管理嵌入到各种各样的语言之后，我们就很少会去关注这方面的事情了，这些功能的设计者和实现者们为此付出的努力值得我们称赞，期间也涌现了多种不同的内存管理方案。目前大部分语言的主流内存管理方案是Garbage Collector。苹果推出的Auto Reference Count也因为基于编译器自动添加手工计数的代码而带来了更好的性能提升。我在这里总结了一些从上古时代到如今在C程序下进行内存管理的技术。同时，也为你更深入地了解其他语言中内存管理模块的原理提供了知识背景。&lt;/p&gt;
+
+&lt;h3 id=&#34;管理固定大小的内存&#34;&gt;管理固定大小的内存&lt;/h3&gt;
+
+&lt;h4 id=&#34;栈内存&#34;&gt;栈内存&lt;/h4&gt;
+
+&lt;p&gt;栈内存应该是最容易管理的了，只要理解&lt;code&gt;生存域&lt;/code&gt;就能理解占内存的管理方式。生存域就是这样：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;int main ()
+    {
+        int array[] = {1,2,3,4,5};
+                              ------------------|
+        if ( i &amp;gt; 0 ) {                          |
+            ...                                 |
+            ...                                 |
+        }                                       |
+        foo(array);                             |
+                                                |
+        {                                       |
+            int k = 9;        ---               |
+            array[1] = k;       |-&amp;gt;k的生存域     |-&amp;gt;array的生存域
+            ...               ---               |
+        }                                       |
+    }                                           |
+                                                |
+    void foo(int * const number) {              |
+        int j = 0;                              |
+                              ---               |
+        ...                     |               |
+        number[2] = j;          |-&amp;gt;j的生存域     |
+        ...                     |               |
+                              -------------------
+    }
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Variable Argument Lists</title>
+      <link>http://ytlvy.com/posts/2015-08-04/2015-08-04-variable-argument-lists/</link>
+      <pubDate>Tue, 04 Aug 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-08-04/2015-08-04-variable-argument-lists/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;http://gracelancy.com/blog/2014/05/05/variable-argument-lists/&#34;&gt;转自&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;variable-argument-lists&#34;&gt;Variable Argument Lists&lt;/h2&gt;
+
+&lt;h3 id=&#34;variable-argument-lists-使用方法&#34;&gt;Variable argument lists 使用方法&lt;/h3&gt;
+
+&lt;p&gt;可变参数函数（&lt;code&gt;Variadic Function&lt;/code&gt;），即是指一个可以接受可变数量的参数的函数。在C语言中，对该特性的支持，即是通过可变参数列表（Variable Argument list）来实现的，其定义在stdarg.h头文件。(若使用C++则在cstdarg头文件)。&lt;/p&gt;
+
+&lt;p&gt;以如下C代码为例说明，该函数接受可变数量的整数作为参数，求和：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;int addemUp (int firstNum, ...) {
+  // 1. 参数后面添加省略号...
+    va_list args;  // 2. 创建一个va_list类型的变量
+    int sum = firstNum;
+    int number;
+    va_start(args, firstNum); // 3. 初始化va_list，此时va_list指向firstNum之后的第一个参数
+    while (1) {
+        number = va_arg(args, int); // 4. 获取当前指向的参数的值，并移动到下一个参数
+        sum += number;
+        if (number == 0) {
+          // 用0表示结束
+            break;
+        }
+    }
+    va_end(args); // 5. 清理
+    return  sum;
+}
+
+// 调用
+sum = addemUp(1,2,3,4,5,0);
+// sum = 15
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;ol&gt;
+&lt;li&gt;要创建一个可变参数函数，需要把一个省略号（…)放在函数的参数列表后面。&lt;/li&gt;
+&lt;li&gt;接着需要声明一个一个&lt;code&gt;va_list&lt;/code&gt;类型的变量，这个&lt;code&gt;va_list&lt;/code&gt;类型的变量类似于一个指向参数的指针。&lt;/li&gt;
+&lt;li&gt;接着我们调用&lt;code&gt;va_start()&lt;/code&gt;并传入函数的最后一个声明的参数的变量名，来使得&lt;code&gt;va_list&lt;/code&gt;变量指向第一个附加的参数。&lt;/li&gt;
+&lt;li&gt;接着我们调用&lt;code&gt;va_arg()&lt;/code&gt;并传入我们期待的参数类型，程序就会返回与该类型匹配数量的字节（即参数的值），并且移动va_list指向下一个参数。之后不断的调用&lt;code&gt;va_arg()&lt;/code&gt;，获得更多的参数的值，直到完成整个参数处理的过程。&lt;/li&gt;
+&lt;li&gt;最后调用&lt;code&gt;va_end()&lt;/code&gt;来进行清理。&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h3 id=&#34;variable-argument-lists-的内部机制&#34;&gt;variable argument lists 的内部机制&lt;/h3&gt;
+
+&lt;p&gt;如我们之前所说，当我们调用 &lt;code&gt;va_start()&lt;/code&gt; 并将 &lt;code&gt;va_list&lt;/code&gt; 和函数最后定义的参数传入时，实际上是将 &lt;code&gt;va_list&lt;/code&gt; 内在的一个指针指向函数调用栈 （&lt;code&gt;call stack&lt;/code&gt;）中参数所在的区域的一端，每一次我们调用&lt;code&gt;va_arg()&lt;/code&gt;，其都会根据提供的类型，返回当前指针所指向的地址开始对应的字节数的数据，即参数的值，并移动指针相应字节数的距离。我们传给&lt;code&gt;va_arg()&lt;/code&gt;的类型，即是其用来判定需要取得得数据的大小，以及指针需要移动的距离。如图描述了这个过程：&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://gracelancy.com/assets/post/val0.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;事实上，这是一个很危险的事情，你总是需要提供正确的类型来让va_arg()正确执行，而且va_arg()并不知道何时停止，你需要提供一个标记或一个参数的总数来停止va_arg()继续执行。若你提供了不正确的类型，或者没有在该停止的时候停止，你将会获得不可预测的值，并且很有可能导致程序崩溃。&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>dSYM parse tool</title>
+      <link>http://ytlvy.com/posts/2015-08-04/2015-08-04-dsym-parse-tool/</link>
+      <pubDate>Tue, 04 Aug 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-08-04/2015-08-04-dsym-parse-tool/</guid>
+      <description>&lt;h2 id=&#34;dsym-文件&#34;&gt;dSYM 文件&lt;/h2&gt;
+
+&lt;h3 id=&#34;什么是-dsym-文件&#34;&gt;什么是 dSYM 文件&lt;/h3&gt;
+
+&lt;p&gt;Xcode编译项目后，我们会看到一个同名的 &lt;code&gt;dSYM&lt;/code&gt; &lt;code&gt;文件，dSYM&lt;/code&gt; 是保存 16 进制函数地址映射信息的中转文件，我们调试的 symbols 都会包含在这个文件中，并且每次编译项目的时候都会生成一个新的 dSYM 文件，位于 &lt;code&gt;/Users/&amp;lt;用户名&amp;gt;/Library/Developer/Xcode/Archives&lt;/code&gt; 目录下，对于每一个发布版本我们都很有必要保存对应的 &lt;code&gt;Archives&lt;/code&gt; 文件 ( AUTOMATICALLY SAVE THE DSYM FILES 这篇文章介绍了通过脚本每次编译后都自动保存 dSYM 文件)。&lt;/p&gt;
+
+&lt;h3 id=&#34;dsym-文件有什么作用&#34;&gt;dSYM 文件有什么作用&lt;/h3&gt;
+
+&lt;p&gt;当我们软件 release 模式打包或上线后，不会像我们在 Xcode 中那样直观的看到用崩溃的错误，这个时候我们就需要分析 crash report 文件了，iOS 设备中会有日志文件保存我们每个应用出错的函数内存地址，通过 Xcode 的 Organizer 可以将 iOS 设备中的 DeviceLog 导出成 crash 文件，这个时候我们就可以通过出错的函数地址去查询 dSYM 文件中程序对应的函数名和文件名。大前提是我们需要有软件版本对应的 dSYM 文件，这也是为什么我们很有必要保存每个发布版本的 Archives 文件了。&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>iOS NSURLProtocal</title>
+      <link>http://ytlvy.com/posts/2015-08-04/2015-08-04-ios-nsurlprotocal/</link>
+      <pubDate>Tue, 04 Aug 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-08-04/2015-08-04-ios-nsurlprotocal/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;http://xiangwangfeng.com/2014/11/29/NSURLProtocol%E5%92%8CNSRunLoop%E7%9A%84%E9%82%A3%E4%BA%9B%E5%9D%91/&#34;&gt;转自&lt;/a&gt;
+最近用AFNetworking替换掉了工程里的ASIHttpRequest，结果陆续碰到很多问题：&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;如何统一地添加全局的HTTP头(不仅仅是UA而已)&lt;/li&gt;
+&lt;li&gt;如何优雅地进行流量统计&lt;/li&gt;
+&lt;li&gt;对特定的地址进行CDN加速(URL到IP的替换)&lt;/li&gt;
+&lt;li&gt;怎么实现HTTP的同步请求&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;前三个需求对于ASIHttpReqeust来说都不是问题，只需要在几个统一的点进行修改即可。而使用AFNetworking后就没有那么容易了：一方面AFNetworking中生成NSURLRequest的点比较多，并没有一个统一的路径。其次工程中会有部分直接使用NSURLConnecion的场景，无法统一。经cyzju提醒发现了NSURLProtocol这个大杀器，可惜对应的文档过于简略，唯一比较详细的介绍就只有RW的这篇教程而已，掉了很多坑，值得记上一笔。&lt;/p&gt;
+
+&lt;h2 id=&#34;nsurlprotocol&#34;&gt;NSURLProtocol&lt;/h2&gt;
+
+&lt;h3 id=&#34;概念&#34;&gt;概念&lt;/h3&gt;
+
+&lt;p&gt;NSURLProtocol也是苹果众多黑魔法中的一种，使用它可以轻松地重定义整个URL Loading System。当你注册自定义NSURLProtocol后，就有机会对所有的请求进行统一的处理，基于这一点它可以让你
+- 自定义请求和响应
+- 提供自定义的全局缓存支持
+- 重定向网络请求
+- 提供HTTP Mocking (方便前期测试)
+- 其他一些全局的网络请求修改需求&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>iOS Toll-Free Bridging</title>
+      <link>http://ytlvy.com/posts/2015-08-04/2015-08-04-ios-toll-free-bridging/</link>
+      <pubDate>Tue, 04 Aug 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-08-04/2015-08-04-ios-toll-free-bridging/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;http://gracelancy.com/blog/2014/04/21/toll-free-bridging/&#34;&gt;reference&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;toll-free-bridging&#34;&gt;Toll-Free Bridging&lt;/h2&gt;
+
+&lt;h3 id=&#34;什么是-toll-free-bridging&#34;&gt;什么是 Toll-Free Bridging&lt;/h3&gt;
+
+&lt;p&gt;有一些数据类型是能够在 &lt;code&gt;Core Foundation Framework&lt;/code&gt; 和 &lt;code&gt;Foundation Framework&lt;/code&gt; 之间交换使用的。这意味着，对于同一个数据类型，你既可以将其作为参数传入 &lt;code&gt;Core Foundation&lt;/code&gt;函数，也可以将其作为接收者对其发送 &lt;code&gt;Objective-C&lt;/code&gt; 消息（即调用ObjC类方法）。这种在 &lt;code&gt;Core Foundation 和 Foundation&lt;/code&gt; 之间交换使用数据类型的技术就叫 &lt;code&gt;Toll-Free Bridging&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;举例说明，&lt;code&gt;NSString&lt;/code&gt;和&lt;code&gt;CFStringRef&lt;/code&gt;即是一对可以相互转换的数据类型：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;// ARC 环境下
+// Bridging from ObjC to CF
+NSString *hello = @&amp;quot;world&amp;quot;;
+CFStringRef world = (__bridge CFStringRef)(hello);
+NSLog(@&amp;quot;%ld&amp;quot;, CFStringGetLength(world));
+
+// Bridging from CF to ObjC
+CFStringRef hello = CFStringCreateWithCString(kCFAllocatorDefault, &amp;quot;hello&amp;quot;, kCFStringEncodingUTF8);
+NSString *world = (__bridge NSString *)(hello);
+NSLog(@&amp;quot;%ld&amp;quot;, world.length);
+CFRelease(hello);
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;大部分（但不是所有！）&lt;code&gt;Core Foundation&lt;/code&gt; 和 &lt;code&gt;Foundation&lt;/code&gt; 的数据类型可以使用这个技术相互转换，Apple 的文档里有一个列表（&lt;a href=&#34;https://developer.apple.com/library/ios/documentation/General/Conceptual/CocoaEncyclopedia/Toll-FreeBridgin/Toll-FreeBridgin.html&#34;&gt;传送门&lt;/a&gt;），列出了支持这项技术的数据类型。
+MRC 下的 &lt;code&gt;Toll-Free Bridging&lt;/code&gt; 因为不涉及内存管理的转移，可以直接相互 &lt;code&gt;bridge&lt;/code&gt; 而不必使用类似&lt;code&gt;__bridge&lt;/code&gt;修饰字，我们之后再讨论这个问题。&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>iOS application framework -- first</title>
+      <link>http://ytlvy.com/posts/2015-08-04/2015-08-04-ios-application-framework-first/</link>
+      <pubDate>Tue, 04 Aug 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-08-04/2015-08-04-ios-application-framework-first/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;http://casatwy.com/iosying-yong-jia-gou-tan-kai-pian.html&#34;&gt;reference&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;ios应用架构谈-开篇&#34;&gt;iOS应用架构谈 开篇&lt;/h2&gt;
+
+&lt;h3 id=&#34;缘由&#34;&gt;缘由&lt;/h3&gt;
+
+&lt;p&gt;之前安居客iOS app的第二版架构大部分内容是我做的，期间有总结了一些经验。在将近一年之后，前同事zzz在微信朋友圈上发了一个问题：假如问你一个&lt;code&gt;iOS or Android app&lt;/code&gt;的架构，你会从哪些方面来说呢？&lt;/p&gt;
+
+&lt;p&gt;当时看到这个问题正好在乘公车回家的路上，闲来无聊就答了一把。在zzz在微信朋友圈上追问了几个问题之后，我觉得有必要开个博客专门来讲讲一些个人见解。&lt;/p&gt;
+
+&lt;p&gt;其实对于iOS客户端应用的架构来说，复杂度不亚于服务端，但侧重点和入手点却跟服务端不太一样。比如客户端应用就不需要考虑类似C10K的问题，正常的app就根本不需要考虑。&lt;/p&gt;
+
+&lt;p&gt;这系列文章我会主要专注在iOS应用架构方面，很多方案也是基于iOS技术栈的特点而建立的。因为我个人不是很喜欢写Java，所以Android这边的我就不太了解了。如果你是Android开发者，你可以侧重看我提出的一些架构思想，毕竟不管做什么，思路是相通的，实现手段不同罢了。&lt;/p&gt;
+
+&lt;h3 id=&#34;当我们讨论客户端应用架构的时候-我们在讨论什么&#34;&gt;当我们讨论客户端应用架构的时候，我们在讨论什么？&lt;/h3&gt;
+
+&lt;p&gt;其实市面上大部分应用不外乎就是颠过来倒过去地做以下这些事情：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;    ---------------     ---------------     ---------------     ---------------
+    |             |     |             |     |             |     |             |
+    | 调用网络API  | --&amp;gt; |   展现列表    | --&amp;gt; |  选择列表    | --&amp;gt; |   展现单页   |
+    |             |     |             |     |             |     |             |
+    ---------------     ---------------     ---------------     ---------------
+                               ^                                        |
+                               |                                        |
+                               |                                        |
+                               ------------------------------------------
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;简单来说就是调API，展示页面，然后跳转到别的地方再调API，再展示页面。&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>iOS application framework -- network layer</title>
+      <link>http://ytlvy.com/posts/2015-08-04/2015-08-04-ios-application-framework-network-layer/</link>
+      <pubDate>Tue, 04 Aug 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-08-04/2015-08-04-ios-application-framework-network-layer/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;http://casatwy.com/iosying-yong-jia-gou-tan-wang-luo-ceng-she-ji-fang-an.html&#34;&gt;reference&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;ios应用架构谈-网络层设计方案&#34;&gt;iOS应用架构谈 网络层设计方案&lt;/h2&gt;
+
+&lt;h3 id=&#34;前言&#34;&gt;前言&lt;/h3&gt;
+
+&lt;p&gt;网络层在一个App中也是一个不可缺少的部分，工程师们在网络层能够发挥的空间也比较大。另外，苹果对网络请求部分已经做了很好的封装，业界的AFNetworking也被广泛使用。其它的ASIHttpRequest，MKNetworkKit啥的其实也都还不错，但前者已经弃坑，后者也在弃坑的边缘。在实际的App开发中，Afnetworking已经成为了事实上各大App的标准配置。&lt;/p&gt;
+
+&lt;p&gt;网络层在一个App中承载了API调用，用户操作日志记录，甚至是即时通讯等任务。我接触过一些App（开源的和不开源的）的代码，在看到网络层这一块时，尤其是在看到各位架构师各显神通展示了各种技巧，我非常为之感到兴奋。但有的时候，往往也对于其中的一些缺陷感到失望。&lt;/p&gt;
+
+&lt;p&gt;关于网络层的设计方案会有很多，需要权衡的地方也会有很多，甚至于争议的地方都会有很多。但无论如何，我都不会对这些问题做出任何逃避，我会在这篇文章中给出我对它们的看法和解决方案，观点绝不中立，不会跟大家打太极。&lt;/p&gt;
+
+&lt;p&gt;这篇文章就主要会讲这些方面：&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;网络层跟业务对接部分的设计&lt;/li&gt;
+&lt;li&gt;网络层的安全机制实现&lt;/li&gt;
+&lt;li&gt;网络层的优化方案&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>iOS application framework -- view layer</title>
+      <link>http://ytlvy.com/posts/2015-08-04/2015-08-04-ios-application-framework-view-layer/</link>
+      <pubDate>Tue, 04 Aug 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-08-04/2015-08-04-ios-application-framework-view-layer/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;http://casatwy.com/iosying-yong-jia-gou-tan-viewceng-de-zu-zhi-he-diao-yong-fang-an.html&#34;&gt;reference&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;ios应用架构谈-view层的组织和调用方案&#34;&gt;iOS应用架构谈 view层的组织和调用方案&lt;/h2&gt;
+
+&lt;h3 id=&#34;前言&#34;&gt;前言&lt;/h3&gt;
+
+&lt;p&gt;《iOS应用架构谈 开篇》出来之后，很多人来催我赶紧出第二篇。这一篇文章出得相当艰难，因为公司里的破事儿特别多，我自己又有点私事儿，以至于能用来写博客的时间不够充分。&lt;/p&gt;
+
+&lt;p&gt;现在好啦，第二篇出来了。&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;当我们开始设计View层的架构时，往往是这个App还没有开始开发，或者这个App已经发过几个版本了，然后此时需要做非常彻底的重构。&lt;/p&gt;
+
+&lt;p&gt;一般也就是这两种时机会去做View层架构，基于这个时机的特殊性，我们在这时候必须清楚认识到：View层的架构一旦实现或定型，在App发版后可修改的余地就已经非常之小了。因为它跟业务关联最为紧密，所以哪怕稍微动一点点，它所引发的蝴蝶效应都不见得是业务方能够hold住的。这样的情况，就要求我们在实现这个架构时，代码必须得改得勤快，不能偷懒。也必须抱着充分的自我怀疑态度，做决策时要拿捏好尺度。&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;View层的架构非常之重要，在我看来，这部分架构是这系列文章涉及4个方面最重要的一部分，没有之一。为什么这么说？&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>iOS attribute objc_designated_initializer</title>
+      <link>http://ytlvy.com/posts/2015-08-04/2015-08-04-ios-attribute-objc-designated-initializer/</link>
+      <pubDate>Tue, 04 Aug 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-08-04/2015-08-04-ios-attribute-objc-designated-initializer/</guid>
+      <description>reference
+attribute((objc_designated_initializer)) 指定初始化器（designated initializer）是 Objective-C 中的一个重要的概念，但是很可惜的是，很多开发者（不知道为什么）并没能正确遵守关于指定初始化器的一些惯例。
+之前，我们只能通过 code review 之类的方法来找出、修正这些问题；现在，clang 为我们提供了编译器级别的支持，能够找出不遵守管理的地方并给出警告，我们需要做的是标记出哪个初始化器是指定初始化器，例如：
+@interface FTBObject - (instancetype)init __attribute__((objc_designated_initializer)); @end  通过在接口定义中指定指定初始化器，不仅编译器能够给出相关的警告，而且需要继承该类的开发者也可以不参考文档就知道哪个初始化器是指定初始化器。
+目前，clang 可以提供一系列警告，例如非指定初始化器没有调用其他初始化器、指定初始化器没有调用父类的指定初始化器、指定初始化器调用了非指定初始化器、子类没有复写父类的指定初始化器等。 具体的例子可以看这个测试用例。
+不幸的是，目前系统库的接口还没有这个属性，也就是说只有继承自己的代码和标记了这个指令的第三方库中的类才有用。</description>
+    </item>
+    
+    <item>
+      <title>iOS bit computing</title>
+      <link>http://ytlvy.com/posts/2015-08-04/2015-08-04-ios-bit-computing/</link>
+      <pubDate>Tue, 04 Aug 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-08-04/2015-08-04-ios-bit-computing/</guid>
+      <description>&lt;h2 id=&#34;ios-位与位运算&#34;&gt;iOS 位与位运算&lt;/h2&gt;
+
+&lt;h3 id=&#34;介绍&#34;&gt;介绍&lt;/h3&gt;
+
+&lt;p&gt;位操作是程序设计中对位模式或二进制数的一元和二元操作. 在许多古老的微处理器上, 位运算比加减运算略快, 通常位运算比乘除法运算要快很多. 在现代架构中, 情况并非如此:位运算的运算速度通常与加法运算相同(仍然快于乘法运算).（摘自wikipedia）
+OC作为c的扩展和超集，位运算自然使用的是c的操作符。c提供了6个位操作符，$，|，^，~，&amp;lt;&amp;lt;，&amp;gt;&amp;gt;。本文不打算做位运算的基础教学，只介绍一些开发中能用到的场景。&lt;/p&gt;
+
+&lt;h3 id=&#34;提高运算速度&#34;&gt;提高运算速度&lt;/h3&gt;
+
+&lt;p&gt;如前一段所说，位运算的运算速度是通常与加法速度相当，但是快于乘法运算的。故而如果我们的程序对性能有要求，我们可以使用位运算来提高运算速度。比如：&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;乘以2：n &amp;lt;&amp;lt; 1;&lt;/li&gt;
+&lt;li&gt;除以2：n &amp;gt;&amp;gt; 1;&lt;/li&gt;
+&lt;li&gt;乘以2的m次方：n &amp;lt;&amp;lt; m;&lt;/li&gt;
+&lt;li&gt;除以2的m次方：n &amp;gt;&amp;gt; m;&lt;/li&gt;
+&lt;li&gt;判断奇偶：(n &amp;amp; 1) == 1;&lt;/li&gt;
+&lt;li&gt;求平均数：(a + b) &amp;gt;&amp;gt; 1;&lt;/li&gt;
+&lt;li&gt;……&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;基于乘除法的位运算提速还有很多，这里不一一列举。需要注意的是，你应当只在遇到性能瓶颈的时候，并且瓶颈的确是计算的时候才这么做。因为使用位运算并不利于程序的可读性和可维护性。（科学计算除外）&lt;/p&gt;
+
+&lt;h3 id=&#34;压缩空间&#34;&gt;压缩空间&lt;/h3&gt;
+
+&lt;p&gt;以前接触过ACM的筒子们应该对状态压缩不陌生，状态压缩的目的在于把一个大数据用有限的内存空间来进行表示。比如 Programming Pearls 里面的一个经典示例：如何对最多有一千万条不重复的7位整数（电话号码）进行排序？且可使用的内存空间有大约1MB多。&lt;/p&gt;
+
+&lt;p&gt;显而易见的常规做法既是做一个基于磁盘操作的外排序。然而如果转换一下思路，充分的使用内存中的每一个位，加上不存在重复的电话号码，以及不存在0和1开头的电话号码。我们只需要使用1000万个位（大约1.2mb），就能以集合的方式在内存里标记下所有的数据，从而轻松的实现位排序。此种方法大幅度的减少了IO时间，从而获得巨大的性能提升。&lt;/p&gt;
+
+&lt;p&gt;ACM里面有大量的如果使用位来压缩空间的示例，状态压缩的动态规划等，此处不做展开，只告诉读者，充分的使用内存的每一个位，经常能带来意想不到的收获。但需要注意的是，状态的压缩和提取，都需要一定的计算量，有时一味的追求状态压缩，反而会降低效率。&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>ios GPUImage simple use</title>
+      <link>http://ytlvy.com/posts/2015-08-04/2015-08-04-ios-gpuimage-simple-use/</link>
+      <pubDate>Tue, 04 Aug 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-08-04/2015-08-04-ios-gpuimage-simple-use/</guid>
+      <description>GPUImage GPUImage 作者是 Brad Larson，以 BSD 协议放出，能够在图像、实时摄像头影像和视频上使用 GPU 加速的滤镜和其他效果.
+GPU vs. CPU 每只 iPhone 都有两个处理器：一个 CPU，也就是中央处理器，和一个 GPU，也就是图形处理器。每个处理器都有它自己的优势，现代芯片架构（例如 Apple A4）把 CPU 和 GPU 集成在一个物理封装里。
+在 Xcode 里面写 C 和 Objective-C 的时候，产生的指令绝大部分会被 CPU 执行。相对地，GPU 是一枚专用芯片，专门用来做独立的小操作，例如图形渲染。GPU 执行的指令和 CPU 是有很大区别的，因此用特殊的语言来编写：OpenGL（特别地，在 iPhone 和 iPad 上使用 OpenGL ES）
+渲染管线 GPUImage 从本质上来说是一个渲染管线的 Objective-C抽象。从相机、网络或者磁盘上加载的源图像，在经过一系列滤镜处理后，最终输出到了 view、graphics context 或是数据流中。
+例如说，摄像头中的图像可以应用一个 Color Levels 滤镜，来模拟各种色盲效果，然后实时显示在一个 view 中。
+GPUImageVideoCamera *videoCamera = [[GPUImageVideoCamera alloc] initWithSessionPreset:AVCaptureSessionPreset640x480 cameraPosition:AVCaptureDevicePositionBack]; videoCamera.outputImageOrientation = UIInterfaceOrientationPortrait; GPUImageFilter *filter = [[GPUImageLevelsFilter alloc] initWithFragmentShaderFromFile:@&amp;quot;CustomShader&amp;quot;]; [filter setRedMin:0.</description>
+    </item>
+    
+    <item>
+      <title>jump out of OOP -- Inherit</title>
+      <link>http://ytlvy.com/posts/2015-08-04/2015-08-04-jump-out-of-oop-inherit/</link>
+      <pubDate>Tue, 04 Aug 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-08-04/2015-08-04-jump-out-of-oop-inherit/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;http://casatwy.com/tiao-chu-mian-xiang-dui-xiang-si-xiang-yi-ji-cheng.html&#34;&gt;reference&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;跳出面向对象思想-一-继承&#34;&gt;跳出面向对象思想(一) 继承&lt;/h2&gt;
+
+&lt;h3 id=&#34;简述&#34;&gt;简述&lt;/h3&gt;
+
+&lt;p&gt;这一系列文章中谈谈面向对象思想的几个部分，并且给出对应的解决方案，这些解决方案有些是用面向过程的思路解决的，有些也还是停留在面向对象中。到最后我会给大家一个比较，然后给出结论。&lt;/p&gt;
+
+&lt;h4 id=&#34;上下文规范&#34;&gt;上下文规范&lt;/h4&gt;
+
+&lt;p&gt;在进一步地讨论这些概念之前，我需要跟大家达成一个表达上的共识，我会采用下面的语法来表达对象相关的信息&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;所有的大写字母都是类或对象，小写字母表示属性或方法。
+
+FOO:{ isLoading, _data, render(), _switch() }   这表示一个FOO对象，isLoading、_data是它的属性，render()、_switch()是它的方法，加下划线表示私有。
+
+A -&amp;gt; B                                          这表示从A派生出了B，A是父类。
+
+A -&amp;gt; B:{ [a, b, c(), d()], e, f() }             []里面是父类的东西，e、f()是派生类的东西
+
+B:{ [ A ], e, f() }                             省略了对父类的描述，用类名A代替，其他同上
+
+B:{ [ A ], e, f(), @c() }                       省略了对父类的描述，函数前加@表示重载了父类的方法。
+
+B:{ [ A,D ], e, f() }                           多继承，B继承了A和D
+
+B&amp;lt;protocol&amp;gt;                                     符合某个protocol接口的对象。
+
+&amp;lt;protocol&amp;gt;:{foo(), bar}                         protocol这个接口中包含foo()这个方法，bar这个属性。
+
+foo(A, int)                                     foo这个函数，接收A类和int类型作为参数。
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>jump out of OOP -- Package</title>
+      <link>http://ytlvy.com/posts/2015-08-04/2015-08-04-jump-out-of-oop-package/</link>
+      <pubDate>Tue, 04 Aug 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-08-04/2015-08-04-jump-out-of-oop-package/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;http://casatwy.com/tiao-chu-mian-xiang-dui-xiang-si-xiang-san-feng-zhuang.html&#34;&gt;reference&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;跳出面向对象思想-三-封装&#34;&gt;跳出面向对象思想(三) 封装&lt;/h2&gt;
+
+&lt;h3 id=&#34;简述&#34;&gt;简述&lt;/h3&gt;
+
+&lt;p&gt;我认为&amp;rdquo;封装&amp;rdquo;的概念在面向对象思想中是最基础的概念，它实质上是通过将相关的一堆函数和一堆对象放在一起，对外有函数作为操作通道，对内则以变量作为操作原料。只留给外部程序员操作方式，而不暴露具体执行细节。大部分书举的典型例子就是汽车和灯泡的例子：你不需要知道不同车子的发动机原理，只要踩油门就可以跑；你不需要知道你的灯泡是那种灯泡，打开开关就会亮。我们都会很直觉地认为这种做法非常棒，是吧？&lt;/p&gt;
+
+&lt;p&gt;但是有的时候还是会觉得有哪些地方不对劲，使用面向对象语言的时候，我隐约觉得封装也许并没有我们直觉中认为的那么好，也就是说，面向对象其实并没有我们直觉中的那么好，虽然它已经流行了很多很多年。&lt;/p&gt;
+
+&lt;h3 id=&#34;1-将数据结构和函数放在一起是否真的合理&#34;&gt;1. 将数据结构和函数放在一起是否真的合理？&lt;/h3&gt;
+
+&lt;p&gt;函数就是做事情的，它们有输入，有执行逻辑，有输出。 数据结构就是用来表达数据的，要么作为输入，要么作为输出。&lt;/p&gt;
+
+&lt;p&gt;两者本质上是属于完全不同的东西，面向对象思想将他们放到一起，使得函数的作用被限制在某一个区域里，这样做虽然能够很好地将操作归类，但是这种归类方法是根据&amp;rdquo;作用领域&amp;rdquo;来归类的，在现实世界中可以，但在程序的世界中，有些不妥。&lt;/p&gt;
+
+&lt;p&gt;不妥的理由有如下几个：&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;在并行计算时，由于执行部分和数据部分被绑定在一起，这就使得这种方案制约了并行程度。在为了更好地实现并行的时候，业界的工程师们发现了一个新的思路：函数式编程。将函数作为数据来使用，这样就能保证执行的功能在时序上的正确性了。但你不觉得，只要把数据表达和执行部分分开，形成流水线，这不就能够非常方便地将并行数提高了么？&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;我来举个例子： 在数据和函数没有分开时，程序的执行流程是这样：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;A.function1() -&amp;gt; A.function2() -&amp;gt; A.function3()     最后得到经过处理的A
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>jump out of OOP -- Polymorphic</title>
+      <link>http://ytlvy.com/posts/2015-08-04/2015-08-04-jump-out-of-oop-polymorphic/</link>
+      <pubDate>Tue, 04 Aug 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-08-04/2015-08-04-jump-out-of-oop-polymorphic/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;http://casatwy.com/tiao-chu-mian-xiang-dui-xiang-si-xiang-er-duo-tai.html&#34;&gt;reference&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;跳出面向对象思想-二-多态&#34;&gt;跳出面向对象思想(二) 多态&lt;/h2&gt;
+
+&lt;h3 id=&#34;简述&#34;&gt;简述&lt;/h3&gt;
+
+&lt;p&gt;多态一般都要跟继承结合起来说，其本质是子类通过覆盖或重载（在下文里我会多次用到覆盖或重载，我打算把它简化成覆重，意思到就好，不要太纠结这种名词。）父类的方法，来使得对同一类对象同一方法的调用产生不同的结果。这里需要辨析的地方在：同一类对象指的是继承层级再上一层的对象，更加泛化。&lt;/p&gt;
+
+&lt;p&gt;举个例子：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;Animal -&amp;gt; Cat
+Animal -&amp;gt; Dog
+
+Animal.speak()  // I&#39;m an Animal
+Cat.speak()     // I&#39;m a Cat
+Dog.speak()     // I&#39;m a Dog
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;此处Cat和Dog虽然不是同一种对象，但它们算是同一类对象，因为他们的父类都是Animal。种和类的表达可能不是很对，其实我也不知道谁更大一点，在文章中我打算用这样的符号来表示两者区别：^和^^&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>parse crashLog manually</title>
+      <link>http://ytlvy.com/posts/2015-08-04/2015-08-04-parse-crashlog-manually/</link>
+      <pubDate>Tue, 04 Aug 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-08-04/2015-08-04-parse-crashlog-manually/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;http://foggry.com/blog/2015/07/27/ru-he-shou-dong-jie-xi-crashlog/&#34;&gt;转自&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;如何手动解析crashlog&#34;&gt;如何手动解析CrashLog&lt;/h2&gt;
+
+&lt;p&gt;解决崩溃问题是移动应用开发者最日常的工作之一。如果是开发过程中遇到的崩溃，可以根据重现步骤调试，但线上版本就无能为力了。好在目前已经有很多不错的第三方CrashLog搜集平台（如友盟、Crashlytics等）为我们做好了解析工作，甚至在Xcode7里苹果也跟进了解析线上版本崩溃日志的功能，为开发者减轻了不少负担。尽管通常已经不需要我们手工处理CrashLog，了解CrashLog的还原原理和方法还是有必要的。&lt;/p&gt;
+
+&lt;h3 id=&#34;dsym&#34;&gt;.dSYM&lt;/h3&gt;
+
+&lt;p&gt;&lt;code&gt;.dSYM(debugging SYMbols)&lt;/code&gt;又称为调试符号表，是苹果为了方便调试和定位问题而使用的一种调试方案，本质上使用的是起源于贝尔实验室的DWARF（Debugging With Attributed Record Formats），其在&lt;code&gt;.xcarchive&lt;/code&gt;目录中的层次结构为：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;.xcarchive
+--dSYMs
+  |--Your.app.dSYM
+    |--Contents
+      |--Resources
+        |--DWARF
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;关于DWARF的具体内容以后有机会再说。我们能解析CrashLog全靠.dSYM文件，解析方式见后文。&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Chun notes</title>
+      <link>http://ytlvy.com/posts/2015-07-28/2015-07-28-chun-notes/</link>
+      <pubDate>Tue, 28 Jul 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-07-28/2015-07-28-chun-notes/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;http://blog.callmewhy.com/2015/05/25/note-about-chun/&#34;&gt;转自&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;chun-阅读笔记-如何做一个图片缓存库&#34;&gt;Chun 阅读笔记 - 如何做一个图片缓存库&lt;/h2&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://github.com/yechunjun/Chun&#34;&gt;Chun&lt;/a&gt; 是 &lt;a href=&#34;http://chun.tips/&#34;&gt;叶纯俊&lt;/a&gt; 在 Github 上开源的一个图片缓存库，基于 Swift 编写。学习 Swift 有一段时间了，记录一些阅读源码的一些收获。&lt;/p&gt;
+
+&lt;h3 id=&#34;代码组织&#34;&gt;代码组织&lt;/h3&gt;
+
+&lt;p&gt;Swift 中通过 &lt;code&gt;extension&lt;/code&gt; 组织代码会让整个类更加清晰可读，尤其是对于 &lt;code&gt;UITableViewDataSource&lt;/code&gt; 和 &lt;code&gt;UITableViewDelegate&lt;/code&gt; 这种情况。在 Chun 这个项目中的 Demo 文件就是这样的：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;class ViewController: UIViewController {
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        ...
+    }
+}
+
+extension ViewController: UITableViewDataSource, UITableViewDelegate {
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -&amp;gt; Int {
+        ...
+    }
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -&amp;gt; UITableViewCell {
+        ...
+    }
+    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -&amp;gt; CGFloat {
+        ...
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Swift Exception Handle</title>
+      <link>http://ytlvy.com/posts/2015-07-28/2015-07-28-swift-exception-handle/</link>
+      <pubDate>Tue, 28 Jul 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-07-28/2015-07-28-swift-exception-handle/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;http://blog.callmewhy.com/2015/04/20/error-handling-in-swift/&#34;&gt;转自&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;swift-中的异常处理&#34;&gt;Swift 中的异常处理&lt;/h2&gt;
+
+&lt;h3 id=&#34;问题&#34;&gt;问题&lt;/h3&gt;
+
+&lt;p&gt;在开发过程中，异常处理算是比较常见的问题了。&lt;/p&gt;
+
+&lt;p&gt;举一个比较常见的例子：用户修改注册的邮箱，大概分为以下几个步骤：&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;接收到一个用户的请求：我要修改邮箱地址&lt;/li&gt;
+&lt;li&gt;验证一下请求是否合法，将请求进行格式转化&lt;/li&gt;
+&lt;li&gt;更新以前的邮箱地址记录&lt;/li&gt;
+&lt;li&gt;给新的邮箱地址发送验证邮件&lt;/li&gt;
+&lt;li&gt;将结果返回给用户&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;上面的步骤如果一切顺利，那代码肯定干净利落，但是人生不如意十有八九，上面的步骤很容易出现问题：&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;用户把邮箱地址填成了家庭地址&lt;/li&gt;
+&lt;li&gt;用户是个黑客，没登录就发送了更新请求&lt;/li&gt;
+&lt;li&gt;发送验证邮件的时候服务器爆炸了，发送邮件失败&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;各种异常都会导致这次操作的失败。&lt;/p&gt;
+
+&lt;h3 id=&#34;方案一&#34;&gt;方案一&lt;/h3&gt;
+
+&lt;p&gt;在传统的处理方案里，一般是遇到异常就往上抛：
+&lt;img src=&#34;http://segmentfault.com/img/bVlsK9&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;这种方案想必大家都不陌生，比如下面这段代码：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;NSError *err = nil;
+CGFloat result = [MathTool divide:2.5 by:3.0 error:&amp;amp;err];
+
+if (err) {
+    NSLog(@&amp;quot;%@&amp;quot;, err)
+} else {
+    [MathTool doSomethingWithResult:result]
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>iOS ARC Practices</title>
+      <link>http://ytlvy.com/posts/2015-07-28/2015-07-28-ios-arc-practices/</link>
+      <pubDate>Tue, 28 Jul 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-07-28/2015-07-28-ios-arc-practices/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;http://amattn.com/p/arc_best_practices.html&#34;&gt;转自&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;arc-最佳实践&#34;&gt;ARC 最佳实践&lt;/h2&gt;
+
+&lt;h3 id=&#34;general&#34;&gt;General&lt;/h3&gt;
+
+&lt;p&gt;1) 数值变量应该使用 assign：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;@property (nonatomic, assign) int scalarInt;
+@property (nonatomic, assign) CGFloat scalarFloat;
+@property (nonatomic, assign) CGPoint scalarStruct;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;2) 在层次结构上属于下一级的对象应该使用 strong ：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;@property (nonatomic, strong) id childObject;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;3) 在层次结构上属于上一级的对象应该使用 weak ，另外，当出现循环引用的时候也应该使用 weak ：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;@property (nonatomic, weak) id parentObject;
+@property (nonatomic, weak) NSObject &amp;lt;SomeDelegate&amp;gt; *delegate;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;4) 闭包应该使用 copy ：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;@property (nonatomic, copy) SomeBlockType someBlock;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;5) 在 dealloc 里：&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;从观察者中移除 (remove observers)&lt;/li&gt;
+&lt;li&gt;取消订阅通知 (unregister for notifications)&lt;/li&gt;
+&lt;li&gt;设置非 weak 的委托为 nil (set any non-weak delegates to nil)&lt;/li&gt;
+&lt;li&gt;关闭所有的计时器 (invalidate any timers)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;6) 所有的 IBOutlet 都应该是 weak 的。除非顶层的 IBOutlet 应该是 strong 的，比如 UIViewController 的 View 是需要直接拥有的，所以应该设置成 strong&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>iOS NSTimer Overflow</title>
+      <link>http://ytlvy.com/posts/2015-07-28/2015-07-28-ios-nstimer-overflow/</link>
+      <pubDate>Tue, 28 Jul 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-07-28/2015-07-28-ios-nstimer-overflow/</guid>
+      <description>&lt;h2 id=&#34;nstimer&#34;&gt;NSTimer&lt;/h2&gt;
+
+&lt;h3 id=&#34;fire&#34;&gt;fire&lt;/h3&gt;
+
+&lt;p&gt;我们先用 NSTimer 来做个简单的计时器，每隔5秒钟在控制台输出 Fire 。比较想当然的做法是这样的：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;@interface DetailViewController ()
+@property (nonatomic, weak) NSTimer *timer;
+@end
+
+@implementation DetailViewController
+- (IBAction)fireButtonPressed:(id)sender {
+    _timer = [NSTimer scheduledTimerWithTimeInterval:3.0f
+                                              target:self
+                                            selector:@selector(timerFire:)
+                                            userInfo:nil
+                                             repeats:YES];
+    [_timer fire];
+}
+
+-(void)timerFire:(id)userinfo {
+    NSLog(@&amp;quot;Fire&amp;quot;);
+}
+@end
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;运行之后确实在控制台每隔3秒钟输出一次 &lt;code&gt;Fire&lt;/code&gt; ，然而当我们从这个界面跳转到其他界面的时候却发现：控制台还在源源不断的输出着 Fire 。看来 Timer 并没有停止。&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>iOS9 NSAppTransportSecurity Bypass</title>
+      <link>http://ytlvy.com/posts/2015-07-28/2015-07-28-ios9-nsapptransportsecurity-bypass/</link>
+      <pubDate>Tue, 28 Jul 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-07-28/2015-07-28-ios9-nsapptransportsecurity-bypass/</guid>
+      <description>&lt;h2 id=&#34;configuring-app-transport-security-exceptions-in-ios-9-and-osx-10-11&#34;&gt;Configuring App Transport Security Exceptions in iOS 9 and OSX 10.11&lt;/h2&gt;
+
+&lt;h3 id=&#34;what-is-app-transport-security-ats&#34;&gt;What is App Transport Security (ATS)?&lt;/h3&gt;
+
+&lt;p&gt;At WWDC 2015, Apple announced “App Transport Security” for iOS 9 and OSX 10.11 El Capitan. The &lt;a href=&#34;https://developer.apple.com/library/prerelease/ios/releasenotes/General/WhatsNewIniOS/Articles/iOS9.html#//apple_ref/doc/uid/TP40016198-SW1&#34;&gt;“What’s New in iOS”&lt;/a&gt; guide for iOS 9 explains:&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;App Transport Security (ATS) lets an app add a declaration to its Info.plist file that specifies the domains with which it needs secure communication. ATS prevents accidental disclosure, provides secure default behavior, and is easy to adopt. You should adopt ATS as soon as possible, regardless of whether you’re creating a new app or updating an existing one.
+If you’re developing a new app, you should use HTTPS exclusively. If you have an existing app, you should use HTTPS as much as you can right now, and create a plan for migrating the rest of your app as soon as possible.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;In simple terms, this means that if your application attempts to connect to any HTTP server (in this example, yourserver.com) that doesn’t support the latest SSL technology (TLSv1.2), your connections will fail with an error like this:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;CFNetwork SSLHandshake failed (-9801)
+Error Domain=NSURLErrorDomain Code=-1200 &amp;quot;An SSL error has occurred and a secure connection to the server cannot be made.&amp;quot; UserInfo=0x7fb080442170 {NSURLErrorFailingURLPeerTrustErrorKey=&amp;lt;SecTrustRef: 0x7fb08043b380&amp;gt;, NSLocalizedRecoverySuggestion=Would you like to connect to the server anyway?, _kCFStreamErrorCodeKey=-9802, NSUnderlyingError=0x7fb08055bc00 &amp;quot;The operation couldn’t be completed. (kCFErrorDomainCFNetwork error -1200.)&amp;quot;, NSLocalizedDescription=An SSL error has occurred and a secure connection to the server cannot be made., NSErrorFailingURLKey=https://yourserver.com, NSErrorFailingURLStringKey=https://yourserver.com, _kCFStreamErrorDomainKey=3}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Curiously, you’ll notice that the connection attempts to change the http protocol to https to protect against mistakes in your code where you may have accidentally misconfigured the URL. In some cases, this might actually work, but it’s also confusing.&lt;/p&gt;
+
+&lt;h3 id=&#34;warning-ats-is-good-for-you-and-your-users-and-you-shouldn-t-disable-it&#34;&gt;&lt;strong&gt;WARNING: ATS is good for you and your users and you shouldn’t disable it!&lt;/strong&gt;&lt;/h3&gt;
+
+&lt;p&gt;The reason why Apple is pushing so aggressively to force secure connections is because it’s the right thing to do. Protecting personal data from being compromised over insecure wireless connections, among other things, is great for users. Just because these exceptions exist doesn’t mean you should actually use them.&lt;/p&gt;
+
+&lt;p&gt;If your application is connecting to third party APIs that you can’t control (such as in my case, where my application Routesy connects to public transit APIs that don’t yet support SSL) or serving as a means to load syndicated content (a browser or a news reader, for instance), these techniques might be useful to you.&lt;/p&gt;
+
+&lt;p&gt;The bottom line is, if you run your own API server, FIX YOUR SSL. Thanks to Dave DeLong for reminding me that I should clarify that disabling ATS is a bad idea.&lt;/p&gt;
+
+&lt;p&gt;That being said…
+&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>sqlite insert replace</title>
+      <link>http://ytlvy.com/posts/2015-07-28/2015-07-28-sqlite-insert-replace/</link>
+      <pubDate>Tue, 28 Jul 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-07-28/2015-07-28-sqlite-insert-replace/</guid>
+      <description>Sqlite insert &amp;amp;&amp;amp; replace Assuming 3 columns in the table.. ID, NAME, ROLE
+BAD: This will insert or replace all columns with new values for ID=1: INSERT OR REPLACE INTO Employee (id, name, role) VALUES (1, &#39;John Foo&#39;, &#39;CEO&#39;);  BAD: This will insert or replace 2 of the columns&amp;hellip; the NAME column will be set to NULL or the default value: INSERT OR REPLACE INTO Employee (id, role) VALUES (1, &#39;code monkey&#39;);  GOOD: This will update 2 of the columns.</description>
+    </item>
+    
+    <item>
+      <title>xcode condition breakpoint non-ascii</title>
+      <link>http://ytlvy.com/posts/2015-07-28/2015-07-28-xcode-condition-breakpoint-non-ascii/</link>
+      <pubDate>Tue, 28 Jul 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-07-28/2015-07-28-xcode-condition-breakpoint-non-ascii/</guid>
+      <description> 设置变量 expr username = @&amp;quot;username&amp;quot; expr password = @&amp;quot;badpassword&amp;quot;  条件断点 (BOOL)[item isEqualToString:@&amp;quot;three&amp;quot;] //非 ASCII 码写法 (BOOL)[(NSString*)titleName isEqualToString:[NSString stringWithUTF8String:&amp;quot;消息&amp;quot;]]  </description>
+    </item>
+    
+    <item>
+      <title>iOS static library architectures</title>
+      <link>http://ytlvy.com/posts/2015-07-26/2015-07-26-ios-static-library-architectures/</link>
+      <pubDate>Sun, 26 Jul 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-07-26/2015-07-26-ios-static-library-architectures/</guid>
+      <description> iOS static library architectures 最近入职, 刚接手需要参与的工程, 调试了半天, 发现由于32\64位的问题, 不能在模拟器调试, 很郁闷. 后来google 到答案记录如下:
+静态库编译支持arm64,armv7 armv7s, i386, x86_64.
+1) 分别在设备和模拟器编译 2) 找到Build/Products目录, 下有两个目录 Release-iphoneos Release-iphonesimulator
+/Users/kappe/Library/Developer/Xcode/DerivedData/zbar-gyozyrpbqzvslmfoadhqkwskcesd/Build/Products  3) 合并
+lipo -create Release-iphoneos/libzbar.a Release-iphonesimulator/libzbar.a -o libzbar.a  </description>
+    </item>
+    
+    <item>
+      <title>iOS wild pointer crash</title>
+      <link>http://ytlvy.com/posts/2015-07-21/2015-07-21-ios-wild-pointer-crash/</link>
+      <pubDate>Tue, 21 Jul 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-07-21/2015-07-21-ios-wild-pointer-crash/</guid>
+      <description>转自
+先提高野指针Crash率 写c、c++代码的同学应该都清楚，crash最多的原因通常有两种，一种是多线程，一种是野指针。这两种crash都带随机性，而且这两种crash有相当一部分都很难区分，甚至大量的crash只有系统栈，如果不能根据日志重现，几乎是无解，让人非常蛋疼。
+本文主要讨论的方向是objc的野指针。objc的野指针最常见的一种栈是objc_msgSend，从Bugly上报的Crash数据来看，objc_msgSend的量占了五分之一，这其中大多数是objc野指针。当然也有相当多的objc野指针不是这种表现，所以野指针的crash体量很惊人
+为什么Obj-C野指针的Crash那么多？ 我们有这么多自动化和人工测试流程，而且还有几轮的灰度过程，其实很多crash场景都应该已经覆盖到了，但随机性意味着，测试的时候它没有问题，等用户用了才有问题，这种情况该怎么办？！
+我觉得关键在于它的随机性，随机性问题我初略地分为两类：
+第一类是跑不进出错的逻辑，执行不到出错的代码，这种可以提高测试场景覆盖度来解决。
+第二类是跑进了有问题的逻辑，但是野指针指向的地址并不一定会导致crash，这好像要看人品了？ 一说到人品就头疼啊有木有，由于上辈子做了太多善事，人品太好每次自测的时候根本不crash有木有！
+先来分析分析 野指针是指指向一个已删除的对象或未申请访问受限内存区域的指针。本文说的objc野指针，说的是objc对象释放之后指针未置空，导致的野指针（objc里面一般不会出现为初始化对象的常识性错误）。
+既然是访问已经释放的对象为什么不是必现crash呢？ 因为dealloc执行后只是告诉系统，这片内存我不用了，而系统并没有就让这片内存不能访问。
+现实大概是下面几种可能的情况：
+ 对象释放后内存没被改动过，原来的内存保存完好，可能不crash或者出现逻辑错误（随机crash）。 对象释放后内存没被改动过，但是它自己析构的时候已经删掉某些必要的东西，可能不crash、crash在访问依赖的对象比如类成员上、出现逻辑错误（随机crash）。 对象释放后内存被改动过，写上了不可访问的数据，直接就出错了很可能crash在objc_msgSend上面（必现crash，常见）。 对象释放后内存被改动过，写上了可以访问的数据，可能不crash、出现逻辑错误、间接访问到不可访问的数据（随机crash）。 对象释放后内存被改动过，写上了可以访问的数据，但是再次访问的时候执行的代码把别的数据写坏了，遇到这种crash只能哭了（随机crash，难度大，概率低）！！ 对象释放后再次release（几乎是必现crash，但也有例外，很常见）。  参考下面的这张图： 看看下面的代码，明显有问题，但是大部分时候是不会crash的。
+UIView* testObj=[[UIView alloc] init]; [testObj release]; [testObj setNeedsLayout];  让随机变成不随机 从上面列的情况来看，出现随机Crash的情况有很多种！这是得多蛋疼呢！或许最好的办法让他们全都立马crash，然后把野指针都找出来！ 仔细看看上面的关键路径只有出现被随机填入的数据是不可访问的时候才会必现crash。
+这个地方我们可以做一下手脚，把这一随机的过程变成不随机的过程。对象释放后在内存上填上不可访问的数据，其实这种技术其实一直都有，xcode的Enable Scribble就是这个作用。 下面我们就拿刚刚的代码试一下。
+scheme=&amp;gt;run=&amp;gt;diagnostics=&amp;gt;Enable Scribble
+果然，必现了，0x5555561！！
+但是有个问题：这货不能放在测试同学那边用！因为总不能让测试同学装了xcode来测试吧？
+于是我们自己动手实现一个，这个过程中我们要解决几个问题：
+ 怎么在内存释放后填上不可访问的数据？内存释放很可能不在我们的代码中。为此我们需要hook对象释放的接口，内存释放之后马上执行我们的破坏工作。 我们要重写对象释放的接口，重写哪个呢？NSObject的dealloc、runtime的 object_dispose，c的free应该都是可以，但是各有优点，我选择的是覆盖面最广的free，free是c的函数，重写了它之后还可以顺带解决一部分c的野指针问题。 怎么重写？重写c的接口场景的有两种： a. 替换系统动态库 b.hook . 替换动态库太麻烦，还不知道行不行得通；hook我们就找现成的fishhook，github里面找的，但现成的代码需要防止代码冲突。 填充的不可访问的数据的长度怎么确定？获取内存长度的接口不在标准库中，好在在Mac和iOS中可以用malloc_size就可以。 填什么？和xcode一样，填0x55  上hook后的free代码：
+void safe_free(void* p){ size_t memSiziee=malloc_size(p); memset(p, 0x55, memSiziee); orig_free(p); return; }  测试一下，出现了和Enable Scribble一样的crash！ 重复造了这个xcode的轮子之后，以后编包给测试，终于在某些情况下不需要那么拼人品了。但是这仅仅覆盖了众多野指针中的一部分，还有大量的疑问等着继续解答。比如：</description>
+    </item>
+    
+    <item>
+      <title>iOS CoreText Advance</title>
+      <link>http://ytlvy.com/posts/2015-07-19/2015-07-19-ios-coretext-advance/</link>
+      <pubDate>Sun, 19 Jul 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-07-19/2015-07-19-ios-coretext-advance/</guid>
+      <description>版权说明 原创文章，转载请保留以下信息：
+本文节选自我的图书：《iOS 开发进阶 》。 本文涉及的 Demo 工程在这里：https://github.com/tangqiaoboy/iOS-Pro。 扫码关注我的「iOS 开发」微信公众帐号： 基于 CoreText 的排版引擎：进阶 本章前言 在上一篇《基于 CoreText 的排版引擎：基础》中，我们学会了排版的基础知识，现在我们来增加复杂性，让我们的排版引擎支持图片和链接的点击。
+支持图文混排的排版引擎 改造模版文件 下面我们来进一步改造，让排版引擎支持对于图片的排版。在上一小节中，我们在设置模版文件的时候，就专门在模板文件里面留了一个名为type的字段，用于表示内容的类型。之前的type的值都是txt，这次，我们增加一个值为img的值，用于表示图片。
+我们将上一节的content.json文件修改为如下内容，增加了 2 个type值为img的配置项。由于是图片的配置项，所以我们不需要设置颜色，字号这些图片不具有的属性，但是，我们另外增加了 3 个图片的配置属性：
+ 一个名为width的属性，用于设置图片显示的宽度。 一个名为height的属性，用于设置图片显示的高度。 一个名为name的属性，用于设置图片的资源名。  [ { &amp;quot;type&amp;quot; : &amp;quot;img&amp;quot;, &amp;quot;width&amp;quot; : 200, &amp;quot;height&amp;quot; : 108, &amp;quot;name&amp;quot; : &amp;quot;coretext-image-1.jpg&amp;quot; }, { &amp;quot;color&amp;quot; : &amp;quot;blue&amp;quot;, &amp;quot;content&amp;quot; : &amp;quot; 更进一步地，实际工作中，我们更希望通过一个排版文件，来设置需要排版的文字的 &amp;quot;, &amp;quot;size&amp;quot; : 16, &amp;quot;type&amp;quot; : &amp;quot;txt&amp;quot; }, { &amp;quot;color&amp;quot; : &amp;quot;red&amp;quot;, &amp;quot;content&amp;quot; : &amp;quot; 内容、颜色、字体 &amp;quot;, &amp;quot;size&amp;quot; : 22, &amp;quot;type&amp;quot; : &amp;quot;txt&amp;quot; }, { &amp;quot;color&amp;quot; : &amp;quot;black&amp;quot;, &amp;quot;content&amp;quot; : &amp;quot; 大小等信息。\n&amp;quot;, &amp;quot;size&amp;quot; : 16, &amp;quot;type&amp;quot; : &amp;quot;txt&amp;quot; }, { &amp;quot;type&amp;quot; : &amp;quot;img&amp;quot;, &amp;quot;width&amp;quot; : 200, &amp;quot;height&amp;quot; : 130, &amp;quot;name&amp;quot; : &amp;quot;coretext-image-2.</description>
+    </item>
+    
+    <item>
+      <title>iOS CoreText Base</title>
+      <link>http://ytlvy.com/posts/2015-07-19/2015-07-19-ios-coretext-base/</link>
+      <pubDate>Sun, 19 Jul 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-07-19/2015-07-19-ios-coretext-base/</guid>
+      <description>转自
+转载声明 原创文章，转载请保留以下信息：
+本文节选自我的图书：《iOS 开发进阶 》。 本文涉及的 Demo 工程在这里：https://github.com/tangqiaoboy/iOS-Pro。 扫码关注我的「iOS 开发」微信公众帐号： 基于 CoreText 的排版引擎：基础 使用 CoreText 技术，我们可以对富文本进行复杂的排版。经过一些简单的扩展，我们还可以实现对于图片，链接的点击效果。CoreText 技术相对于 UIWebView，有着更少的内存占用，以及可以在后台渲染的优点，非常适合用于内容的排版工作。
+本章我们将从最基本的开始，一步一步完成一个支持图文混排、支持图片和链接点击的排版引擎。
+CoreText 简介 CoreText 是用于处理文字和字体的底层技术。它直接和 Core Graphics（又被称为 Quartz）打交道。Quartz 是一个 2D 图形渲染引擎，能够处理 OSX 和 iOS 中的图形显示。
+Quartz 能够直接处理字体（font）和字形（glyphs），将文字渲染到界面上，它是基础库中唯一能够处理字形的模块。因此，CoreText 为了排版，需要将显示的文本内容、位置、字体、字形直接传递给 Quartz。相比其它 UI 组件，由于 CoreText 直接和 Quartz 来交互，所以它具有高速的排版效果。
+下图是 CoreText 的架构图，可以看到，CoreText 处于非常底层的位置，上层的 UI 控件（包括 UILabel，UITextField 以及 UITextView）和 UIWebView 都是基于 CoreText 来实现的。
+ 注意：这个是 iOS7 之后的架构图，在 iOS7 以前，并没有图中的 Text Kit 类，不过 CoreText 仍然是处在最底层直接和 Core Graphics 打交道的模块。</description>
+    </item>
+    
+    <item>
+      <title>ARC dealloc cxx_destruct</title>
+      <link>http://ytlvy.com/posts/2015-07-17/2015-07-17-arc-dealloc-cxx-destruct/</link>
+      <pubDate>Fri, 17 Jul 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-07-17/2015-07-17-arc-dealloc-cxx-destruct/</guid>
+      <description>转
+ARC下dealloc过程及.cxx_destruct的探究 我是前言 这次探索源自于自己一直以来对ARC的一个疑问，在MRC时代，经常写下面的代码：
+- (void)dealloc { self.array = nil; self.string = nil; // ... // // 非Objc对象内存的释放，如CFRelease(...) // ... // [super dealloc]; }  对象析构时将内部其他对象release掉，申请的非Objc对象的内存当然也一并处理掉，最后调用super，继续将父类对象做析构。而现如今到了ARC时代，只剩下了下面的代码：
+- (void)dealloc { // ... // // 非Objc对象内存的释放，如CFRelease(...) // ... // }  问题来了：
+ 这个对象实例变量（Ivars）的释放去哪儿了？ 没有显示的调用[super dealloc]，上层的析构去哪儿了？  ARC文档中对dealloc过程的解释 llvm官方的ARC文档 中对ARC下的dealloc过程做了简单说明，从中还是能找出些有用的信息：
+ A class may provide a method definition for an instance method named dealloc. This method will be called after the final release of the object but before it is deallocated or any of its instance variables are destroyed.</description>
+    </item>
+    
+    <item>
+      <title>iOS Class Clusters</title>
+      <link>http://ytlvy.com/posts/2015-07-17/2015-07-17-ios-class-clusters/</link>
+      <pubDate>Fri, 17 Jul 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-07-17/2015-07-17-ios-class-clusters/</guid>
+      <description>转自
+从NSArray看类簇 Class Clusters Class Clusters（类簇）是抽象工厂模式在iOS下的一种实现，众多常用类，如NSString，NSArray，NSDictionary，NSNumber都运作在这一模式下，它是接口简单性和扩展性的权衡体现，在我们完全不知情的情况下，偷偷隐藏了很多具体的实现类，只暴露出简单的接口。
+NSArray的类簇 虽然官方文档中拿NSNumber说事儿，但Foundation并没有像图中描述的那样为每个number都弄一个子类，于是研究下NSArray类簇的实现方式。
+__NSPlacehodlerArray 熟悉这个模式的同学很可能看过下面的测试代码，将原有的alloc+init拆开写：
+id obj1 = [NSArray alloc]; // __NSPlacehodlerArray * id obj2 = [NSMutableArray alloc]; // __NSPlacehodlerArray * id obj3 = [obj1 init]; // __NSArrayI * id obj4 = [obj2 init]; // __NSArrayM *  发现+ alloc后并非生成了我们期望的类实例，而是一个__NSPlacehodlerArray的中间对象，后面的- init或- initWithXXXXX消息都是发送给这个中间对象，再由它做工厂，生成真的对象。这里的__NSArrayI和__NSArrayM分别对应Immutable和Mutable（后面的I和M的意思）
+于是顺着思路猜实现，__NSPlacehodlerArray必定用某种方式存储了它是由谁alloc出来的这个信息，才能在init的时候知道要创建的是可变数组还是不可变数组
+于是乎很开心的去看了下*obj1的内存布局：
+下面是32位模拟器中的内存布局（64位太长不好看就临时改32位了- -），第一个箭头是*obj1，第二个是*obj2
+我们知道，对象的前4字节（32位下）为isa指针，指向类对象地址，上图所示的0x0051E768就是__NSPlacehodlerArray类对象地址，可以从lldb下po这个地址来验证。
+那么问题来了，这个中间对象并没有储存任何信息诶（除了isa外就都是0了），那它init的时候咋知道该创建什么呢？ 经过研究发现，Foundation用了一个很贱的比较静态实例地址方式来实现，伪代码如下：
+static __NSPlacehodlerArray *GetPlaceholderForNSArray() { static __NSPlacehodlerArray *instanceForNSArray; if (!instanceForNSArray) { instanceForNSArray = [[__NSPlacehodlerArray alloc] init]; } return instanceForNSArray; } static __NSPlacehodlerArray *GetPlaceholderForNSMutableArray() { static __NSPlacehodlerArray *instanceForNSMutableArray; if (!</description>
+    </item>
+    
+    <item>
+      <title>iOS Super init</title>
+      <link>http://ytlvy.com/posts/2015-07-17/2015-07-17-ios-super-init/</link>
+      <pubDate>Fri, 17 Jul 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-07-17/2015-07-17-ios-super-init/</guid>
+      <description>转自
+What does it mean when you assign [super init] to self? self = [super init]; 是 Objctive-C 语法中很奇怪的一句.
+Converting a method invocation 首先需要了解self参数, 编译器是如何处理的.当你输入下面代码时
+MyClass *myObject = [[MyClass alloc] initWithString:@&amp;quot;someString&amp;quot;];  编译器会转换为大致如下的代码:
+class myClass = objc_getClass(&amp;quot;MyClass&amp;quot;); SEL allocSelector = @selector(alloc); MyClass *myObject1 = objc_msgSend(myClass, allocSelector); SEL initSelector = @selector(initWithString:); MyClass *myObject2 = objc_msgSend(myObject1, initSelector, @&amp;quot;someString&amp;quot;);  So what is &amp;ldquo;self&amp;rdquo;? 每个方法都有两个隐藏参数: self and _cmd.
+例如:
+- (id)initWithString:(NSString *)aString;  会转换为:</description>
+    </item>
+    
+    <item>
+      <title>iOS category dig</title>
+      <link>http://ytlvy.com/posts/2015-07-17/2015-07-17-ios-category-dig/</link>
+      <pubDate>Fri, 17 Jul 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-07-17/2015-07-17-ios-category-dig/</guid>
+      <description>转自
+objc category的秘密 category的真面目 objc所有类和对象都是c结构体，category当然也一样，下面是runtime中category的结构：
+struct _category_t { const char *name; // 1 struct _class_t *cls; // 2 const struct _method_list_t *instance_methods; // 3 const struct _method_list_t *class_methods; // 4 const struct _protocol_list_t *protocols; // 5 const struct _prop_list_t *properties; // 6 };   name 注意，并不是category小括号里写的名字，而是类的名字 cls 要扩展的类对象，编译期间这个值是不会有的，在app被runtime加载时才会根据name对应到类对象 instance_methods这个category所有的-方法 class_methods这个category所有的+方法 protocols这个category实现的protocol，比较不常用在category里面实现协议，但是确实支持的 properties这个category所有的property，这也是category里面可以定义属性的原因，不过这个property不会@synthesize实例变量，一般有需求添加实例变量属性时会采用objc_setAssociatedObject和objc_getAssociatedObject方法绑定方法绑定，不过这种方法生成的与一个普通的实例变量完全是两码事。  编译器，你对category干了什么？ 举个栗子看，定义下面一个类和它的category，实现忽略，保存为sark.h和sark.m
+@interface Sark : NSObject - (void)speak; @end @interface Sark (GayExtention) - (void)burst; @end  请出clang的重写命令：</description>
+    </item>
+    
+    <item>
+      <title>iOS kvo dig</title>
+      <link>http://ytlvy.com/posts/2015-07-17/2015-07-17-ios-kvo-dig/</link>
+      <pubDate>Fri, 17 Jul 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-07-17/2015-07-17-ios-kvo-dig/</guid>
+      <description>转自
+objc kvo简单探索 KVO(Key Value Observing)，是观察者模式在Foundation中的实现
+KVO的原理 简而言之就是：
+ 当一个object有观察者时，动态创建这个object的类的子类 对于每个被观察的property，重写其set方法 在重写的set方法中调用- willChangeValueForKey:和- didChangeValueForKey:通知观察者 当一个property没有观察者时，删除重写的方法 当没有observer观察任何一个property时，删除动态创建的子类  空说无凭，简单验证下。
+@interface Sark : NSObject @property (nonatomic, copy) NSString *name; @end @implementation Sark @end Sark *sark = [Sark new]; // breakpoint 1 [sark addObserver:self forKeyPath:@&amp;quot;name&amp;quot; options:NSKeyValueObservingOptionNew context:nil]; // breakpoint 2 sark.name = @&amp;quot;萨萨萨&amp;quot;; [sark removeObserver:self forKeyPath:@&amp;quot;name&amp;quot;]; // breakpoint 3  断住后分别使用- class和object_getClass()打出sark对象的Class和真实的Class
+// breakpoint 1 (lldb) po sark.class Sark (lldb) po object_getClass(sark) Sark // breakpoint 2 (lldb) po sark.</description>
+    </item>
+    
+    <item>
+      <title>ios arc dig</title>
+      <link>http://ytlvy.com/posts/2015-07-17/2015-07-17-ios-arc-dig/</link>
+      <pubDate>Fri, 17 Jul 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-07-17/2015-07-17-ios-arc-dig/</guid>
+      <description>转自
+objc arc的简单探索 ARC or not？ Automatic Reference Counting是objc发展以来相当重要的一个进步
+ 对于开发者，任何能降低开发难度，简化代码的功能，我们都应该去了解和使用。 我们应该利用一切“偷懒”的机会，将软件开发的复杂度分解并控制在一个个小的范围内，使得对于分解后的每一个小的任务，都能被新手掌握和维护。
+ 基于简化开发的思想来看，ARC绝对是一个没理由拒绝的技术进步。 ARC随着iOS5问世，到现在iOS8都快出了，你还在手动写retain，release么？除了固守思想外，对ARC的恐惧大都来自对它的未知。
+比如我在公司尝试说服team使用ARC时被质疑的几个问题：
+ ARC和Java的GC一样，会导致一部分性能损耗？ 首先，ARC和GC是两码事，ARC是编译时编译器“帮你”插入了原本需要自己手写的内存管理代码，而非像GC一样运行时的垃圾回收系统
+ ARC内存不知道什么时候释放，导致不可控的内存涨落？ 了解ARC的原理后，就知道，ARC下编译器插入的内存管理的代码是经过优化的，对于使用完的内存，多运行一行代码都不会浪费，可以这么说，手写的内存管理必须达到很严谨的水平才可能达到ARC自动生成的一样完整且没有疏漏
+ ARC下面自己不管理内存，很不爽，很没有安全感 这纯粹是习惯的问题了，开发者的目标是用最简化的手段完成一个最可靠的程序，进步需要改变的。好在编译选项中提供了-fobjc-arc和-fno-objc-arc来保证整个的变革的继续下去，就像社会主义中国里的港澳
+  ARC的约定 使用ARC之后一个费解的地方是，一个方法生成的对象，没有任何附加标示，ARC怎么知道生成的对象是不是autorelease的呢？
+@interface Sark : NSObject + (instancetype)sarkWithMark:(NSString *)mark; // 1 - (instancetype)initWithMark:(NSString *)mark; // 2 @end  这是非ARC时常用的手段，1生成autorelease对象，2生成普通对象，而现在ARC不能调用autorelease，使用时怎么能知道呢？
+{ // ... Sark *sark1 = [Sark sarkWithMark:@&amp;quot;萨萨萨&amp;quot;]; Sark *sark2 = [[Sark alloc] initWithMark:@&amp;quot;萨萨萨&amp;quot;]; }  使用约定，NS定义了下面三个编译属性
+#define NS_RETURNS_RETAINED __attribute__((ns_returns_retained)) #define NS_RETURNS_NOT_RETAINED __attribute__((ns_returns_not_retained)) #define NS_RETURNS_INNER_POINTER __attribute__((objc_returns_inner_pointer))  这三个属性是Clang自己使用的标示，除非特殊情况不要自己使用，但是这些对理解ARC是很有帮助的。 这里还要介绍一个概念，Method family</description>
+    </item>
+    
+    <item>
+      <title>ios attribute cleanup</title>
+      <link>http://ytlvy.com/posts/2015-07-17/2015-07-17-ios-attribute-cleanup/</link>
+      <pubDate>Fri, 17 Jul 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-07-17/2015-07-17-ios-attribute-cleanup/</guid>
+      <description>转自
+黑魔法attribute((cleanup)) 编译器属性attribute用于向编译器描述特殊的标识、检查或优化，几个常用的用法看mattt大神的文章就好。今天发现一个名为cleanup的黑魔法属性，简单介绍下。
+基本用法 __attribute__((cleanup(...)))，用于修饰一个变量，在它的作用域结束时可以自动执行一个指定的方法，如：
+// 指定一个cleanup方法，注意入参是所修饰变量的地址，类型要一样 // 对于指向objc对象的指针(id *)，如果不强制声明__strong默认是__autoreleasing，造成类型不匹配 static void stringCleanUp(__strong NSString **string) { NSLog(@&amp;quot;%@&amp;quot;, *string); } // 在某个方法中： { __strong NSString *string __attribute__((cleanup(stringCleanUp))) = @&amp;quot;sunnyxx&amp;quot;; } // 当运行到这个作用域结束时，自动调用stringCleanUp  所谓作用域结束，包括大括号结束、return、goto、break、exception等各种情况。 当然，可以修饰的变量不止NSString，自定义Class或基本类型都是可以的：
+// 自定义的Class static void sarkCleanUp(__strong Sark **sark) { NSLog(@&amp;quot;%@&amp;quot;, *sark); } __strong Sark *sark __attribute__((cleanup(sarkCleanUp))) = [Sark new]; // 基本类型 static void intCleanUp(NSInteger *integer) { NSLog(@&amp;quot;%d&amp;quot;, *integer); } NSInteger integer __attribute__((cleanup(intCleanUp))) = 1;  假如一个作用域内有若干个cleanup的变量，他们的调用顺序是先入后出的栈式顺序； 而且，cleanup是先于这个对象的dealloc调用的。</description>
+    </item>
+    
+    <item>
+      <title>ios self in arc</title>
+      <link>http://ytlvy.com/posts/2015-07-17/2015-07-17-ios-self-in-arc/</link>
+      <pubDate>Fri, 17 Jul 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-07-17/2015-07-17-ios-self-in-arc/</guid>
+      <description>转自
+ARC对self的内存管理 记录下前两天的一次讨论，源于网络库YTKNetwork中“YTKRequest.m”的 - start 方法其中的几行代码：
+- (void)start { // ...... YTKRequest *strongSelf = self; [strongSelf.delegate requestFinished:strongSelf]; if (strongSelf.successCompletionBlock) { strongSelf.successCompletionBlock(strongSelf); } [strongSelf clearCompletionBlock]; }  具体的问题大概是这样：
+ 调用方（如view controller）实例化并强引用YTKRequest对象，将自己作为其delegate 调用方调用YTKRequest的 - start 方法发起网络请求 调用方在 - requestFinished: 中执行了self.request = nil; YTKRequest中，- start方法在回调完-requestFinished: 后 BAD_ACCESS了  也就是说，- start方法还未返回时，self就被外部释放了。作者发现了这个潜在的问题，所以在方法局部增设了一个strongSelf的强引用来保证self的生命周期延续到方法结束。问题是解决了，但是更希望知道原因。
+简化说明就是：
+- (void)foo { // self被delegate持有 [self.delegate callout]; // 外部释放了这个对象 // 这里self野指针 }  现在想想还是比较不符合常理，入参的self居然不能保证这个函数执行完成。后来查阅了下文档，发现是ARC的(gao)机(de)制(gui)，clang的《这篇ARC文档》中有明确的解释，总结如下：
+ ARC下，self既不是strong也不是weak，而是unsafe_unretained的，也就是说，入参的self被表示为：（init系列方法的self除外）  - (void)start { const __unsafe_unretained YTKRequest *self; // .</description>
+    </item>
+    
+    <item>
+      <title>objc@interface的设计哲学与设计技巧</title>
+      <link>http://ytlvy.com/posts/2015-07-17/2015-07-17-ios-interface-dig/</link>
+      <pubDate>Fri, 17 Jul 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-07-17/2015-07-17-ios-interface-dig/</guid>
+      <description>转自
+objc@interface的设计哲学与设计技巧 我是前言 学习objc时，尤其是先学过其他编程语言再来看objc时，总会对objc的类声明的关键字interface感到有点奇怪，在其它面向对象的语言中通常由class关键字来表示，而interface在java中表示的却大约相当于objc的protocol，这个关键字的区别究竟代表了objc语言的设计者怎样的思想呢，在objc类设计中需要注意哪些问题呢？接下来对这个问题进行一些思考和探究.
+interface? 先来段Wiki:
+ In object-oriented programming, a protocol or interface is a common means for unrelated objects to communicate with each other. These are definitions of methods and values which the objects agree upon in order to cooperate.
+ 接口约定了对象间交互的属性和方法，使得对象间无需了解对方就可以协作。 说的洋气点就是解耦嘛，细心点也能发现Wiki中interface和protocol表示了相近的语义。 引用我和项目组架构师讨论有关interface的问题时他的说法:
+ interface就是一个object定义的可以被外界影响的方式
+ 说着他指了下旁边桌子上放着的一把伞，说，这把伞我可以打开它，打开这个动作就是它的一个interface，桌子旁边还放着一个盒子，虽然它和伞都放在这张桌子上，但是它们之间永远不会互相影响，所以：
+ interface只存在于能互相影响的两者间
+ @interface生成了class？ 学习objc时最早接触的就是怎么写一个类了，从.h中写@interface声明类，再从.m中写@implementation实现方法，所以，objc中写一个@interface就相当于c++中写一个class。但这是真的么？
+写个小test验证一下： 有两个类，Sark和Dark，Sark类只有.m文件，其中只写@implementation；Dark类只有.h头文件，其中只写@interface，然后如下测试代码：
+Class sarkClass = NSClassFromString(@&amp;quot;Sark&amp;quot;); Class darkClass = NSClassFromString(@&amp;quot;Dark&amp;quot;);  NSClassFromString方法调用了runtime方法，根据类名将加载进runtime的这个类找出来，没有这个类就回返回空(Nil)。 结果是sarkClass存在，而darkClass为空，说明什么？是否说明其实@implementation才是真正的Class？ 进一步，不止能取到这个没有@interface的类，还可以正常调用方法（因为万能的runtime）</description>
+    </item>
+    
+    <item>
+      <title>Atom</title>
+      <link>http://ytlvy.com/posts/2015-07-16/2015-07-16-atom/</link>
+      <pubDate>Thu, 16 Jul 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-07-16/2015-07-16-atom/</guid>
+      <description>转自
+Atom 一款编辑器入门还是很简单的，学会怎么样创建，打开，编辑，保存文件就行。剩下的就是慢慢熟悉，Atom 会不断带给你惊喜，如果你想简化或者加快平时工作中的某些任务或者动作，你就可以去搜索一下，Atom 要么本身就为你提供你需要的功能，没有的话，也可以通过现成的插件（Packages）或者自定义的方式解决。
+安装 如果你顺着我们的路线走过来，你的电脑上应该已经安装好了系统的包管理工具，Windows 上的 Chocolatey，Mac 上的 Homebrew，Atom 编辑器可以通过包管理工具来安装。
+Windows 用管理员的身份打开 Powershell，然后用 choco install 去安装 Atom：
+choco install atom   提示：Atom 编辑器体积挺大，在国内由于网络环境问题，在下载的时候会比较慢，有时也可能出现不能连接到远程服务器的错误，解决的方法就是，准备 “梯子”
+ Mac 打开系统的 终端，然后用 Homebrew 的 brew install 命令去安装 Atom：
+brew install Caskroom/cask/atom  在命令行下面安装完 Atom 以后，可以输入 atom ，后面指定一个目录，这样会用 Atom 编辑器打开这个目录。另外 Atom 编辑器还自带了一个包管理工具叫 apm （Atom Package Manager），用这个工具可以在命令行下面为编辑器去安装包 （Package） ，包就是 Atom 的插件。
+Packages Atom 核心的功能是由 Core Packages（核心包） 提供的，另外还有 Community Packages（社区包），就是由社区成员自己开发并且分享出来的 Package。Atom 可以通过安装这些 Package 来扩展编辑器的功能。安装 Package 可以在 Atom 的配置界面上去搜索，然后安装，也可以使用 apm 在命令行下面管理编辑器的 Package 。</description>
+    </item>
+    
+    <item>
+      <title>Debug</title>
+      <link>http://ytlvy.com/posts/2015-07-16/2015-07-16-debug/</link>
+      <pubDate>Thu, 16 Jul 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-07-16/2015-07-16-debug/</guid>
+      <description>调试 DTrace You can use DTrace to monitor a running application to see the methods and the classes that are called. You can easily monitor an iOS app running in the Simulator using DTrace on the command line, First you will need to find the PID of the application using ps and then you can run a DTrace probe like the following:
+sudo dtrace -q -n &#39;objc1234:::entry { printf(&amp;quot;%s %s\n&amp;quot;, probemod, probefunc); }&#39;  where 1234 is the process ID of the app.</description>
+    </item>
+    
+    <item>
+      <title>LLDB</title>
+      <link>http://ytlvy.com/posts/2015-07-16/2015-07-16-lldb/</link>
+      <pubDate>Thu, 16 Jul 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-07-16/2015-07-16-lldb/</guid>
+      <description>build Programs normally have to be compiled with a special option to allow debugging to take place. On UNIX, the option for clang++ is the -g option. For example
+clang++ -Wall -g -o prog1 prog1.cpp  We also include the -Wall option, which lists warnings (the &amp;lsquo;all&amp;rsquo; is to list all warnings). Note that this option leads to executable files that are larger and slower, so you may not want to use it for final distributions or time-critical programs.</description>
+    </item>
+    
+    <item>
+      <title>iOS Crash文件的解析</title>
+      <link>http://ytlvy.com/posts/2015-07-15/2015-07-15-ios-crash%E6%96%87%E4%BB%B6%E7%9A%84%E8%A7%A3%E6%9E%90/</link>
+      <pubDate>Wed, 15 Jul 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-07-15/2015-07-15-ios-crash%E6%96%87%E4%BB%B6%E7%9A%84%E8%A7%A3%E6%9E%90/</guid>
+      <description>&lt;p&gt;-&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;http://www.cnblogs.com/smileEvday/p/Crash1.html&#34;&gt;转自&lt;/a&gt;&lt;/p&gt;
+
+&lt;h1 id=&#34;ios-crash文件的解析&#34;&gt;iOS Crash文件的解析&lt;/h1&gt;
+
+&lt;p&gt;开发程序的过程中不管我们已经如何小心，总是会在不经意间遇到程序闪退。脑补一下当你在一群人面前自信的拿着你的App做功能预演的时候，流畅的操作被无情地Crash打断。联想起老罗在发布Smartisan OS的时候说了，他准备了10个手机，如果一台有问题，就换一台，如果10台后挂了他就不做手机了。好了不闲扯了，今天就跟大家一起聊聊iOSCrash文件的组成以及常用的分析工具。&lt;/p&gt;
+
+&lt;p&gt;　　有一个WWDC 2010的视频推荐大家抽空看看，视频名称&lt;a href=&#34;https://developer.apple.com/videos/wwdc/2010/?id=317&#34;&gt;&amp;ldquo;Understanding Crash Reports on iPhone OS&amp;rdquo;&lt;/a&gt;，该视频详细讲解了Crash文件的结构。当然如果你没时间看的话，不妨阅读以下这篇文章。&lt;/p&gt;
+
+&lt;h2 id=&#34;crash文件结构&#34;&gt;Crash文件结构&lt;/h2&gt;
+
+&lt;p&gt;当程序运行Crash的时候，系统会把运行的最后时刻的运行信息记录下来，存储到一个文件中，也就是我们所说的Crash文件。iOS的Crash日志通常由以下6各部分组成。 &lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>iOS 内存警告</title>
+      <link>http://ytlvy.com/posts/2015-07-15/2015-07-15-ios-%E5%86%85%E5%AD%98%E8%AD%A6%E5%91%8A/</link>
+      <pubDate>Wed, 15 Jul 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-07-15/2015-07-15-ios-%E5%86%85%E5%AD%98%E8%AD%A6%E5%91%8A/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;http://www.cnblogs.com/smileEvday/archive/2012/03/07/MemoryWarning.html&#34;&gt;转自&lt;/a&gt;&lt;/p&gt;
+
+&lt;h1 id=&#34;内存警告&#34;&gt;内存警告&lt;/h1&gt;
+
+&lt;p&gt;系统有四种内存警告&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;typedef enum {
+　   OSMemoryNotificationLevelAny      = -1,
+　   OSMemoryNotificationLevelNormal   =  0,
+　   OSMemoryNotificationLevelWarning  =  1,
+　   OSMemoryNotificationLevelUrgent   =  2,
+　   OSMemoryNotificationLevelCritical =  3
+} OSMemoryNotificationLevel;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;　　通常我们在程序中接收到最多的就是Memory warning level 1，这个时候就证明系统内存紧张了，我们的程序必须做出相应，释放不必要的内存。通常如果我们处理得当的话，内存警告就会到此停止，恢复正常状态。如果我们在接收到&lt;code&gt;memory warning level 1&lt;/code&gt;以后坐视不理的话，系统可能还会再尝试通知几次&lt;code&gt;level 1&lt;/code&gt;，如果还是不去处理的话，系统将会发出更高一级的内存警告&lt;code&gt;level 2&lt;/code&gt;，通常的结果就是我们的App被强制退出，系统收回内存。当然系统在发出level 2的警告时，也会取尝试做一些清理内存的事，例如关闭不必要的后台程序等。很显然我们不该寄希望于系统自己清理，这就好比你的胳膊被划破了，身体肯定会有自修复功能，但是如果伤口比较大的话，肯定还是需要人工处理一下的。&lt;/p&gt;
+
+&lt;p&gt;到目前位置我还没有见过level 3的警告，根据stack over flow上面讲的&amp;rdquo;当发生level 3警告时，系统内核将会接管，很有可能关掉IOS的主界面进程（SpringBorad），甚至会重启&amp;rdquo;，照这个意思来说我们程序里面接收不到，也实属正常，系统自己的东西都被干掉了，我们肯定早被kill了。  KennyTM写的原文地址： &lt;a href=&#34;http://stackoverflow.com/questions/2915247/iphone-os-memory-warnings-what-do-the-different-levels-mean&#34;&gt;http://stackoverflow.com/questions/2915247/iphone-os-memory-warnings-what-do-the-different-levels-mean&lt;/a&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>iOS 应用崩溃日志揭秘</title>
+      <link>http://ytlvy.com/posts/2015-07-15/2015-07-15-ios-%E5%BA%94%E7%94%A8%E5%B4%A9%E6%BA%83%E6%97%A5%E5%BF%97%E6%8F%AD%E7%A7%98/</link>
+      <pubDate>Wed, 15 Jul 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-07-15/2015-07-15-ios-%E5%BA%94%E7%94%A8%E5%B4%A9%E6%BA%83%E6%97%A5%E5%BF%97%E6%8F%AD%E7%A7%98/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;http://www.raywenderlich.com/23704/demystifying-ios-application-crash-logs&#34;&gt;翻译自&lt;/a&gt;&lt;/p&gt;
+
+&lt;h1 id=&#34;ios应用崩溃日志揭秘1&#34;&gt;iOS应用崩溃日志揭秘1&lt;/h1&gt;
+
+&lt;p&gt;作为一名应用开发者，你是否有过如下经历?&lt;/p&gt;
+
+&lt;p&gt;为确保你的应用正确无误，在将其提交到应用商店之前，你必定进行了大量的测试工作。它在你的设备上也运行得很好，但是，上了应用商店后，还是有用户抱怨会闪退 !&lt;/p&gt;
+
+&lt;p&gt;如果你跟我一样是个完美主义者，你肯定想将应用做到尽善尽美。于是你打开代码准备修复闪退的问题&amp;hellip;&amp;hellip;但是，从何处着手呢？ 这时iOS崩溃日志派上用场了。在大多数情况下，你能从中了解到关于闪退的详尽、有用的信息。&lt;/p&gt;
+
+&lt;p&gt;通过本教程，你将学习到一些常见的崩溃日志案例，以及如何从开发设备和iTunes Connect上获取崩溃日志文件。你还将学习到符号化（ symbolication）,从日志追踪到代码 。你还将学习调试一个在待定情况下会闪退的应用。&lt;/p&gt;
+
+&lt;p&gt;让我们开始动手吧!&lt;/p&gt;
+
+&lt;h2 id=&#34;什么是崩溃日志-从哪里能得它&#34;&gt;什么是崩溃日志，从哪里能得它?&lt;/h2&gt;
+
+&lt;p&gt;iOS设备上的应用闪退时，操作系统会生成一个崩溃报告，也叫崩溃日志，保存在设备上。 崩溃日志上有很多有用的信息，包括应用是什么情况下闪退的。通常，上面有每个正在执行线程的完整堆栈跟踪信息，所以你能从中了解到闪退发生时各线程都在做什么，并分辨出闪退发生在哪个线程上。&lt;/p&gt;
+
+&lt;p&gt;有几种方法可以从设备上获取崩溃日志。 设备与电脑上的iTunes Store同步后，会将崩溃日志保存在电脑上。根据电脑操作系统的不同，崩溃日志将保存在以下位置:&lt;/p&gt;
+
+&lt;p&gt;Mac OS X:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;~/Library/Logs/CrashReporter/MobileDevice/
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>iOS 绘制1像素的线</title>
+      <link>http://ytlvy.com/posts/2015-07-15/2015-07-15-ios-%E7%BB%98%E5%88%B61%E5%83%8F%E7%B4%A0%E7%9A%84%E7%BA%BF/</link>
+      <pubDate>Wed, 15 Jul 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-07-15/2015-07-15-ios-%E7%BB%98%E5%88%B61%E5%83%8F%E7%B4%A0%E7%9A%84%E7%BA%BF/</guid>
+      <description>iOS 绘制1像素的线 Point Vs Pixel iOS中当我们使用Quartz，UIKit，CoreAnimation等框架时，所有的坐标系统采用Point来衡量。系统在实际渲染到设置时会帮助我们处理Point到Pixel的转换。 这样做的好处隔离变化，即我们在布局的事后不需要关注当前设备是否为Retina，直接按照一套坐标系统来布局即可。
+实际使用中我们需要牢记下面这一点:
+One point does not necessarily correspond to one physical pixel.  1 Point的线在非Retina屏幕则是一个像素，在Retina屏幕上则可能是2个或者3个，取决于系统设备的DPI。
+iOS系统中，UIScreen，UIView，UIImage，CALayer类都提供相关属性来获取scale factor。 原生的绘制技术天然的帮我们处理了scale factor，例如在drawRect:方法中，UIKit自动的根据当前运行的设备设置了正切的scale factor。所以我们在drawRect: 方法中绘制的任何内容都会被自动缩放到设备的物理屏幕上。
+基于以上信息可以看出，我们大部分情况下都不需要去关注pixel，然而存在部分情况需要考虑像素的转化。
+例如画1个像素的分割线  看到这个问题你的第一想法可能是，直接根据当前屏幕的缩放因子计算出1 像素线对应的Point，然后设置线宽即可。 代码如下:
+1.0f / [UIScreen mainScreen].scale  表面上看着一切正常了，但是通过实际的设备测试你会发现渲染出来的线宽并不是1个像素。
+ Why?
+ 为了获得良好的视觉效果，绘图系统通常都会采用一个叫&amp;rdquo;antialiasing(反锯齿)&amp;ldquo;的技术，iOS也不例外。 显示屏幕有很多小的显示单元组成，可以接单的理解为一个单元就代表一个像素。如果要画一条黑线，条线刚好落在了一列或者一行显示显示单元之内，将会渲染出标准的一个像素的黑线。 但如果线落在了两个行或列的中间时，那么会得到一条&amp;rdquo;失真&amp;rdquo;的线，其实是两个像素宽的灰线。
+如下图所示:  Positions defined by whole-numbered points fall at the midpoint between pixels. For example, if you draw a one-pixel-wide vertical line from (1.0, 1.</description>
+    </item>
+    
+    <item>
+      <title>NSRunLoop深入理解</title>
+      <link>http://ytlvy.com/posts/2015-07-13/2015-07-13-nsrunloop%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3/</link>
+      <pubDate>Mon, 13 Jul 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-07-13/2015-07-13-nsrunloop%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;http://www.cocoachina.com/ios/20150601/11970.html&#34;&gt;转自&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;runloop&#34;&gt;RunLoop&lt;/h2&gt;
+
+&lt;p&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;RunLoop 是 iOS 和 OS X 开发中非常基础的一个概念，这篇文章将从 CFRunLoop 的源码入手，介绍 RunLoop 的概念以及底层实现原理。之后会介绍一下在 iOS 中，苹果是如何利用 RunLoop 实现自动释放池、延迟回调、触摸事件、屏幕刷新等功能的。&lt;/p&gt;
+
+&lt;h3 id=&#34;runloop-的概念&#34;&gt;RunLoop 的概念&lt;/h3&gt;
+
+&lt;p&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;一般来讲，一个线程一次只能执行一个任务，执行完成后线程就会退出。如果我们需要一个机制，让线程能随时处理事件但并不退出，通常的代码逻辑是这样的：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;function loop() {
+    initialize();
+    do {
+        var message = get_next_message();
+        process_message(message);
+    } while (message != quit);
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;这种模型通常被称作 Event Loop。 Event Loop 在很多系统和框架里都有实现，比如 Node.js 的事件处理，比如 Windows 程序的消息循环，再比如 OSX/iOS 里的 RunLoop。实现这种模型的关键点在于：如何管理事件/消息，如何让线程在没有处理消息时休眠以避免资源占用、在有消息到来时立刻被唤醒&lt;/p&gt;
+
+&lt;p&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;所以，RunLoop 实际上就是一个对象，这个对象管理了其需要处理的事件和消息，并提供了一个入口函数来执行上面 Event Loop 的逻辑。线程执行了这个函数后，就会一直处于这个函数内部 &amp;ldquo;接受消息-&amp;gt;等待-&amp;gt;处理&amp;rdquo; 的循环中，直到这个循环结束（比如传入 quit 的消息），函数返回。
+
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;OSX/iOS 系统中，提供了两个这样的对象：NSRunLoop 和 CFRunLoopRef。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>iOS Associated Objects</title>
+      <link>http://ytlvy.com/posts/2015-07-13/2015-07-13-ios-associated-objects/</link>
+      <pubDate>Mon, 13 Jul 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-07-13/2015-07-13-ios-associated-objects/</guid>
+      <description>&lt;h2 id=&#34;ios-associated-objects&#34;&gt;iOS Associated Objects&lt;/h2&gt;
+
+&lt;p&gt;关注以下三个问题:
+1. 关联对象被存储在什么地方，是不是存放在被关联对象本身的内存中？
+2. 关联对象的五种关联策略有什么区别，有什么坑？
+3. 关联对象的生命周期是怎样的，什么时候被释放，什么时候被移除？&lt;/p&gt;
+
+&lt;h3 id=&#34;使用场景&#34;&gt;使用场景:&lt;/h3&gt;
+
+&lt;p&gt;按照 Mattt Thompson 大神的文章 Associated Objects 中的说法，&lt;a href=&#34;http://nshipster.com/associated-objects/&#34;&gt;Associated Objects&lt;/a&gt; 主要有以下三个使用场景&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;为现有的类添加私有变量以帮助实现细节；&lt;/li&gt;
+&lt;li&gt;为现有的类添加公有属性；&lt;/li&gt;
+&lt;li&gt;为 KVO 创建一个关联的观察者。&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;从本质上看，第 1 、2 个场景其实是一个意思，唯一的区别就在于新添加的这个属性是公有的还是私有的而已。就目前来说，我在实际工作中使用得最多的是第 2 个场景，而第 3 个场景我还没有使用过
+&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>iOS Category</title>
+      <link>http://ytlvy.com/posts/2015-07-13/2015-07-13-ios-category/</link>
+      <pubDate>Mon, 13 Jul 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-07-13/2015-07-13-ios-category/</guid>
+      <description>&lt;h2 id=&#34;category&#34;&gt;category&lt;/h2&gt;
+
+&lt;h3 id=&#34;category-简介&#34;&gt;category 简介&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;为已存在的类, 添加方法&lt;/li&gt;
+&lt;li&gt;将类的实现, 分别存放在不同的文件中. 好处: a) 减少单体文件体积 b)按照功能划分 c)协作开发 d)按需加载&lt;/li&gt;
+&lt;li&gt;声明私有方法&lt;/li&gt;
+&lt;li&gt;模拟多继承&lt;/li&gt;
+&lt;li&gt;把framework的私有方法公开&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;extension&#34;&gt;extension&lt;/h3&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;extension 很像匿名的category. 差异: a)extension在编译器决议, 是类声明的一部分.b)用来隐藏私有属性或方法.c)只有在有类源码的前提下,才能添加extension&lt;/p&gt;
+
+&lt;p&gt;category 在运行期决议的. category无法添加实例变量, (通过association来模拟添加)&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>iOS Event Delivery/ The Responder Chain</title>
+      <link>http://ytlvy.com/posts/2015-07-13/2015-07-13-ios-event-delivery-the-responder-chain/</link>
+      <pubDate>Mon, 13 Jul 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-07-13/2015-07-13-ios-event-delivery-the-responder-chain/</guid>
+      <description>&lt;h2 id=&#34;event-delivery-the-responder-chain&#34;&gt;Event Delivery: The Responder Chain&lt;/h2&gt;
+
+&lt;p&gt;当你设计应用的时候, 应用需要动态响应事件. 例如: 点击事件, (可以在显示屏上的不同对象上多次触发), 你需要决定那个对象来响应此事件, 并且需要了解这个对象是如何接收事件的.&lt;/p&gt;
+
+&lt;p&gt;当用户触发一个事件时, UIKit 创建一个&lt;code&gt;event object&lt;/code&gt;, 此对象包含了需要处理的信息. 然后将此事件对象放入到当前 app 的事件队列中. 例如&lt;code&gt;touch&lt;/code&gt;事件, 这种事件对象就是一个包含了一组&lt;code&gt;touch&lt;/code&gt;的&lt;code&gt;UIEvent&lt;/code&gt; 对象. &lt;code&gt;motion&lt;/code&gt;事件, 此对象由你使用的&lt;code&gt;framework&lt;/code&gt;和你感兴趣的&lt;code&gt;motion&lt;/code&gt;类型来决定.&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Touch events. 当前 window 对象首先尝试将事件传送给 &lt;code&gt;touch&lt;/code&gt; 触发的视图.这个视图被称为&lt;code&gt;hit-test&lt;/code&gt; 视图. 寻找&lt;code&gt;hit-test&lt;/code&gt;视图的过程被称为&lt;code&gt;hit-testing&lt;/code&gt;, 将在下面描述.&lt;/li&gt;
+&lt;li&gt;Motion and remote control events. 对于这些事件, 当前 window 对象会将 &lt;code&gt;shaking-motion&lt;/code&gt; 或 &lt;code&gt;emote control event&lt;/code&gt; 发送给&lt;code&gt;first responder&lt;/code&gt;来响应.&lt;code&gt;first responder&lt;/code&gt;也将在下面描述.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;hit-testing-returns-the-view-where-a-touch-occurred&#34;&gt;Hit-Testing Returns the View Where a Touch Occurred&lt;/h3&gt;
+
+&lt;p&gt;iOS 通过&lt;code&gt;hit-testing&lt;/code&gt; 来寻找点击下方的视图. &lt;code&gt;Hit-Testing&lt;/code&gt; 会查找任何包含该&lt;code&gt;touch&lt;/code&gt;点坐标的视图对象, 规则为此坐标位于视图的&lt;code&gt;bounds&lt;/code&gt;中, 如果包含, 会继续递归检测此视图的所有子视图. 在视图树中包含该点击的最下层视图, 即是&lt;code&gt;hit-test&lt;/code&gt;视图. 当 iOS 决定了 &lt;code&gt;hit-test&lt;/code&gt; 视图后, 会将点击事件发送给此视图来处理.&lt;/p&gt;
+
+&lt;p&gt;说明如下, 假设用户点击了视图 E, iOS 查找&lt;code&gt;hit-test&lt;/code&gt; 视图的逻辑如下:
+1. 点击在视图 A 的范围内, 然后检测 子视图 B 和 C
+2.  点击不再视图 B 范围内, 但是在视图 C 范围内, 继续检测 子视图 D 和 E
+3.  点击不再视图 D 里, 但是在视图 E 中.
+
+视图 E 是最下层且包含 &lt;code&gt;touch&lt;/code&gt;的视图树, 所以就是&lt;code&gt;hit-test&lt;/code&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>iOS Runtime Message And Category</title>
+      <link>http://ytlvy.com/posts/2015-07-13/2015-07-13-ios-runtime-message-and-category/</link>
+      <pubDate>Mon, 13 Jul 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-07-13/2015-07-13-ios-runtime-message-and-category/</guid>
+      <description>&lt;h3 id=&#34;习题内容&#34;&gt;习题内容&lt;/h3&gt;
+
+&lt;p&gt;下面的代码会？Compile Error / Runtime Crash / NSLog…?&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;@interface NSObject (Sark)
++ (void)foo;
+@end
+
+@implementation NSObject (Sark)
+
+- (void)foo
+{
+    NSLog(@&amp;quot;IMP: -[NSObject(Sark) foo]&amp;quot;);
+}
+
+@end
+
+int main(int argc, const char * argv[]) {
+    @autoreleasepool {
+        [NSObject foo];
+        [[NSObject new] foo];
+    }
+    return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;答案：代码正常输出，输出结果如下：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;2014-11-06 13:11:46.694 Test[14872:1110786] IMP: -[NSObject(Sark) foo]
+2014-11-06 13:11:46.695 Test[14872:1110786] IMP: -[NSObject(Sark) foo]
+&lt;/code&gt;&lt;/pre&gt;</description>
+    </item>
+    
+    <item>
+      <title>iOS Runtime Object &amp; Class &amp; Meta Class</title>
+      <link>http://ytlvy.com/posts/2015-07-13/2015-07-13-ios-runtime-object-class-meta-class/</link>
+      <pubDate>Mon, 13 Jul 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-07-13/2015-07-13-ios-runtime-object-class-meta-class/</guid>
+      <description>&lt;h3 id=&#34;习题内容&#34;&gt;习题内容&lt;/h3&gt;
+
+&lt;p&gt;下面代码的运行结果是?&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;@interface Sark : NSObject
+@end
+
+@implementation Sark
+@end
+
+int main(int argc, const char * argv[]) {
+    @autoreleasepool {
+        BOOL res1 = [(id)[NSObject class] isKindOfClass:[NSObject class]];
+        BOOL res2 = [(id)[NSObject class] isMemberOfClass:[NSObject class]];
+
+        BOOL res3 = [(id)[Sark class] isKindOfClass:[Sark class]];
+        BOOL res4 = [(id)[Sark class] isMemberOfClass:[Sark class]];
+
+        NSLog(@&amp;quot;%d %d %d %d&amp;quot;, res1, res2, res3, res4);
+    }
+    return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;运行结果为：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;2014-11-05 14:45:08.474 Test[9412:721945] 1 0 0 0
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>iOS Runtime Self &amp; Super</title>
+      <link>http://ytlvy.com/posts/2015-07-13/2015-07-13-ios-runtime-self-super/</link>
+      <pubDate>Mon, 13 Jul 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-07-13/2015-07-13-ios-runtime-self-super/</guid>
+      <description>&lt;h2 id=&#34;self-super&#34;&gt;Self &amp;amp;&amp;amp; Super&lt;/h2&gt;
+
+&lt;h3 id=&#34;what-is-super&#34;&gt;What is Super?&lt;/h3&gt;
+
+&lt;p&gt;&lt;code&gt;Super&lt;/code&gt; 是和 &lt;code&gt;Self&lt;/code&gt; 一样的关键字, 不同的是, 它不能用作函数的参数, 只能接收消息.当接收消息的时候, 它会向父类搜索方法的定义. 如果在向上的类链中没有任何定义, 则程序会 crash.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;- (instancetype)initWithValue1:(id)value1 value2:(id)value2
+{
+    self = [super initWithValue1:value1];
+
+    if (self) {
+        _value2 = value2;
+    }
+
+    return self;
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;messaging-super&#34;&gt;messaging &lt;code&gt;super&lt;/code&gt;&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code&gt;struct objc_super {
+    __unsafe_unretained id receiver;
+    __unsafe_unretained Class super_class;
+};
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code&gt;- (void)methodWithArgument:(id)arg
+{
+    [super otherMethodWithArgument:arg];
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code&gt;- (void)methodWithArgument:(id)arg
+{
+    struct objc_super super = {.receiver = self, .super_class = 0xC0FFEE};
+
+    objc_msgSendSuper(&amp;amp;super, @selector(otherMethodWithArgument:), arg);
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;code&gt;objc_msgSendSuper&lt;/code&gt; 将从父类的定义开始查找方法的实现. &lt;code&gt;super_class&lt;/code&gt;是在 runtime 时, 动态生成的.
+&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>iOS Runtime 成员变量与属性</title>
+      <link>http://ytlvy.com/posts/2015-07-13/2015-07-13-ios-runtime-%E6%88%90%E5%91%98%E5%8F%98%E9%87%8F%E4%B8%8E%E5%B1%9E%E6%80%A7/</link>
+      <pubDate>Mon, 13 Jul 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-07-13/2015-07-13-ios-runtime-%E6%88%90%E5%91%98%E5%8F%98%E9%87%8F%E4%B8%8E%E5%B1%9E%E6%80%A7/</guid>
+      <description>&lt;h3 id=&#34;习题内容&#34;&gt;习题内容&lt;/h3&gt;
+
+&lt;p&gt;下面代码会? Compile Error / Runtime Crash / NSLog…?&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;@interface Sark : NSObject
+@property (nonatomic, copy) NSString *name;
+@end
+
+@implementation Sark
+
+- (void)speak {
+    NSLog(@&amp;quot;my name is %@&amp;quot;, self.name);
+}
+
+@end
+
+@interface Test : NSObject
+@end
+
+@implementation Test
+
+- (instancetype)init {
+    self = [super init];
+    if (self) {
+        id cls = [Sark class];
+        void *obj = &amp;amp;cls;
+        [(__bridge id)obj speak];
+    }
+    return self;
+}
+
+@end
+
+int main(int argc, const char * argv[]) {
+    @autoreleasepool {
+        [[Test alloc] init];
+    }
+    return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;答案：代码正常输出，输出结果为：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;2014-11-07 14:08:25.698 Test[1097:57255] my name is &amp;lt;Test: 0x1001002d0&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>iOS Runtime 运行时类与对象的编译处理</title>
+      <link>http://ytlvy.com/posts/2015-07-13/2015-07-13-ios-runtime-%E8%BF%90%E8%A1%8C%E6%97%B6%E7%B1%BB%E4%B8%8E%E5%AF%B9%E8%B1%A1%E7%9A%84%E7%BC%96%E8%AF%91%E5%A4%84%E7%90%86/</link>
+      <pubDate>Mon, 13 Jul 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-07-13/2015-07-13-ios-runtime-%E8%BF%90%E8%A1%8C%E6%97%B6%E7%B1%BB%E4%B8%8E%E5%AF%B9%E8%B1%A1%E7%9A%84%E7%BC%96%E8%AF%91%E5%A4%84%E7%90%86/</guid>
+      <description>&lt;h2 id=&#34;ios-runtime运行时类与对象的编译处理&#34;&gt;iOS Runtime运行时类与对象的编译处理&lt;/h2&gt;
+
+&lt;p&gt;Objective-C语言是一门动态语言，它将很多静态语言在编译和链接时期做的事放到了运行时来处理。这种动态语言的优势在于：我们写代码时更具灵活性，如我们可以把消息转发给我们想要的对象，或者随意交换一个方法的实现等。
+这种特性意味着&lt;code&gt;Objective-C&lt;/code&gt;不仅需要一个编译器，还需要一个运行时系统来执行编译的代码。对于Objective-C来说，这个运行时系统就像一个操作系统一样：它让所有的工作可以正常的运行。这个运行时系统即Objc Runtime。Objc Runtime其实是一个Runtime库，它基本上是用C和汇编写的，这个库使得C语言有了面向对象的能力。&lt;/p&gt;
+
+&lt;p&gt;Runtime库主要做下面几件事：
+1. 封装：在这个库中，对象可以用C语言中的结构体表示，而方法可以用C函数来实现，另外再加上了一些额外的特性。这些结构体和函数被runtime函数封装后，我们就可以在程序运行时创建，检查，修改类、对象和它们的方法了。
+2. 找出方法的最终执行代码：当程序执行[object doSomething]时，会向消息接收者(object)发送一条消息(doSomething)，runtime会根据消息接收者是否能响应该消息而做出不同的反应。这将在后面详细介绍。&lt;/p&gt;
+
+&lt;p&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;Objective-C runtime目前有两个版本：Modern runtime和Legacy runtime。Modern Runtime 覆盖了64位的Mac OS X Apps，还有 iOS Apps，Legacy Runtime 是早期用来给32位 Mac OS X Apps 用的，也就是可以不用管就是了。
+在这一系列文章中，我们将介绍runtime的基本工作原理，以及如何利用它让我们的程序变得更加灵活。在本文中，我们先来介绍一下类与对象，这是面向对象的基础，我们看看在Runtime中，类是如何实现的。
+&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>iOS property attribute</title>
+      <link>http://ytlvy.com/posts/2015-07-13/2015-07-13-ios-property-attribute/</link>
+      <pubDate>Mon, 13 Jul 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-07-13/2015-07-13-ios-property-attribute/</guid>
+      <description>&lt;h2 id=&#34;ios-property-ivar-local-variable&#34;&gt;iOS property &amp;amp;&amp;amp; ivar &amp;amp;&amp;amp; local variable&lt;/h2&gt;
+
+&lt;h3 id=&#34;default-attributes&#34;&gt;default attributes&lt;/h3&gt;
+
+&lt;ol&gt;
+&lt;li&gt;property: atomic assign readwrite&lt;/li&gt;
+&lt;li&gt;ivar &amp;amp;&amp;amp; local varibal: strong readwrite non-atomic&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;atomic 在实现中通过加入 lock 的方式来保证多线程安全, 但是这只是很简单的一种线程安全, 只局限于此属性的读写.实际应用场景中, 业务的原子性, 是需要自己来实现的.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h3 id=&#34;when-to-use-copy&#34;&gt;when to use copy&lt;/h3&gt;
+
+&lt;ol&gt;
+&lt;li&gt;NSStrings: 为了防止其他地方修改&lt;/li&gt;
+&lt;li&gt;block: 防止自动释放&lt;/li&gt;
+&lt;li&gt;可变数据类型, 当你想阻止其他拥有者变更数据时.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h3 id=&#34;尽量使用-copy-关键字&#34;&gt;尽量使用 copy 关键字&lt;/h3&gt;
+
+&lt;p&gt;任何实现了&lt;code&gt;NSCopying&lt;/code&gt;协议的类型, 都应该尽量采用&lt;code&gt;copy&lt;/code&gt;. 因为我们定义的属性,在使用时可能是用一个可变的子属性来赋值的, 例如&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;@interface Book : NSObject
+ 
+@property (strong, nonatomic) NSString *title;
+ 
+@end
+
+
+- (void)stringExample {
+ 
+    NSMutableString *bookTitle = [NSMutableString stringWithString:@&amp;quot;Best book ever&amp;quot;];
+ 
+    Book *book = [[Book alloc] init];
+    book.title = bookTitle;
+ 
+    [bookTitle setString:@&amp;quot;Worst book ever&amp;quot;];
+ 
+    NSLog(@&amp;quot;book title %@&amp;quot;, book.title);
+ 
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Autorelease</title>
+      <link>http://ytlvy.com/posts/2015-07-06/2015-07-06-autorelease/</link>
+      <pubDate>Mon, 06 Jul 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-07-06/2015-07-06-autorelease/</guid>
+      <description>&lt;p&gt;##Autorelease
+&lt;img src=&#34;http://blog.sunnyxx.com/tags/objc%E5%88%A8%E6%A0%B9%E9%97%AE%E5%BA%95/page/3/&#34; alt=&#34;转自&#34; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;autorelease对象什么时候释放&#34;&gt;Autorelease对象什么时候释放&lt;/h3&gt;
+
+&lt;p&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;在没有手加Autorelease Pool的情况下，Autorelease对象是在当前的runloop迭代结束时释放的，而它能够释放的原因是系统在每个runloop迭代中都加入了自动释放池Push和Pop&lt;/p&gt;
+
+&lt;p&gt;小实验&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;__weak id reference = nil;
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    NSString *str = [NSString stringWithFormat:@&amp;quot;sunnyxx&amp;quot;];
+    // str是一个autorelease对象，设置一个weak的引用来观察它
+    reference = str;
+}
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    NSLog(@&amp;quot;%@&amp;quot;, reference); // Console: sunnyxx
+}
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    NSLog(@&amp;quot;%@&amp;quot;, reference); // Console: (null)
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;由于这个vc在loadView之后便add到了window层级上，所以viewDidLoad和viewWillAppear是在同一个runloop调用的，因此在viewWillAppear中，这个autorelease的变量依然有值。
+&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Random</title>
+      <link>http://ytlvy.com/posts/2015-07-06/2015-07-06-random/</link>
+      <pubDate>Mon, 06 Jul 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-07-06/2015-07-06-random/</guid>
+      <description>&lt;h2 id=&#34;arc4random&#34;&gt;arc4random()&lt;/h2&gt;
+
+&lt;h3 id=&#34;random-int-between-0-and-n-1&#34;&gt;Random int between 0 and N - 1&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code&gt;NSUInteger r = arc4random_uniform(N);
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;random-int-between-1-and-n&#34;&gt;Random int between 1 and N&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code&gt;NSUInteger r = arc4random_uniform(N) + 1;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;random-double-between-0-and-1&#34;&gt;Random double between 0 and 1&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code&gt;srand48(time(0));
+double r = drand48();
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>progress memory map</title>
+      <link>http://ytlvy.com/posts/2015-07-06/2015-07-06-progress-memory-map/</link>
+      <pubDate>Mon, 06 Jul 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-07-06/2015-07-06-progress-memory-map/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;http://duartes.org/gustavo/blog/post/anatomy-of-a-program-in-memory/&#34;&gt;翻译子&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;程序在内存中分布&#34;&gt;程序在内存中分布&lt;/h2&gt;
+
+&lt;p&gt;内存管理是操作系统的核心. 对系统和编程人员来说这都是非常重要的.下面用 32位 系统举例.首先介绍程序如何在内存中分布.&lt;/p&gt;
+
+&lt;h3 id=&#34;虚拟地址空间&#34;&gt;虚拟地址空间&lt;/h3&gt;
+
+&lt;p&gt;在多任务操作系统中, 每个进程拥有自己独立的内存沙箱. 这个沙箱就是指的&lt;code&gt;虚拟地址空间&lt;/code&gt;(virtual address space), 在32位系统中, 就是一块4GB 大小的内存地址块. 这些虚拟地址和物理内存通过&lt;code&gt;page tables&lt;/code&gt;来完成映射, &lt;code&gt;page tables&lt;/code&gt;是由系统核心管理,进程可以进行访问. 一旦虚拟地址被启用, 会应用到所有的程序中, 包括系统核心. 因此虚拟地址的一部分, 需要被划分出来为系统核心保留使用.
+&lt;img src=&#34;http://static.duartes.org/img/blogPosts/kernelUserMemorySplit.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;这并不意味着核心会固定占用大量的物理内存, 而是说核心需要按照需要动态映射到足够的物理内存即可.核心空间在 &lt;code&gt;page tables&lt;/code&gt;中被标记为被&lt;code&gt;特权码(privilege code)&lt;/code&gt;独占, 因此如果用户程序尝试访问此空间, &lt;code&gt;页面错误&lt;/code&gt;会被出发并抛出. 在 linux 系统中, 核心空间是常驻内存的, 并且所有程序的核心空间是共享的, 总是映射到同一块物理内存. 核心代码和数据,总是可访问, 并随时准备处理&lt;code&gt;interrupts&lt;/code&gt; 或者 系统调用. 相对的用户程序空间块是每个程序独享的, 并在程序切换时, 而随之切换.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://static.duartes.org/img/blogPosts/virtualMemoryInProcessSwitch.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;上图中蓝色区域标示, 虚拟地址已经完成映射到实际地址, 白色区域代表还没有完成映射.上例中, 以内存消耗多著名的火狐使用了更多的虚拟地址. 在内存地址中不同的区块代表了不同的内存段: heap, stack, 等等.请注意这些内存段只是简单的内存地址范围, 与&lt;code&gt;Intel-style segments&lt;/code&gt;无关. 下面是linux 系统中标准段分布图:&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>what happen before main</title>
+      <link>http://ytlvy.com/posts/2015-07-06/2015-07-06-what-happen-before-main/</link>
+      <pubDate>Mon, 06 Jul 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-07-06/2015-07-06-what-happen-before-main/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;http://blog.sunnyxx.com/2014/08/30/objc-pre-main/&#34;&gt;转自&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;ios程序main函数之前发生了什么&#34;&gt;iOS程序main函数之前发生了什么&lt;/h2&gt;
+
+&lt;h3 id=&#34;前言&#34;&gt;前言&lt;/h3&gt;
+
+&lt;p&gt;一个iOS app的&lt;code&gt;main()&lt;/code&gt;函数位于&lt;code&gt;main.m&lt;/code&gt;中，这是我们熟知的程序入口。但对objc了解更多之后发现，程序在进入我们的main函数前已经执行了很多代码，比如熟知的&lt;code&gt;+ load&lt;/code&gt;方法等。本文将跟随程序执行顺序，刨根问底，从&lt;code&gt;dyld&lt;/code&gt;到&lt;code&gt;runtime&lt;/code&gt;，看看main函数之前都发生了什么。&lt;/p&gt;
+
+&lt;h3 id=&#34;从dyld开始&#34;&gt;从dyld开始&lt;/h3&gt;
+
+&lt;h4 id=&#34;动态链接库&#34;&gt;动态链接库&lt;/h4&gt;
+
+&lt;p&gt;iOS中用到的所有系统&lt;code&gt;framework&lt;/code&gt;都是动态链接的，类比成插头和插排，静态链接的代码在编译后的静态链接过程就将插头和插排一个个插好，运行时直接执行二进制文件；而动态链接需要在程序启动时去完成“插插销”的过程，所以在我们写的代码执行前，动态连接器需要完成准备工作。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>IOS 进阶工具篇</title>
+      <link>http://ytlvy.com/posts/2015-07-04/2015-07-04-ios-%E8%BF%9B%E9%98%B6%E5%B7%A5%E5%85%B7%E7%AF%87/</link>
+      <pubDate>Sat, 04 Jul 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-07-04/2015-07-04-ios-%E8%BF%9B%E9%98%B6%E5%B7%A5%E5%85%B7%E7%AF%87/</guid>
+      <description>&lt;pre&gt;&lt;code&gt;第一部分：iOS 开发工具
+第2章使用CocoaPods 做依赖管理
+2.1 CocoaPods 简介
+2.2 CocoaPods 的安装和使用
+2.2.1 CocoaPods 的安装
+2.2.2 使用CocoaPods 的镜像索引
+2.2.3 使用CocoaPods
+2.2.4 查找第三方库
+2.3 注意事项
+2.3.1 关于.gitignore
+2.3.2 为自己的项目创建podspec 文件
+2.3.3 使用私有的pods
+2.3.4 不更新podspec
+2.3.5 生成第三方库的帮助文档
+2.3.6 原理
+第3章网络封包分析工具Charles
+3.1 Charles 简介
+3.2 Charles 的安装和使用
+3.2.1 安装Charles
+3.2.2 安装SSL 证书
+3.2.3 将Charles 设置成系统代理
+3.2.4 Charles 主界面介绍
+3.2.5 过滤网络请求
+3.3 使用Charles 协助iOS 开发
+3.3.1 截取iPhone 上的网络封包
+3.3.2 模拟慢速网络
+3.4 高级功能
+3.4.1 截取SSL 信息
+3.4.2 修改网络请求内容
+3.4.3 修改服务器返回内容
+3.5 Map 功能
+3.6 Rewrite 功能
+3.7 Breakpoints 功能
+3.8 总结
+3.9 参考链接
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Stack And Heap OverFlow</title>
+      <link>http://ytlvy.com/posts/2015-07-03/2015-07-03-stack-and-heap-overflow/</link>
+      <pubDate>Fri, 03 Jul 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-07-03/2015-07-03-stack-and-heap-overflow/</guid>
+      <description>&lt;p&gt;翻译自&lt;a href=&#34;https://developer.apple.com/library/mac/documentation/Security/Conceptual/SecureCodingGuide/Articles/BufferOverflows.html&#34;&gt;https://developer.apple.com/library/mac/documentation/Security/Conceptual/SecureCodingGuide/Articles/BufferOverflows.html&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;栈溢出&#34;&gt;栈溢出&lt;/h2&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;在大部分操作系统中, 每个程序拥有一个&lt;strong&gt;&lt;em&gt;栈&lt;/em&gt;&lt;/strong&gt;(多线程程序,每个线程拥有一个单独的栈), 栈用于局部变量的存储.
+栈被划分为单元, 此单元被成为帧(frame), 每个帧包含了某个函数的某一调用的全部数据.这些数据包含: 函数参数, 全部的临时变量,和 linkage 信息(就是调用函数的地址. 以便当前代码执行完毕后, 返回原位置继续执行). 通过配置编译参数,也可以包含下一帧的顶部地址.数据的布局以及排序,由操作系统决定,不同系统略有差异.
+当函数被调用的时候, 一个新的栈帧被添加到栈的顶部. 当函数返回时,顶部的栈帧被移除.在执行过程中, 程序只能直接访问栈顶帧得数据(指针除外, 但是不建议如此设计).这种设计,方便了递归调用的实现, 因为每个子递归调用拥有独立的临时变量和参数备份.
+下图介绍了栈的组织结构.(这只是示意图, 实际情况要根据 cpu设计来决定)&lt;/p&gt;
+&lt;/blockquote&gt;</description>
+    </item>
+    
+    <item>
+      <title>CFRunLoop examples</title>
+      <link>http://ytlvy.com/posts/2015-06-30/2015-06-30-cfrunloop-examples/</link>
+      <pubDate>Tue, 30 Jun 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-06-30/2015-06-30-cfrunloop-examples/</guid>
+      <description>&lt;h3 id=&#34;第一个&#34;&gt;第一个&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code&gt;#include &amp;lt;CoreFoundation/CoreFoundation.h&amp;gt;  
+  
+static void  
+_perform(void *info __unused)  
+{  
+    printf(&amp;quot;hello\n&amp;quot;);  
+}  
+  
+static void  
+_timer(CFRunLoopTimerRef timer __unused, void *info)  
+{  
+    CFRunLoopSourceSignal(info);  
+}  
+  
+int  
+main()  
+{  
+    CFRunLoopSourceRef source;  
+    CFRunLoopSourceContext source_context;  
+    CFRunLoopTimerRef timer;  
+    CFRunLoopTimerContext timer_context;  
+  
+    bzero(&amp;amp;source_context, sizeof(source_context));  
+    source_context.perform = _perform;  
+    source = CFRunLoopSourceCreate(NULL, 0, &amp;amp;source_context);  
+    CFRunLoopAddSource(CFRunLoopGetCurrent(), source, kCFRunLoopCommonModes);  
+  
+    bzero(&amp;amp;timer_context, sizeof(timer_context));  
+    timer_context.info = source;  
+    timer = CFRunLoopTimerCreate(NULL, CFAbsoluteTimeGetCurrent(), 1, 0, 0, 
+    _timer, &amp;amp;timer_context);  
+    CFRunLoopAddTimer(CFRunLoopGetCurrent(), timer, kCFRunLoopCommonModes);  
+  
+    CFRunLoopRun();  
+  
+    return 0;  
+}  
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Cancel a NSBlockOperation</title>
+      <link>http://ytlvy.com/posts/2015-06-30/2015-06-30-cancel-a-nsblockoperation/</link>
+      <pubDate>Tue, 30 Jun 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-06-30/2015-06-30-cancel-a-nsblockoperation/</guid>
+      <description> make NSBlockOperation cancelable NSBlockOperation *operation = [[NSBlockOperation alloc] init]; __weak NSBlockOperation *weakOperation = operation; [operation addExecutionBlock:^{ while( ! [weakOperation isCancelled]){ //do something... } }];  </description>
+    </item>
+    
+    <item>
+      <title>Dispatch Sources</title>
+      <link>http://ytlvy.com/posts/2015-06-30/2015-06-30-dispatch-sources/</link>
+      <pubDate>Tue, 30 Jun 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-06-30/2015-06-30-dispatch-sources/</guid>
+      <description>&lt;h2 id=&#34;dispatch-sources&#34;&gt;Dispatch Sources&lt;/h2&gt;
+
+&lt;p&gt;简单来说，是一种能够监控某种事件的对象。当事件发生的时候，此对象自动唤醒设置好的block，并在指定的queue中运行。&lt;/p&gt;
+
+&lt;h3 id=&#34;events-type&#34;&gt;events Type&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Mach port send right state changes.&lt;/li&gt;
+&lt;li&gt;Mach port receive right state changes.&lt;/li&gt;
+&lt;li&gt;External process state change.&lt;/li&gt;
+&lt;li&gt;File descriptor ready for read.&lt;/li&gt;
+&lt;li&gt;File descriptor ready for write.&lt;/li&gt;
+&lt;li&gt;Filesystem node event.&lt;/li&gt;
+&lt;li&gt;POSIX signal.&lt;/li&gt;
+&lt;li&gt;Custom timer.&lt;/li&gt;
+&lt;li&gt;Custom event.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;custom-events&#34;&gt;Custom Events&lt;/h3&gt;
+
+&lt;p&gt;通过&lt;code&gt;dispatch_source_merge_data&lt;/code&gt;来发送消息，此方法取名&lt;code&gt;merge&lt;/code&gt;的原因是，在事件回调执行前，GCD会自动合并累计的消息，直到对应的运行Queue有空闲，可以运行回调Block。所以，这是一种提高效率的方式，将多次消息合并成一个。
+自定义事件分为：&lt;code&gt;DISPATCH_SOURCE_TYPE_DATA_ADD&lt;/code&gt; 和 &lt;code&gt;DISPATCH_SOURCE_TYPE_DATA_OR&lt;/code&gt;, 每个event Source有一个&lt;code&gt;unsigned long data&lt;/code&gt;属性，用来合并&lt;code&gt;dispatch_source_merge_data&lt;/code&gt;的参数。&lt;code&gt;dispatch_source_get_data&lt;/code&gt;可以获取到当前的&lt;code&gt;data&lt;/code&gt;数据。&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>DispatchOnce</title>
+      <link>http://ytlvy.com/posts/2015-06-30/2015-06-30-dispatchonce/</link>
+      <pubDate>Tue, 30 Jun 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-06-30/2015-06-30-dispatchonce/</guid>
+      <description>&lt;p&gt;&lt;img src=&#34;http://ytlvy.com/images/DispatchOnce.jpg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;dispatch-once&#34;&gt;Dispatch_Once&lt;/h2&gt;
+
+&lt;p&gt;四种场景如上图
+1. 第一次执行，&lt;code&gt;block调用&lt;/code&gt;，调用结束后需要置标记变量
+2. 非第一次执行，而此时#1&lt;code&gt;block调用&lt;/code&gt;尚未完成(预执行拿到的 obj 为 nil, 此时需要废弃此次预执行)，线程需进入等待#1状态
+3. 非第一次执行，而此时#1&lt;code&gt;block调用&lt;/code&gt;已经完成(预执行拿到的 obj 已经初始化完毕)此时线程的预执行是正确的, 之后可能继续执行,也可能由于时间问题,废弃此次预执行进入等待
+4. 非第一次执行，而此时#1已经完成，线程预执行后, 直接跳过block而进行后续任务&lt;/p&gt;
+
+&lt;p&gt;Dispatch_Once 保证了当第一个线程在进行alloc 对象时，有其他线程发起, 会废弃此线程的预执行，进入等待。在第一个线程结束时，将正在等待的线程唤醒。而实现这一机制的方法是在生成对象和变更identifier之间加入一个大于预执行时间的等待来实现的。&lt;/p&gt;
+
+&lt;h3 id=&#34;dispatch-once实现用到的技术&#34;&gt;Dispatch_Once实现用到的技术&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;原子操作 &amp;ldquo;原子比较交换函数&amp;rdquo; __sync_bool_compare_and_swap&lt;/li&gt;
+&lt;li&gt;cpuid指令 实现大于预执行时间的延迟等待&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;dispatch_thread_semaphore 来实现线程之间的等待和唤醒
+&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Dispatch_semaphore</title>
+      <link>http://ytlvy.com/posts/2015-06-30/2015-06-30-dispatch-semaphore/</link>
+      <pubDate>Tue, 30 Jun 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-06-30/2015-06-30-dispatch-semaphore/</guid>
+      <description>&lt;p&gt;&lt;img src=&#34;http://ytlvy.com/images/DispatchSemaphore.jpg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;dispatch-semaphore&#34;&gt;Dispatch_semaphore&lt;/h2&gt;
+
+&lt;p&gt;&lt;code&gt;semaphore&lt;/code&gt; 通过&lt;code&gt;dispatch_semaphore_create&lt;/code&gt;创建一个信号量来实现多线程并发数控制, 此信号量为最高可进行的并发数. 通过&lt;code&gt;dispatch_semaphore_wait&lt;/code&gt;来消耗一个信号量,并进入其后的执行逻辑, 在逻辑执行完毕后,通过&lt;code&gt;dispatch_semaphore_signal&lt;/code&gt;来释放一个信号量, 并唤醒正在等待的线程. 如果&lt;code&gt;dispatch_semaphore_wait&lt;/code&gt;操作时,信号量为0则进入等待状态.&lt;/p&gt;
+
+&lt;h3 id=&#34;functions&#34;&gt;functions&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;dispatch_semaphore_create&lt;/li&gt;
+&lt;li&gt;dispatch_semaphore_wait (减少一个信号量)&lt;/li&gt;
+&lt;li&gt;dispatch_semaphore_signal (增加一个信号量)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;实例&#34;&gt;实例&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code&gt;- (void)test4{
+    int data = 3;
+    __block int mainData = 0;
+    __block int sum = 0;
+    __block dispatch_semaphore_t sem = dispatch_semaphore_create(2);
+    dispatch_queue_t ioQueue = dispatch_queue_create(&amp;quot;com.dreamingwish.imagegcd.io&amp;quot;, DISPATCH_QUEUE_SERIAL);
+    
+    dispatch_queue_t queue = dispatch_queue_create(&amp;quot;StudyBlocks&amp;quot;, DISPATCH_QUEUE_CONCURRENT);
+    dispatch_group_t group = dispatch_group_create();
+    
+    for (int i =0 ; i&amp;lt;100; i++) {
+        @autoreleasepool {
+            dispatch_semaphore_wait(sem, DISPATCH_TIME_FOREVER);  // -1 非零即通过
+            dispatch_group_async(group, ioQueue, ^{
+//                dispatch_semaphore_wait(sem, DISPATCH_TIME_FOREVER);
+                dispatch_group_async(group, queue, ^{
+                    sum += data;
+                    
+                    __block int nsum = sum;
+                    dispatch_group_async(group, ioQueue, ^{
+                        NSLog(@&amp;quot; &amp;gt;&amp;gt; Sum: %d&amp;quot;, nsum);
+                        
+                        dispatch_semaphore_signal(sem);  // +1
+                    });
+                    
+                });
+            });
+        }
+    }
+    dispatch_group_wait(group, DISPATCH_TIME_FOREVER);
+//    dispatch_semaphore_wait(sem, DISPATCH_TIME_FOREVER);
+    for (int j =0; j&amp;lt;5; j++) {
+        mainData++;
+        NSLog(@&amp;quot; &amp;gt;&amp;gt; MainData: %d&amp;quot;, mainData);
+    }
+//    dispatch_semaphore_signal(sem);
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>OSSpinLock</title>
+      <link>http://ytlvy.com/posts/2015-06-30/2015-06-30-osspinlock/</link>
+      <pubDate>Tue, 30 Jun 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-06-30/2015-06-30-osspinlock/</guid>
+      <description>&lt;h2 id=&#34;osspinlock&#34;&gt;OSSpinLock&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code&gt;#import &amp;lt;Foundation/Foundation.h&amp;gt;
+#import &amp;lt;objc/runtime.h&amp;gt;
+#import &amp;lt;objc/message.h&amp;gt;
+#import &amp;lt;libkern/OSAtomic.h&amp;gt;
+#import &amp;lt;pthread.h&amp;gt;
+
+#define ITERATIONS (1024*1024*32)
+
+static unsigned long long disp=0, land=0;
+
+int main(){
+    double then, now;
+    unsigned int i, count;
+    pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
+    OSSpinLock spinlock = OS_SPINLOCK_INIT;
+
+    NSAutoreleasePool *pool = [NSAutoreleasePool new];
+
+    NSLock *lock = [NSLock new];
+    then = CFAbsoluteTimeGetCurrent();
+    for(i=0; i&amp;lt;ITERATIONS; ++i)
+    {
+        [lock lock];
+        [lock unlock];
+    }
+    now = CFAbsoluteTimeGetCurrent();
+    printf(&amp;quot;NSLock: %f sec\n&amp;quot;, now-then);    
+
+    then = CFAbsoluteTimeGetCurrent();
+    IMP lockLock = [lock methodForSelector:@selector(lock)];
+    IMP unlockLock = [lock methodForSelector:@selector(unlock)];
+    
+    for(i=0; i&amp;lt;ITERATIONS; ++i) {
+        lockLock(lock,@selector(lock));
+        unlockLock(lock,@selector(unlock));
+    }
+    now = CFAbsoluteTimeGetCurrent();
+    printf(&amp;quot;NSLock+IMP Cache: %f sec\n&amp;quot;, now-then);    
+
+    then = CFAbsoluteTimeGetCurrent();
+    for(i=0;i&amp;lt;ITERATIONS;++i) {
+        pthread_mutex_lock(&amp;amp;mutex);
+        pthread_mutex_unlock(&amp;amp;mutex);
+    }
+    now = CFAbsoluteTimeGetCurrent();
+    printf(&amp;quot;pthread_mutex: %f sec\n&amp;quot;, now-then);
+
+    then = CFAbsoluteTimeGetCurrent();
+    for(i=0; i&amp;lt;ITERATIONS; ++i) {
+        OSSpinLockLock(&amp;amp;spinlock);
+        OSSpinLockUnlock(&amp;amp;spinlock);
+    }
+    now = CFAbsoluteTimeGetCurrent();
+    printf(&amp;quot;OSSpinlock: %f sec\n&amp;quot;, now-then);
+
+    id obj = [NSObject new];
+
+    then = CFAbsoluteTimeGetCurrent();
+    for(i=0; i&amp;lt;ITERATIONS; ++i){
+        @synchronized(obj) { }
+    }
+    now = CFAbsoluteTimeGetCurrent();
+    printf(&amp;quot;@synchronized: %f sec\n&amp;quot;, now-then);
+
+    [pool release];
+    return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>UITableView Cancel Request</title>
+      <link>http://ytlvy.com/posts/2015-06-30/2015-06-30-uitableview-cancel-request/</link>
+      <pubDate>Tue, 30 Jun 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-06-30/2015-06-30-uitableview-cancel-request/</guid>
+      <description>&lt;h3 id=&#34;仅加载可见cell的图片&#34;&gt;仅加载可见Cell的图片&lt;/h3&gt;
+
+&lt;p&gt;load images for just the visible rows in viewDidLoad and when the user stops scrolling&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;-(void)viewDidLoad{
+    for (NSIndexPath *indexPath in [self.tableView indexPathsForVisibleRows]) {
+        [self loadImageForCellAtPath:indexPath];
+    }
+}
+
+-(void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
+    for (NSIndexPath *indexPath in [self.tableView indexPathsForVisibleRows]) {
+        [self loadImageForCellAtPath:indexPath];
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Xcode Notes</title>
+      <link>http://ytlvy.com/posts/2015-06-22/2015-06-22-xcode-notes/</link>
+      <pubDate>Mon, 22 Jun 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-06-22/2015-06-22-xcode-notes/</guid>
+      <description>&lt;h3 id=&#34;快捷键&#34;&gt;快捷键&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code&gt;⌘（command）、⌥（option）、⇧（shift）、⇪（caps lock）、
+⌃（control）、↩（return）、⌅（enter）
+
+^ + 1                 corresponding Nib/Storyboard file
+^ + 2                 show the previous history
+^ + 6                 methods list
+
+^ + ⌘ + left         go back
+⌘ + Shift + O        jump to a particular filename method
+⌘ + L                go to line
+⌘ + Y                toggle all breakpoints
+⌘ + 0                toggle left panel
+⌘ + 1                show Project Nacigator
+
+^ + P                 移动光标到上一行
+^ + N                 移动光标到下一行
+^ + A                 移动光标到本行行首
+^ + E                 移动光标到本行行尾
+^ + D                 删除光标右边的字符
+^ + K                 删除空行/光标到行尾
+^ + L                 将插入点置于窗口正中
+
+⌘ + ⌥ + d           显示／隐藏 dock
+
+Fn + Delete           删除光标后的一个字符
+⌘ + Delete           删除光标至行首的内容
+
+⌘ + ⇧ + ;           调出拼写检查对话框。
+⌘ + ⌥ + =           xib update frame
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Valar Morghulis Valar Dohaeris</title>
+      <link>http://ytlvy.com/posts/2015-06-16/2015-06-16-valar-morghulis-valar-dohaeris/</link>
+      <pubDate>Tue, 16 Jun 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-06-16/2015-06-16-valar-morghulis-valar-dohaeris/</guid>
+      <description>&lt;p&gt;&lt;img src=&#34;http://ww4.sinaimg.cn/mw1024/8edf7b7agw1et5ppc4i12g20dw0697uc.gif&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Valar Morghulis = 凡人皆有一死
+Valar Dohaeris = 凡人皆须侍奉
+这两句是需要放在一起理解的&lt;/p&gt;
+
+&lt;p&gt;看字面意思，凡人皆有一死，似乎表明的是死亡的不可避免。满含悲观的情绪。这和史塔克的家族箴言一样，凛冬将至。对于命运我们无能为力。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>ios MRC &amp;&amp; ARC</title>
+      <link>http://ytlvy.com/posts/2015-06-16/2015-06-16-ios-mrc-arc/</link>
+      <pubDate>Tue, 16 Jun 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-06-16/2015-06-16-ios-mrc-arc/</guid>
+      <description>&lt;h2 id=&#34;arc&#34;&gt;ARC&lt;/h2&gt;
+
+&lt;h3 id=&#34;mrc&#34;&gt;MRC&lt;/h3&gt;
+
+&lt;h4 id=&#34;mrc内存管理原则&#34;&gt;MRC内存管理原则&lt;/h4&gt;
+
+&lt;p&gt;􏰀1. You have ownership of any objects you create.
+2.􏰀 You can take ownership of an object using retain.
+􏰀3. When no longer needed, you must relinquish ownership of an object you own.
+􏰀4. You must not relinquish ownership of an object you don’t own.&lt;/p&gt;
+
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Action for Objective-C Object&lt;/th&gt;
+&lt;th&gt;Objective-C Method&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;Create and have ownership of it&lt;/td&gt;
+&lt;td&gt;alloc/new/copy/mutableCopy group&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;Take ownership of it&lt;/td&gt;
+&lt;td&gt;retian&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;Relinquish it&lt;/td&gt;
+&lt;td&gt;release&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;Dispose of it&lt;/td&gt;
+&lt;td&gt;dealloc&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;h4 id=&#34;调用者持有&#34;&gt;调用者持有&lt;/h4&gt;
+
+&lt;p&gt;Relinquishing Ownership of a Retained Object. 下面的例子将函数将自己持有的obj, 通过return传递给了调用者,由调用者来来持有此变量&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;- (id)allocObject
+{
+  /*
+  - You create an object and have ownership. */
+  id obj = [[NSObject alloc] init];
+  /*
+  - At this moment, this method has ownership of the object. */
+  return obj; 
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>ios block</title>
+      <link>http://ytlvy.com/posts/2015-06-15/2015-06-15-ios-block/</link>
+      <pubDate>Mon, 15 Jun 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-06-15/2015-06-15-ios-block/</guid>
+      <description>&lt;h2 id=&#34;block&#34;&gt;Block&lt;/h2&gt;
+
+&lt;p&gt;Converting Source Code&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;clang -rewrite-objc file_name_of_the_source_code
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;无变量&#34;&gt;无变量&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code&gt;//
+struct __block_impl {
+  void *isa;
+  int Flags;
+  int Reserved;
+  void *FuncPtr;
+};
+
+struct __main_block_impl_0 {
+  struct __block_impl impl;
+  struct __main_block_desc_0* Desc;
+  __main_block_impl_0(void *fp, struct __main_block_desc_0 *desc, int flags=0) {
+    impl.isa = &amp;amp;_NSConcreteStackBlock;
+    impl.Flags = flags;
+    impl.FuncPtr = fp;
+    Desc = desc;
+  }
+};
+static void __main_block_func_0(struct __main_block_impl_0 *__cself) {
+
+    printf(&amp;quot;Block\n&amp;quot;);
+  }
+
+static struct __main_block_desc_0 {
+  size_t reserved;
+  size_t Block_size;
+} __main_block_desc_0_DATA = { 0, sizeof(struct __main_block_impl_0)};
+
+int main(){
+  void (*blk)(void) = (void (*)())&amp;amp;__main_block_impl_0((void *)__main_block_func_0, &amp;amp;__main_block_desc_0_DATA);
+
+  ((void (*)(__block_impl *))((__block_impl *)blk)-&amp;gt;FuncPtr)((__block_impl *)blk);
+  return 0;
+
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>ios gcd</title>
+      <link>http://ytlvy.com/posts/2015-06-15/2015-06-15-ios-gcd/</link>
+      <pubDate>Mon, 15 Jun 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-06-15/2015-06-15-ios-gcd/</guid>
+      <description>&lt;h2 id=&#34;gcd&#34;&gt;GCD&lt;/h2&gt;
+
+&lt;h3 id=&#34;befor-gcd&#34;&gt;befor GCD&lt;/h3&gt;
+
+&lt;h4 id=&#34;object-method&#34;&gt;object method&lt;/h4&gt;
+
+&lt;pre&gt;&lt;code&gt;- (void) performSelectorInBackground: withObject:
+- (void) performSelectorOnMainThread: withObject: waitUntilDone:
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;多线程面临的问题&#34;&gt;多线程面临的问题&lt;/h3&gt;
+
+&lt;ol&gt;
+&lt;li&gt;race condition&lt;/li&gt;
+&lt;li&gt;dead lock&lt;/li&gt;
+&lt;li&gt;too much threads consumes two much memory&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h4 id=&#34;多线程的意义&#34;&gt;多线程的意义&lt;/h4&gt;
+
+&lt;p&gt;高交互性， 界面编程中，将耗时的操作放入到其他线程执行，避免影响到主线程界面响应&lt;/p&gt;
+
+&lt;h3 id=&#34;gcd-基础&#34;&gt;GCD 基础&lt;/h3&gt;
+
+&lt;h4 id=&#34;dispatch-queue-派发队列&#34;&gt;Dispatch Queue 派发队列&lt;/h4&gt;
+
+&lt;ol&gt;
+&lt;li&gt;serial dispath queue  顺序派发队列&lt;/li&gt;
+&lt;li&gt;concurrent dispath queue  并发派发队列&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;和浏览器对同一域名可发起的同时连接数限制一样，可最多同时执行的线程数，也是由系统来决定的
+&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>wget</title>
+      <link>http://ytlvy.com/posts/2015-06-11/2015-06-11-wget/</link>
+      <pubDate>Thu, 11 Jun 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-06-11/2015-06-11-wget/</guid>
+      <description>&lt;h2 id=&#34;wget&#34;&gt;wget&lt;/h2&gt;
+
+&lt;h3 id=&#34;用wget做站点镜像&#34;&gt;用wget做站点镜像&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code&gt;wget --mirror -p --convert-links -P [本地目录] [网站地址]
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code&gt;wget -r -np -nd http://appinn.com
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code&gt;wget -r -p -np -k http://dsec.pku.edu.cn/~usr_name/
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code&gt;wget -m http://www.tldp.org/LDP/abs/html/
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>AutoLayout -- Content Compression Resistance &amp; Content Hugging</title>
+      <link>http://ytlvy.com/posts/2015-06-08/2015-06-08-autolayout-content-compression-resistance-content-hugging/</link>
+      <pubDate>Mon, 08 Jun 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-06-08/2015-06-08-autolayout-content-compression-resistance-content-hugging/</guid>
+      <description>&lt;h2 id=&#34;content-compression-resistance-content-hugging&#34;&gt;Content Compression Resistance &amp;amp;&amp;amp; Content Hugging&lt;/h2&gt;
+
+&lt;p&gt;Auto Layout中, 存在Content Compression Resistance 和 Content Hugging 这两个概念.这两个概念是在&lt;code&gt;固有内容尺寸&lt;/code&gt;（Intrinsic Content Size）之上起作用的.&lt;/p&gt;
+
+&lt;h3 id=&#34;intrinsic-content-size&#34;&gt;Intrinsic Content Size&lt;/h3&gt;
+
+&lt;p&gt;包含内容的UI控件, 由内容多少而决定的大小规则.&lt;/p&gt;
+
+&lt;h3 id=&#34;content-compression-resistance-content-hugging-1&#34;&gt;Content Compression Resistance &amp;amp; Content Hugging&lt;/h3&gt;
+
+&lt;ol&gt;
+&lt;li&gt;内容大小改变是指, 内容显示内容所占空间的长度来说的.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;内容抗压指数&lt;/code&gt;，在父视图变小时, 会根据抗压指数来缩小各子控件;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;内容拥抱指数&lt;/code&gt;, 内容越集中于控件中心, 周围空白越小.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>objc runtime method Cache</title>
+      <link>http://ytlvy.com/posts/2015-06-08/2015-06-08-objc-runtime-method-cache/</link>
+      <pubDate>Mon, 08 Jun 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-06-08/2015-06-08-objc-runtime-method-cache/</guid>
+      <description> method cache 更新机制 为了方便函数的查找, objc在运行时,引入了method cache机制,来快速定位函数.method cache的大小是动态更新的,在更新时, 将直接生成新容量的缓存, 并将旧的缓存放入到垃圾队列中,等待时机释放. 而时机的选择, 采用检测每个线程的program counter,来查看是否处于objc_msgSend.如果都不在,则释放.
+BOOL ThreadsInMsgSend(void) { for(thread in GetAllThreads()) { uintptr_t pc = thread.GetPC(); if(pc &amp;gt;= objc_msgSend_startAddress &amp;amp;&amp;amp; pc &amp;lt;= objc_msgSend_endAddress) { return YES; } } return NO; } bucket_t *oldCache = class-&amp;gt;cache; class-&amp;gt;cache = malloc(newSize); append(gOldCachesList, oldCache); if(!ThreadsInMsgSend()) { for(cache in gOldCachesList) { free(cache); } gOldCachesList.clear(); }  </description>
+    </item>
+    
+    <item>
+      <title>IOS Multithreading &amp;&amp; Memory Management</title>
+      <link>http://ytlvy.com/posts/2015-06-07/2015-06-07-ios-multithreading-memory-management/</link>
+      <pubDate>Sun, 07 Jun 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-06-07/2015-06-07-ios-multithreading-memory-management/</guid>
+      <description>&lt;h2 id=&#34;block&#34;&gt;Block&lt;/h2&gt;
+
+&lt;p&gt;Converting Source Code&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;clang -rewrite-objc file_name_of_the_source_code
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;无变量&#34;&gt;无变量&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code&gt;//
+struct __block_impl {
+  void *isa;
+  int Flags;
+  int Reserved;
+  void *FuncPtr;
+};
+
+struct __main_block_impl_0 {
+  struct __block_impl impl;
+  struct __main_block_desc_0* Desc;
+  __main_block_impl_0(void *fp, struct __main_block_desc_0 *desc, int flags=0) {
+    impl.isa = &amp;amp;_NSConcreteStackBlock;
+    impl.Flags = flags;
+    impl.FuncPtr = fp;
+    Desc = desc;
+  }
+};
+static void __main_block_func_0(struct __main_block_impl_0 *__cself) {
+
+    printf(&amp;quot;Block\n&amp;quot;);
+  }
+
+static struct __main_block_desc_0 {
+  size_t reserved;
+  size_t Block_size;
+} __main_block_desc_0_DATA = { 0, sizeof(struct __main_block_impl_0)};
+
+int main(){
+  void (*blk)(void) = (void (*)())&amp;amp;__main_block_impl_0((void *)__main_block_func_0, &amp;amp;__main_block_desc_0_DATA);
+
+  ((void (*)(__block_impl *))((__block_impl *)blk)-&amp;gt;FuncPtr)((__block_impl *)blk);
+  return 0;
+
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>冰之魔女</title>
+      <link>http://ytlvy.com/posts/2015-06-07/2015-06-07-ice-girl/</link>
+      <pubDate>Sun, 07 Jun 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-06-07/2015-06-07-ice-girl/</guid>
+      <description> 冰之魔女 </description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Data on My New Hugo Site</title>
+    <link>http://ytlvy.com/tags/data/</link>
+    <description>Recent content in Data on My New Hugo Site</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Mon, 06 Jul 2015 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="http://ytlvy.com/tags/data/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>progress memory map</title>
+      <link>http://ytlvy.com/posts/2015-07-06/2015-07-06-progress-memory-map/</link>
+      <pubDate>Mon, 06 Jul 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-07-06/2015-07-06-progress-memory-map/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;http://duartes.org/gustavo/blog/post/anatomy-of-a-program-in-memory/&#34;&gt;翻译子&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;程序在内存中分布&#34;&gt;程序在内存中分布&lt;/h2&gt;
+
+&lt;p&gt;内存管理是操作系统的核心. 对系统和编程人员来说这都是非常重要的.下面用 32位 系统举例.首先介绍程序如何在内存中分布.&lt;/p&gt;
+
+&lt;h3 id=&#34;虚拟地址空间&#34;&gt;虚拟地址空间&lt;/h3&gt;
+
+&lt;p&gt;在多任务操作系统中, 每个进程拥有自己独立的内存沙箱. 这个沙箱就是指的&lt;code&gt;虚拟地址空间&lt;/code&gt;(virtual address space), 在32位系统中, 就是一块4GB 大小的内存地址块. 这些虚拟地址和物理内存通过&lt;code&gt;page tables&lt;/code&gt;来完成映射, &lt;code&gt;page tables&lt;/code&gt;是由系统核心管理,进程可以进行访问. 一旦虚拟地址被启用, 会应用到所有的程序中, 包括系统核心. 因此虚拟地址的一部分, 需要被划分出来为系统核心保留使用.
+&lt;img src=&#34;http://static.duartes.org/img/blogPosts/kernelUserMemorySplit.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;这并不意味着核心会固定占用大量的物理内存, 而是说核心需要按照需要动态映射到足够的物理内存即可.核心空间在 &lt;code&gt;page tables&lt;/code&gt;中被标记为被&lt;code&gt;特权码(privilege code)&lt;/code&gt;独占, 因此如果用户程序尝试访问此空间, &lt;code&gt;页面错误&lt;/code&gt;会被出发并抛出. 在 linux 系统中, 核心空间是常驻内存的, 并且所有程序的核心空间是共享的, 总是映射到同一块物理内存. 核心代码和数据,总是可访问, 并随时准备处理&lt;code&gt;interrupts&lt;/code&gt; 或者 系统调用. 相对的用户程序空间块是每个程序独享的, 并在程序切换时, 而随之切换.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://static.duartes.org/img/blogPosts/virtualMemoryInProcessSwitch.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;上图中蓝色区域标示, 虚拟地址已经完成映射到实际地址, 白色区域代表还没有完成映射.上例中, 以内存消耗多著名的火狐使用了更多的虚拟地址. 在内存地址中不同的区块代表了不同的内存段: heap, stack, 等等.请注意这些内存段只是简单的内存地址范围, 与&lt;code&gt;Intel-style segments&lt;/code&gt;无关. 下面是linux 系统中标准段分布图:&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

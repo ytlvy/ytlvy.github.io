@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Core Image on My New Hugo Site</title>
+    <link>http://ytlvy.com/tags/core-image/</link>
+    <description>Recent content in Core Image on My New Hugo Site</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sat, 08 Aug 2015 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="http://ytlvy.com/tags/core-image/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>swift Core Image Tutorial</title>
+      <link>http://ytlvy.com/posts/2015-08-08/2015-08-08-swift-core-image-tutorial/</link>
+      <pubDate>Sat, 08 Aug 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-08-08/2015-08-08-swift-core-image-tutorial/</guid>
+      <description>&lt;h2 id=&#34;core-image入门教程-swift&#34;&gt;Core Image入门教程(swift)&lt;/h2&gt;
+
+&lt;blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;原文链接 : &lt;a href=&#34;http://www.raywenderlich.com/76285/beginning-core-image-swift&#34;&gt;Core Image Tutorial: Getting Started&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;原文作者 : &lt;a href=&#34;http://www.raywenderlich.com/u/nicklockwood&#34;&gt;Nick Lockwood&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;译文出自 :&lt;a href=&#34;http://www.devtf.cn&#34;&gt;开发技术前线 www.devtf.cn&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;译者 : &lt;a href=&#34;https://github.com/samlaudev&#34;&gt;Sam Lau&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;校对者: &lt;a href=&#34;https://github.com/mrchenhao&#34;&gt;Harries Chen&lt;/a&gt;&lt;br /&gt;&lt;/li&gt;
+&lt;li&gt;状态 :  校正完&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;Core Image是一个强大的框架，它能够让你轻松地对图像进行过滤。你能够通过修改图像的饱和度、色调或曝光率来获取各种特效。你也可以使用CPU或GPU更快地来处理图像数据，快到能够实时处理视频帧数据(video frame)。&lt;/p&gt;
+
+&lt;p&gt;Core Image过滤器能够以链式的方式结合将多个特效应用到一个图像或视频帧数据。多个过滤器能够组合成单个过滤器应用在一个图像。通过每次与每个过滤器比较，这使它非常有效地处理图像。&lt;/p&gt;
+
+&lt;p&gt;在这个教程中，你将会亲手实践如何使用Core Image.通过使用几个不同的过滤器，你会看到实时使用各种炫酷的特效是多么容易。&lt;/p&gt;
+
+&lt;p&gt;#基础&lt;/p&gt;
+
+&lt;p&gt;在你开始之前，让我们先讨论在Core Image框架中几个很重要的类：&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;CIContext&lt;/strong&gt;. 所有处理core image的工作都在CIContext完成。这个与Core Graphics或OpenGL context有几分相似。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;CIImage&lt;/strong&gt;. 这个类保存图像数据，它能够从UIImage，图像文件或像素数据等方式来创建。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;CIFilter&lt;/strong&gt;. CIFilter类有一个字典(dictionary)来定义特定属性的过滤器，比如常用过滤器有饱和度，颜色翻转，裁剪等属性，还有很多没列出来。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;###CoreImageFun
+打开Xcode并使用&lt;strong&gt;iOS \ Application \ Single View Application&lt;/strong&gt;模板来创建一个新工程。输入&lt;strong&gt;CoreImageFun&lt;/strong&gt;作为Product Name，选择iPhone为Devices option和确定使用&lt;strong&gt;swift&lt;/strong&gt;作为编程语言。&lt;/p&gt;
+
+&lt;p&gt;下载&lt;a href=&#34;http://cdn5.raywenderlich.com/downloads/CIResources.zip&#34;&gt;教程的资源&lt;/a&gt;，并添加图片&lt;strong&gt;image.png&lt;/strong&gt;到工程&lt;/p&gt;
+
+&lt;p&gt;下一步，打开&lt;strong&gt;Main.storyboard&lt;/strong&gt;你文件，拖拽一个image view到已存在的view，image view作为view的子视图。在Attributes Inspector中，设置image view的content mode属性为Aspect Fit，这样它就不会拉伸图片。&lt;/p&gt;
+
+&lt;p&gt;下一步，确定Document Outline(在Interface Builder里canvas左边)是可见的 - 你可以从menu中&lt;strong&gt;Editor \ Show Document Outline&lt;/strong&gt;来启用。&lt;/p&gt;
+
+&lt;p&gt;按着control键从image view拖动到它的superview三次来添加三个约束(constraint)：&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;添加一个Top Space to Layout Guide的约束，如果有必要的话，使用Size Inspector来设置约束的constant为0&lt;/li&gt;
+&lt;li&gt;添加一个Center Horizontally in Container的约束(同样也需要设置constant为0)&lt;/li&gt;
+&lt;li&gt;添加一个Equal Width约束&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;最后，为了约束image view的高度，按着control键从image view拖动到本身，然后添加一个Aspect Ratio约束，使用Size Inspector来设置它的multiplier的值为8:5对应宽高比和constant factor为0。最后，选择&lt;strong&gt;Editor \ Resolve Auto Layout Issues \ All Views in View Controller \ Update Frames&lt;/strong&gt;，那么Interface Builder会根据这些约束来更新布局&lt;/p&gt;
+
+&lt;p&gt;下一步，打开Assistant Editor，然后确保它显示&lt;strong&gt;ViewController.swift&lt;/strong&gt;。按着control键从UIImageView拖动到刚刚打开的&lt;strong&gt;ViewController&lt;/strong&gt;类的大括号。命名outlet为&lt;strong&gt;imageView&lt;/strong&gt;，然后点击connect。&lt;/p&gt;
+
+&lt;p&gt;编译和运行这个项目来确保目前进展顺利 - 你应该看到一个空屏。初始化设置完成，现在进入Core Image的世界。&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

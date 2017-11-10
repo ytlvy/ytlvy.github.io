@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Dyld on My New Hugo Site</title>
+    <link>http://ytlvy.com/tags/dyld/</link>
+    <description>Recent content in Dyld on My New Hugo Site</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Mon, 06 Jul 2015 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="http://ytlvy.com/tags/dyld/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>what happen before main</title>
+      <link>http://ytlvy.com/posts/2015-07-06/2015-07-06-what-happen-before-main/</link>
+      <pubDate>Mon, 06 Jul 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-07-06/2015-07-06-what-happen-before-main/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;http://blog.sunnyxx.com/2014/08/30/objc-pre-main/&#34;&gt;转自&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;ios程序main函数之前发生了什么&#34;&gt;iOS程序main函数之前发生了什么&lt;/h2&gt;
+
+&lt;h3 id=&#34;前言&#34;&gt;前言&lt;/h3&gt;
+
+&lt;p&gt;一个iOS app的&lt;code&gt;main()&lt;/code&gt;函数位于&lt;code&gt;main.m&lt;/code&gt;中，这是我们熟知的程序入口。但对objc了解更多之后发现，程序在进入我们的main函数前已经执行了很多代码，比如熟知的&lt;code&gt;+ load&lt;/code&gt;方法等。本文将跟随程序执行顺序，刨根问底，从&lt;code&gt;dyld&lt;/code&gt;到&lt;code&gt;runtime&lt;/code&gt;，看看main函数之前都发生了什么。&lt;/p&gt;
+
+&lt;h3 id=&#34;从dyld开始&#34;&gt;从dyld开始&lt;/h3&gt;
+
+&lt;h4 id=&#34;动态链接库&#34;&gt;动态链接库&lt;/h4&gt;
+
+&lt;p&gt;iOS中用到的所有系统&lt;code&gt;framework&lt;/code&gt;都是动态链接的，类比成插头和插排，静态链接的代码在编译后的静态链接过程就将插头和插排一个个插好，运行时直接执行二进制文件；而动态链接需要在程序启动时去完成“插插销”的过程，所以在我们写的代码执行前，动态连接器需要完成准备工作。&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

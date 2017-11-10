@@ -1,0 +1,1136 @@
+
+
+  
+
+
+  
+
+
+
+
+  
+
+
+  
+
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="Hugo 0.30.2 with theme Tranquilpeak 0.4.2-BETA">
+    <title>Wave And PCM Audio Format</title>
+    <meta name="author" content="肖杰">
+    <meta name="keywords" content="">
+
+    <link rel="icon" href="http://ytlvy.com/favicon.png">
+    
+
+    
+    <meta name="description" content="reference
+
+音频编解码·格式篇（1）Wave PCM audio format（WAV）
+
+
+作者：柳大·Poechant
+博客：Blog.CSDN.net/Poechant
+邮箱：zhongchao.ustc@gmail.com
+日期：April 6th, 2012
+
+
+音频编解码基础
+
+
+采样率：声音信号在“模数转换”过程中单位时间内采样的次数。
+采样值：每一次采样周期内声音模拟信号的积分值。
+单声道：11.025 KHz 采样值，8 Bits 采样值（0x00 - 0xFF）。
+双声道：44.1 KHz 采样值，16 Bits 采样值。高八位表示左声道，低八位表示右声道。
+
+
+WAV音频文件格式
+
+见下图：
+
+
+1) 文件头
+
+
+RIFF/WAV 文件标识段
+声音数据格式说明段
+
+
+2) 数据体：由 PCM（脉冲编码调制）格式表示的样本组成。
+
+单声道 WAV 文件中，声道0代表左声道，声道1代表右声道；多声道 WAV 文件中，左右声道的样本是交替出现的。
+
+">
+    <meta property="og:description" content="reference
+
+音频编解码·格式篇（1）Wave PCM audio format（WAV）
+
+
+作者：柳大·Poechant
+博客：Blog.CSDN.net/Poechant
+邮箱：zhongchao.ustc@gmail.com
+日期：April 6th, 2012
+
+
+音频编解码基础
+
+
+采样率：声音信号在“模数转换”过程中单位时间内采样的次数。
+采样值：每一次采样周期内声音模拟信号的积分值。
+单声道：11.025 KHz 采样值，8 Bits 采样值（0x00 - 0xFF）。
+双声道：44.1 KHz 采样值，16 Bits 采样值。高八位表示左声道，低八位表示右声道。
+
+
+WAV音频文件格式
+
+见下图：
+
+
+1) 文件头
+
+
+RIFF/WAV 文件标识段
+声音数据格式说明段
+
+
+2) 数据体：由 PCM（脉冲编码调制）格式表示的样本组成。
+
+单声道 WAV 文件中，声道0代表左声道，声道1代表右声道；多声道 WAV 文件中，左右声道的样本是交替出现的。
+
+">
+    <meta property="og:type" content="blog">
+    <meta property="og:title" content="Wave And PCM Audio Format">
+    <meta property="og:url" content="/posts/2015-08-11/2015-08-11-wave-and-pcm-audio-format/">
+    <meta property="og:site_name" content="My New Hugo Site">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="My New Hugo Site">
+    <meta name="twitter:description" content="reference
+
+音频编解码·格式篇（1）Wave PCM audio format（WAV）
+
+
+作者：柳大·Poechant
+博客：Blog.CSDN.net/Poechant
+邮箱：zhongchao.ustc@gmail.com
+日期：April 6th, 2012
+
+
+音频编解码基础
+
+
+采样率：声音信号在“模数转换”过程中单位时间内采样的次数。
+采样值：每一次采样周期内声音模拟信号的积分值。
+单声道：11.025 KHz 采样值，8 Bits 采样值（0x00 - 0xFF）。
+双声道：44.1 KHz 采样值，16 Bits 采样值。高八位表示左声道，低八位表示右声道。
+
+
+WAV音频文件格式
+
+见下图：
+
+
+1) 文件头
+
+
+RIFF/WAV 文件标识段
+声音数据格式说明段
+
+
+2) 数据体：由 PCM（脉冲编码调制）格式表示的样本组成。
+
+单声道 WAV 文件中，声道0代表左声道，声道1代表右声道；多声道 WAV 文件中，左右声道的样本是交替出现的。
+
+">
+    
+    
+
+    
+    
+
+    
+      <meta property="og:image" content="//www.gravatar.com/avatar/8d5387e20303e26c6147cfe67990995e?s=640">
+    
+
+    
+    
+    
+
+    
+
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/jquery.fancybox.min.css" integrity="sha256-vuXZ9LGmmwtjqFX1F+EKin1ThZMub58gKULUyf0qECk=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/helpers/jquery.fancybox-thumbs.min.css" integrity="sha256-SEa4XYAHihTcEP1f5gARTB2K26Uk8PsndQYHQC1f4jU=" crossorigin="anonymous" />
+    
+    
+    <link rel="stylesheet" href="http://ytlvy.com/css/style-jsjn0006wyhpyzivf6yceb31gvpjatbcs3qzjvlumobfnugccvobqwxnnaj8.min.css" />
+    
+    
+
+    
+      
+    
+    
+  </head>
+
+  <body>
+    <div id="blog">
+      <header id="header" data-behavior="1">
+  <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+  <div class="header-title">
+    <a class="header-title-link" href="http://ytlvy.com/">My New Hugo Site</a>
+  </div>
+  
+    
+      <a class="header-right-picture "
+         href="http://ytlvy.com/#about">
+    
+    
+    
+      
+        <img class="header-picture" src="//www.gravatar.com/avatar/8d5387e20303e26c6147cfe67990995e?s=90" alt="" />
+      
+    
+    </a>
+  
+</header>
+
+      <nav id="sidebar" data-behavior="1">
+  <div class="sidebar-container">
+    
+      <div class="sidebar-profile">
+        <a href="http://ytlvy.com/#about">
+          <img class="sidebar-profile-picture" src="//www.gravatar.com/avatar/8d5387e20303e26c6147cfe67990995e?s=110" alt="" />
+        </a>
+        <h4 class="sidebar-profile-name">肖杰</h4>
+        
+          <h5 class="sidebar-profile-bio">一个瑜伽|篮球|羽毛球爱好者</h5>
+        
+      </div>
+    
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="http://ytlvy.com/">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-home"></i>
+      
+      <span class="sidebar-button-desc">Home</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="http://ytlvy.com/categories">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-bookmark"></i>
+      
+      <span class="sidebar-button-desc">Categories</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="http://ytlvy.com/tags">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+      
+      <span class="sidebar-button-desc">Tags</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="http://ytlvy.com/archives">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
+      
+      <span class="sidebar-button-desc">Archives</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="http://ytlvy.com/#about">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-question"></i>
+      
+      <span class="sidebar-button-desc">About</span>
+    </a>
+  </li>
+
+
+    </ul>
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://github.com/ytlvy" target="_blank" rel="noopener">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-github"></i>
+      
+      <span class="sidebar-button-desc">GitHub</span>
+    </a>
+  </li>
+
+
+    </ul>
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="http://ytlvy.com/index.xml">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-rss"></i>
+      
+      <span class="sidebar-button-desc">RSS</span>
+    </a>
+  </li>
+
+
+    </ul>
+  </div>
+</nav>
+
+      
+
+      <div id="main" data-behavior="1"
+        class="
+               hasCoverMetaIn
+               ">
+        <article class="post" itemscope itemType="http://schema.org/BlogPosting">
+          
+          
+            <div class="post-header main-content-wrap text-left">
+  
+    <h1 class="post-title" itemprop="headline">
+      Wave And PCM Audio Format
+    </h1>
+  
+  
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2015-08-11T00:00:00Z">
+        
+   11, 2015
+
+      </time>
+    
+    
+  
+  
+    <span></span>
+    
+      <a class="category-link" href="http://ytlvy.com/categories/audio">Audio</a>
+    
+  
+
+  </div>
+
+</div>
+          
+          <div class="post-content markdown" itemprop="articleBody">
+            <div class="main-content-wrap">
+              <p><a href="http://blog.csdn.net/poechant/article/details/7436710">reference</a></p>
+
+<h2 id="音频编解码-格式篇-1-wave-pcm-audio-format-wav">音频编解码·格式篇（1）Wave PCM audio format（WAV）</h2>
+
+<ul>
+<li>作者：柳大·Poechant</li>
+<li>博客：Blog.CSDN.net/Poechant</li>
+<li>邮箱：zhongchao.ustc@gmail.com</li>
+<li>日期：April 6th, 2012</li>
+</ul>
+
+<h3 id="音频编解码基础">音频编解码基础</h3>
+
+<ul>
+<li>采样率：声音信号在“模数转换”过程中单位时间内采样的次数。</li>
+<li>采样值：每一次采样周期内声音模拟信号的积分值。</li>
+<li>单声道：11.025 KHz 采样值，8 Bits 采样值（0x00 - 0xFF）。</li>
+<li>双声道：44.1 KHz 采样值，16 Bits 采样值。高八位表示左声道，低八位表示右声道。</li>
+</ul>
+
+<h3 id="wav音频文件格式">WAV音频文件格式</h3>
+
+<p>见下图：
+<img src="http://img.my.csdn.net/uploads/201204/08/1333820202_8901.png" alt="" /></p>
+
+<p>1) 文件头</p>
+
+<ul>
+<li>RIFF/WAV 文件标识段</li>
+<li>声音数据格式说明段</li>
+</ul>
+
+<p>2) 数据体：由 PCM（脉冲编码调制）格式表示的样本组成。</p>
+
+<p>单声道 WAV 文件中，声道0代表左声道，声道1代表右声道；多声道 WAV 文件中，左右声道的样本是交替出现的。</p>
+
+<p></p>
+
+<h4 id="文件头格式">文件头格式：</h4>
+
+<table>
+<thead>
+<tr>
+<th>偏移地址</th>
+<th>字节数</th>
+<th>数据类型</th>
+<th>内容</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>0x00</td>
+<td>4</td>
+<td>char</td>
+<td>“RIFF”标志</td>
+</tr>
+
+<tr>
+<td>0x04</td>
+<td>4</td>
+<td>long int</td>
+<td>文件长度</td>
+</tr>
+
+<tr>
+<td>0x08</td>
+<td>4</td>
+<td>char</td>
+<td>“WAVE”标志</td>
+</tr>
+
+<tr>
+<td>0x0C</td>
+<td>4</td>
+<td>char</td>
+<td>“fmt ”标志</td>
+</tr>
+
+<tr>
+<td>0x10</td>
+<td>4</td>
+<td></td>
+<td>过度字节（不定）</td>
+</tr>
+
+<tr>
+<td>0x14</td>
+<td>2</td>
+<td>int</td>
+<td>格式类别（0x10是PCM形式的声音格式）</td>
+</tr>
+
+<tr>
+<td>0x16</td>
+<td>2</td>
+<td>int</td>
+<td>通道数（1为单声道，2为双声道）</td>
+</tr>
+
+<tr>
+<td>0x18</td>
+<td>2</td>
+<td>int</td>
+<td>采样率（每秒的样本数，表示每个通道的播放速度）</td>
+</tr>
+
+<tr>
+<td>0x1C</td>
+<td>4</td>
+<td>long int</td>
+<td>波形音频数据传输速率，为（通道数x每秒数据位数x样本的数据位数/8，播放器根据此值估算缓冲区大小）</td>
+</tr>
+
+<tr>
+<td>0x20</td>
+<td>2</td>
+<td>int</td>
+<td>数据块的调整数，为（通道数x没样本的数据位值/8），播放软件一次需要处理多个该值大小的字节数据，以便就爱将其值用于缓冲区的调整</td>
+</tr>
+
+<tr>
+<td>0x22</td>
+<td>2</td>
+<td></td>
+<td>每样本的数据位数，表示每个声道中各样本的数据位数，如果有多个声道，对每个声道而言，样本大小都一样</td>
+</tr>
+</tbody>
+</table>
+
+<h4 id="数据体格式">数据体格式：</h4>
+
+<table>
+<thead>
+<tr>
+<th>偏移地址</th>
+<th>字节数</th>
+<th>数据类型</th>
+<th>内容</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>0x24</td>
+<td>4</td>
+<td>char</td>
+<td>数据标记符“data”</td>
+</tr>
+
+<tr>
+<td>0x28</td>
+<td>4</td>
+<td>long int</td>
+<td>语音数据的长度</td>
+</tr>
+</tbody>
+</table>
+
+<p>然后就是语音数据帧了。下表中的0声道代表左声道，1声道代表右声道：</p>
+
+<table>
+<thead>
+<tr>
+<th>偏移地址</th>
+<th>sample1</th>
+<th>sample2</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>8位单声道</td>
+<td>0声道</td>
+<td>0声道</td>
+</tr>
+
+<tr>
+<td>8位双声道</td>
+<td>0声道，1声道</td>
+<td>0声道，1声道</td>
+</tr>
+
+<tr>
+<td>16位单声道</td>
+<td>0声道低字节，0声道高字节</td>
+<td>0声道低字节，0声道高字节</td>
+</tr>
+
+<tr>
+<td>16位双声道</td>
+<td>0声道低字节，0声道搞字节</td>
+<td>1声道低字节，1声道高字节</td>
+</tr>
+</tbody>
+</table>
+
+<h4 id="wav文件格式实例分析-转载">WAV文件格式实例分析（转载）</h4>
+
+<table>
+<thead>
+<tr>
+<th>地址段</th>
+<th>0</th>
+<th>1</th>
+<th>2</th>
+<th>3</th>
+<th>4</th>
+<th>5</th>
+<th>6</th>
+<th>7</th>
+<th>8</th>
+<th>9</th>
+<th>A</th>
+<th>B</th>
+<th>C</th>
+<th>D</th>
+<th>E</th>
+<th>F</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>0x00000000</td>
+<td>52</td>
+<td>49</td>
+<td>46</td>
+<td>46</td>
+<td>0A</td>
+<td>06</td>
+<td>01</td>
+<td>00</td>
+<td>57</td>
+<td>41</td>
+<td>56</td>
+<td>45</td>
+<td>66</td>
+<td>6D</td>
+<td>74</td>
+<td>20</td>
+</tr>
+
+<tr>
+<td>0x00000010</td>
+<td>12</td>
+<td>00</td>
+<td>00</td>
+<td>00</td>
+<td>01</td>
+<td>00</td>
+<td>02</td>
+<td>00</td>
+<td>44</td>
+<td>AC</td>
+<td>00</td>
+<td>00</td>
+<td>10</td>
+<td>B1</td>
+<td>02</td>
+<td>00</td>
+</tr>
+
+<tr>
+<td>0x00000020</td>
+<td>04</td>
+<td>00</td>
+<td>10</td>
+<td>00</td>
+<td>00</td>
+<td>00</td>
+<td>66</td>
+<td>61</td>
+<td>63</td>
+<td>74</td>
+<td>04</td>
+<td>00</td>
+<td>00</td>
+<td>00</td>
+<td>76</td>
+<td>41</td>
+</tr>
+
+<tr>
+<td>0x00000030</td>
+<td>00</td>
+<td>00</td>
+<td>64</td>
+<td>61</td>
+<td>74</td>
+<td>61</td>
+<td>D8</td>
+<td>05</td>
+<td>01</td>
+<td>00</td>
+<td>00</td>
+<td>00</td>
+<td>00</td>
+<td>00</td>
+<td>FF</td>
+<td>FF</td>
+</tr>
+
+<tr>
+<td>0x00000040</td>
+<td>00</td>
+<td>00</td>
+<td>FE</td>
+<td>FF</td>
+<td>FE</td>
+<td>FF</td>
+<td>00</td>
+<td>00</td>
+<td>00</td>
+<td>00</td>
+<td>FE</td>
+<td>FF</td>
+<td>FE</td>
+<td>FF</td>
+<td>00</td>
+<td>00</td>
+</tr>
+
+<tr>
+<td>…</td>
+<td>…</td>
+<td>…</td>
+<td>…</td>
+<td>…</td>
+<td>…</td>
+<td>…</td>
+<td>…</td>
+<td>…</td>
+<td>…</td>
+<td>…</td>
+<td>…</td>
+<td>…</td>
+<td>…</td>
+<td>…</td>
+<td>…</td>
+<td>…</td>
+</tr>
+
+<tr>
+<td>0x00000050</td>
+<td>64</td>
+<td>61</td>
+<td>6B</td>
+<td>61</td>
+<td>D8</td>
+<td>05</td>
+<td>01</td>
+<td>00</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+
+<table>
+<thead>
+<tr>
+<th>地址段</th>
+<th>字节数</th>
+<th>数据类型</th>
+<th>内容</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>0x00 - 0x03</td>
+<td>4</td>
+<td>4个char</td>
+<td>标志位，&rdquo;RIFF&rdquo;</td>
+</tr>
+
+<tr>
+<td>0x04 - 0x07</td>
+<td>4</td>
+<td>1个int</td>
+<td>文件长度，小尾端，实际是0x0001060A</td>
+</tr>
+
+<tr>
+<td>0x08 - 0x0B</td>
+<td>4</td>
+<td>4个char</td>
+<td>标志位，“WAVE”</td>
+</tr>
+
+<tr>
+<td>0x0C - 0x0F</td>
+<td>4</td>
+<td>4个char</td>
+<td>标志位，“fmt ”，fmt表示为，最后一个是空格</td>
+</tr>
+
+<tr>
+<td>0x10 - 0x13</td>
+<td>4</td>
+<td>1个int</td>
+<td>0x00000012，sizeof(PCMWAVEFORMAT)</td>
+</tr>
+
+<tr>
+<td>0x14 - 0x15</td>
+<td>2</td>
+<td>1个short</td>
+<td>格式类别，1（WAVE_FORMAT_PCM）表示PCM形式的声音数据</td>
+</tr>
+
+<tr>
+<td>0x16 - 0x17</td>
+<td>2</td>
+<td>1个short</td>
+<td>通道数，1为单声道，2为双声道</td>
+</tr>
+
+<tr>
+<td>0x18 - 0x1B</td>
+<td>4</td>
+<td>1个int</td>
+<td>采样率</td>
+</tr>
+
+<tr>
+<td>0x1C - 0x1F</td>
+<td>4</td>
+<td>1个int</td>
+<td>0x10B10000，每秒数据量</td>
+</tr>
+
+<tr>
+<td>0x20 - 0x21</td>
+<td>2</td>
+<td>1个short</td>
+<td>数据块的调整值（按字节算）</td>
+</tr>
+
+<tr>
+<td>0x22 - 0x4F</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+
+<tr>
+<td>0x50 - 0x53</td>
+<td>4</td>
+<td>4个char</td>
+<td>标志位，“data”</td>
+</tr>
+
+<tr>
+<td>0x54 - 0x57</td>
+<td>4</td>
+<td>1个int</td>
+<td>语音数据大小，0x000105D8</td>
+</tr>
+</tbody>
+</table>
+
+<h3 id="reference">Reference</h3>
+
+<ul>
+<li><a href="http://wenku.baidu.com/view/c8357e6baf1ffc4ffe47ac08.html">WAV(PCM)文件格式分析</a></li>
+</ul>
+              
+            </div>
+          </div>
+          <div id="post-footer" class="post-footer main-content-wrap">
+            
+              
+                
+                
+                  <div class="post-footer-tags">
+                    <span class="text-color-light text-small"></span><br/>
+                    
+  <a class="tag tag--primary tag--small" href="http://ytlvy.com/tags/audio/">Audio</a>
+
+                  </div>
+                
+              
+            
+            
+  <div class="post-actions-wrap">
+      <nav >
+        <ul class="post-actions post-action-nav">
+          
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="http://ytlvy.com/posts/2015-08-11/2015-08-11-convert-pcm-to-aac/" data-tooltip="Convert PCM To AAC">
+              
+                  <i class="fa fa-angle-left"></i>
+                  <span class="hide-xs hide-sm text-small icon-ml"></span>
+                </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="http://ytlvy.com/posts/2015-08-11/2015-08-11-ios-app-icon-longpress-shake/" data-tooltip="iOS APP Icon Longpress shake">
+              
+                  <span class="hide-xs hide-sm text-small icon-mr"></span>
+                  <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+          
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
+      
+        <li class="post-action hide-lg hide-md hide-sm">
+          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+            <i class="fa fa-share-alt"></i>
+          </a>
+        </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://ytlvy.com/posts/2015-08-11/2015-08-11-wave-and-pcm-audio-format/">
+              <i class="fa fa-facebook-official"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http://ytlvy.com/posts/2015-08-11/2015-08-11-wave-and-pcm-audio-format/">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=http://ytlvy.com/posts/2015-08-11/2015-08-11-wave-and-pcm-audio-format/">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        
+      
+      
+        <li class="post-action">
+          <a class="post-action-btn btn btn--default" href="#disqus_thread">
+            <i class="fa fa-comment-o"></i>
+          </a>
+        </li>
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#">
+        
+          <i class="fa fa-list"></i>
+        </a>
+      </li>
+    </ul>
+  </div>
+
+
+            
+              
+                <div id="disqus_thread">
+  <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+              
+            
+          </div>
+        </article>
+        <footer id="footer" class="main-content-wrap">
+  <span class="copyrights">
+    &copy; 2017 肖杰. 
+  </span>
+</footer>
+
+      </div>
+      <div id="bottom-bar" class="post-bottom-bar" data-behavior="1">
+        
+  <div class="post-actions-wrap">
+      <nav >
+        <ul class="post-actions post-action-nav">
+          
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="http://ytlvy.com/posts/2015-08-11/2015-08-11-convert-pcm-to-aac/" data-tooltip="Convert PCM To AAC">
+              
+                  <i class="fa fa-angle-left"></i>
+                  <span class="hide-xs hide-sm text-small icon-ml"></span>
+                </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="http://ytlvy.com/posts/2015-08-11/2015-08-11-ios-app-icon-longpress-shake/" data-tooltip="iOS APP Icon Longpress shake">
+              
+                  <span class="hide-xs hide-sm text-small icon-mr"></span>
+                  <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+          
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
+      
+        <li class="post-action hide-lg hide-md hide-sm">
+          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+            <i class="fa fa-share-alt"></i>
+          </a>
+        </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://ytlvy.com/posts/2015-08-11/2015-08-11-wave-and-pcm-audio-format/">
+              <i class="fa fa-facebook-official"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http://ytlvy.com/posts/2015-08-11/2015-08-11-wave-and-pcm-audio-format/">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=http://ytlvy.com/posts/2015-08-11/2015-08-11-wave-and-pcm-audio-format/">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        
+      
+      
+        <li class="post-action">
+          <a class="post-action-btn btn btn--default" href="#disqus_thread">
+            <i class="fa fa-comment-o"></i>
+          </a>
+        </li>
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#">
+        
+          <i class="fa fa-list"></i>
+        </a>
+      </li>
+    </ul>
+  </div>
+
+
+      </div>
+      <div id="share-options-bar" class="share-options-bar" data-behavior="1">
+  <i id="btn-close-shareoptions" class="fa fa-close"></i>
+  <ul class="share-options">
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Fytlvy.com%2Fposts%2F2015-08-11%2F2015-08-11-wave-and-pcm-audio-format%2F">
+          <i class="fa fa-facebook-official"></i><span>%!(EXTRA string=Facebook)</span>
+        </a>
+      </li>
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=http%3A%2F%2Fytlvy.com%2Fposts%2F2015-08-11%2F2015-08-11-wave-and-pcm-audio-format%2F">
+          <i class="fa fa-twitter"></i><span>%!(EXTRA string=Twitter)</span>
+        </a>
+      </li>
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=http%3A%2F%2Fytlvy.com%2Fposts%2F2015-08-11%2F2015-08-11-wave-and-pcm-audio-format%2F">
+          <i class="fa fa-google-plus"></i><span>%!(EXTRA string=Google&#43;)</span>
+        </a>
+      </li>
+    
+  </ul>
+</div>
+<div id="share-options-mask" class="share-options-mask"></div>
+    </div>
+    
+    <div id="about">
+  <div id="about-card">
+    <div id="about-btn-close">
+      <i class="fa fa-remove"></i>
+    </div>
+    
+      <img id="about-card-picture" src="//www.gravatar.com/avatar/8d5387e20303e26c6147cfe67990995e?s=110" alt="" />
+    
+    <h4 id="about-card-name">肖杰</h4>
+    
+      <div id="about-card-bio">一个瑜伽|篮球|羽毛球爱好者</div>
+    
+    
+      <div id="about-card-job">
+        <i class="fa fa-briefcase"></i>
+        <br/>
+        搬砖工
+      </div>
+    
+    
+      <div id="about-card-location">
+        <i class="fa fa-map-marker"></i>
+        <br/>
+        Beijing
+      </div>
+    
+  </div>
+</div>
+
+    <div id="algolia-search-modal" class="modal-container">
+  <div class="modal">
+    <div class="modal-header">
+      <span class="close-button"><i class="fa fa-close"></i></span>
+      <a href="https://algolia.com" target="_blank" rel="noopener" class="searchby-algolia text-color-light link-unstyled">
+        <span class="searchby-algolia-text text-color-light text-small">by</span>
+        <img class="searchby-algolia-logo" src="https://www.algolia.com/static_assets/images/press/downloads/algolia-light.svg">
+      </a>
+      <i class="search-icon fa fa-search"></i>
+      <form id="algolia-search-form">
+        <input type="text" id="algolia-search-input" name="search"
+          class="form-control input--large search-input" placeholder="" />
+      </form>
+    </div>
+    <div class="modal-body">
+      <div class="no-result text-color-light text-center"></div>
+      <div class="results">
+        
+        
+      </div>
+    </div>
+    <div class="modal-footer">
+      <p class="results-count text-medium"
+         data-message-zero=""
+         data-message-one=""
+         data-message-other="">
+         0 posts found
+      </p>
+    </div>
+  </div>
+</div>
+    
+  
+    
+    <div id="cover" style="background-image:url('http://ytlvy.com/images/cover.jpg');"></div>
+  
+
+
+    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js" integrity="sha256-/BfiIkHlHoVihZdc6TFuj7MmJ0TWcWsMXkeDFwhi0zw=" crossorigin="anonymous"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.7/js/jquery.fancybox.min.js" integrity="sha256-GEAnjcTqVP+vBp3SSc8bEDQqvWAZMiHyUSIorrWwH50=" crossorigin="anonymous"></script>
+
+
+<script src="http://ytlvy.com/js/script-qi9wbxp2ya2j6p7wx1i6tgavftewndznf4v0hy2gvivk1rxgc3lm7njqb6bz.min.js"></script>
+
+
+
+<script>
+$(document).ready(function() {
+  hljs.configure({ classPrefix: '', useBR: false });
+  $('pre.code-highlight > code, pre > code').each(function(i, block) {
+    if (!$(this).hasClass('codeblock')) {
+      $(this).addClass('codeblock');
+    }
+    hljs.highlightBlock(block);
+  });
+});
+</script>
+
+
+  
+    
+      <script>
+        var disqus_config = function () {
+          this.page.url = 'http:\/\/ytlvy.com\/posts\/2015-08-11\/2015-08-11-wave-and-pcm-audio-format\/';
+          
+            this.page.identifier = '\/posts\/2015-08-11\/2015-08-11-wave-and-pcm-audio-format\/'
+          
+        };
+        (function() {
+          
+          
+          if (window.location.hostname == "localhost") {
+            return;
+          }
+          var d = document, s = d.createElement('script');
+          var disqus_shortname = 'hugo-tranquilpeak-theme';
+          s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+
+          s.setAttribute('data-timestamp', +new Date());
+          (d.head || d.body).appendChild(s);
+        })();
+      </script>
+    
+  
+
+
+
+    
+  </body>
+</html>
+

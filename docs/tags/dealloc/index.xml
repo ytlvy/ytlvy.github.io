@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Dealloc on My New Hugo Site</title>
+    <link>http://ytlvy.com/tags/dealloc/</link>
+    <description>Recent content in Dealloc on My New Hugo Site</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Fri, 17 Jul 2015 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="http://ytlvy.com/tags/dealloc/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>ARC dealloc cxx_destruct</title>
+      <link>http://ytlvy.com/posts/2015-07-17/2015-07-17-arc-dealloc-cxx-destruct/</link>
+      <pubDate>Fri, 17 Jul 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-07-17/2015-07-17-arc-dealloc-cxx-destruct/</guid>
+      <description>转
+ARC下dealloc过程及.cxx_destruct的探究 我是前言 这次探索源自于自己一直以来对ARC的一个疑问，在MRC时代，经常写下面的代码：
+- (void)dealloc { self.array = nil; self.string = nil; // ... // // 非Objc对象内存的释放，如CFRelease(...) // ... // [super dealloc]; }  对象析构时将内部其他对象release掉，申请的非Objc对象的内存当然也一并处理掉，最后调用super，继续将父类对象做析构。而现如今到了ARC时代，只剩下了下面的代码：
+- (void)dealloc { // ... // // 非Objc对象内存的释放，如CFRelease(...) // ... // }  问题来了：
+ 这个对象实例变量（Ivars）的释放去哪儿了？ 没有显示的调用[super dealloc]，上层的析构去哪儿了？  ARC文档中对dealloc过程的解释 llvm官方的ARC文档 中对ARC下的dealloc过程做了简单说明，从中还是能找出些有用的信息：
+ A class may provide a method definition for an instance method named dealloc. This method will be called after the final release of the object but before it is deallocated or any of its instance variables are destroyed.</description>
+    </item>
+    
+  </channel>
+</rss>

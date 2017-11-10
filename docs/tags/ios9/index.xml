@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Ios9 on My New Hugo Site</title>
+    <link>http://ytlvy.com/tags/ios9/</link>
+    <description>Recent content in Ios9 on My New Hugo Site</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Tue, 28 Jul 2015 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="http://ytlvy.com/tags/ios9/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>iOS9 NSAppTransportSecurity Bypass</title>
+      <link>http://ytlvy.com/posts/2015-07-28/2015-07-28-ios9-nsapptransportsecurity-bypass/</link>
+      <pubDate>Tue, 28 Jul 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-07-28/2015-07-28-ios9-nsapptransportsecurity-bypass/</guid>
+      <description>&lt;h2 id=&#34;configuring-app-transport-security-exceptions-in-ios-9-and-osx-10-11&#34;&gt;Configuring App Transport Security Exceptions in iOS 9 and OSX 10.11&lt;/h2&gt;
+
+&lt;h3 id=&#34;what-is-app-transport-security-ats&#34;&gt;What is App Transport Security (ATS)?&lt;/h3&gt;
+
+&lt;p&gt;At WWDC 2015, Apple announced “App Transport Security” for iOS 9 and OSX 10.11 El Capitan. The &lt;a href=&#34;https://developer.apple.com/library/prerelease/ios/releasenotes/General/WhatsNewIniOS/Articles/iOS9.html#//apple_ref/doc/uid/TP40016198-SW1&#34;&gt;“What’s New in iOS”&lt;/a&gt; guide for iOS 9 explains:&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;App Transport Security (ATS) lets an app add a declaration to its Info.plist file that specifies the domains with which it needs secure communication. ATS prevents accidental disclosure, provides secure default behavior, and is easy to adopt. You should adopt ATS as soon as possible, regardless of whether you’re creating a new app or updating an existing one.
+If you’re developing a new app, you should use HTTPS exclusively. If you have an existing app, you should use HTTPS as much as you can right now, and create a plan for migrating the rest of your app as soon as possible.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;In simple terms, this means that if your application attempts to connect to any HTTP server (in this example, yourserver.com) that doesn’t support the latest SSL technology (TLSv1.2), your connections will fail with an error like this:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;CFNetwork SSLHandshake failed (-9801)
+Error Domain=NSURLErrorDomain Code=-1200 &amp;quot;An SSL error has occurred and a secure connection to the server cannot be made.&amp;quot; UserInfo=0x7fb080442170 {NSURLErrorFailingURLPeerTrustErrorKey=&amp;lt;SecTrustRef: 0x7fb08043b380&amp;gt;, NSLocalizedRecoverySuggestion=Would you like to connect to the server anyway?, _kCFStreamErrorCodeKey=-9802, NSUnderlyingError=0x7fb08055bc00 &amp;quot;The operation couldn’t be completed. (kCFErrorDomainCFNetwork error -1200.)&amp;quot;, NSLocalizedDescription=An SSL error has occurred and a secure connection to the server cannot be made., NSErrorFailingURLKey=https://yourserver.com, NSErrorFailingURLStringKey=https://yourserver.com, _kCFStreamErrorDomainKey=3}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Curiously, you’ll notice that the connection attempts to change the http protocol to https to protect against mistakes in your code where you may have accidentally misconfigured the URL. In some cases, this might actually work, but it’s also confusing.&lt;/p&gt;
+
+&lt;h3 id=&#34;warning-ats-is-good-for-you-and-your-users-and-you-shouldn-t-disable-it&#34;&gt;&lt;strong&gt;WARNING: ATS is good for you and your users and you shouldn’t disable it!&lt;/strong&gt;&lt;/h3&gt;
+
+&lt;p&gt;The reason why Apple is pushing so aggressively to force secure connections is because it’s the right thing to do. Protecting personal data from being compromised over insecure wireless connections, among other things, is great for users. Just because these exceptions exist doesn’t mean you should actually use them.&lt;/p&gt;
+
+&lt;p&gt;If your application is connecting to third party APIs that you can’t control (such as in my case, where my application Routesy connects to public transit APIs that don’t yet support SSL) or serving as a means to load syndicated content (a browser or a news reader, for instance), these techniques might be useful to you.&lt;/p&gt;
+
+&lt;p&gt;The bottom line is, if you run your own API server, FIX YOUR SSL. Thanks to Dave DeLong for reminding me that I should clarify that disabling ATS is a bad idea.&lt;/p&gt;
+
+&lt;p&gt;That being said…
+&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

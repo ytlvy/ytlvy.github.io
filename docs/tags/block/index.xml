@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Block on My New Hugo Site</title>
+    <link>http://ytlvy.com/tags/block/</link>
+    <description>Recent content in Block on My New Hugo Site</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Mon, 15 Jun 2015 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="http://ytlvy.com/tags/block/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>ios block</title>
+      <link>http://ytlvy.com/posts/2015-06-15/2015-06-15-ios-block/</link>
+      <pubDate>Mon, 15 Jun 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-06-15/2015-06-15-ios-block/</guid>
+      <description>&lt;h2 id=&#34;block&#34;&gt;Block&lt;/h2&gt;
+
+&lt;p&gt;Converting Source Code&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;clang -rewrite-objc file_name_of_the_source_code
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;无变量&#34;&gt;无变量&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code&gt;//
+struct __block_impl {
+  void *isa;
+  int Flags;
+  int Reserved;
+  void *FuncPtr;
+};
+
+struct __main_block_impl_0 {
+  struct __block_impl impl;
+  struct __main_block_desc_0* Desc;
+  __main_block_impl_0(void *fp, struct __main_block_desc_0 *desc, int flags=0) {
+    impl.isa = &amp;amp;_NSConcreteStackBlock;
+    impl.Flags = flags;
+    impl.FuncPtr = fp;
+    Desc = desc;
+  }
+};
+static void __main_block_func_0(struct __main_block_impl_0 *__cself) {
+
+    printf(&amp;quot;Block\n&amp;quot;);
+  }
+
+static struct __main_block_desc_0 {
+  size_t reserved;
+  size_t Block_size;
+} __main_block_desc_0_DATA = { 0, sizeof(struct __main_block_impl_0)};
+
+int main(){
+  void (*blk)(void) = (void (*)())&amp;amp;__main_block_impl_0((void *)__main_block_func_0, &amp;amp;__main_block_desc_0_DATA);
+
+  ((void (*)(__block_impl *))((__block_impl *)blk)-&amp;gt;FuncPtr)((__block_impl *)blk);
+  return 0;
+
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>IOS Multithreading &amp;&amp; Memory Management</title>
+      <link>http://ytlvy.com/posts/2015-06-07/2015-06-07-ios-multithreading-memory-management/</link>
+      <pubDate>Sun, 07 Jun 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-06-07/2015-06-07-ios-multithreading-memory-management/</guid>
+      <description>&lt;h2 id=&#34;block&#34;&gt;Block&lt;/h2&gt;
+
+&lt;p&gt;Converting Source Code&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;clang -rewrite-objc file_name_of_the_source_code
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;无变量&#34;&gt;无变量&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code&gt;//
+struct __block_impl {
+  void *isa;
+  int Flags;
+  int Reserved;
+  void *FuncPtr;
+};
+
+struct __main_block_impl_0 {
+  struct __block_impl impl;
+  struct __main_block_desc_0* Desc;
+  __main_block_impl_0(void *fp, struct __main_block_desc_0 *desc, int flags=0) {
+    impl.isa = &amp;amp;_NSConcreteStackBlock;
+    impl.Flags = flags;
+    impl.FuncPtr = fp;
+    Desc = desc;
+  }
+};
+static void __main_block_func_0(struct __main_block_impl_0 *__cself) {
+
+    printf(&amp;quot;Block\n&amp;quot;);
+  }
+
+static struct __main_block_desc_0 {
+  size_t reserved;
+  size_t Block_size;
+} __main_block_desc_0_DATA = { 0, sizeof(struct __main_block_impl_0)};
+
+int main(){
+  void (*blk)(void) = (void (*)())&amp;amp;__main_block_impl_0((void *)__main_block_func_0, &amp;amp;__main_block_desc_0_DATA);
+
+  ((void (*)(__block_impl *))((__block_impl *)blk)-&amp;gt;FuncPtr)((__block_impl *)blk);
+  return 0;
+
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

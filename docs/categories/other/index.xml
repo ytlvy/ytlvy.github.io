@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Other on My New Hugo Site</title>
+    <link>http://ytlvy.com/categories/other/</link>
+    <description>Recent content in Other on My New Hugo Site</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Tue, 16 Jun 2015 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="http://ytlvy.com/categories/other/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Valar Morghulis Valar Dohaeris</title>
+      <link>http://ytlvy.com/posts/2015-06-16/2015-06-16-valar-morghulis-valar-dohaeris/</link>
+      <pubDate>Tue, 16 Jun 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-06-16/2015-06-16-valar-morghulis-valar-dohaeris/</guid>
+      <description>&lt;p&gt;&lt;img src=&#34;http://ww4.sinaimg.cn/mw1024/8edf7b7agw1et5ppc4i12g20dw0697uc.gif&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Valar Morghulis = 凡人皆有一死
+Valar Dohaeris = 凡人皆须侍奉
+这两句是需要放在一起理解的&lt;/p&gt;
+
+&lt;p&gt;看字面意思，凡人皆有一死，似乎表明的是死亡的不可避免。满含悲观的情绪。这和史塔克的家族箴言一样，凛冬将至。对于命运我们无能为力。&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

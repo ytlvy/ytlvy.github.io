@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Reactive on My New Hugo Site</title>
+    <link>http://ytlvy.com/tags/reactive/</link>
+    <description>Recent content in Reactive on My New Hugo Site</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sat, 08 Aug 2015 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="http://ytlvy.com/tags/reactive/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Swift Reactive</title>
+      <link>http://ytlvy.com/posts/2015-08-08/2015-08-08-swift-reactive/</link>
+      <pubDate>Sat, 08 Aug 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-08-08/2015-08-08-swift-reactive/</guid>
+      <description>&lt;h1 id=&#34;swift的响应式编程&#34;&gt;Swift的响应式编程&lt;/h1&gt;
+
+&lt;hr /&gt;
+
+&lt;blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;原文链接 : &lt;a href=&#34;https://medium.com/swift-programming/reactive-swift-3b6050375534&#34;&gt;Reactive Swift&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;原文作者 : &lt;a href=&#34;https://medium.com/@vasarhelyia&#34;&gt;Agnes Vasarhelyi&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;http://www.devtf.cn&#34;&gt;译文出自 :  开发技术前线 www.devtf.cn&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;译者 : &lt;a href=&#34;https://github.com/bboyefiyu&#34;&gt;Mr.Simple&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;校对者: &lt;a href=&#34;https://github.com/Lollypo&#34;&gt;Lollypo&lt;/a&gt;&lt;br /&gt;&lt;/li&gt;
+&lt;li&gt;状态 :  完成&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;让我们首先回到Apple刚推出Objective-C的继任者-Swift的时候，那真是一个非比寻常的时刻。
+Siri还没有开启地狱之门，Prezi还没有支持订阅，那时的朝鲜也还没有hack任何人的email。一种新语言的出现让我个人非常兴奋，尤其是这是一种类型安全的脚本语言。虽然Swift还在快速的发展中，但是我们不必担心它是否已经稳定。当那一刻到来之时，我应该已经知道如何交付整洁的、可测试的代码。还要有非常灵活、流畅的UI？如果你对Objective-C 和 MVC之外的东西感兴趣，那么就请继续读下去吧。&lt;/p&gt;
+
+&lt;h2 id=&#34;mvc-与-mvvm&#34;&gt;MVC 与 MVVM&lt;/h2&gt;
+
+&lt;p&gt;让我们从零开始，当我们设计一个应用时，你可能会先考虑应用的架构。Cocoa框架以&lt;a href=&#34;https://developer.apple.com/library/ios/documentation/General/Conceptual/DevPedia-CocoaCore/MVC.html&#34;&gt;Model-View-Controller&lt;/a&gt; (也称为 MVC)为基础架构，它的结构如下图所示。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://d262ilb51hltx0.cloudfront.net/max/1600/0*pEvMKHBK9HeAgrYC.&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

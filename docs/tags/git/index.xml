@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Git on My New Hugo Site</title>
+    <link>http://ytlvy.com/tags/git/</link>
+    <description>Recent content in Git on My New Hugo Site</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sun, 09 Aug 2015 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="http://ytlvy.com/tags/git/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>git flow</title>
+      <link>http://ytlvy.com/posts/2015-08-09/2015-08-09-git-flow/</link>
+      <pubDate>Sun, 09 Aug 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-08-09/2015-08-09-git-flow/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;http://nvie.com/posts/a-successful-git-branching-model/&#34;&gt;reference&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;a-successful-git-branching-model&#34;&gt;A successful Git branching model&lt;/h2&gt;
+
+&lt;p&gt;&lt;code&gt;git flow&lt;/code&gt; 工作流, 流转示意图:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://nvie.com/img/git-model@2x.png&#34; alt=&#34;git flow&#34; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;去中心化-和-中心化&#34;&gt;去中心化 和 中心化&lt;/h3&gt;
+
+&lt;p&gt;此工作流中, 存在唯一的&lt;code&gt;中心仓库&lt;/code&gt; &amp;ndash; &lt;code&gt;origin&lt;/code&gt;. 每个程序员向中心仓库, 拉取更新和提交更新. 然而, 程序员也可以被划分为小组, 来进入更进一步的划分, 先从这些&lt;code&gt;分中心仓库&lt;/code&gt; 来拉取更新和提交更新, 先完成小组的同步, 再和中心仓库同步.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://nvie.com/img/centr-decentr@2x.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;主要分支&#34;&gt;主要分支&lt;/h3&gt;
+
+&lt;p&gt;这个工作流的核心为两个主分支:&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;Master&lt;/li&gt;
+&lt;li&gt;Develop&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://nvie.com/img/main-branches@2x.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

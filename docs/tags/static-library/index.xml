@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Static Library on My New Hugo Site</title>
+    <link>http://ytlvy.com/tags/static-library/</link>
+    <description>Recent content in Static Library on My New Hugo Site</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sun, 26 Jul 2015 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="http://ytlvy.com/tags/static-library/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>iOS static library architectures</title>
+      <link>http://ytlvy.com/posts/2015-07-26/2015-07-26-ios-static-library-architectures/</link>
+      <pubDate>Sun, 26 Jul 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ytlvy.com/posts/2015-07-26/2015-07-26-ios-static-library-architectures/</guid>
+      <description> iOS static library architectures 最近入职, 刚接手需要参与的工程, 调试了半天, 发现由于32\64位的问题, 不能在模拟器调试, 很郁闷. 后来google 到答案记录如下:
+静态库编译支持arm64,armv7 armv7s, i386, x86_64.
+1) 分别在设备和模拟器编译 2) 找到Build/Products目录, 下有两个目录 Release-iphoneos Release-iphonesimulator
+/Users/kappe/Library/Developer/Xcode/DerivedData/zbar-gyozyrpbqzvslmfoadhqkwskcesd/Build/Products  3) 合并
+lipo -create Release-iphoneos/libzbar.a Release-iphonesimulator/libzbar.a -o libzbar.a  </description>
+    </item>
+    
+  </channel>
+</rss>
